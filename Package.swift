@@ -7,7 +7,7 @@ let package = Package(
     name: "IOSwiftUI",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v14)
     ],
     products: [
         .library(
