@@ -26,7 +26,10 @@ let package = Package(
         ),
         .target(name: "IOSwiftUICommon",
                 dependencies: [],
-                path: "Sources/Common"),
+                path: "Sources/Common",
+                swiftSettings: [.define("ENV_DEV", .when(configuration: .debug)),
+                                .define("ENV_PROD", .when(configuration: .release))
+                ]),
         .target(name: "IOSwiftUIInfrastructure",
                 dependencies: ["IOSwiftUICommon"],
                 path: "Sources/Infrastructure"),

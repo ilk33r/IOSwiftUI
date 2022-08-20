@@ -31,13 +31,13 @@ public struct PrimaryButton: View, IOClickable {
     
     public init(_ l: IOLocalizationType) {
         self.localizationType = l
-        IOFontTypes.registerFontsIfNecessary(Bundle.resources)
+        IOFontType.registerFontsIfNecessary(Bundle.resources)
     }
     
     private init(_ l: IOLocalizationType, handler: IOClickableHandler?) {
         self.localizationType = l
         self.handler = handler
-        IOFontTypes.registerFontsIfNecessary(Bundle.resources)
+        IOFontType.registerFontsIfNecessary(Bundle.resources)
     }
     
     public func setClick(_ handler: IOClickableHandler?) -> PrimaryButton {

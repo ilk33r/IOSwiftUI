@@ -8,16 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		F7FEE58C28B0F1C9005D6633 /* IOSwiftUISampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FEE58B28B0F1C9005D6633 /* IOSwiftUISampleApp.swift */; };
-		F7FEE58E28B0F1C9005D6633 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FEE58D28B0F1C9005D6633 /* ContentView.swift */; };
 		F7FEE59028B0F1C9005D6633 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7FEE58F28B0F1C9005D6633 /* Assets.xcassets */; };
 		F7FEE59328B0F1C9005D6633 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7FEE59228B0F1C9005D6633 /* Preview Assets.xcassets */; };
 		F7FEE5C128B10015005D6633 /* SwiftUISampleApp in Frameworks */ = {isa = PBXBuildFile; productRef = F7FEE5C028B10015005D6633 /* SwiftUISampleApp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F73E29B428B18E39005C8A76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F7FEE58828B0F1C9005D6633 /* IOSwiftUISample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSwiftUISample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7FEE58B28B0F1C9005D6633 /* IOSwiftUISampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSwiftUISampleApp.swift; sourceTree = "<group>"; };
-		F7FEE58D28B0F1C9005D6633 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F7FEE58F28B0F1C9005D6633 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F7FEE59228B0F1C9005D6633 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F7FEE5B428B0F34D005D6633 /* IOSwiftUISample.Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = IOSwiftUISample.Base.xcconfig; sourceTree = "<group>"; };
@@ -62,8 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				F7FEE58B28B0F1C9005D6633 /* IOSwiftUISampleApp.swift */,
-				F7FEE58D28B0F1C9005D6633 /* ContentView.swift */,
 				F7FEE58F28B0F1C9005D6633 /* Assets.xcassets */,
+				F73E29B428B18E39005C8A76 /* Info.plist */,
 				F7FEE59128B0F1C9005D6633 /* Preview Content */,
 				F7FEE59928B0F21E005D6633 /* Resources */,
 			);
@@ -199,7 +198,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7FEE58E28B0F1C9005D6633 /* ContentView.swift in Sources */,
 				F7FEE58C28B0F1C9005D6633 /* IOSwiftUISampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,6 +331,7 @@
 			baseConfigurationReference = F7FEE5B528B0F35C005D6633 /* IOSwiftUISample.Debug.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -344,6 +343,7 @@
 			baseConfigurationReference = F7FEE5B628B0F364005D6633 /* IOSwiftUISample.Release.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

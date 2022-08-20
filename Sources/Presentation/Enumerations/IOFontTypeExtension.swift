@@ -1,5 +1,5 @@
 //
-//  IOFontTypesExtension.swift
+//  IOFontTypeExtension.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 20.08.2022.
@@ -9,7 +9,7 @@ import Foundation
 import IOSwiftUIInfrastructure
 import UIKit
 
-public extension IOFontTypes {
+public extension IOFontType {
     
     @IOInject private static var appState: IOAppStateImpl
     

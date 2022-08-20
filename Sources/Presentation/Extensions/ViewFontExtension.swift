@@ -10,7 +10,7 @@ import SwiftUI
 
 public extension View {
     
-    @inlinable func font(type: IOFontTypes) -> some View {
+    @inlinable func font(type: IOFontType) -> some View {
         return self.font(type.rawValue)
     }
 }
