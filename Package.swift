@@ -7,7 +7,7 @@ let package = Package(
     name: "IOSwiftUI",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v14)
+        .iOS(.v13)
     ],
     products: [
         .library(
@@ -24,9 +24,16 @@ let package = Package(
             url: "https://github.com/realm/SwiftLint/releases/download/0.47.1/SwiftLintBinary-macos.artifactbundle.zip",
             checksum: "82ef90b7d76b02e41edd73423687d9cedf0bb9849dcbedad8df3a461e5a7b555"
         ),
+        .target(name: "IOSwiftUICommon",
+                dependencies: [],
+                path: "Sources/Common"),
+        .target(name: "IOSwiftUIPresentation",
+               dependencies: ["IOSwiftUICommon"],
+               path: "Sources/Presentation"),
         .target(
             name: "IOSwiftUI",
-            dependencies: []),
+            dependencies: ["IOSwiftUICommon",
+                           "IOSwiftUIPresentation"]),
         .testTarget(
             name: "IOSwiftUITests",
             dependencies: ["IOSwiftUI"]),

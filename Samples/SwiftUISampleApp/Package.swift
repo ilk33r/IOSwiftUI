@@ -7,20 +7,27 @@ let package = Package(
     name: "SwiftUISampleApp",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v14)
+        .iOS(.v13)
     ],
     products: [
         .library(
             name: "SwiftUISampleApp",
-            type: .static,
             targets: ["SwiftUISampleApp"]),
     ],
     dependencies: [
         .package(path: "../..")
     ],
     targets: [
+        .target(name: "SwiftUISampleAppComponents",
+                dependencies: ["IOSwiftUI"],
+                path: "Sources/Components"),
+        .target(
+            name: "SwiftUISampleAppScreens",
+            dependencies: ["SwiftUISampleAppComponents"],
+            path: "Sources/Screens"),
         .target(
             name: "SwiftUISampleApp",
-            dependencies: ["IOSwiftUI"])
+            dependencies: ["SwiftUISampleAppComponents",
+                           "SwiftUISampleAppScreens"])
     ]
 )
