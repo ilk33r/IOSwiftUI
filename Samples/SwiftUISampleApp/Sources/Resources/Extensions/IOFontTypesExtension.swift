@@ -12,4 +12,5 @@ import SwiftUI
 public extension IOFontTypes {
     
     static let black: FontWithSize = { IOFontTypes(rawValue: Font.custom("Roboto-Black", size: $0)) }
+    static let regular: FontWithSize = { IOFontTypes(rawValue: Font.custom("Roboto-Regular", size: $0)) }
 }

@@ -9,8 +9,12 @@ import SwiftUI
 import SwiftUISampleAppComponents
 
 struct ContentView: View {
+    
+    @State var emailAddress: String = ""
+    
     var body: some View {
-        SecondaryButton(.init(rawValue: "Test"))
+        FloatingTextField(.init(rawValue: "Email address"), text: self.$emailAddress)
+            .padding(20)
     }
 }
 
