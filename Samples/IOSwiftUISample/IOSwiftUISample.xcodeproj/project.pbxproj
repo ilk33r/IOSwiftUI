@@ -188,7 +188,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ $ACTION == \"build\" ]]; then\n    LINT_BINARY=\"${BUILD_ROOT}/../../SourcePackages/artifacts/IOSwiftUI/SwiftLintBinary.artifactbundle/swiftlint-0.47.1-macos/bin/swiftlint\"\n\n    $LINT_BINARY lint --in-process-sourcekit --path \"${SRCROOT}/../../Sources\" --cache-path \"${BUILD_ROOT}/../../SourcePackages/plugins/SwiftLintCache\" --config \"${SRCROOT}/../../.swiftlint.yml\"    \nfi\n";
+			shellScript = "if [[ $ACTION == \"build\" && $ENABLE_PREVIEWS == \"NO\" ]]; then\n    LINT_BINARY=\"${BUILD_ROOT}/../../SourcePackages/artifacts/IOSwiftUI/SwiftLintBinary.artifactbundle/swiftlint-0.47.1-macos/bin/swiftlint\"\n\n    $LINT_BINARY lint --in-process-sourcekit --path \"${SRCROOT}/../../Sources\" --cache-path \"${BUILD_ROOT}/../../SourcePackages/plugins/SwiftLintCache\" --config \"${SRCROOT}/../../.swiftlint.yml\"    \nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
