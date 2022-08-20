@@ -1,5 +1,5 @@
 //
-//  PrimaryButton.swift
+//  SecondaryButton.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 20.08.2022.
@@ -12,7 +12,7 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppResources
 
-public struct PrimaryButton: View, IOClickable {
+public struct SecondaryButton: View, IOClickable {
     
     public var handler: IOClickableHandler?
     private var localizationType: IOLocalizationType
@@ -23,10 +23,13 @@ public struct PrimaryButton: View, IOClickable {
         }
         .padding([.top, .bottom], 19)
         .padding([.leading, .trailing], 12)
-        .background(Color.black)
-        .cornerRadius(6)
+        .background(Color.white)
         .font(type: .black(13))
-        .foregroundColor(.white)
+        .foregroundColor(.black)
+        .overlay(
+            RoundedRectangle(cornerRadius: 6)
+                .stroke(Color.black, lineWidth: 2)
+        )
     }
     
     public init(_ l: IOLocalizationType) {
@@ -40,16 +43,13 @@ public struct PrimaryButton: View, IOClickable {
         IOFontTypes.registerFontsIfNecessary(Bundle.resources)
     }
     
-    public func setClick(_ handler: IOClickableHandler?) -> PrimaryButton {
-        return PrimaryButton(self.localizationType, handler: handler)
+    public func setClick(_ handler: IOClickableHandler?) -> SecondaryButton {
+        return SecondaryButton(self.localizationType, handler: handler)
     }
 }
 
-struct PrimaryButton_Previews: PreviewProvider {
+struct SecondaryButton_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            PrimaryButton(.init(rawValue: "Primary Button"))
-            PrimaryButton(.init(rawValue: "Primary Button"))
-        }
+        SecondaryButton(.init(rawValue: "Secondary Button"))
     }
 }

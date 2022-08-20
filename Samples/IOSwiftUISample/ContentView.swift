@@ -10,7 +10,7 @@ import SwiftUISampleAppComponents
 
 struct ContentView: View {
     var body: some View {
-        PrimaryButton(.init(rawValue: "Test"))
+        SecondaryButton(.init(rawValue: "Test"))
     }
 }
 
