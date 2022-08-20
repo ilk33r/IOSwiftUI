@@ -1,5 +1,5 @@
 public struct IOSwiftUI {
-    public private(set) var text = "Hello, World!"
+    public private(set) var text = "IOSwiftUI"
 
     public init() {
     }

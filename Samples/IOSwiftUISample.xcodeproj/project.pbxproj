@@ -11,7 +11,7 @@
 		F7FEE58E28B0F1C9005D6633 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FEE58D28B0F1C9005D6633 /* ContentView.swift */; };
 		F7FEE59028B0F1C9005D6633 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7FEE58F28B0F1C9005D6633 /* Assets.xcassets */; };
 		F7FEE59328B0F1C9005D6633 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7FEE59228B0F1C9005D6633 /* Preview Assets.xcassets */; };
-		F7FEE5BC28B0F3AB005D6633 /* IOSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = F7FEE5BB28B0F3AB005D6633 /* IOSwiftUI */; };
+		F7FEE5C128B10015005D6633 /* SwiftUISampleApp in Frameworks */ = {isa = PBXBuildFile; productRef = F7FEE5C028B10015005D6633 /* SwiftUISampleApp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +23,8 @@
 		F7FEE5B428B0F34D005D6633 /* IOSwiftUISample.Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = IOSwiftUISample.Base.xcconfig; sourceTree = "<group>"; };
 		F7FEE5B528B0F35C005D6633 /* IOSwiftUISample.Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = IOSwiftUISample.Debug.xcconfig; sourceTree = "<group>"; };
 		F7FEE5B628B0F364005D6633 /* IOSwiftUISample.Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = IOSwiftUISample.Release.xcconfig; sourceTree = "<group>"; };
-		F7FEE5B728B0F37B005D6633 /* IOSwiftUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = IOSwiftUI; path = ../..; sourceTree = "<group>"; };
+		F7FEE5B728B0F37B005D6633 /* IOSwiftUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = IOSwiftUI; path = ..; sourceTree = "<group>"; };
+		F7FEE5BD28B0FF08005D6633 /* SwiftUISampleApp */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SwiftUISampleApp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,7 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7FEE5BC28B0F3AB005D6633 /* IOSwiftUI in Frameworks */,
+				F7FEE5C128B10015005D6633 /* SwiftUISampleApp in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +43,7 @@
 			isa = PBXGroup;
 			children = (
 				F7FEE5B728B0F37B005D6633 /* IOSwiftUI */,
+				F7FEE5BD28B0FF08005D6633 /* SwiftUISampleApp */,
 				F7FEE58A28B0F1C9005D6633 /* IOSwiftUISample */,
 				F7FEE58928B0F1C9005D6633 /* Products */,
 				F7FEE5BA28B0F3AB005D6633 /* Frameworks */,
@@ -116,11 +118,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				F7FEE5B928B0F3A7005D6633 /* PBXTargetDependency */,
+				F7FEE5BF28B10000005D6633 /* PBXTargetDependency */,
 			);
 			name = IOSwiftUISample;
 			packageProductDependencies = (
-				F7FEE5BB28B0F3AB005D6633 /* IOSwiftUI */,
+				F7FEE5C028B10015005D6633 /* SwiftUISampleApp */,
 			);
 			productName = IOSwiftUISample;
 			productReference = F7FEE58828B0F1C9005D6633 /* IOSwiftUISample.app */;
@@ -188,7 +190,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ $ACTION == \"build\" && $ENABLE_PREVIEWS == \"NO\" ]]; then\n    LINT_BINARY=\"${BUILD_ROOT}/../../SourcePackages/artifacts/IOSwiftUI/SwiftLintBinary.artifactbundle/swiftlint-0.47.1-macos/bin/swiftlint\"\n\n    $LINT_BINARY lint --in-process-sourcekit --path \"${SRCROOT}/../../Sources\" --cache-path \"${BUILD_ROOT}/../../SourcePackages/plugins/SwiftLintCache\" --config \"${SRCROOT}/../../.swiftlint.yml\"    \nfi\n";
+			shellScript = "if [[ $ACTION == \"build\" && $ENABLE_PREVIEWS == \"NO\" ]]; then\n    LINT_BINARY=\"${BUILD_ROOT}/../../SourcePackages/artifacts/IOSwiftUI/SwiftLintBinary.artifactbundle/swiftlint-0.47.1-macos/bin/swiftlint\"\n\n    $LINT_BINARY lint --in-process-sourcekit --path \"${SRCROOT}/../Sources\" --cache-path \"${BUILD_ROOT}/../../SourcePackages/plugins/SwiftLintCache\" --config \"${SRCROOT}/../.swiftlint.yml\"    \nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -205,9 +207,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F7FEE5B928B0F3A7005D6633 /* PBXTargetDependency */ = {
+		F7FEE5BF28B10000005D6633 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = F7FEE5B828B0F3A7005D6633 /* IOSwiftUI */;
+			productRef = F7FEE5BE28B10000005D6633 /* SwiftUISampleApp */;
 		};
 /* End PBXTargetDependency section */
 
@@ -372,13 +374,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F7FEE5B828B0F3A7005D6633 /* IOSwiftUI */ = {
+		F7FEE5BE28B10000005D6633 /* SwiftUISampleApp */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = IOSwiftUI;
+			productName = SwiftUISampleApp;
 		};
-		F7FEE5BB28B0F3AB005D6633 /* IOSwiftUI */ = {
+		F7FEE5C028B10015005D6633 /* SwiftUISampleApp */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = IOSwiftUI;
+			productName = SwiftUISampleApp;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
