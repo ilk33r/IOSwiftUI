@@ -1,0 +1,263 @@
+excluded:
+    - Carthage
+    - Pods
+    - Libraries
+
+comma: error
+
+line_length:
+    warning: 5900
+    error: 6000
+
+file_length:
+    warning: 960
+    error: 1000
+
+function_body_length:
+    warning: 120
+    error: 160
+
+type_body_length:
+    warning: 860
+    error: 900
+
+cyclomatic_complexity: 
+    warning: 25
+
+vertical_whitespace:
+    max_empty_lines: 1
+    severity: error
+
+comment_spacing:
+    severity: error
+
+colon:
+    severity: error
+    flexible_right_spacing: false
+    apply_to_dictionaries: true
+
+trailing_comma:
+    severity: error
+    mandatory_comma: false
+
+statement_position:
+    severity: error
+    statement_mode: default
+
+opening_brace:
+    severity: error
+    allowMultilineFunc: false
+
+return_arrow_whitespace:
+    severity: error
+
+control_statement:
+    severity: error
+
+empty_parentheses_with_trailing_closure:
+    severity: error
+
+for_where:
+    severity: error
+
+multiple_closures_with_trailing_closure:
+    severity: error
+
+unused_closure_parameter:
+    severity: error
+
+trailing_semicolon:
+    severity: error
+
+trailing_newline:
+    severity: error
+    mandatory_comma: false
+
+unused_optional_binding:
+    severity: error
+    ignore_optional_try: false
+
+redundant_optional_initialization:
+    severity: error
+
+private_over_fileprivate:
+    severity: error
+    validate_extensions: false
+
+redundant_string_enum_value:
+    severity: error
+
+unneeded_break_in_switch:
+    severity: error
+
+redundant_type_annotation:
+    severity: error
+
+operator_usage_whitespace:
+    severity: error
+
+explicit_init:
+    severity: error
+
+private_action:
+    severity: error
+
+overridden_super_call:
+    severity: error
+
+let_var_whitespace:
+    severity: error
+
+prefer_zero_over_explicit_init:
+    severity: error
+
+indentation_width:
+    severity: error
+    indentation_width: 4
+    include_comments: false
+
+multiline_arguments_brackets:
+    severity: error
+
+private_outlet:
+    severity: error
+
+vertical_whitespace_between_cases:
+    severity: error
+
+weak_delegate:
+    severity: error
+
+unneeded_parentheses_in_closure_argument:
+    severity: error
+
+toggle_bool:
+    severity: error
+
+yoda_condition:
+    severity: error
+
+prefixed_toplevel_constant:
+    severity: error
+
+switch_case_alignment:
+    severity: error
+
+switch_case_on_newline:
+    severity: error
+
+closure_end_indentation:
+    severity: error
+
+mark:
+    severity: error
+
+void_return:
+    severity: error
+
+literal_expression_end_indentation:
+    severity: error
+
+computed_accessors_order:
+    severity: error
+    order: get_set
+
+multiline_literal_brackets:
+    severity: error
+
+closure_parameter_position:
+    severity: error
+
+return_value_from_void_function:
+    severity: error
+
+redundant_nil_coalescing:
+    severity: error
+
+disabled_rules:
+    - force_cast
+    - force_try
+    - identifier_name
+    - large_tuple
+    - function_parameter_count
+    - trailing_whitespace
+    - type_name
+    - class_delegate_protocol
+    - inclusive_language
+    - legacy_constructor
+    - notification_center_detachment
+    - empty_enum_arguments
+    - nesting
+
+opt_in_rules:
+    - empty_count
+    - unused_declaration
+    - capture_variable
+    - array_init
+    - closure_end_indentation
+    - collection_alignment
+    - discarded_notification_center_observer
+    - discouraged_object_literal
+    - enum_case_associated_values_count
+    - explicit_init
+    - explicit_self
+    - extension_access_modifier
+    - fallthrough
+    - ibinspectable_in_extension
+    - identical_operands
+    - indentation_width
+    - last_where
+    - let_var_whitespace
+    - literal_expression_end_indentation
+    - multiline_arguments_brackets
+    - multiline_literal_brackets
+    - multiline_parameters
+    - multiline_parameters_brackets
+    - nimble_operator
+    - operator_usage_whitespace
+    - overridden_super_call
+    - override_in_extension
+    - pattern_matching_keywords
+    - prefer_nimble
+    - prefer_self_type_over_type_of_self
+    - prefer_zero_over_explicit_init
+    - prefixed_toplevel_constant
+    - private_action
+    - private_outlet
+    - private_subject
+    - quick_discouraged_call
+    - raw_value_for_camel_cased_codable_enum
+    - reduce_into
+    - redundant_nil_coalescing
+    - redundant_type_annotation
+    - return_value_from_void_function
+    - static_operator
+    - switch_case_on_newline
+    - toggle_bool
+    - unneeded_parentheses_in_closure_argument
+    - unused_import
+    - vertical_parameter_alignment_on_call
+    - vertical_whitespace_between_cases
+    - weak_delegate
+    - xct_specific_matcher
+    - yoda_condition
+
+custom_rules:
+    disable_print:
+        included: ".*\\.swift"
+        name: "print usage"
+        regex: "((\\bprint)|(Swift\\.print))\\s*\\("
+        message: "Use LogInfo instead of print"
+        severity: error
+    disable_debug_print:
+        included: ".*\\.swift"
+        name: "debug print usage"
+        regex: "((\\bdebugPrint)|(Swift\\.debugPrint))\\s*\\("
+        message: "Use LogDebug instead of debugPrint"
+        severity: error
+    disable_dump:
+        included: ".*\\.swift"
+        name: "dump print usage"
+        regex: "((\\bdump)|(Swift\\.dump))\\s*\\("
+        message: "Use LogDebug instead of dump"
+        severity: error
