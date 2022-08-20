@@ -6,15 +6,11 @@
 //
 
 import SwiftUI
+import SwiftUISampleAppComponents
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .font(.headline)
-            .fontWeight(.regular)
-            .foregroundColor(Color.red)
-            .multilineTextAlignment(.leading)
-            
+        PrimaryButton(.init(rawValue: "Test"))
     }
 }
 

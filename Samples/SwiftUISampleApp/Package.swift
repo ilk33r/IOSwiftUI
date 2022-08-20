@@ -18,16 +18,29 @@ let package = Package(
         .package(path: "../..")
     ],
     targets: [
+        .target(name: "SwiftUISampleAppResources",
+                path: "Sources/Resources",
+                resources: [.process("Files")]),
+        .target(name: "SwiftUISampleAppPresentation",
+                dependencies: ["IOSwiftUI",
+                               "SwiftUISampleAppResources"],
+                path: "Sources/Presentation"),
         .target(name: "SwiftUISampleAppComponents",
-                dependencies: ["IOSwiftUI"],
+                dependencies: ["IOSwiftUI",
+                               "SwiftUISampleAppResources",
+                               "SwiftUISampleAppPresentation"],
                 path: "Sources/Components"),
         .target(
             name: "SwiftUISampleAppScreens",
-            dependencies: ["SwiftUISampleAppComponents"],
+            dependencies: ["SwiftUISampleAppResources",
+                           "SwiftUISampleAppComponents",
+                           "SwiftUISampleAppPresentation"],
             path: "Sources/Screens"),
         .target(
             name: "SwiftUISampleApp",
-            dependencies: ["SwiftUISampleAppComponents",
+            dependencies: ["SwiftUISampleAppResources",
+                           "SwiftUISampleAppComponents",
+                           "SwiftUISampleAppPresentation",
                            "SwiftUISampleAppScreens"])
     ]
 )

@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-open class IOLocalizationImpl: IOLocalization, Singleton {
+open class IOLocalizationImpl: IOLocalization, IOSingleton {
     
     public typealias InstanceType = IOLocalizationImpl
     public static var _sharedInstance: IOLocalizationImpl!
