@@ -18,7 +18,7 @@ public struct SecondaryButton: View, IOClickable {
     private var localizationType: IOLocalizationType
     
     public var body: some View {
-        Button(self.localizationType.localized) {
+        Button(localizationType.localized) {
             self.handler?()
         }
         .padding([.top, .bottom], 19)
@@ -44,7 +44,7 @@ public struct SecondaryButton: View, IOClickable {
     }
     
     public func setClick(_ handler: IOClickableHandler?) -> SecondaryButton {
-        return SecondaryButton(self.localizationType, handler: handler)
+        return SecondaryButton(localizationType, handler: handler)
     }
 }
 
