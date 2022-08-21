@@ -7,4 +7,15 @@
 */
 
 /* Common */
+"common.appName" = "IO Swift UI Sample";
 "common.done" = "Done";
+"common.next.uppercased" = "NEXT";
+
+/* Splash */
+"splash.button.logIn.uppercased" = "LOG IN";
+"splash.button.register.uppercased" = "REGISTER";
+
+/* Register */
+"register.input.createPassword" = "Create password";
+"register.input.emailAddress" = "Email address";
+"register.title" = "Register"

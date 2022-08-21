@@ -69,9 +69,9 @@ public struct FloatingTextField: View {
         text: Binding<String>,
         keyboardType: UIKeyboardType = .default
     ) {
-        keyboardType = keyboardType
-        localizationType = l
-        _text = text
+        self.keyboardType = keyboardType
+        self.localizationType = l
+        self._text = text
         IOFontType.registerFontsIfNecessary(Bundle.resources)
     }
     
