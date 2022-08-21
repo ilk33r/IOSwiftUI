@@ -5,11 +5,20 @@
 //  Created by Adnan ilker Ozcan on 21.08.2022.
 //
 
+import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppComponents
 
-public struct SplashView: View {
+public struct SplashView: IOController {
+    
+    // MARK: - Generics
+    
+    public typealias Presenter = SplashPresenter
+    
+    // MARK: - Properties
+    
+    public var presenter: SplashPresenter
     
     @State private var isShowingRegisterPage = false
     
@@ -46,12 +55,15 @@ public struct SplashView: View {
         }
     }
     
-    public init() {
+    // MARK: - Initialization Methods
+    
+    public init(presenter: Presenter) {
+        self.presenter = presenter
     }
 }
 
 struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
-        SplashView()
+        SplashView(presenter: SplashPresenter())
     }
 }

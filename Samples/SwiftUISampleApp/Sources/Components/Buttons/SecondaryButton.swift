@@ -9,6 +9,7 @@ import SwiftUI
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import IOSwiftUIComponents
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppResources
 
@@ -18,9 +19,8 @@ public struct SecondaryButton: View, IOClickable {
     private var localizationType: IOLocalizationType
     
     public var body: some View {
-        Button(localizationType.localized) {
-            self.handler?()
-        }
+        IOButton(localizationType)
+            .setClick(self.handler)
         .padding([.top, .bottom], 19)
         .padding([.leading, .trailing], 12)
         .background(Color.white)

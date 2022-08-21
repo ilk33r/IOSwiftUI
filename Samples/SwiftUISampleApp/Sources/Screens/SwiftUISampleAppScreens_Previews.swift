@@ -10,7 +10,7 @@ import SwiftUI
 struct SwiftUISampleAppScreens_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SplashView()
+            SplashView(presenter: SplashPresenter())
         }
     }
 }

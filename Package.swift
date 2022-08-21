@@ -37,11 +37,17 @@ let package = Package(
                 dependencies: ["IOSwiftUICommon",
                                "IOSwiftUIInfrastructure"],
                 path: "Sources/Presentation"),
+        .target(name: "IOSwiftUIComponents",
+                dependencies: ["IOSwiftUICommon",
+                               "IOSwiftUIInfrastructure",
+                               "IOSwiftUIPresentation"],
+                path: "Sources/Components"),
         .target(
             name: "IOSwiftUI",
             dependencies: ["IOSwiftUICommon",
                            "IOSwiftUIInfrastructure",
-                           "IOSwiftUIPresentation"]),
+                           "IOSwiftUIPresentation",
+                           "IOSwiftUIComponents"]),
         .testTarget(
             name: "IOSwiftUITests",
             dependencies: ["IOSwiftUI"]),
