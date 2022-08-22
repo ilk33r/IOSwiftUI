@@ -21,15 +21,16 @@ public struct SecondaryButton: View, IOClickable {
     public var body: some View {
         IOButton(localizationType)
             .setClick(self.handler)
-        .padding([.top, .bottom], 19)
-        .padding([.leading, .trailing], 12)
-        .background(Color.white)
-        .font(type: .black(13))
-        .foregroundColor(.black)
-        .overlay(
-            RoundedRectangle(cornerRadius: 6)
-                .stroke(Color.black, lineWidth: 2)
-        )
+            .frame(maxWidth: .infinity)
+            .padding([.top, .bottom], 19)
+            .padding([.leading, .trailing], 12)
+            .background(Color.white)
+            .font(type: .black(13))
+            .foregroundColor(.black)
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(Color.black, lineWidth: 2)
+            )
     }
     
     public init(_ l: IOLocalizationType) {

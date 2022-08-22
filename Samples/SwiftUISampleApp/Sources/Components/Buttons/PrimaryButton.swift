@@ -21,17 +21,17 @@ public struct PrimaryButton: View, IOClickable {
     public var body: some View {
         IOButton(localizationType)
             .setClick(self.handler)
-        .frame(maxWidth: .infinity)
-        .padding([.top, .bottom], 19)
-        .padding([.leading, .trailing], 12)
-        .background(Color.black)
-        .cornerRadius(6)
-        .font(type: .black(13))
-        .foregroundColor(.white)
-        .overlay(
-            RoundedRectangle(cornerRadius: 6)
-                .stroke(Color.black, lineWidth: 2)
-        )
+            .frame(maxWidth: .infinity)
+            .padding([.top, .bottom], 19)
+            .padding([.leading, .trailing], 12)
+            .background(Color.black)
+            .cornerRadius(6)
+            .font(type: .black(13))
+            .foregroundColor(.white)
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(Color.black, lineWidth: 2)
+            )
     }
     
     public init(_ l: IOLocalizationType) {

@@ -36,15 +36,16 @@ public struct SplashView: IOController {
                         .font(type: .regular(48))
                 }
             }
-//            Spacer()
-//                .padding(.bottom, 92)
             HStack(spacing: 9) {
                 SecondaryButton(.splashButtonLogInUppercased)
+                    .frame(minWidth: 0, maxWidth: .infinity)
                 PrimaryButton(.splashButtonRegisterUppercased)
                     .setClick {
                         self.navigationState.navigateToRegister = true
                     }
+                    .frame(minWidth: 0, maxWidth: .infinity)
             }
+            .frame(minWidth: 0, maxWidth: .infinity)
             .background(Color.white)
             .frame(height: 92)
             .padding(.leading, 16)
