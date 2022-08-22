@@ -14,19 +14,43 @@ public protocol IOController: View {
     // MARK: - Generics
     
     associatedtype Presenter: IOPresenterable
+    associatedtype ControllerBody: View
+    associatedtype Wireframe: IONavigationLinkView
     
     // MARK: - Properties
     
     var presenter: Presenter { get set }
+    @ViewBuilder var controllerBody: Self.ControllerBody { get }
+    
+    var wireframeView: Wireframe { get }
     
     // MARK: - Initialization Methods
     
     init(presenter: Presenter)
+    init(entity: Presenter.Interactor.Entity)
 }
 
 public extension IOController {
     
+    var body: some View {
+        NavigationView {
+            VStack {
+                self.controllerBody
+                self.wireframeView
+            }
+        }
+    }
+    
     init(presenter: Presenter) {
         self.init(presenter: presenter)
+    }
+    
+    init(entity: Presenter.Interactor.Entity) {
+        // swiftlint:disable explicit_init
+        let presenter = Presenter.init()
+        presenter._initializaPresenterable(entity: entity)
+        
+        self.init(presenter: presenter)
+        // swiftlint:enable explicit_init
     }
 }

@@ -14,7 +14,7 @@ public struct FloatingTextField: View {
     
     @Binding var text: String
     @State private var isEditing = false
-    @FocusState private var isInputActive: Bool
+//    @FocusState private var isInputActive: Bool
     
     private var keyboardType: UIKeyboardType
     private var localizationType: IOLocalizationType
@@ -37,7 +37,8 @@ public struct FloatingTextField: View {
                 self.isEditing = isEditing
             }
             .keyboardType(keyboardType)
-            .focused($isInputActive)
+//            .focused($isInputActive)
+            /*
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
@@ -46,6 +47,7 @@ public struct FloatingTextField: View {
                     }
                 }
             }
+             */
             .padding()
             .overlay(
                 RoundedRectangle(cornerRadius: 0)

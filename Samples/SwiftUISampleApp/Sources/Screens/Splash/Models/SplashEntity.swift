@@ -10,4 +10,6 @@ import IOSwiftUIPresentation
 
 public struct SplashEntity: IOEntity {
     
+    public init() {
+    }
 }

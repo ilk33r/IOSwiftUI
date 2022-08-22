@@ -12,7 +12,7 @@ import SwiftUI
 struct IOSwiftUISampleApp: App {
     var body: some Scene {
         WindowGroup {
-            SplashView(presenter: SplashPresenter())
+            SplashView(entity: SplashEntity())
         }
     }
 }

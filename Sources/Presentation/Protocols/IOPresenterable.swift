@@ -9,7 +9,7 @@ import Foundation
 
 public protocol IOPresenterableInitializer {
     
-    func _initializaPresenterable(entity: IOEntity?, wireframeInput: AnyObject?)
+    func _initializaPresenterable(entity: IOEntity?)
 }
 
 public protocol IOPresenterable: ObservableObject {
@@ -17,12 +17,8 @@ public protocol IOPresenterable: ObservableObject {
     // MARK: - Generics
     
     associatedtype Interactor: IOInteractorable
-//    associatedtype WireframeInput: HPWireframeInput
-//    associatedtype WireframeOutput: HPWireframeOutput
     
     var interactor: Interactor! { get set }
-//    var wireframeInput: WireframeInput? { get set }
-//    var wireframeOutput: WireframeOutput! { get set }
     
     // MARK: - Initialization Methods
     
@@ -31,14 +27,11 @@ public protocol IOPresenterable: ObservableObject {
 
 public extension IOPresenterable {
     
-    func _initializaPresenterable(entity: IOEntity?, wireframeInput: AnyObject?) {
+    func _initializaPresenterable(entity: IOEntity?) {
         let interactor = Interactor()
         interactor._presenterInstance = self
         interactor._entityInstance = entity
         
         self.interactor = interactor
-        
-//        self.wireframeInput = wireframeInput as? WireframeInput
-//        self.wireframeOutput = WireframeOutput(view: (controller as? WireframeOutput.ControllerType)!)
     }
 }

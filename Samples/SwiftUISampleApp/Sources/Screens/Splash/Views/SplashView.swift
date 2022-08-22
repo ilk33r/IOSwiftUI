@@ -15,44 +15,46 @@ public struct SplashView: IOController {
     // MARK: - Generics
     
     public typealias Presenter = SplashPresenter
+    public typealias Wireframe = SplashNavigationWireframe
     
     // MARK: - Properties
     
-    public var presenter: SplashPresenter
+    @ObservedObject public var presenter: SplashPresenter
+    @StateObject public var navigationState = SplashNavigationState()
     
-    @State private var isShowingRegisterPage = false
-    
-    public var body: some View {
-        NavigationView {
-            VStack {
-                ZStack {
-                    Image.bgSplash
+    public var controllerBody: some View {
+        VStack {
+            ZStack {
+                Image.bgSplash
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                HStack(spacing: 20) {
+                    Image.icnLogo
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
-                    HStack(spacing: 20) {
-                        Image.icnLogo
-                            .resizable()
-                            .frame(width: 38, height: 38)
-                        Text(type: .commonAppName)
-                            .font(type: .regular(48))
-                    }
+                        .frame(width: 38, height: 38)
+                    Text(type: .commonAppName)
+                        .font(type: .regular(48))
                 }
-    //            Spacer()
-    //                .padding(.bottom, 92)
-                HStack(spacing: 9) {
-                    SecondaryButton(.splashButtonLogInUppercased)
-                    NavigationLink(destination: RegisterView(), isActive: $isShowingRegisterPage) {
-                        PrimaryButton(.splashButtonRegisterUppercased)
-                            .setClick {
-                                self.isShowingRegisterPage = true
-                            }
-                    }
-                }
-                .background(.white)
-                .frame(height: 92)
             }
-            .edgesIgnoringSafeArea([.top])
+//            Spacer()
+//                .padding(.bottom, 92)
+            HStack(spacing: 9) {
+                SecondaryButton(.splashButtonLogInUppercased)
+                PrimaryButton(.splashButtonRegisterUppercased)
+                    .setClick {
+                        self.navigationState.navigateToRegister = true
+                    }
+            }
+            .background(Color.white)
+            .frame(height: 92)
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
         }
+        .edgesIgnoringSafeArea([.top])
+    }
+    
+    public var wireframeView: SplashNavigationWireframe {
+        SplashNavigationWireframe(navigationState: navigationState)
     }
     
     // MARK: - Initialization Methods
@@ -64,6 +66,6 @@ public struct SplashView: IOController {
 
 struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
-        SplashView(presenter: SplashPresenter())
+        SplashView(entity: SplashEntity())
     }
 }
