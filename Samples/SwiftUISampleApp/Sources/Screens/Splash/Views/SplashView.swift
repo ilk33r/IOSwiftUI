@@ -38,6 +38,9 @@ public struct SplashView: IOController {
             }
             HStack(spacing: 9) {
                 SecondaryButton(.splashButtonLogInUppercased)
+                    .setClick({
+                        self.navigationState.navigateToLogin = true
+                    })
                     .frame(minWidth: 0, maxWidth: .infinity)
                 PrimaryButton(.splashButtonRegisterUppercased)
                     .setClick {

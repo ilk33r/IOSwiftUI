@@ -18,8 +18,13 @@ public struct SplashNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     public var linkBody: some View {
-        NavigationLink(destination: RegisterView(), isActive: $navigationState.navigateToRegister) {
-            EmptyView()
+        Group {
+            NavigationLink(destination: LoginView(entity: LoginEntity()), isActive: $navigationState.navigateToLogin) {
+                EmptyView()
+            }
+            NavigationLink(destination: RegisterView(), isActive: $navigationState.navigateToRegister) {
+                EmptyView()
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct IOSwiftUIComponents_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-//            PrimaryButton(.init(rawValue: "Primary Button"))
+            IOButton(.init(rawValue: "Primary Button"))
         }
     }
 }
