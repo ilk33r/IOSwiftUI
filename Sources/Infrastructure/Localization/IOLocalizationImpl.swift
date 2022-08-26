@@ -97,7 +97,7 @@ open class IOLocalizationImpl: IOLocalization, IOSingleton {
             return localizedString
         }
         
-        if let alternate = alternateText, !alternate.isEmpty {
+        if let alternate = alternateText {
             return alternate
         }
 

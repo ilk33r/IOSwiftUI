@@ -20,4 +20,8 @@ public struct IOLocalizationType: RawRepresentable, Equatable {
     public init(rawValue: String) {
         self.rawValue = rawValue
     }
+    
+    public func localized(alternateText: String) -> String {
+        return self.localization.string(self.rawValue, alternateText: alternateText)
+    }
 }

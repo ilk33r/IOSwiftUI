@@ -21,9 +21,9 @@ struct RegisterView: View {
                 .multilineTextAlignment(.leading)
             FloatingTextField(
                 .registerInputEmailAddress,
-                text: $emailText,
-                keyboardType: .emailAddress
+                text: $emailText
             )
+            .keyboardType(.emailAddress)
             .padding(.top, 32)
             FloatingTextField(
                 .registerInputCreatePassword,

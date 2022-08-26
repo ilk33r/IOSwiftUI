@@ -12,7 +12,6 @@ let package = Package(
     products: [
         .library(
             name: "IOSwiftUI",
-            type: .static,
             targets: ["IOSwiftUI"]),
     ],
     dependencies: [

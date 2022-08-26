@@ -8,80 +8,87 @@
 import SwiftUI
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import IOSwiftUIComponents
 import SwiftUISampleAppResources
 
 public struct FloatingTextField: View {
     
-    @Binding var text: String
+    @Binding private var isEditingBinder: Bool
+    @Binding private var text: String
     @State private var isEditing = false
 //    @FocusState private var isInputActive: Bool
     
     private var keyboardType: UIKeyboardType
     private var localizationType: IOLocalizationType
     
-    private var placeholderPadding: EdgeInsets {
-        if shouldPlaceHolderMove {
-            return EdgeInsets(top: 0, leading:12, bottom: 52, trailing: 0)
-        }
-        
-        return EdgeInsets(top: 0, leading:17, bottom: 0, trailing: 0)
-    }
-    
-    private var shouldPlaceHolderMove: Bool {
-        isEditing || (text.count != 0)
-    }
-    
     public var body: some View {
-        ZStack(alignment: .leading) {
-            TextField("", text: $text) { isEditing in
-                self.isEditing = isEditing
-            }
-            .keyboardType(keyboardType)
-//            .focused($isInputActive)
-            /*
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button(IOLocalizationType.commonDone.localized) {
-                        self.isInputActive = false
-                    }
-                }
-            }
-             */
-            .padding()
-            .overlay(
+        IOFloatingTextField(
+            localizationType,
+            text: $text,
+            keyboardType: self.keyboardType,
+            textFieldOverlay: {
                 RoundedRectangle(cornerRadius: 0)
                     .stroke(Color.black, lineWidth: 2)
                     .frame(height: 52)
-            )
-            .foregroundColor(Color.black)
-            .accentColor(Color.colorPlaceholder)
-            Text(localizationType.localized)
-                .font(type: .regular(15))
-                .foregroundColor(.colorPlaceholder)
-                .background(Color.white)
-                .allowsHitTesting(false)
-                .padding(placeholderPadding)
-                .animation(.linear(duration: 0.15), value: isEditing)
-        }
+            }
+        )
+        .textColor(Color.black)
+        .placeholderColor(Color.colorPlaceholder)
+        .backgroundColor(Color.white)
+        .activePlaceholderPadding(EdgeInsets(top: 0, leading: 12, bottom: 52, trailing: 0))
+        .placeholderPadding(EdgeInsets(top: 0, leading: 17, bottom: 0, trailing: 0))
+        .padding(.top, 8)
+        .frame(height: 60)
+        //            .focused($isInputActive)
+        /*
+         .toolbar {
+         ToolbarItemGroup(placement: .keyboard) {
+         Spacer()
+         Button(IOLocalizationType.commonDone.localized) {
+         self.isInputActive = false
+         }
+         }
+         }
+         */
     }
     
     public init(
         _ l: IOLocalizationType,
+        text: Binding<String>
+    ) {
+        self.keyboardType = .default
+        self.localizationType = l
+        self._text = text
+        self._isEditingBinder = Binding.constant(false)
+    }
+    
+    private init(
+        _ l: IOLocalizationType,
         text: Binding<String>,
-        keyboardType: UIKeyboardType = .default
+        keyboardType: UIKeyboardType,
+        editingBinder: Binding<Bool>
     ) {
         self.keyboardType = keyboardType
         self.localizationType = l
         self._text = text
-        IOFontType.registerFontsIfNecessary(Bundle.resources)
+        self._isEditingBinder = editingBinder
     }
     
     public func keyboardType(_ type: UIKeyboardType) -> FloatingTextField {
         return FloatingTextField(
             localizationType,
             text: $text,
-            keyboardType: type
+            keyboardType: type,
+            editingBinder: $isEditingBinder
+        )
+    }
+    
+    public func editingHandler(isEditing: Binding<Bool>) -> FloatingTextField {
+        return FloatingTextField(
+            localizationType,
+            text: $text,
+            keyboardType: keyboardType,
+            editingBinder: isEditing
         )
     }
 }
@@ -93,8 +100,11 @@ struct FloatingTextField_Previews: PreviewProvider {
         @State var emailAddress: String = ""
         
         var body: some View {
-            FloatingTextField(.init(rawValue: "Email address"), text: $emailAddress)
-                .padding(20)
+            FloatingTextField(
+                .init(rawValue: "Email address"),
+                text: $emailAddress
+            )
+            .padding(20)
         }
     }
     
