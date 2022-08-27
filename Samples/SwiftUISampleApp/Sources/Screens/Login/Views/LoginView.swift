@@ -9,6 +9,7 @@ import IOSwiftUIComponents
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppComponents
+import SwiftUISampleAppPresentation
 
 struct LoginView: IOController {
     
@@ -24,6 +25,7 @@ struct LoginView: IOController {
     
     // MARK: - States
     
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     @State private var emailText: String = ""
     @State private var passwordText: String = ""
     
@@ -50,6 +52,9 @@ struct LoginView: IOController {
                 )
                 .padding(.top, 16)
                 PrimaryButton(.commonNextUppercased)
+                    .setClick({
+                        appEnvironment.showLoading.toggle()
+                    })
                     .padding(.top, 16)
                 Spacer()
             }

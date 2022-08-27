@@ -22,6 +22,8 @@ public struct SplashView: IONavigationController {
     @ObservedObject public var presenter: SplashPresenter
     @StateObject public var navigationState = SplashNavigationState()
     
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    
     public var controllerBody: some View {
         VStack {
             ZStack {

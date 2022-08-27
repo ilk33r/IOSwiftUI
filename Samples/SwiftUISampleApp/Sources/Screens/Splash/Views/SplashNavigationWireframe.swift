@@ -8,6 +8,7 @@
 import Foundation
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppPresentation
 
 public struct SplashNavigationWireframe: IONavigationLinkView {
     
@@ -19,10 +20,16 @@ public struct SplashNavigationWireframe: IONavigationLinkView {
     
     public var linkBody: some View {
         Group {
-            NavigationLink(destination: LoginView(entity: LoginEntity()), isActive: $navigationState.navigateToLogin) {
+            NavigationLink(
+                destination: LoginView(entity: LoginEntity()),
+                isActive: $navigationState.navigateToLogin
+            ) {
                 EmptyView()
             }
-            NavigationLink(destination: RegisterView(), isActive: $navigationState.navigateToRegister) {
+            NavigationLink(
+                destination: RegisterView(),
+                isActive: $navigationState.navigateToRegister
+            ) {
                 EmptyView()
             }
         }

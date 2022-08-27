@@ -19,7 +19,7 @@ public protocol IONavigationController: View {
     
     // MARK: - Properties
     
-    var presenter: Presenter { get set }
+    var presenter: Self.Presenter { get set }
     @ViewBuilder var controllerBody: Self.ControllerBody { get }
     
     var wireframeView: Wireframe { get }

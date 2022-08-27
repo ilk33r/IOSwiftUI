@@ -9,12 +9,24 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppScreens
 import SwiftUI
 import SwiftUISampleAppCommon
+import SwiftUISampleAppComponents
+import SwiftUISampleAppPresentation
 
 @main
 struct IOSwiftUISampleApp: App {
+    
+    @ObservedObject private var appEnvironment = SampleAppEnvironment()
+    
     var body: some Scene {
         WindowGroup {
-            SplashView(entity: SplashEntity())
+            ZStack {
+                SplashView(entity: SplashEntity())
+                    .environmentObject(appEnvironment)
+                
+                if appEnvironment.showLoading {
+                    IndicatorView()
+                }
+            }
         }
     }
     
