@@ -16,7 +16,6 @@ public struct FloatingTextField: View {
     @Binding private var isEditingBinder: Bool
     @Binding private var text: String
     @State private var isEditing = false
-//    @FocusState private var isInputActive: Bool
     
     private var keyboardType: UIKeyboardType
     private var localizationType: IOLocalizationType
@@ -39,17 +38,6 @@ public struct FloatingTextField: View {
         .placeholderPadding(EdgeInsets(top: 0, leading: 17, bottom: 0, trailing: 0))
         .padding(.top, 8)
         .frame(height: 60)
-        //            .focused($isInputActive)
-        /*
-         .toolbar {
-         ToolbarItemGroup(placement: .keyboard) {
-         Spacer()
-         Button(IOLocalizationType.commonDone.localized) {
-         self.isInputActive = false
-         }
-         }
-         }
-         */
     }
     
     public init(
