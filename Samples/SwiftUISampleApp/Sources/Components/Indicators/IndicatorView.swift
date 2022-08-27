@@ -12,7 +12,7 @@ public struct IndicatorView: View {
     
     public var body: some View {
         ZStack {
-            Color.clear
+            Color.colorPassthrought
             Color.white
                 .frame(width: 120, height: 120)
                 .cornerRadius(12)
