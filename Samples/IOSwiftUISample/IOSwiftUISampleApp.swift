@@ -20,11 +20,19 @@ struct IOSwiftUISampleApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                SplashView(entity: SplashEntity())
-                    .environmentObject(appEnvironment)
+                if appEnvironment.isLoggedIn {
+                    HomeView(entity: HomeEntity())
+                        .environmentObject(appEnvironment)
+                        .transition(.opacity)
+                } else {
+                    SplashView(entity: SplashEntity())
+                        .environmentObject(appEnvironment)
+                        .transition(.opacity)
+                }
                 
                 if appEnvironment.showLoading {
                     IndicatorView()
+                        .transition(.opacity)
                 }
             }
         }

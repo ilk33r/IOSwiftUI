@@ -15,7 +15,6 @@ let package = Package(
             targets: ["IOSwiftUI"]),
     ],
     dependencies: [
-        
     ],
     targets: [
         .binaryTarget(

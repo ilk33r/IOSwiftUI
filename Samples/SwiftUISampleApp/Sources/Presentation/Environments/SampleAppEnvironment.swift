@@ -13,6 +13,7 @@ final public class SampleAppEnvironment: IOAppEnvironment {
     // MARK: - Properties
     
     @Published public var showLoading: Bool = false
+    @Published public var isLoggedIn: Bool = false
     
     // MARK: - Initialization Methods
     

@@ -1,18 +1,23 @@
-// ___FILEHEADER___
+// 
+//  HomeNavigationWireframe.swift
+//  
+//
+//  Created by Adnan ilker Ozcan on 27.08.2022.
+//
 
 import Foundation
 import IOSwiftUIPresentation
 import SwiftUI
 
-struct ___VARIABLE_productName___NavigationWireframe: IONavigationLinkView {
+public struct HomeNavigationWireframe: IONavigationLinkView {
     
     // MARK: - States
     
-    @ObservedObject var navigationState: ___VARIABLE_productName___NavigationState
+    @ObservedObject var navigationState: HomeNavigationState
     
     // MARK: - Properties
     
-    var linkBody: some View {
+    public var linkBody: some View {
         EmptyView()
         /*
         NavigationLink(destination: PageView(), isActive: $navigationState.navigateToPage) {
@@ -23,7 +28,7 @@ struct ___VARIABLE_productName___NavigationWireframe: IONavigationLinkView {
     
     // MARK: - Initialization Methods
     
-    init(navigationState: ___VARIABLE_productName___NavigationState) {
+    public init(navigationState: HomeNavigationState) {
         self.navigationState = navigationState
     }
 }

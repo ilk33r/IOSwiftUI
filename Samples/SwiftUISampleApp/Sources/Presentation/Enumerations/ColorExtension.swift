@@ -13,4 +13,10 @@ public extension Color {
     
     static let colorPassthrought = Color("colorPassthrought", bundle: Bundle.resources)
     static let colorPlaceholder = Color("colorPlaceholder", bundle: Bundle.resources)
+    static let colorTabEnd = Color("colorTabEnd", bundle: Bundle.resources)
+    static let colorTabStart = Color("colorTabStart", bundle: Bundle.resources)
+    
+    func convertUI() -> UIColor {
+        return UIColor(self)
+    }
 }

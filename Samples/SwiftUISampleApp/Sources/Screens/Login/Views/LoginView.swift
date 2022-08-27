@@ -53,7 +53,7 @@ struct LoginView: IOController {
                 .padding(.top, 16)
                 PrimaryButton(.commonNextUppercased)
                     .setClick({
-                        appEnvironment.showLoading.toggle()
+                        appEnvironment.isLoggedIn = true
                     })
                     .padding(.top, 16)
                 Spacer()
