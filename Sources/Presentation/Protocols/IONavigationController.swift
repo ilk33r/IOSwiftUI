@@ -1,15 +1,15 @@
 //
-//  IOController.swift
+//  IONavigationController.swift
 //  
 //
-//  Created by Adnan ilker Ozcan on 21.08.2022.
+//  Created by Adnan ilker Ozcan on 27.08.2022.
 //
 
 import Foundation
 import IOSwiftUIInfrastructure
 import SwiftUI
 
-public protocol IOController: View {
+public protocol IONavigationController: View {
     
     // MARK: - Generics
     
@@ -30,12 +30,14 @@ public protocol IOController: View {
     init(entity: Presenter.Interactor.Entity)
 }
 
-public extension IOController {
+public extension IONavigationController {
     
     var body: some View {
-        VStack {
-            self.controllerBody
-            self.wireframeView
+        NavigationView {
+            VStack {
+                self.controllerBody
+                self.wireframeView
+            }
         }
     }
     

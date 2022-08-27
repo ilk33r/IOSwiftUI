@@ -15,7 +15,9 @@
 "splash.button.logIn.uppercased" = "LOG IN";
 "splash.button.register.uppercased" = "REGISTER";
 
-/* Register */
+/* Register & Login */
+"login.input.password" = "Password";
+"login.title" = "Login";
 "register.input.createPassword" = "Create password";
 "register.input.emailAddress" = "Email address";
 "register.title" = "Register";

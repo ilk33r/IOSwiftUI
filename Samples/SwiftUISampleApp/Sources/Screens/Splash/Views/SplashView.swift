@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppComponents
 
-public struct SplashView: IOController {
+public struct SplashView: IONavigationController {
     
     // MARK: - Generics
     

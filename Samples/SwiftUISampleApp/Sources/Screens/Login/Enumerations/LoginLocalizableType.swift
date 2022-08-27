@@ -10,4 +10,6 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let loginInputPassword = IOLocalizationType(rawValue: "login.input.password")
+    static let loginTitle = IOLocalizationType(rawValue: "login.title")
 }
