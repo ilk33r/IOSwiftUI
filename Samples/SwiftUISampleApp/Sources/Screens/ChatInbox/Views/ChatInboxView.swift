@@ -44,15 +44,12 @@ struct ChatInboxView: IOController {
             }
             .frame( maxWidth: .infinity)
             .listStyle(InsetListStyle())
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    VStack {
-                        Text("Title").font(.headline)
-                        Text("Subtitle").font(.subheadline)
-                    }
+            .navigationBar(navigationBar: {
+                VStack {
+                    Text("Title").font(.headline)
+                    Text("Subtitle").font(.subheadline)
                 }
-            }
+            })
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
