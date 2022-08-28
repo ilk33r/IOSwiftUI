@@ -53,6 +53,9 @@ struct ChatInboxView: IOController {
                     }
                 }
             }
+            Color.white
+                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                .ignoresSafeArea()
         }
         .uiKit {
             UIKitView(type: UITableView.self) { view in
