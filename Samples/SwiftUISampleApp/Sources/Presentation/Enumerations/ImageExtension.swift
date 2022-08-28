@@ -13,7 +13,6 @@ public extension Image {
     
     static let bgSplash = Image("bgSplash", bundle: Bundle.resources)
     static let icnLogo = Image("icnLogo", bundle: Bundle.resources)
-    static let icnPlus = Image("icnPlus", bundle: Bundle.resources)
     static let icnTabBarCamera = Image("icnTabBarCamera", bundle: Bundle.resources)
     static let icnTabBarChat = Image("icnTabBarChat", bundle: Bundle.resources)
     static let icnTabBarHome = Image("icnTabBarHome", bundle: Bundle.resources)

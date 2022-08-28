@@ -21,8 +21,7 @@ public protocol IONavigationController: View {
     
     var presenter: Self.Presenter { get set }
     @ViewBuilder var controllerBody: Self.ControllerBody { get }
-    
-    var wireframeView: Wireframe { get }
+    @ViewBuilder var wireframeView: Self.Wireframe { get }
     
     // MARK: - Initialization Methods
     

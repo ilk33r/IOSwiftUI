@@ -40,7 +40,7 @@ public struct HomeView: IONavigationController {
                     }
                 }
             
-            SearchView()
+            RegisterView()
                 .tabItem {
                     TabBarItemView {
                         Image.icnTabBarCamera.renderingMode(.original)
@@ -62,6 +62,8 @@ public struct HomeView: IONavigationController {
                 }
         }
         .accentColor(.colorTabEnd)
+        .edgesIgnoringSafeArea(.top)
+        .navigationBarHidden(true)
     }
     
     public var wireframeView: HomeNavigationWireframe {
@@ -82,17 +84,6 @@ public struct HomeView: IONavigationController {
         UITabBar.appearance().standardAppearance = tabBarAppeareance
         if #available(iOS 15.0, *) {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppeareance
-        }
-    }
-}
-
-struct SearchView: View {
-    
-    var body: some View {
-        List {
-            ForEach(0..<50) { _ in
-                TabBarItemCenterViews()
-            }
         }
     }
 }
