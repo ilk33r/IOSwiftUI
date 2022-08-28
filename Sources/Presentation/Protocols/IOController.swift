@@ -16,13 +16,14 @@ public protocol IOController: View {
     associatedtype Presenter: IOPresenterable
     associatedtype ControllerBody: View
     associatedtype Wireframe: IONavigationLinkView
+    associatedtype UIKitBody: View
     
     // MARK: - Properties
     
     var presenter: Self.Presenter { get set }
     @ViewBuilder var controllerBody: Self.ControllerBody { get }
-    
-    var wireframeView: Wireframe { get }
+    @ViewBuilder var uikitBody: Self.UIKitBody { get }
+    @ViewBuilder var wireframeView: Self.Wireframe { get }
     
     // MARK: - Initialization Methods
     
@@ -34,9 +35,15 @@ public extension IOController {
     
     var body: some View {
         VStack {
+            self.uikitBody
+                .frame(width: 0, height: 0)
             self.controllerBody
             self.wireframeView
         }
+    }
+    
+    var uikitBody: some View {
+        EmptyView()
     }
     
     init(presenter: Presenter) {
