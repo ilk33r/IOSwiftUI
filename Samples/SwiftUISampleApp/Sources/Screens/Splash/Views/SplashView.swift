@@ -10,12 +10,11 @@ import SwiftUI
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppComponents
 
-public struct SplashView: IONavigationController {
+public struct SplashView: IOController {
     
     // MARK: - Generics
     
     public typealias Presenter = SplashPresenter
-    public typealias Wireframe = SplashNavigationWireframe
     
     // MARK: - Properties
     
@@ -24,7 +23,7 @@ public struct SplashView: IONavigationController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    public var controllerBody: some View {
+    public var body: some View {
         VStack {
             ZStack {
                 Image.bgSplash
@@ -61,10 +60,9 @@ public struct SplashView: IONavigationController {
             .padding(.trailing, 16)
         }
         .edgesIgnoringSafeArea([.top])
-    }
-    
-    public var wireframeView: SplashNavigationWireframe {
-        SplashNavigationWireframe(navigationState: navigationState)
+        .navigationView {
+            SplashNavigationWireframe(navigationState: navigationState)
+        }
     }
     
     // MARK: - Initialization Methods

@@ -10,12 +10,11 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppComponents
 
-public struct HomeView: IONavigationController {
+public struct HomeView: IOController {
     
     // MARK: - Generics
     
     public typealias Presenter = HomePresenter
-    public typealias Wireframe = HomeNavigationWireframe
     
     // MARK: - Properties
     
@@ -24,7 +23,7 @@ public struct HomeView: IONavigationController {
     
     @State private var selectedIndex: Int = 0
     
-    public var controllerBody: some View {
+    public var body: some View {
         TabView(selection: $selectedIndex) {
             RegisterView()
                 .tabItem {
@@ -64,10 +63,9 @@ public struct HomeView: IONavigationController {
         .accentColor(.colorTabEnd)
         .edgesIgnoringSafeArea(.top)
         .navigationBarHidden(true)
-    }
-    
-    public var wireframeView: HomeNavigationWireframe {
-        HomeNavigationWireframe(navigationState: navigationState)
+        .navigationView {
+            HomeNavigationWireframe(navigationState: navigationState)
+        }
     }
     
     // MARK: - Initialization Methods
