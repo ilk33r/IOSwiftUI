@@ -72,17 +72,6 @@ public struct HomeView: IOController {
     
     public init(presenter: Presenter) {
         self.presenter = presenter
-        
-        let tabBarAppeareance = UITabBarAppearance()
-        tabBarAppeareance.configureWithOpaqueBackground()
-        tabBarAppeareance.shadowImage = UIImage()
-        tabBarAppeareance.shadowColor = Color.colorPassthrought.convertUI()
-        tabBarAppeareance.backgroundColor = .white
-        
-        UITabBar.appearance().standardAppearance = tabBarAppeareance
-        if #available(iOS 15.0, *) {
-            UITabBar.appearance().scrollEdgeAppearance = tabBarAppeareance
-        }
     }
 }
 

@@ -41,5 +41,6 @@ struct IOSwiftUISampleApp: App {
     init() {
         IOFontType.registerFontsIfNecessary(Bundle.resources)
         let _ = IOAppConfiguration(environment: .debug, locale: .en)
+        AppTheme.applyTheme()
     }
 }

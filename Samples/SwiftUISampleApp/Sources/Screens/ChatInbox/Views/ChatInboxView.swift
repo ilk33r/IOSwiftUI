@@ -61,9 +61,9 @@ struct ChatInboxView: IOController {
                 view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             }
         }
-        .controller {
+        .navigationView(wireframeView: {
             ChatInboxNavigationWireframe(navigationState: navigationState)
-        }
+        })
     }
     
     // MARK: - Initialization Methods
