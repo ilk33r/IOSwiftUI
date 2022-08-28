@@ -103,7 +103,7 @@ extension UITabBarController {
         super.viewWillLayoutSubviews()
         
         for item in self.tabBar.items ?? [] {
-            item.imageInsets = UIEdgeInsets(top: 9, left: 0, bottom: -9, right: 0)
+            item.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         }
     }
 }

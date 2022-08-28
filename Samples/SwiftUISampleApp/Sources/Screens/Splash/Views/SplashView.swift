@@ -30,6 +30,7 @@ public struct SplashView: IONavigationController {
                 Image.bgSplash
                     .resizable()
                     .aspectRatio(contentMode: .fill)
+                    .clipped()
                 HStack(spacing: 20) {
                     Image.icnLogo
                         .resizable()
@@ -38,7 +39,10 @@ public struct SplashView: IONavigationController {
                         .font(type: .regular(48))
                 }
             }
-            HStack(spacing: 9) {
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .frame(minHeight: 0, maxHeight: .infinity)
+            .clipped()
+            HStack(alignment: .bottom, spacing: 9) {
                 SecondaryButton(.splashButtonLogInUppercased)
                     .setClick({
                         self.navigationState.navigateToLogin = true
