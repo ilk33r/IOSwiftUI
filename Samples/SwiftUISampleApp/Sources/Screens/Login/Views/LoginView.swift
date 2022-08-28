@@ -16,7 +16,6 @@ struct LoginView: IOController {
     // MARK: - Generics
     
     typealias Presenter = LoginPresenter
-    typealias Wireframe = LoginNavigationWireframe
     
     // MARK: - Properties
     
@@ -31,7 +30,7 @@ struct LoginView: IOController {
     
     // MARK: - Body
     
-    var controllerBody: some View {
+    var body: some View {
         IOFormGroup(.commonDone, handler: {
 
         }, content: {
@@ -60,10 +59,9 @@ struct LoginView: IOController {
             }
             .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
         })
-    }
-    
-    var wireframeView: LoginNavigationWireframe {
-        LoginNavigationWireframe(navigationState: navigationState)
+        .controller {
+            LoginNavigationWireframe(navigationState: navigationState)
+        }
     }
     
     // MARK: - Initialization Methods

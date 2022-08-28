@@ -8,19 +8,17 @@ struct ___VARIABLE_productName___View: IOController {
     // MARK: - Generics
     
     typealias Presenter = ___VARIABLE_productName___Presenter
-    typealias Wireframe = ___VARIABLE_productName___NavigationWireframe
     
     // MARK: - Properties
     
     @ObservedObject public var presenter: ___VARIABLE_productName___Presenter
     @StateObject public var navigationState = ___VARIABLE_productName___NavigationState()
     
-    var controllerBody: some View {
+    var body: some View {
         Text("___VARIABLE_productName___")
-    }
-    
-    var wireframeView: ___VARIABLE_productName___NavigationWireframe {
-        ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
+            .controller {
+                ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
+            }
     }
     
     // MARK: - Initialization Methods

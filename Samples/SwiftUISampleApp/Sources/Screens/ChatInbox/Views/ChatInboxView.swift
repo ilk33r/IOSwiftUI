@@ -13,14 +13,13 @@ struct ChatInboxView: IOController {
     // MARK: - Generics
     
     typealias Presenter = ChatInboxPresenter
-    typealias Wireframe = ChatInboxNavigationWireframe
     
     // MARK: - Properties
     
     @ObservedObject public var presenter: ChatInboxPresenter
     @StateObject public var navigationState = ChatInboxNavigationState()
     
-    var controllerBody: some View {
+    var body: some View {
         GeometryReader { proxy in
             List {
                 Section {
@@ -55,16 +54,16 @@ struct ChatInboxView: IOController {
                 }
             }
         }
-    }
-    
-    var uikitBody: some View {
-        UIKitView(type: UITableView.self) { view in
-            print("Ok")
+        .uiKit {
+            UIKitView(type: UITableView.self) { view in
+                view.separatorStyle = .none
+                view.separatorColor = .clear
+                view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            }
         }
-    }
-    
-    var wireframeView: ChatInboxNavigationWireframe {
-        ChatInboxNavigationWireframe(navigationState: navigationState)
+        .controller {
+            ChatInboxNavigationWireframe(navigationState: navigationState)
+        }
     }
     
     // MARK: - Initialization Methods

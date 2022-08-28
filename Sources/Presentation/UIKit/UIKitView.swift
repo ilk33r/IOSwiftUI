@@ -34,8 +34,11 @@ final public class UIKitView<TView: UIResponder>: UIViewRepresentable {
     }
     
     public func updateUIView(_ uiView: UIViewType, context: Context) {
-        if let view = uiView.next(TView.self) {
-            self.handler?(view)
+        if
+            let controller = uiView.controller(),
+            let view = uiView.find(type: TView.self, in: controller.view)
+        {
+            handler?(view)
         }
     }
 }
