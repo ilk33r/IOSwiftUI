@@ -47,7 +47,7 @@ public struct HomeView: IONavigationController {
                     }
                 }
             
-            LoginView(entity: LoginEntity())
+            ChatInboxView(entity: ChatInboxEntity())
                 .tabItem {
                     TabBarItemView {
                         Image.icnTabBarChat.renderingMode(.template)
