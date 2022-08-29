@@ -21,3 +21,6 @@
 "register.input.createPassword" = "Create password";
 "register.input.emailAddress" = "Email address";
 "register.title" = "Register";
+
+/* Chat */
+"chat.inbox.title" = "Chats";

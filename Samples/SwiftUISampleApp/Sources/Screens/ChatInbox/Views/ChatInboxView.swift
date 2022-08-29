@@ -7,6 +7,7 @@
 
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppComponents
 
 struct ChatInboxView: IOController {
     
@@ -45,10 +46,7 @@ struct ChatInboxView: IOController {
             .frame( maxWidth: .infinity)
             .listStyle(InsetListStyle())
             .navigationBar(navigationBar: {
-                VStack {
-                    Text("Title").font(.headline)
-                    Text("Subtitle").font(.subheadline)
-                }
+                NavBarTitleView(.chatInboxTitle)
             })
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)

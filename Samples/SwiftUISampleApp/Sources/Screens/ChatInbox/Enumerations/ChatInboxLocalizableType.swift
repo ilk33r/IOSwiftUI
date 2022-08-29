@@ -10,4 +10,5 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let chatInboxTitle = IOLocalizationType(rawValue: "chat.inbox.title")
 }
