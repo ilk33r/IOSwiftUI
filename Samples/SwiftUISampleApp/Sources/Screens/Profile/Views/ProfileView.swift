@@ -20,6 +20,9 @@ struct ProfileView: IOController {
     @ObservedObject public var presenter: ProfilePresenter
     @StateObject public var navigationState = ProfileNavigationState()
     
+    @State private var headerSize: CGSize = .zero
+    @State private var scrollOffset: CGFloat = 0
+    
     let galleryImages = [
         Image("pwGallery0"),
         Image("pwGallery1"),
@@ -42,12 +45,27 @@ struct ProfileView: IOController {
     ]
     
     var body: some View {
-        ZStack(alignment: .top) {
-            ProfileHeaderView()
-                .padding(.top, 32)
-            GalleryView(galleryImages: galleryImages)
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                let headerHeight = max(0, headerSize.height - scrollOffset)
+                ZStack(alignment: .top) {
+                    createHeaderView()
+                }
+                .zIndex(20)
+                .frame(height: headerHeight, alignment: .top)
+                .clipped()
+                GalleryView(
+                    insetTop: $headerSize.height,
+                    scrollOffset: $scrollOffset,
+                    galleryImages: galleryImages
+                )
+                .zIndex(10)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            Color.white
+                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                .ignoresSafeArea()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .navigationWireframe(isHidden: true) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
@@ -57,6 +75,20 @@ struct ProfileView: IOController {
     
     init(presenter: Presenter) {
         self.presenter = presenter
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func createHeaderView() -> some View {
+        return ProfileHeaderView()
+            .padding(.top, 32)
+            .background(
+                GeometryReader { proxy in
+                    Color.clear.onAppear {
+                        headerSize = proxy.size
+                    }
+                }
+            )
     }
 }
 

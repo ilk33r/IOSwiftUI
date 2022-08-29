@@ -6,16 +6,22 @@
 //
 
 import SwiftUI
+import IOSwiftUIComponents
 
 public struct GalleryView: View {
     
-    let leftGalleryData: [GalleryCellData]
-    let rightGalleryData: [GalleryCellData]
+    private let leftGalleryData: [GalleryCellData]
+    private let rightGalleryData: [GalleryCellData]
+    
+    @Binding private var insetTop: CGFloat
+    @Binding private var scrollOffset: CGFloat
     
     public var body: some View {
         GeometryReader { proxy in
-            ScrollView {
+            ObservableScrollView(scrollOffset: $scrollOffset) { _ in
                 let itemWidth = (proxy.size.width - 16 - 16 - 9) / 2
+                Color.clear
+                    .frame(height: insetTop)
                 HStack(alignment: .top, spacing: 9) {
                     LazyVGrid(columns: [GridItem(.flexible())]) {
                         ForEach(leftGalleryData) { it in
@@ -40,7 +46,11 @@ public struct GalleryView: View {
         }
     }
     
-    public init(galleryImages: [Image]) {
+    public init(
+        insetTop: Binding<CGFloat>,
+        scrollOffset: Binding<CGFloat>,
+        galleryImages: [Image]
+    ) {
         var leftGalleryData = [GalleryCellData]()
         var rightGalleryData = [GalleryCellData]()
         
@@ -65,11 +75,18 @@ public struct GalleryView: View {
         
         self.leftGalleryData = leftGalleryData
         self.rightGalleryData = rightGalleryData
+        self._insetTop = insetTop
+        self._scrollOffset = scrollOffset
     }
 }
 
 struct GalleryView_Previews: PreviewProvider {
-    static var previews: some View {
+    
+    struct GalleryViewDemo: View {
+        
+        @State var insetTop: CGFloat = 0
+        @State var scrollOffset: CGFloat = 0
+        
         let galleryImages = [
             Image("pwGallery0"),
             Image("pwGallery1"),
@@ -91,6 +108,16 @@ struct GalleryView_Previews: PreviewProvider {
             Image("pwGallery5")
         ]
         
-        GalleryView(galleryImages: galleryImages)
+        var body: some View {
+            GalleryView(
+                insetTop: $insetTop,
+                scrollOffset: $scrollOffset,
+                galleryImages: galleryImages
+            )
+        }
+    }
+     
+    static var previews: some View {
+        GalleryViewDemo()
     }
 }
