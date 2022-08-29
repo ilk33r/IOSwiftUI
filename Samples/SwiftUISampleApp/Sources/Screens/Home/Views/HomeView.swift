@@ -31,7 +31,7 @@ public struct HomeView: IOController {
 //                        Image.icnTabBarHome.renderingMode(.template)
 //                    }
 //                }
-//            
+//
 //            LoginView(entity: LoginEntity())
 //                .tabItem {
 //                    TabBarItemView {
@@ -61,7 +61,7 @@ public struct HomeView: IOController {
                 }
         }
         .accentColor(.colorTabEnd)
-        .navigationWireframe(isHidden: true) {
+        .controllerWireframe {
             HomeNavigationWireframe(navigationState: navigationState)
         }
     }

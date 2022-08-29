@@ -48,10 +48,9 @@ struct ProfileView: IOController {
             GalleryView(galleryImages: galleryImages)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .controllerWireframe {
+        .navigationWireframe(isHidden: true) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
-        .navigationBarHidden(true)
     }
     
     // MARK: - Initialization Methods
