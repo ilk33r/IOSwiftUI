@@ -52,13 +52,6 @@ struct ChatInboxView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
-        .uiKit {
-            UIKitView(type: UITableView.self) { view in
-                view.separatorStyle = .none
-                view.separatorColor = .clear
-                view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            }
-        }
         .navigationWireframe {
             ChatInboxNavigationWireframe(navigationState: navigationState)
         }
