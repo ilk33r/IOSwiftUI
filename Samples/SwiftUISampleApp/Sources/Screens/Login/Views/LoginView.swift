@@ -59,7 +59,7 @@ struct LoginView: IOController {
             }
             .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
         })
-        .controller {
+        .controllerWireframe {
             LoginNavigationWireframe(navigationState: navigationState)
         }
     }

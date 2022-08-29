@@ -60,7 +60,7 @@ public struct SplashView: IOController {
             .padding(.trailing, 16)
         }
         .edgesIgnoringSafeArea([.top])
-        .navigationView {
+        .navigationWireframe {
             SplashNavigationWireframe(navigationState: navigationState)
         }
     }

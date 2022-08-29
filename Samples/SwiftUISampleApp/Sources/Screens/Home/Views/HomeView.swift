@@ -53,7 +53,7 @@ public struct HomeView: IOController {
                     }
                 }
             
-            RegisterView()
+            ProfileView(entity: ProfileEntity())
                 .tabItem {
                     TabBarItemView {
                         Image.icnTabBarProfile.renderingMode(.template)
@@ -61,9 +61,7 @@ public struct HomeView: IOController {
                 }
         }
         .accentColor(.colorTabEnd)
-        .edgesIgnoringSafeArea(.top)
-        .navigationBarHidden(true)
-        .navigationView {
+        .navigationWireframe(isHidden: true) {
             HomeNavigationWireframe(navigationState: navigationState)
         }
     }

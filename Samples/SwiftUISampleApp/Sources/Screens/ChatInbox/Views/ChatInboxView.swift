@@ -43,7 +43,7 @@ struct ChatInboxView: IOController {
                         .frame(height: proxy.safeAreaInsets.bottom + proxy.safeAreaInsets.top)
                 }
             }
-            .frame( maxWidth: .infinity)
+            .frame(maxWidth: .infinity)
             .listStyle(InsetListStyle())
             .navigationBar(navigationBar: {
                 NavBarTitleView(.chatInboxTitle)
@@ -59,9 +59,9 @@ struct ChatInboxView: IOController {
                 view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             }
         }
-        .navigationView(wireframeView: {
+        .navigationWireframe {
             ChatInboxNavigationWireframe(navigationState: navigationState)
-        })
+        }
     }
     
     // MARK: - Initialization Methods

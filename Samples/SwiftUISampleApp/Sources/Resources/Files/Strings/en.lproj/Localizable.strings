@@ -22,5 +22,9 @@
 "register.input.emailAddress" = "Email address";
 "register.title" = "Register";
 
+/* Profile */
+"profile.button.follow" = "FOLLOW JANE";
+"profile.button.message" = "MESSAGE";
+
 /* Chat */
 "chat.inbox.title" = "Chats";
