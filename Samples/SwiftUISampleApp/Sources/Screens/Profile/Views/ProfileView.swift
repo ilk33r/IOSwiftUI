@@ -7,6 +7,7 @@
 
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppComponents
 
 struct ProfileView: IOController {
     
@@ -19,15 +20,38 @@ struct ProfileView: IOController {
     @ObservedObject public var presenter: ProfilePresenter
     @StateObject public var navigationState = ProfileNavigationState()
     
+    let galleryImages = [
+        Image("pwGallery0"),
+        Image("pwGallery1"),
+        Image("pwGallery2"),
+        Image("pwGallery3"),
+        Image("pwGallery4"),
+        Image("pwGallery5"),
+        Image("pwGallery0"),
+        Image("pwGallery1"),
+        Image("pwGallery2"),
+        Image("pwGallery3"),
+        Image("pwGallery4"),
+        Image("pwGallery5"),
+        Image("pwGallery0"),
+        Image("pwGallery1"),
+        Image("pwGallery2"),
+        Image("pwGallery3"),
+        Image("pwGallery4"),
+        Image("pwGallery5")
+    ]
+    
     var body: some View {
         ZStack(alignment: .top) {
             ProfileHeaderView()
                 .padding(.top, 32)
+            GalleryView(galleryImages: galleryImages)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .controllerWireframe {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
+        .navigationBarHidden(true)
     }
     
     // MARK: - Initialization Methods

@@ -45,9 +45,10 @@ struct ChatInboxView: IOController {
             }
             .frame(maxWidth: .infinity)
             .listStyle(InsetListStyle())
-            .navigationBar(navigationBar: {
-                NavBarTitleView(.chatInboxTitle)
-            })
+            .navigationBarHidden(true)
+//            .navigationBar(navigationBar: {
+//                NavBarTitleView(.chatInboxTitle)
+//            })
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
@@ -59,9 +60,10 @@ struct ChatInboxView: IOController {
                 view.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             }
         }
-        .navigationWireframe {
+        .controllerWireframe {
             ChatInboxNavigationWireframe(navigationState: navigationState)
         }
+        .navigationBarHidden(true)
     }
     
     // MARK: - Initialization Methods

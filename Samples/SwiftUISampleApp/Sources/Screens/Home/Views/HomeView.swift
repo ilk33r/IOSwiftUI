@@ -25,26 +25,26 @@ public struct HomeView: IOController {
     
     public var body: some View {
         TabView(selection: $selectedIndex) {
-            RegisterView()
-                .tabItem {
-                    TabBarItemView {
-                        Image.icnTabBarHome.renderingMode(.template)
-                    }
-                }
+//            RegisterView()
+//                .tabItem {
+//                    TabBarItemView {
+//                        Image.icnTabBarHome.renderingMode(.template)
+//                    }
+//                }
+//            
+//            LoginView(entity: LoginEntity())
+//                .tabItem {
+//                    TabBarItemView {
+//                        Image.icnTabBarSearch.renderingMode(.template)
+//                    }
+//                }
             
-            LoginView(entity: LoginEntity())
-                .tabItem {
-                    TabBarItemView {
-                        Image.icnTabBarSearch.renderingMode(.template)
-                    }
-                }
-            
-            RegisterView()
-                .tabItem {
-                    TabBarItemView {
-                        Image.icnTabBarCamera.renderingMode(.original)
-                    }
-                }
+//            RegisterView()
+//                .tabItem {
+//                    TabBarItemView {
+//                        Image.icnTabBarCamera.renderingMode(.original)
+//                    }
+//                }
             
             ChatInboxView(entity: ChatInboxEntity())
                 .tabItem {
