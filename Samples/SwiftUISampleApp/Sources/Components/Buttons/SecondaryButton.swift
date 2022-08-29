@@ -19,18 +19,24 @@ public struct SecondaryButton: View, IOClickable {
     private var localizationType: IOLocalizationType
     
     public var body: some View {
-        IOButton(localizationType)
-            .setClick(self.handler)
+        IOButton {
+            ZStack {
+                Color.white
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .stroke(Color.black, lineWidth: 2)
+                    )
+                    .frame(height: 52)
+                Text(type: localizationType)
+                    .padding([.top, .bottom], 19)
+                    .padding([.leading, .trailing], 12)
+                    .font(type: .black(13))
+                    .foregroundColor(.black)
+            }
             .frame(maxWidth: .infinity)
-            .padding([.top, .bottom], 19)
-            .padding([.leading, .trailing], 12)
-            .background(Color.white)
-            .font(type: .black(13))
-            .foregroundColor(.black)
-            .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(Color.black, lineWidth: 2)
-            )
+        }
+        .setClick(handler)
+        .frame(height: 52)
     }
     
     public init(_ l: IOLocalizationType) {

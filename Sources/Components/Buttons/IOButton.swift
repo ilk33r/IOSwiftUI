@@ -10,28 +10,59 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 
-public struct IOButton: View, IOClickable {
+public struct IOButton<Content>: View, IOClickable where Content: View {
     
     public var handler: IOClickableHandler?
-    private var localizationType: IOLocalizationType
+    private var localizationType: IOLocalizationType?
+    private var content: (() -> Content)?
     
     public var body: some View {
-        Button(localizationType.localized) {
-            self.handler?()
+        if let localizationType = localizationType {
+            Button(localizationType.localized) {
+                handler?()
+            }
+        } else {
+            Button {
+                handler?()
+            } label: {
+                content?()
+            }
         }
     }
     
-    public init(_ l: IOLocalizationType) {
-        self.localizationType = l
+    public init(
+        @ViewBuilder content: @escaping () -> Content
+    ) {
+        self.content = content
     }
     
-    private init(_ l: IOLocalizationType, handler: IOClickableHandler?) {
+    private init(
+        _ l: IOLocalizationType?,
+        content: (() -> Content)?,
+        handler: IOClickableHandler?
+    ) {
         self.localizationType = l
+        self.content = content
         self.handler = handler
     }
     
-    public func setClick(_ handler: IOClickableHandler?) -> IOButton {
-        return IOButton(localizationType, handler: handler)
+    public func setClick(
+        _ handler: IOClickableHandler?
+    ) -> IOButton {
+        return IOButton(
+            localizationType,
+            content: content,
+            handler: handler
+        )
+    }
+}
+
+public extension IOButton where Content == Never {
+    
+    init(
+        _ l: IOLocalizationType
+    ) {
+        self.localizationType = l
     }
 }
 

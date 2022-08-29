@@ -94,6 +94,7 @@ struct ProfileView: IOController {
     private func createHeaderView() -> some View {
         return ProfileHeaderView()
             .padding(.top, 32)
+            .padding(.bottom, 4)
             .background(
                 GeometryReader { proxy in
                     Color.clear.onAppear {
