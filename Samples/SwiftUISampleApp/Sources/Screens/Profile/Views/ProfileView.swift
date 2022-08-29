@@ -22,6 +22,7 @@ struct ProfileView: IOController {
     
     @State private var headerSize: CGSize = .zero
     @State private var scrollOffset: CGFloat = 0
+    @State private var tapIndex: Int = -1
     
     let galleryImages = [
         Image("pwGallery0"),
@@ -57,6 +58,7 @@ struct ProfileView: IOController {
                 GalleryView(
                     insetTop: $headerSize.height,
                     scrollOffset: $scrollOffset,
+                    tapIndex: $tapIndex,
                     galleryImages: galleryImages
                 )
                 .zIndex(10)
@@ -66,8 +68,18 @@ struct ProfileView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
+        .onChange(of: tapIndex) { newValue in
+            navigationState.entity = PhotoGalleryEntity(images: galleryImages)
+            navigationState.navigateToGallery = true
+        }
         .navigationWireframe(isHidden: true) {
             ProfileNavigationWireframe(navigationState: navigationState)
+        }
+        .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
+            PhotoGalleryView(
+                isPresented: $navigationState.navigateToGallery,
+                entity: navigationState.entity
+            )
         }
     }
     

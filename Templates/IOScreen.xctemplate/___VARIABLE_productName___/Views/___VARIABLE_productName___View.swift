@@ -16,7 +16,7 @@ struct ___VARIABLE_productName___View: IOController {
     
     var body: some View {
         Text("___VARIABLE_productName___")
-            .controller {
+            .controllerWireframe {
                 ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
             }
     }

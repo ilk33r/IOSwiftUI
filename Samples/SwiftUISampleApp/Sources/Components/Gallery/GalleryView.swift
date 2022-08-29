@@ -15,10 +15,11 @@ public struct GalleryView: View {
     
     @Binding private var insetTop: CGFloat
     @Binding private var scrollOffset: CGFloat
+    @Binding private var tapIndex: Int
     
     public var body: some View {
         GeometryReader { proxy in
-            ObservableScrollView(scrollOffset: $scrollOffset) { _ in
+            IOObservableScrollView(scrollOffset: $scrollOffset) { _ in
                 let itemWidth = (proxy.size.width - 16 - 16 - 9) / 2
                 Color.clear
                     .frame(height: insetTop)
@@ -28,7 +29,11 @@ public struct GalleryView: View {
                             GalleryCellView(
                                 image: it.image,
                                 type: it.type,
-                                width: itemWidth)
+                                width: itemWidth
+                            )
+                            .onTapGesture {
+                                tapIndex = it.index
+                            }
                         }
                     }
                     LazyVGrid(columns: [GridItem(.flexible())]) {
@@ -36,7 +41,11 @@ public struct GalleryView: View {
                             GalleryCellView(
                                 image: it.image,
                                 type: it.type,
-                                width: itemWidth)
+                                width: itemWidth
+                            )
+                            .onTapGesture {
+                                tapIndex = it.index
+                            }
                         }
                     }
                 }
@@ -49,6 +58,7 @@ public struct GalleryView: View {
     public init(
         insetTop: Binding<CGFloat>,
         scrollOffset: Binding<CGFloat>,
+        tapIndex: Binding<Int>,
         galleryImages: [Image]
     ) {
         var leftGalleryData = [GalleryCellData]()
@@ -60,6 +70,7 @@ public struct GalleryView: View {
                 leftGalleryData.append(
                     GalleryCellData(
                         image: it.element,
+                        index: it.offset,
                         type: (isSmall) ? .small : .normal
                     )
                 )
@@ -67,6 +78,7 @@ public struct GalleryView: View {
                 rightGalleryData.append(
                     GalleryCellData(
                         image: it.element,
+                        index: it.offset,
                         type: .normal
                     )
                 )
@@ -77,6 +89,7 @@ public struct GalleryView: View {
         self.rightGalleryData = rightGalleryData
         self._insetTop = insetTop
         self._scrollOffset = scrollOffset
+        self._tapIndex = tapIndex
     }
 }
 
@@ -86,6 +99,7 @@ struct GalleryView_Previews: PreviewProvider {
         
         @State var insetTop: CGFloat = 0
         @State var scrollOffset: CGFloat = 0
+        @State var tapIndex: Int = 0
         
         let galleryImages = [
             Image("pwGallery0"),
@@ -112,6 +126,7 @@ struct GalleryView_Previews: PreviewProvider {
             GalleryView(
                 insetTop: $insetTop,
                 scrollOffset: $scrollOffset,
+                tapIndex: $tapIndex,
                 galleryImages: galleryImages
             )
         }

@@ -1,5 +1,5 @@
 //
-//  ObservableScrollView.swift
+//  IOObservableScrollView.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 29.08.2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ScrollViewOffsetPreferenceKey: PreferenceKey {
+struct IOScrollViewOffsetPreferenceKey: PreferenceKey {
     
     static var defaultValue = CGFloat.zero
     
@@ -16,7 +16,7 @@ struct ScrollViewOffsetPreferenceKey: PreferenceKey {
     }
 }
 
-public struct ObservableScrollView<Content>: View where Content: View {
+public struct IOObservableScrollView<Content>: View where Content: View {
     
     private let content: (ScrollViewProxy) -> Content
     
@@ -31,14 +31,14 @@ public struct ObservableScrollView<Content>: View where Content: View {
                         let offset = -geo.frame(in: .named(scrollSpace)).minY
                         Color.clear
                             .preference(
-                                key: ScrollViewOffsetPreferenceKey.self,
+                                key: IOScrollViewOffsetPreferenceKey.self,
                                 value: offset
                             )
                     })
             }
         }
         .coordinateSpace(name: scrollSpace)
-        .onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
+        .onPreferenceChange(IOScrollViewOffsetPreferenceKey.self) { value in
             scrollOffset = value
         }
     }

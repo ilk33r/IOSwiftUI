@@ -34,7 +34,11 @@ public struct GalleryCellView: View {
             .clipped()
     }
     
-    public init(image: Image, type: `Type`, width: CGFloat) {
+    public init(
+        image: Image,
+        type: `Type`,
+        width: CGFloat
+    ) {
         self.image = image
         self.type = type
         self.width = width
