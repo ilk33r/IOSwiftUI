@@ -34,3 +34,4 @@
 
 /* Chat */
 "chat.inbox.title" = "Chats";
+"chat.input.placeholder" = "Message...";

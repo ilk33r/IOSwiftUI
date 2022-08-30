@@ -10,4 +10,5 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let chatInputPlaceholder = IOLocalizationType(rawValue: "chat.input.placeholder")
 }

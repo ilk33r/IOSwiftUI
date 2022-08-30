@@ -6,6 +6,7 @@
 //
 
 import IOSwiftUIPresentation
+import IOSwiftUIComponents
 import SwiftUI
 import SwiftUISampleAppComponents
 
@@ -19,6 +20,8 @@ struct ChatView: IOController {
     
     @ObservedObject public var presenter: ChatPresenter
     @StateObject public var navigationState = ChatNavigationState()
+    
+    @State private var messageText: String = ""
     
     private let items = [
         ChatItemUIModel(
@@ -110,19 +113,24 @@ struct ChatView: IOController {
     var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                ScrollView {
-                    ScrollViewReader { scrollProxy in
-                        LazyVStack {
-                            ForEach(items) { item in
-                                if item.isSend {
-                                    ChatSendCellView(uiModel: item)
-                                } else {
-                                    ChatReceivedCellView(uiModel: item)
+                VStack {
+                    ScrollView {
+                        ScrollViewReader { scrollProxy in
+                            LazyVStack {
+                                ForEach(items) { item in
+                                    if item.isSend {
+                                        ChatSendCellView(uiModel: item)
+                                    } else {
+                                        ChatReceivedCellView(uiModel: item)
+                                    }
                                 }
                             }
+                            .padding(.top, 8)
                         }
-                        .padding(.top, 8)
                     }
+                    .hideKeyboardOnTap()
+                    ChatTextEditorView(.chatInputPlaceholder, text: $messageText)
+//                        .padding(.bottom, -proxy.safeAreaInsets.bottom)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -133,9 +141,9 @@ struct ChatView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
-        .onAppear(perform: {
+        .onAppear {
             presenter.hideTabBar()
-        })
+        }
         .controllerWireframe {
             ChatNavigationWireframe(navigationState: navigationState)
         }
