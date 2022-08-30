@@ -1,5 +1,5 @@
 //
-//  IOtextField.swift
+//  IOTextField.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 22.08.2022.
@@ -10,7 +10,7 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 
-public struct IOtextField: View {
+public struct IOTextField: View {
     
     // MARK: - Defs
     
@@ -42,8 +42,8 @@ public struct IOtextField: View {
         self._text = text
     }
     
-    public func keyboardType(_ type: UIKeyboardType) -> IOtextField {
-        return IOtextField(
+    public func keyboardType(_ type: UIKeyboardType) -> IOTextField {
+        return IOTextField(
             localizationType,
             text: $text,
             keyboardType: type
@@ -51,14 +51,14 @@ public struct IOtextField: View {
     }
 }
 
-struct IOtextField_Previews: PreviewProvider {
+struct IOTextFieldd_Previews: PreviewProvider {
     
     struct TextFieldDemo: View {
     
         @State var emailAddress: String = ""
         
         var body: some View {
-            IOtextField(.init(rawValue: "Email address"), text: $emailAddress)
+            IOTextField(.init(rawValue: "Email address"), text: $emailAddress)
                 .padding(20)
         }
     }
