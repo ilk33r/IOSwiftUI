@@ -20,4 +20,11 @@ final class ChatPresenter: IOPresenterable {
     
     init() {
     }
+    
+    // MARK: - Presenter
+    
+    func hideTabBar() {
+        self.interactor.appState.set(bool: true, forType: .tabBarIsHidden)
+        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+    }
 }

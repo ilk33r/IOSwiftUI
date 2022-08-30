@@ -18,6 +18,17 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
     public init(
         controllerType: Controller.Type,
         tabBarType: UITabBar.Type,
+        @ViewBuilder content: @escaping () -> [IdentifiableView]
+    ) {
+        self.content = content
+        self.controllerType = controllerType
+        self.tabBarType = tabBarType
+        self._selection = Binding.constant(0)
+    }
+    
+    public init(
+        controllerType: Controller.Type,
+        tabBarType: UITabBar.Type,
         selection: Binding<Int>,
         @ViewBuilder content: @escaping () -> [IdentifiableView]
     ) {

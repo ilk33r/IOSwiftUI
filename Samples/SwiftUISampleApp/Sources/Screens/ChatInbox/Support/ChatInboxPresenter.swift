@@ -20,4 +20,11 @@ final class ChatInboxPresenter: IOPresenterable {
     
     init() {
     }
+    
+    // MARK: - Presenter
+    
+    func showTabBar() {
+        self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
+        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+    }
 }

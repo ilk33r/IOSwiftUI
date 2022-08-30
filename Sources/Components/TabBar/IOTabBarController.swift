@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SwiftUI
+import IOSwiftUIInfrastructure
 
 open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     
@@ -16,6 +17,8 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     public typealias SelectionHandler = (_ index: Int) -> Void
     
     // MARK: - Privates
+    
+    @IOInject private var appState: IOAppStateImpl
     
     private(set) public var selectionHandler: SelectionHandler?
     private var tabBarType: UITabBar.Type
@@ -41,6 +44,23 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
     }
     
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(IOTabBarController.tabBarVisibilityChange(_:)),
+            name: .tabBarVisibilityChangeNotification,
+            object: nil
+        )
+    }
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Controller Methods
     
     public func setSelectionHandler(_ handler: SelectionHandler?) {
@@ -56,6 +76,26 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
         }
         
         self.viewControllers = viewsControllers
+    }
+    
+    // MARK: - Visibilty
+    
+    open func hideTabBar() {
+        self.tabBar.isHidden = true
+    }
+    
+    open func showTabBar() {
+        self.tabBar.isHidden = false
+    }
+    
+    // MARK: - Actions
+    
+    @objc dynamic private func tabBarVisibilityChange(_ sender: Notification) {
+        if self.appState.bool(forType: .tabBarIsHidden) ?? false {
+            self.hideTabBar()
+        } else {
+            self.showTabBar()
+        }
     }
     
     // MARK: - Delegate

@@ -52,6 +52,9 @@ struct ChatInboxView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
+        .onAppear {
+            presenter.showTabBar()
+        }
         .navigationWireframe {
             ChatInboxNavigationWireframe(navigationState: navigationState)
         }

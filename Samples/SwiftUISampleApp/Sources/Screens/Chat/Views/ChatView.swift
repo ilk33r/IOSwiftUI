@@ -133,6 +133,9 @@ struct ChatView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
+        .onAppear(perform: {
+            presenter.hideTabBar()
+        })
         .controllerWireframe {
             ChatNavigationWireframe(navigationState: navigationState)
         }
