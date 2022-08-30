@@ -25,7 +25,7 @@ struct ChatInboxView: IOController {
             List {
                 Section {
                     ForEach(0..<100) { _ in
-                        let itemView = ChatInboxItemView()
+                        let itemView = ChatInboxItemView(isTapped: $navigationState.navigateToChat)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         
                         if #available(iOS 15.0, *) {

@@ -18,12 +18,9 @@ struct ChatInboxNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var linkBody: some View {
-        EmptyView()
-        /*
-        NavigationLink(destination: PageView(), isActive: $navigationState.navigateToPage) {
+        NavigationLink(destination: ChatView(entity: ChatEntity()), isActive: $navigationState.navigateToChat) {
             EmptyView()
         }
-        */
     }
     
     // MARK: - Initialization Methods

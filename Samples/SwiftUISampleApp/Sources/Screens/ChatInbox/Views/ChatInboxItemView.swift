@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ChatInboxItemView: View {
     
+    @Binding private var isTapped: Bool
+    
     var body: some View {
         VStack {
             HStack(alignment: .top) {
@@ -39,12 +41,19 @@ struct ChatInboxItemView: View {
                 .fill(Color.colorPassthrought)
                 .frame(height: 1)
         }
+        .onTapGesture {
+            isTapped = true
+        }
+    }
+    
+    init(isTapped: Binding<Bool>) {
+        self._isTapped = isTapped
     }
 }
 
 struct ChatInboxItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatInboxItemView()
+        ChatInboxItemView(isTapped: Binding.constant(false))
             .previewLayout(.sizeThatFits)
     }
 }
