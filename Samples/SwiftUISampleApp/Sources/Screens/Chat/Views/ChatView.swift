@@ -7,6 +7,7 @@
 
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppComponents
 
 struct ChatView: IOController {
     
@@ -20,10 +21,20 @@ struct ChatView: IOController {
     @StateObject public var navigationState = ChatNavigationState()
     
     var body: some View {
-        Text("Chat")
-            .controllerWireframe {
-                ChatNavigationWireframe(navigationState: navigationState)
+        ZStack(alignment: .top) {
+            ScrollView {
+                ScrollViewReader { proxy in
+                    EmptyView()
+                }
             }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .navigationBar {
+            NavBarTitleView(.init(rawValue: "James"))
+        }
+        .controllerWireframe {
+            ChatNavigationWireframe(navigationState: navigationState)
+        }
     }
     
     // MARK: - Initialization Methods
