@@ -10,14 +10,31 @@ import IOSwiftUIPresentation
 
 final public class HomePresenter: IOPresenterable {
     
+    // MARK: - Defs
+    
+    struct ActionSheetData: Identifiable {
+        
+        let id = UUID()
+    }
+    
     // MARK: - Presentable
     
     public typealias Interactor = HomeInteractor
     
     public var interactor: HomeInteractor!
     
+    // MARK: - Properties
+    
+    @Published var actionSheetData: ActionSheetData? = nil
+    
     // MARK: - Initialization Methods
     
     public init() {
+    }
+    
+    // MARK: - Presenter
+    
+    func showActionSheet() {
+        self.actionSheetData = ActionSheetData()
     }
 }

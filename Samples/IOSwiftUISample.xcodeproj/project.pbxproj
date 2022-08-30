@@ -335,6 +335,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F728BG4L5E;
 				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access camera for adding a new photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -354,6 +355,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access camera for adding a new photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

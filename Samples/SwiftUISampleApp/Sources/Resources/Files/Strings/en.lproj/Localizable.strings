@@ -8,6 +8,7 @@
 
 /* Common */
 "common.appName" = "IO Swift UI Sample";
+"common.cancel" = "Cancel";
 "common.done" = "Done";
 "common.next.uppercased" = "NEXT";
 
@@ -21,6 +22,11 @@
 "register.input.createPassword" = "Create password";
 "register.input.emailAddress" = "Email address";
 "register.title" = "Register";
+
+/* Home */
+"home.camera.actions.choosePhoto" = "Pick from gallery";
+"home.camera.actions.takePhoto" = "Take a photo";
+"home.camera.actions.title" = "Create";
 
 /* Profile */
 "profile.button.follow" = "FOLLOW JANE";

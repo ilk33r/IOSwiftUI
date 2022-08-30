@@ -39,12 +39,13 @@ public struct HomeView: IOController {
 //                    }
 //                }
             
-//            RegisterView()
-//                .tabItem {
-//                    TabBarItemView {
-//                        Image.icnTabBarCamera.renderingMode(.original)
-//                    }
-//                }
+            HomeTabEmptyView()
+                .tabItem {
+                    TabBarItemView {
+                        Image.icnTabBarCamera.renderingMode(.original)
+                    }
+                }
+                .tag(0)
             
             ChatInboxView(entity: ChatInboxEntity())
                 .tabItem {
@@ -52,6 +53,7 @@ public struct HomeView: IOController {
                         Image.icnTabBarChat.renderingMode(.template)
                     }
                 }
+                .tag(1)
             
             ProfileView(entity: ProfileEntity())
                 .tabItem {
@@ -59,10 +61,54 @@ public struct HomeView: IOController {
                         Image.icnTabBarProfile.renderingMode(.template)
                     }
                 }
+                .tag(2)
         }
         .accentColor(.colorTabEnd)
+        .onChange(of: selectedIndex) { newValue in
+            if newValue == 0 {
+                presenter.showActionSheet()
+            }
+        }
         .controllerWireframe {
             HomeNavigationWireframe(navigationState: navigationState)
+        }
+        .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
+            IOImagePickerView(
+                sourceType: .camera,
+                allowEditing: true) { image in
+                    print("Ok")
+                }
+        }
+        .fullScreenCover(isPresented: $navigationState.navigateToPhotoLibrary) {
+            IOImagePickerView(
+                sourceType: .photoLibrary,
+                allowEditing: true) { image in
+                    print("Ok")
+                }
+        }
+        .actionSheet(item: $presenter.actionSheetData) { detail in
+            ActionSheet(
+                title: Text(type: .homeCameraActionsTitle),
+                buttons: [
+                    .default(
+                        Text(type: .homeCameraActionsTakePhoto),
+                        action: {
+                            navigationState.navigateToCamera = true
+                        }
+                    ),
+                    .default(
+                        Text(type: .homeCameraActionsChoosePhoto),
+                        action: {
+                            navigationState.navigateToPhotoLibrary = true
+                        }
+                    ),
+                    .destructive(
+                        Text(type: .commonCancel),
+                        action: {
+                        }
+                    )
+                ]
+            )
         }
     }
     
