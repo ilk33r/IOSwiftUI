@@ -20,17 +20,118 @@ struct ChatView: IOController {
     @ObservedObject public var presenter: ChatPresenter
     @StateObject public var navigationState = ChatNavigationState()
     
+    private let items = [
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Hello!",
+            isLastMessage: false,
+            isSend: false,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Hi!",
+            isLastMessage: false,
+            isSend: true,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
+            isLastMessage: false,
+            isSend: false,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
+            isLastMessage: false,
+            isSend: true,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            isLastMessage: false,
+            isSend: false,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Vestibulum at nisl sit amet turpis lobortis lobortis.",
+            isLastMessage: false,
+            isSend: true,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Nunc ut libero ac massa egestas viverra ut eu velit.",
+            isLastMessage: false,
+            isSend: true,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Donec in augue eget justo rhoncus maximus.",
+            isLastMessage: false,
+            isSend: false,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Vestibulum id elit congue neque venenatis molestie tincidunt at lorem.",
+            isLastMessage: false,
+            isSend: true,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Aliquam ut sem sed felis lacinia bibendum.",
+            isLastMessage: false,
+            isSend: false,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Nullam suscipit ante at ante cursus, congue placerat massa mattis.",
+            isLastMessage: false,
+            isSend: true,
+            messageTime: "16 min ago"
+        ),
+        ChatItemUIModel(
+            image: Image("pwProfilePicture"),
+            chatMessage: "Thank you! That was very helpful!",
+            isLastMessage: true,
+            isSend: false,
+            messageTime: "16 min ago"
+        )
+    ]
+    
     var body: some View {
-        ZStack(alignment: .top) {
-            ScrollView {
-                ScrollViewReader { proxy in
-                    EmptyView()
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                ScrollView {
+                    ScrollViewReader { scrollProxy in
+                        LazyVStack {
+                            ForEach(items) { item in
+                                if item.isSend {
+                                    ChatSendCellView(uiModel: item)
+                                } else {
+                                    ChatReceivedCellView(uiModel: item)
+                                }
+                            }
+                        }
+                        .padding(.top, 8)
+                    }
                 }
             }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .navigationBar {
-            NavBarTitleView(.init(rawValue: "James"))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                NavBarTitleView(.init(rawValue: "James"))
+            }
+            Color.white
+                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                .ignoresSafeArea()
         }
         .controllerWireframe {
             ChatNavigationWireframe(navigationState: navigationState)

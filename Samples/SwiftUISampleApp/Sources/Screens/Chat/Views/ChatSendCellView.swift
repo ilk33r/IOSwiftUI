@@ -40,6 +40,7 @@ struct ChatSendCellView: View {
         .padding(.top, 24)
         .padding(.leading, 16)
         .padding(.trailing, 16)
+        .frame(maxWidth: .infinity, alignment: .topTrailing)
     }
     
     init(uiModel: ChatItemUIModel) {

@@ -24,46 +24,17 @@ public struct HomeView: IOController {
     @State private var selectedIndex: Int = 0
     
     public var body: some View {
-        TabView(selection: $selectedIndex) {
-//            RegisterView()
-//                .tabItem {
-//                    TabBarItemView {
-//                        Image.icnTabBarHome.renderingMode(.template)
-//                    }
-//                }
-//
-//            LoginView(entity: LoginEntity())
-//                .tabItem {
-//                    TabBarItemView {
-//                        Image.icnTabBarSearch.renderingMode(.template)
-//                    }
-//                }
-            
-            HomeTabEmptyView()
-                .tabItem {
-                    TabBarItemView {
-                        Image.icnTabBarCamera.renderingMode(.original)
-                    }
-                }
-                .tag(0)
-            
-            ChatInboxView(entity: ChatInboxEntity())
-                .tabItem {
-                    TabBarItemView {
-                        Image.icnTabBarChat.renderingMode(.template)
-                    }
-                }
-                .tag(1)
-            
-            ProfileView(entity: ProfileEntity())
-                .tabItem {
-                    TabBarItemView {
-                        Image.icnTabBarProfile.renderingMode(.template)
-                    }
-                }
-                .tag(2)
+        IOTabBarView(
+            controllerType: TabBarController.self,
+            tabBarType: UITabBar.self,
+            selection: $selectedIndex
+        ) {
+            return [
+                IdentifiableView(view: HomeTabEmptyView()),
+                IdentifiableView(view: ChatInboxView(entity: ChatInboxEntity())),
+                IdentifiableView(view: ProfileView(entity: ProfileEntity()))
+            ]
         }
-        .accentColor(.colorTabEnd)
         .onChange(of: selectedIndex) { newValue in
             if newValue == 0 {
                 presenter.showActionSheet()
@@ -116,17 +87,6 @@ public struct HomeView: IOController {
     
     public init(presenter: Presenter) {
         self.presenter = presenter
-    }
-}
-
-extension UITabBarController {
-    
-    open override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        for item in self.tabBar.items ?? [] {
-            item.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
-        }
     }
 }
 

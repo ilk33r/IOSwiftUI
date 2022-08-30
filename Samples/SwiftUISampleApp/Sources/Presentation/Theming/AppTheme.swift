@@ -27,8 +27,10 @@ public struct AppTheme {
         tabBarAppeareance.shadowImage = UIImage()
         tabBarAppeareance.shadowColor = Color.colorPassthrought.convertUI()
         tabBarAppeareance.backgroundColor = .white
+        tabBarAppeareance.selectionIndicatorTintColor = Color.colorTabEnd.convertUI()
         
         UITabBar.appearance().standardAppearance = tabBarAppeareance
+        UITabBar.appearance().tintColor = Color.colorTabEnd.convertUI()
         if #available(iOS 15.0, *) {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppeareance
         }
