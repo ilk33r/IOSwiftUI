@@ -21,6 +21,7 @@ struct ChatView: IOController {
     @ObservedObject public var presenter: ChatPresenter
     @StateObject public var navigationState = ChatNavigationState()
     
+    @State private var isKoyboardVisible: Bool = false
     @State private var messageText: String = ""
     
     private let items = [
@@ -130,7 +131,7 @@ struct ChatView: IOController {
                     }
                     .hideKeyboardOnTap()
                     ChatTextEditorView(.chatInputPlaceholder, text: $messageText)
-//                        .padding(.bottom, -proxy.safeAreaInsets.bottom)
+                        .padding(.bottom, isKoyboardVisible ? 0 : -proxy.safeAreaInsets.bottom)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -144,6 +145,9 @@ struct ChatView: IOController {
         .onAppear {
             presenter.hideTabBar()
         }
+        .onReceive(presenter.keyboardPublisher, perform: { value in
+            isKoyboardVisible = value
+        })
         .controllerWireframe {
             ChatNavigationWireframe(navigationState: navigationState)
         }

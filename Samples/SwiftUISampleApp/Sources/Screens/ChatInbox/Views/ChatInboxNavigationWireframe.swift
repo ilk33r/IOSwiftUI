@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 
