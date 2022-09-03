@@ -49,10 +49,14 @@ public struct AppTheme {
         appearance.backgroundColor = .clear
         appearance.backgroundImage = nil
         appearance.shadowImage = nil
-//        appearance.titleTextAttributes = [
-//            .font: IOFontType.regular(16).rawValue as Any,
-//            .foregroundColor: UIColor.black as Any
-//        ]
+        appearance.titleTextAttributes = [
+            .font: UIFont(name: "Roboto-Medium", size: 17) as Any,
+            .foregroundColor: UIColor.black as Any
+        ]
+        appearance.largeTitleTextAttributes = [
+            .font: UIFont(name: "Roboto-Regular", size: 36) as Any,
+            .foregroundColor: UIColor.black as Any
+        ]
         appearance.backButtonAppearance.normal.titleTextAttributes = [
             .foregroundColor: UIColor.clear
         ]

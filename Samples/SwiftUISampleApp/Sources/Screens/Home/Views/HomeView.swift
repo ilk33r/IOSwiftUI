@@ -30,13 +30,14 @@ public struct HomeView: IOController {
             selection: $selectedIndex
         ) {
             return [
+                IdentifiableView(view: DiscoverView(entity: DiscoverEntity())),
                 IdentifiableView(view: HomeTabEmptyView()),
                 IdentifiableView(view: ChatInboxView(entity: ChatInboxEntity())),
                 IdentifiableView(view: ProfileView(entity: ProfileEntity()))
             ]
         }
         .onChange(of: selectedIndex) { newValue in
-            if newValue == 0 {
+            if newValue == 1 {
                 presenter.showActionSheet()
             }
         }

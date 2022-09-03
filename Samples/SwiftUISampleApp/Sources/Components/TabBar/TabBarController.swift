@@ -27,33 +27,33 @@ final public class TabBarController: IOTabBarController {
         super.setupViewControllers(identifiables: identifiables)
         
         /*
-         static let icnTabBarCamera = Image("icnTabBarCamera", bundle: Bundle.resources)
-         static let icnTabBarChat = Image("icnTabBarChat", bundle: Bundle.resources)
-         static let icnTabBarHome = Image("icnTabBarHome", bundle: Bundle.resources)
-         static let icnTabBarProfile = Image("icnTabBarProfile", bundle: Bundle.resources)
          static let icnTabBarSearch = Image("icnTabBarSearch", bundle: Bundle.resources)
          */
         
         let tabbarItems = self.tabBar.items
         guard let firstButton = tabbarItems?[0] else {return}
-        let cameraButtonImage = UIImage(named: "icnTabBarCamera", in: Bundle.resources, with: nil)?.withRenderingMode(.alwaysOriginal)
-        firstButton.image = cameraButtonImage
-        firstButton.selectedImage = cameraButtonImage
+        firstButton.image = UIImage(named: "icnTabBarHome", in: Bundle.resources, with: nil)
+        firstButton.selectedImage = firstButton.image
         
         guard let secondButton = tabbarItems?[1] else {return}
-        secondButton.image = UIImage(named: "icnTabBarChat", in: Bundle.resources, with: nil)
+        let cameraButtonImage = UIImage(named: "icnTabBarCamera", in: Bundle.resources, with: nil)?.withRenderingMode(.alwaysOriginal)
+        secondButton.image = cameraButtonImage
         secondButton.selectedImage = secondButton.image
         
         guard let thirdButton = tabbarItems?[2] else {return}
-        thirdButton.image = UIImage(named: "icnTabBarProfile", in: Bundle.resources, with: nil)
+        thirdButton.image = UIImage(named: "icnTabBarChat", in: Bundle.resources, with: nil)
         thirdButton.selectedImage = thirdButton.image
+        
+        guard let fourthButton = tabbarItems?[3] else {return}
+        fourthButton.image = UIImage(named: "icnTabBarProfile", in: Bundle.resources, with: nil)
+        fourthButton.selectedImage = fourthButton.image
     }
 }
 
 extension TabBarController {
     
     public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        let cameraViewController = self.viewControllers?[0]
+        let cameraViewController = self.viewControllers?[1]
         if viewController.isEqual(cameraViewController) {
             self.selectionHandler?(0)
             return false
