@@ -7,14 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F7AD7DEC28DCE92100CDB8B8 /* IOBuildConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */; };
+		F7AD7DF028DCE96C00CDB8B8 /* IOBuildConfigGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AD7DEF28DCE96C00CDB8B8 /* IOBuildConfigGenerator.m */; };
 		F7FEE58C28B0F1C9005D6633 /* IOSwiftUISampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FEE58B28B0F1C9005D6633 /* IOSwiftUISampleApp.swift */; };
 		F7FEE59028B0F1C9005D6633 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7FEE58F28B0F1C9005D6633 /* Assets.xcassets */; };
 		F7FEE59328B0F1C9005D6633 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7FEE59228B0F1C9005D6633 /* Preview Assets.xcassets */; };
 		F7FEE5C128B10015005D6633 /* SwiftUISampleApp in Frameworks */ = {isa = PBXBuildFile; productRef = F7FEE5C028B10015005D6633 /* SwiftUISampleApp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F7AD7DE228DCE8FA00CDB8B8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F73E29B428B18E39005C8A76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F7AD7DE428DCE8FA00CDB8B8 /* IOBuildConfigGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = IOBuildConfigGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IOBuildConfig.m; path = ../Plugins/IOBuildConfigGenerator/IOBuildConfig.m; sourceTree = "<group>"; };
+		F7AD7DEF28DCE96C00CDB8B8 /* IOBuildConfigGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IOBuildConfigGenerator.m; path = ../Plugins/IOBuildConfigGenerator/IOBuildConfigGenerator.m; sourceTree = "<group>"; };
 		F7FEE58828B0F1C9005D6633 /* IOSwiftUISample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSwiftUISample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7FEE58B28B0F1C9005D6633 /* IOSwiftUISampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSwiftUISampleApp.swift; sourceTree = "<group>"; };
 		F7FEE58F28B0F1C9005D6633 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -27,6 +44,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F7AD7DE128DCE8FA00CDB8B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F7FEE58528B0F1C9005D6633 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,12 +62,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F7AD7DEE28DCE95300CDB8B8 /* IOBuildConfigGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */,
+				F7AD7DEF28DCE96C00CDB8B8 /* IOBuildConfigGenerator.m */,
+			);
+			name = IOBuildConfigGenerator;
+			sourceTree = "<group>";
+		};
 		F7FEE57F28B0F1C9005D6633 = {
 			isa = PBXGroup;
 			children = (
 				F7FEE5B728B0F37B005D6633 /* IOSwiftUI */,
 				F7FEE5BD28B0FF08005D6633 /* SwiftUISampleApp */,
 				F7FEE58A28B0F1C9005D6633 /* IOSwiftUISample */,
+				F7AD7DEE28DCE95300CDB8B8 /* IOBuildConfigGenerator */,
 				F7FEE58928B0F1C9005D6633 /* Products */,
 				F7FEE5BA28B0F3AB005D6633 /* Frameworks */,
 			);
@@ -53,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				F7FEE58828B0F1C9005D6633 /* IOSwiftUISample.app */,
+				F7AD7DE428DCE8FA00CDB8B8 /* IOBuildConfigGenerator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,6 +140,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F7AD7DE328DCE8FA00CDB8B8 /* IOBuildConfigGenerator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7AD7DE828DCE8FA00CDB8B8 /* Build configuration list for PBXNativeTarget "IOBuildConfigGenerator" */;
+			buildPhases = (
+				F7AD7DE028DCE8FA00CDB8B8 /* Sources */,
+				F7AD7DE128DCE8FA00CDB8B8 /* Frameworks */,
+				F7AD7DE228DCE8FA00CDB8B8 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IOBuildConfigGenerator;
+			productName = IOBuildConfigGenerator;
+			productReference = F7AD7DE428DCE8FA00CDB8B8 /* IOBuildConfigGenerator */;
+			productType = "com.apple.product-type.tool";
+		};
 		F7FEE58728B0F1C9005D6633 /* IOSwiftUISample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F7FEE59628B0F1C9005D6633 /* Build configuration list for PBXNativeTarget "IOSwiftUISample" */;
@@ -137,6 +189,9 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					F7AD7DE328DCE8FA00CDB8B8 = {
+						CreatedOnToolsVersion = 14.0;
+					};
 					F7FEE58728B0F1C9005D6633 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -156,6 +211,7 @@
 			projectRoot = "";
 			targets = (
 				F7FEE58728B0F1C9005D6633 /* IOSwiftUISample */,
+				F7AD7DE328DCE8FA00CDB8B8 /* IOBuildConfigGenerator */,
 			);
 		};
 /* End PBXProject section */
@@ -194,6 +250,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F7AD7DE028DCE8FA00CDB8B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7AD7DEC28DCE92100CDB8B8 /* IOBuildConfig.m in Sources */,
+				F7AD7DF028DCE96C00CDB8B8 /* IOBuildConfigGenerator.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F7FEE58428B0F1C9005D6633 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -212,6 +277,28 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		F7AD7DE928DCE8FA00CDB8B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Manual;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F7AD7DEA28DCE8FA00CDB8B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Manual;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		F7FEE59428B0F1C9005D6633 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -371,6 +458,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F7AD7DE828DCE8FA00CDB8B8 /* Build configuration list for PBXNativeTarget "IOBuildConfigGenerator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7AD7DE928DCE8FA00CDB8B8 /* Debug */,
+				F7AD7DEA28DCE8FA00CDB8B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F7FEE58328B0F1C9005D6633 /* Build configuration list for PBXProject "IOSwiftUISample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
