@@ -47,18 +47,20 @@ public struct HomeView: IOController {
         .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
             IOImagePickerView(
                 sourceType: .camera,
-                allowEditing: true) { image in
-                    print("Ok")
-                }
+                allowEditing: true
+            ) { _ in
+                
+            }
         }
         .fullScreenCover(isPresented: $navigationState.navigateToPhotoLibrary) {
             IOImagePickerView(
                 sourceType: .photoLibrary,
-                allowEditing: true) { image in
-                    print("Ok")
-                }
+                allowEditing: true
+            ) { _ in
+                
+            }
         }
-        .actionSheet(item: $presenter.actionSheetData) { detail in
+        .actionSheet(item: $presenter.actionSheetData) { _ in
             ActionSheet(
                 title: Text(type: .homeCameraActionsTitle),
                 buttons: [

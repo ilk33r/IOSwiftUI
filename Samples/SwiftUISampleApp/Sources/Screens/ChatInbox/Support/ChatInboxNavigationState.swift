@@ -12,5 +12,5 @@ final class ChatInboxNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    @Published public var navigateToChat: Bool = false
+    @Published public var navigateToChat = false
 }

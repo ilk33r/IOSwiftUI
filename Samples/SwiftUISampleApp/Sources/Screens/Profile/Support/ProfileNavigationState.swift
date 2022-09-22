@@ -13,5 +13,5 @@ final class ProfileNavigationState: IONavigationState {
     // MARK: - Properties
     
     var entity: PhotoGalleryEntity!
-    @Published public var navigateToGallery: Bool = false
+    @Published public var navigateToGallery = false
 }

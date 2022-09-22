@@ -22,8 +22,8 @@ private struct ChatTextEditorViewPreferenceKey: PreferenceKey {
 struct ChatTextEditorView: View {
     
     @Binding private var text: String
-    @State private var hidePlaceholder: Bool = false
-    @State var textEditorHeight : CGFloat = 32
+    @State private var hidePlaceholder = false
+    @State var textEditorHeight: CGFloat = 32
     private var localizableKey: IOLocalizationType
     
     var body: some View {

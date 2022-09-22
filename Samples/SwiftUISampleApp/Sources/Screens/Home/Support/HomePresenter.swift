@@ -25,7 +25,7 @@ final public class HomePresenter: IOPresenterable {
     
     // MARK: - Properties
     
-    @Published var actionSheetData: ActionSheetData? = nil
+    @Published var actionSheetData: ActionSheetData?
     
     // MARK: - Initialization Methods
     

@@ -21,7 +21,7 @@ struct ChatView: IOController {
     @ObservedObject public var presenter: ChatPresenter
     @StateObject public var navigationState = ChatNavigationState()
     
-    @State private var isKoyboardVisible: Bool = false
+    @State private var isKoyboardVisible = false
     @State private var messageText: String = ""
     
     private let items = [
@@ -116,7 +116,7 @@ struct ChatView: IOController {
             ZStack(alignment: .top) {
                 VStack {
                     ScrollView {
-                        ScrollViewReader { scrollProxy in
+                        ScrollViewReader { _ in
                             LazyVStack {
                                 ForEach(items) { item in
                                     if item.isSend {

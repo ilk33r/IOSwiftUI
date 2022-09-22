@@ -12,6 +12,6 @@ final public class HomeNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    @Published public var navigateToCamera: Bool = false
-    @Published public var navigateToPhotoLibrary: Bool = false
+    @Published public var navigateToCamera = false
+    @Published public var navigateToPhotoLibrary = false
 }

@@ -68,7 +68,7 @@ struct ProfileView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
-        .onChange(of: tapIndex) { newValue in
+        .onChange(of: tapIndex) { _ in
             navigationState.entity = PhotoGalleryEntity(images: galleryImages)
             navigationState.navigateToGallery = true
         }

@@ -22,7 +22,7 @@ public extension Bundle {
             /* For command-line tools. */
             Bundle.main.bundleURL,
             /* Bundle should be present here when running previews from a different package (this is the path to "…/Debug-iphonesimulator/"). */
-            Bundle(for: ResourcesBundleFinder.self).resourceURL?.deletingLastPathComponent().deletingLastPathComponent(),
+            Bundle(for: ResourcesBundleFinder.self).resourceURL?.deletingLastPathComponent().deletingLastPathComponent()
         ]
         
         for candidate in candidates {

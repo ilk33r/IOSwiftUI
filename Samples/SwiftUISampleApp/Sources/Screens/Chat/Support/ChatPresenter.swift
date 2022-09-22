@@ -35,7 +35,8 @@ final class ChatPresenter: IOPresenterable {
                 NotificationCenter
                     .default
                     .publisher(for: UIResponder.keyboardWillHideNotification)
-                    .map { _ in false })
+                    .map { _ in false }
+            )
             .debounce(for: .seconds(0.1), scheduler: RunLoop.main)
             .eraseToAnyPublisher()
     }
