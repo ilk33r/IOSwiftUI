@@ -105,22 +105,22 @@ final public class IOLogger: IOSingleton {
     
     private func icon(for level: IOLogLevels) -> String {
         if level == .verbose {
-            return "⚫️"
+            return "\u{000026AB}"
         }
         
         if level == .debug {
-            return "🔵"
+            return "\u{0001F535}"
         }
         
         if level == .info {
-            return "⚪️"
+            return "\u{000026AA}"
         }
         
         if level == .warning {
-            return "🟡"
+            return "\u{0001F7E1}"
         }
         
-        return "🔴"
+        return "\u{0001F534}"
     }
 }
 
