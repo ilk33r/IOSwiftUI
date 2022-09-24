@@ -11,7 +11,7 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // Check argument count
-        if (argc != 5) {
+        if (argc != 6) {
             NSLog(@"Invalid arguments\n");
             NSLog(@"{buildDir} {configurationFilePath} {environmentName} {sourceRoot}\n");
             for (NSInteger i = 0; i < argc; i++) {
@@ -25,11 +25,13 @@ int main(int argc, const char * argv[]) {
         NSString *configurationFilePath = [NSString stringWithUTF8String:argv[2]];
         NSString *environmentName = [NSString stringWithUTF8String:argv[3]];
         NSString *sourceRoot = [NSString stringWithUTF8String:argv[4]];
+        NSString *executableDir = [NSString stringWithUTF8String:argv[5]];
         
         // Initialize configuration generator
         IOBuildConfigGenerator *configurationGenerator = [[IOBuildConfigGenerator alloc
-                                                           ] initWithBuildDir:buildDir configurationFilePath:configurationFilePath environmentName:environmentName
-                                                          sourceRootDirectory:sourceRoot];
+                                                          ] initWithBuildDir:buildDir configurationFilePath:configurationFilePath environmentName:environmentName
+                                                          sourceRootDirectory:sourceRoot
+                                                                executableDir:executableDir];
         
         // Generate configuration
         return [configurationGenerator generateConfiguration];

@@ -13,43 +13,37 @@
     NSString *_configurationFilePath;
     NSString *_environmentName;
     NSString *_srcRoot;
+    NSString *_executableDir;
 }
 
-NSString *IOBuildBuildStatusFileName = @"BUILD_STATUS.iobuildconfig";
 NSString *IOBuildConfigGeneratorChecksumFileName = @"Configuration.checksum.sha256";
-NSString * const IOBuildConfigFileItemFormat = @"@\"%@\": @\"%@\",";
+NSString *IOBuildConfigGeneratorEnvironmentFileName = @"Configuration.env";
+NSString * const IOBuildConfigFileItemFormat = @"\t\t\"%@\": \"%@\",\n";
 NSString * const IOBuildConfigGeneratorFileName = @"IOBuildConfig";
 
-NSString * const IOBuildConfigGeneratorHeaderFile = @"#import <Foundation/Foundation.h>\n\
-NS_ASSUME_NONNULL_BEGIN\n\
-@interface IOBuildConfig : NSObject\n\
+NSString * const IOBuildConfigGeneratorFile = @"import Foundation\n\n\
+@objc(IOBuildConfig)\n\
+public class IOBuildConfig: NSObject {\n\
 \n\
-+ (NSString * _Nullable)configForKey:(NSString *)key;\n\
-@end\n\
-NS_ASSUME_NONNULL_END\n";
-
-NSString * const IOBuildConfigGeneratorMFile = @"#import \"IOBuildConfig.h\"\n\
-@implementation IOBuildConfig\n\
-+ (NSDictionary *)configValues {\n\
-return @{%@};\n\
-}\n\
-+ (NSString *)configForKey:(NSString *)key {\n\
-return [[self configValues] objectForKey:key];\n\
-}\n\
-@end\n";
+\t@objc public static var configValues: [String: Any] = [\n\
+%@\n\
+\t\t]\n\
+}\n";
 
 #pragma mark - Initialization Methods
 
 - (instancetype)initWithBuildDir:(NSString *)buildDir
            configurationFilePath:(NSString *)configurationFilePath
                  environmentName:(NSString *)environmentName
-             sourceRootDirectory:(NSString *)srcRoot {
+             sourceRootDirectory:(NSString *)srcRoot
+                   executableDir:(NSString *)executableDir {
     self = [super init];
     if (self) {
         _buildDir = buildDir;
         _configurationFilePath = configurationFilePath;
         _environmentName = environmentName;
         _srcRoot = srcRoot;
+        _executableDir = executableDir;
     }
     return self;
 }
@@ -65,21 +59,10 @@ return [[self configValues] objectForKey:key];\n\
     }
     
     // Create checksum file path
-    NSString *checksumFilePath = [_buildDir stringByAppendingPathComponent:IOBuildConfigGeneratorChecksumFileName];
+    NSString *checksumFilePath = [_executableDir stringByAppendingPathComponent:IOBuildConfigGeneratorChecksumFileName];
     
     // Obtain configuration file checksum
     NSString *configurationFileChecksum = [self checksumForConfigurationFile:configurationFile checksumFilePath:checksumFilePath];
-    NSString *buildStatusFile = [_buildDir stringByAppendingPathComponent:IOBuildBuildStatusFileName];
-    
-    // Check checksum is changed
-    if (!configurationFileChecksum) {
-        // Write compile status to file
-        NSString *buildStatus = @"NO";
-        [buildStatus writeToFile:buildStatusFile atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        
-        // Then exit successfully
-        return 0;
-    }
     
     // Obtain configuration file data
     NSDictionary *configurationFileData = [self readConfigurationJsonFileFromPath:configurationFile];
@@ -87,7 +70,7 @@ return [[self configValues] objectForKey:key];\n\
     // Check configuration file readed
     if (!configurationFileData) {
         // Log call
-        NSLog(@"error: Could not read configuration file at: %@\n", configurationFile);
+        printf("error: Could not read configuration file at: %s\n", [configurationFile UTF8String]);
             
         // Exit failure
         return 1;
@@ -100,9 +83,12 @@ return [[self configValues] objectForKey:key];\n\
     // Write checksum to file
     [configurationFileChecksum writeToFile:checksumFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
-    // Write compile status to file
-    NSString *buildStatus = @"YES";
-    [buildStatus writeToFile:buildStatusFile atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    // Write environment file
+    NSString *environmentFilePath = [_executableDir stringByAppendingPathComponent:IOBuildConfigGeneratorEnvironmentFileName];
+    if ([NSFileManager.defaultManager fileExistsAtPath:environmentFilePath]) {
+        [NSFileManager.defaultManager removeItemAtPath:environmentFilePath error:nil];
+    }
+    [_environmentName writeToFile:environmentFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     // Then exit successfully
     return generateConfigStatus;
@@ -134,14 +120,8 @@ return [[self configValues] objectForKey:key];\n\
     
     // Check checksum file exists
     if ([fileManager fileExistsAtPath:checksumFilePath]) {
-        // Read checksum
-        NSString *configurationChecksum = [NSString stringWithContentsOfFile:checksumFilePath encoding:NSUTF8StringEncoding error:nil];
-        
-        // Check checksum values is not equal
-        if ([configurationChecksum isEqualToString:configFileChecksum]) {
-            // Then return new checksum
-            return nil;
-        }
+        // Remove checksum file
+        [fileManager removeItemAtPath:checksumFilePath error:nil];
     }
     
     return configFileChecksum;
@@ -156,7 +136,7 @@ return [[self configValues] objectForKey:key];\n\
         return YES;
     }
     
-    NSLog(@"error: Could not found configuration file at\n%@", path);
+    printf("error: Could not found configuration file at\n%s", [path UTF8String]);
     return NO;
 }
 
@@ -167,19 +147,7 @@ return [[self configValues] objectForKey:key];\n\
 - (int)generateBuildConfigFilesToPath:(NSString *)path configuration:(NSDictionary *)configuration {
     // Obtain file manager
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    // Generate header file
-    NSString *headerFilePath = [[path stringByAppendingPathComponent:IOBuildConfigGeneratorFileName] stringByAppendingString:@".h"];
-    
-    // Check header file exists
-    if ([fileManager fileExistsAtPath:headerFilePath]) {
-        // Then remove file
-        [fileManager removeItemAtPath:headerFilePath error:nil];
-    }
-    
-    // Generate header file
-    [IOBuildConfigGeneratorHeaderFile writeToFile:headerFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    
+
     // Content file data
     NSMutableString *contentFileData = [NSMutableString new];
     
@@ -193,18 +161,18 @@ return [[self configValues] objectForKey:key];\n\
         [contentFileData appendString:value];
     }
     
-    // Generate m file
-    NSString *mFilePath = [[path stringByAppendingPathComponent:IOBuildConfigGeneratorFileName] stringByAppendingString:@".m"];
+    // Generate swift file
+    NSString *swiftFilePath = [[path stringByAppendingPathComponent:IOBuildConfigGeneratorFileName] stringByAppendingString:@".swift"];
     
     // Check m file exists
-    if ([fileManager fileExistsAtPath:mFilePath]) {
+    if ([fileManager fileExistsAtPath:swiftFilePath]) {
         // Then remove file
-        [fileManager removeItemAtPath:mFilePath error:nil];
+        [fileManager removeItemAtPath:swiftFilePath error:nil];
     }
     
     // Generate m file
-    NSString *mFileData = [NSString stringWithFormat:IOBuildConfigGeneratorMFile, contentFileData];
-    [mFileData writeToFile:mFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    NSString *swiftFileData = [NSString stringWithFormat:IOBuildConfigGeneratorFile, contentFileData];
+    [swiftFileData writeToFile:swiftFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     return 0;
 }
@@ -229,7 +197,7 @@ return [[self configValues] objectForKey:key];\n\
     // Check error
     if (error) {
         // Log call
-        NSLog(@"error: Could not parse JSON: %@\n%@\n", error.localizedDescription, error.localizedFailureReason);
+        printf("error: Could not parse JSON: %s\n%s\n", [error.localizedDescription UTF8String], [error.localizedFailureReason UTF8String]);
         return nil;
     }
     
@@ -246,7 +214,7 @@ return [[self configValues] objectForKey:key];\n\
     // Check default values is not exists
     if (!defaultValues) {
         // Log call
-        NSLog(@"error: Could not found 'default' key in configuration file");
+        printf("error: Could not found 'default' key in configuration file");
         return nil;
     }
     

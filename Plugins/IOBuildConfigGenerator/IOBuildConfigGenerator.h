@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithBuildDir:(NSString *)buildDir
            configurationFilePath:(NSString *)configurationFilePath
                  environmentName:(NSString *)environmentName
-             sourceRootDirectory:(NSString *)srcRoot;
+             sourceRootDirectory:(NSString *)srcRoot
+                   executableDir:(NSString *)executableDir;
 
 #pragma mark - Generator Methods
 

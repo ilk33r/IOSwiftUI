@@ -1,0 +1,41 @@
+{
+    "default": {
+        "LOCALIZATION_DEFAULT_LOCALE_IDENTIFIER": "en",
+        "LOCAL_STORAGE_PREFIX": "ioswiftui_",
+        "LOGGING_LOG_LEVEL": "error",
+        "NETWORKING_API_TIMEOUT_INTERVAL_FOR_REQUEST": "30",
+        "NETWORKING_API_URL": "http://localhost:6666"
+    },
+    "Development": {
+        "GENERAL_ENVIRONMENT": "Development",
+        "LOGGING_LOG_LEVEL": "verbose",
+        "NETWORKING_API_TIMEOUT_INTERVAL_FOR_REQUEST": "90",
+        "NETWORKING_API_URL": "http://localhost:6666"
+    },
+    "DEV": {
+        "GENERAL_ENVIRONMENT": "DEV",
+        "LOGGING_LOG_LEVEL": "verbose",
+        "NETWORKING_API_TIMEOUT_INTERVAL_FOR_REQUEST": "90",
+        "NETWORKING_API_URL": "http://localhost:6666"
+    },
+    "SIT": {
+        "GENERAL_ENVIRONMENT": "SIT",
+        "LOGGING_LOG_LEVEL": "verbose",
+        "NETWORKING_API_TIMEOUT_INTERVAL_FOR_REQUEST": "60",
+        "NETWORKING_API_URL": "http://localhost:6666"
+    },
+    "UAT": {
+        "GENERAL_ENVIRONMENT": "UAT",
+        "LOGGING_LOG_LEVEL": "info",
+        "NETWORKING_API_URL": "http://localhost:6666"
+    },
+    "PreProd": {
+        "GENERAL_ENVIRONMENT": "PreProd",
+        "LOGGING_LOG_LEVEL": "warning",
+        "NETWORKING_API_URL": "http://localhost:6666"
+    },
+    "Production": {
+        "GENERAL_ENVIRONMENT": "Production",
+        "NETWORKING_API_URL": "http://localhost:6666"
+    }
+}

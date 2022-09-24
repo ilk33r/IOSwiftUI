@@ -18,14 +18,29 @@ struct IOBuildConfigGeneratorPlugin: BuildToolPlugin {
         print("**IOBuildConfigGeneratorPlugin: \(context.pluginWorkDirectory)")
         print("**IOBuildConfigGeneratorPlugin: \(context.package.directory)")
         
-        let shellFile = context.package.directory.appending("/Plugins/IOBuildConfigGeneratorPlugin/CompileBuildConfigGenerator.sh")
-        let outputPath = "\(context.pluginWorkDirectory)/"
+        let dependencies = context.package.dependencies.filter { $0.package.id == "IOSwiftUI".lowercased() }
+        let ioSwiftUIPackage = dependencies.first?.package
+        guard let pluginDirectory = ioSwiftUIPackage?.directory else {
+            fatalError("IOSwiftUI dependency not found in \(target.name) target")
+        }
+        
+        let checkCmdShellFile = pluginDirectory.appending("/Plugins/IOBuildConfigGeneratorPlugin/CheckConfigurationFileHash.sh")
+        let compileCmdShellFile = pluginDirectory.appending("/Plugins/IOBuildConfigGeneratorPlugin/CompileBuildConfigGenerator.sh")
+        let generatedPath = context.pluginWorkDirectory.appending(subpath: "Generated/IOBuildConfig.swift")
+        
         return [
+            .prebuildCommand(
+                displayName: "CheckConfigurationFileHash",
+                executable: checkCmdShellFile,
+                arguments: [target.directory, context.pluginWorkDirectory, context.package.directory, pluginDirectory],
+                outputFilesDirectory: context.pluginWorkDirectory.appending("Generated")
+            ),
             .buildCommand(
                 displayName: "CompileBuildConfigGenerator",
-                executable: shellFile,
-                arguments: [context.pluginWorkDirectory, outputPath, target.directory, context.package.directory],
-                outputFiles: [Path("\(outputPath)/IOBuildConfigGenerator")]
+                executable: compileCmdShellFile,
+                arguments: [target.directory, context.pluginWorkDirectory, context.package.directory, pluginDirectory],
+                inputFiles: [context.pluginWorkDirectory],
+                outputFiles: [generatedPath]
             )
         ]
     }

@@ -27,14 +27,19 @@ let package = Package(
         .plugin(name: "IOBuildConfigGeneratorPlugin",
                 capability: .buildTool(),
                 dependencies: []),
+        .target(name: "IOSwiftUIConfigurations",
+                dependencies: [],
+                path: "Sources/Configuration",
+                plugins: [ //.plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI")
+                           "IOBuildConfigGeneratorPlugin"]),
         .target(name: "IOSwiftUIResources",
                 path: "Sources/Resources",
                 resources: [.process("Files")]),
         .target(name: "IOSwiftUICommon",
                 dependencies: [],
                 path: "Sources/Common",
-                swiftSettings: [.define("ENV_DEV", .when(configuration: .debug)),
-                                .define("ENV_PROD", .when(configuration: .release))
+                swiftSettings: [.define("ENV_DEBUG", .when(configuration: .debug)),
+                                .define("ENV_RELEASE", .when(configuration: .release))
                 ]),
         .target(name: "IOSwiftUIInfrastructure",
                 dependencies: ["IOSwiftUICommon"],
