@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  IOSwiftUISample
+
+  Created by Adnan ilker Ozcan on 20.08.2022.
+  
+*/
+
+/* Common */
+"common.appName" = "IO Swift UI";

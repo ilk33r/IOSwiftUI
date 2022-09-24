@@ -50,9 +50,9 @@ final public class TabBarController: IOTabBarController {
     }
 }
 
-extension TabBarController {
+public extension TabBarController {
     
-    public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         let cameraViewController = self.viewControllers?[1]
         if viewController.isEqual(cameraViewController) {
             self.selectionHandler?(0)

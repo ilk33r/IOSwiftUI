@@ -13,6 +13,8 @@ let package = Package(
         .library(
             name: "IOSwiftUI",
             targets: ["IOSwiftUI"]),
+        .plugin(name: "IOBuildConfigGeneratorPlugin",
+                targets: ["IOBuildConfigGeneratorPlugin"])
     ],
     dependencies: [
     ],
@@ -25,8 +27,11 @@ let package = Package(
         .plugin(name: "IOBuildConfigGeneratorPlugin",
                 capability: .buildTool(),
                 dependencies: []),
+        .target(name: "IOSwiftUIResources",
+                path: "Sources/Resources",
+                resources: [.process("Files")]),
         .target(name: "IOSwiftUICommon",
-                dependencies: ["IOBuildConfigGeneratorPlugin"],
+                dependencies: [],
                 path: "Sources/Common",
                 swiftSettings: [.define("ENV_DEV", .when(configuration: .debug)),
                                 .define("ENV_PROD", .when(configuration: .release))
