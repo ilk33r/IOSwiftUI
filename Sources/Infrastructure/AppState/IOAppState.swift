@@ -13,6 +13,10 @@ public protocol IOAppState {
     // MARK: - Publics
     
     var allKeys: [IOStorageType] { get }
+    var buildNumber: Int { get }
+    var bundleIdentifier: String { get }
+    var targetName: String { get }
+    var version: String { get }
     
     // MARK: - Getters
     

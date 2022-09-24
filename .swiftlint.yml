@@ -247,17 +247,17 @@ custom_rules:
         included: ".*\\.swift"
         name: "print usage"
         regex: "((\\bprint)|(Swift\\.print))\\s*\\("
-        message: "Use LogInfo instead of print"
+        message: "Use IOLogger.verbose instead of print"
         severity: error
     disable_debug_print:
         included: ".*\\.swift"
         name: "debug print usage"
         regex: "((\\bdebugPrint)|(Swift\\.debugPrint))\\s*\\("
-        message: "Use LogDebug instead of debugPrint"
+        message: "Use IOLogger.verbose instead of debugPrint"
         severity: error
     disable_dump:
         included: ".*\\.swift"
         name: "dump print usage"
         regex: "((\\bdump)|(Swift\\.dump))\\s*\\("
-        message: "Use LogDebug instead of dump"
+        message: "Use IOLogger.verbose instead of dump"
         severity: error

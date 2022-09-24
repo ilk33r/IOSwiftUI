@@ -19,13 +19,27 @@ final public class IOAppStateImpl: IOAppState, IOSingleton {
         return Array(self.values.keys)
     }
     
+    public var buildNumber: Int { self._buildNumber }
+    public var bundleIdentifier: String { self._bundleIdentifier }
+    public var targetName: String { self._targetName }
+    public var version: String { self._version }
+    
     // MARK: - Privates
     
+    private var _buildNumber: Int
+    private var _bundleIdentifier: String
+    private var _targetName: String
+    private var _version: String
     private var values: [IOStorageType: Any]
 
     // MARK: - Initialization Methods
     
     public required init() {
+        let infoDictionary = Bundle.main.infoDictionary
+        self._buildNumber = Int(infoDictionary?[kCFBundleVersionKey as String] as? String ?? "0") ?? 0
+        self._bundleIdentifier = infoDictionary?[kCFBundleIdentifierKey as String] as? String ?? ""
+        self._targetName = infoDictionary?[kCFBundleExecutableKey as String] as? String ?? ""
+        self._version = infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
         self.values = [:]
     }
 
