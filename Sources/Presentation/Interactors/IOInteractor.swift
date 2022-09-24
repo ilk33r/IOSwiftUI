@@ -28,10 +28,12 @@ open class IOInteractor<TPresenter: IOPresenterable, TEntity: IOEntity>: IOInter
     @IOInject private var _appState: IOAppStateImpl
     @IOInject private var _configuration: IOConfigurationImpl
     @IOInject private var _localization: IOLocalizationImpl
+    @IOInject private var _localStorage: IOLocalStorageImpl
     
     public var appState: IOAppState { self._appState }
     public var configuration: IOConfiguration { self._configuration }
     public var localization: IOLocalization { self._localization }
+    public var localStorage: IOLocalStorage { self._localStorage }
     
     // MARK: - Init
     
