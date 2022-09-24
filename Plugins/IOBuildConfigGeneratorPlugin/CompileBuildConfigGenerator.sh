@@ -19,8 +19,6 @@ BCG_DESTINATION_BUILD_DIR="${2}/IOBuildConfigGenerator"
 BCG_GENERATED_FILES_DIR="${2}/Generated"
 BCG_ENVIRONMENT_FILE="${2}/IOBuildConfigGenerator/Configuration.env"
 
-BCG_CLANG=$(which clang)
-
 function compileBuildConfig {
     BCG_MAC_OSX_MIN_VERSION="10.11"
     
@@ -31,6 +29,8 @@ function compileBuildConfig {
     BCG_COMPILER_FLAGS="-x objective-c ${BCG_CLANG_FLAGS}"
     
     BCG_LINKER_FLAGS="${BCG_CLANG_FLAGS} -Xlinker -add_ast_path -Xlinker -no_deduplicate -framework Foundation"
+    
+    BCG_CLANG=$(which clang)
     
     # Compile Build config generator
     $BCG_CLANG -x c ${BCG_COMPILER_FLAGS} -c "${BCG_SOURCE_ROOT}/IOBuildConfigGenerator.m" -o "${BCG_DESTINATION_BUILD_DIR}/IOBuildConfigGenerator.o"
