@@ -15,6 +15,7 @@ function onError {
     echo "error: ${1}"; exit 1;
 }
 
+BCG_BUILDCONFIG_FILE="${2}/Generated/IOBuildConfig.swift"
 BCG_CONFIGURATION_FILE="${1}/Files/Configuration.json"
 BCG_GENERATED_FILES_DIR="${2}/Generated"
 BCG_CHECKSUM_FILE="${2}/IOBuildConfigGenerator/Configuration.checksum.sha256"
@@ -24,13 +25,14 @@ if [ ! -f "${BCG_CONFIGURATION_FILE}" ]; then
 fi
 
 if [ ! -d "${BCG_GENERATED_FILES_DIR}" ]; then
+    mkdir -p ${BCG_GENERATED_FILES_DIR}
     echo "Could not found Generated folder."
     exit 0
 fi
 
 if [ ! -f "${BCG_CHECKSUM_FILE}" ]; then
     echo "Could not found Configuration.checksum.sha256 file."
-    rm -rf "${BCG_GENERATED_FILES_DIR}"
+    rm -rf "${BCG_BUILDCONFIG_FILE}"
     exit 0
 fi
 
@@ -44,7 +46,7 @@ if [[ "${BCG_CONFIGURATION_FILE_CALCULATED_CHECKSUM}" == *"${BCG_CONFIGURATION_F
     echo "No changes found in Configuration file."
 else
     echo "Removing generated Configuration file."
-    rm -rf "${BCG_GENERATED_FILES_DIR}"
+    rm -rf "${BCG_BUILDCONFIG_FILE}"
 fi
 
 exit 0

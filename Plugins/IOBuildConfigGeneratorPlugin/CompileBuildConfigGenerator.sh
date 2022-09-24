@@ -11,6 +11,7 @@ echo "${2}"
 echo "${3}"
 echo "${4}"
 
+BCG_BUILDCONFIG_FILE="${2}/Generated/IOBuildConfig.swift"
 BCG_CONFIG_FILE_ROOT="${1}"
 BCG_APP_NAME="IOBuildConfig"
 BCG_SOURCE_ROOT="${4}/Plugins/IOBuildConfigGenerator"
@@ -60,21 +61,27 @@ if [ ! -d "${BCG_GENERATED_FILES_DIR}" ]; then
     mkdir -p ${BCG_GENERATED_FILES_DIR}
 fi
 
+if [ ! -f "${BCG_BUILDCONFIG_FILE}" ]; then
+    generateConfigurationFiles
+    exit 0
+fi
+
 if [ -f "${BCG_GENERATED_FILES_DIR}/Configuration.checksum.sha256" ]; then
     echo "Configuration library exists."
     exit 0
 fi
 
-BCG_CONFIGURATION_ENVIRONMENT=$(cat "${BCG_ENVIRONMENT_FILE}")
-echo "Configuration file last environment: ${BCG_CONFIGURATION_ENVIRONMENT}"
+if [ -f "${BCG_ENVIRONMENT_FILE}" ]; then
+    BCG_CONFIGURATION_ENVIRONMENT=$(cat "${BCG_ENVIRONMENT_FILE}")
+    echo "Configuration file last environment: ${BCG_CONFIGURATION_ENVIRONMENT}"
 
-if [[ "${BCG_CONFIGURATION_ENVIRONMENT}" == "${CONFIGURATION}" ]]; then
-    echo "No environment changes found in Configuration file."
-    exit 0
-else
-    echo "Removing generated Configuration file for environment change."
-    rm -rf "${BCG_GENERATED_FILES_DIR}"
-    mkdir -p ${BCG_GENERATED_FILES_DIR}
+    if [[ "${BCG_CONFIGURATION_ENVIRONMENT}" == "${CONFIGURATION}" ]]; then
+        echo "No environment changes found in Configuration file."
+        exit 0
+    else
+        echo "Removing generated Configuration file for environment change."
+        rm -rf "${BCG_BUILDCONFIG_FILE}"
+    fi
 fi
 
 generateConfigurationFiles

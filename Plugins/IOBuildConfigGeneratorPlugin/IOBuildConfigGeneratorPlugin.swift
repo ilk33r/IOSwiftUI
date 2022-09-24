@@ -26,7 +26,7 @@ struct IOBuildConfigGeneratorPlugin: BuildToolPlugin {
         
         let checkCmdShellFile = pluginDirectory.appending("/Plugins/IOBuildConfigGeneratorPlugin/CheckConfigurationFileHash.sh")
         let compileCmdShellFile = pluginDirectory.appending("/Plugins/IOBuildConfigGeneratorPlugin/CompileBuildConfigGenerator.sh")
-        let generatedPath = context.pluginWorkDirectory.appending(subpath: "Generated/IOBuildConfig.swift")
+        let generatedFile = context.pluginWorkDirectory.appending(subpath: "Generated/IOBuildConfig.swift")
         
         return [
             .prebuildCommand(
@@ -40,7 +40,7 @@ struct IOBuildConfigGeneratorPlugin: BuildToolPlugin {
                 executable: compileCmdShellFile,
                 arguments: [target.directory, context.pluginWorkDirectory, context.package.directory, pluginDirectory],
                 inputFiles: [context.pluginWorkDirectory],
-                outputFiles: [generatedPath]
+                outputFiles: [generatedFile]
             )
         ]
     }
