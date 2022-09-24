@@ -11,15 +11,12 @@ public struct IOConfigurationType: RawRepresentable, Equatable, Hashable {
     
     public typealias RawValue = String
     
-    #if ENV_PROD
-    public static let environmentName = IOConfigurationType(rawValue: "Release")
-    #else
-    public static let environmentName = IOConfigurationType(rawValue: "Debug")
-    #endif
-    
-    public static let apiURL = IOConfigurationType(rawValue: "apiURL")
-    public static let apiTimeout = IOConfigurationType(rawValue: "apiTimeout")
-    public static let localStoragePrefix = IOConfigurationType(rawValue: "localStoragePrefix")
+    public static let environment = IOConfigurationType(rawValue: "GENERAL_ENVIRONMENT")
+    public static let localizationDefaultLocaleIdentifier = IOConfigurationType(rawValue: "LOCALIZATION_DEFAULT_LOCALE_IDENTIFIER")
+    public static let localStoragePrefix = IOConfigurationType(rawValue: "LOCAL_STORAGE_PREFIX")
+    public static let loggingLogLevel = IOConfigurationType(rawValue: "LOGGING_LOG_LEVEL")
+    public static let networkingApiTimeout = IOConfigurationType(rawValue: "NETWORKING_API_TIMEOUT")
+    public static let networkingApiUrl = IOConfigurationType(rawValue: "NETWORKING_API_URL")
     
     public var rawValue: String
     

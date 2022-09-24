@@ -12,12 +12,8 @@ public protocol IOConfiguration {
     
     // MARK: - Properties
     
+    var defaultLocale: IOLocales { get }
     var environment: IOEnvironmentType { get }
-    
-    // MARK: - Setters
-    
-    func setConfiguration(configurations: IOConfigurationObject)
-    func setEnvironment(type: IOEnvironmentType)
     
     // MARK: - Getters
     

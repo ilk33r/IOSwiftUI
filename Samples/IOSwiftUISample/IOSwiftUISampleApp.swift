@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 20.08.2022.
 //
 
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppScreens
 import SwiftUI
@@ -14,6 +15,9 @@ import SwiftUISampleAppPresentation
 
 @main
 struct IOSwiftUISampleApp: App {
+    
+    @IOInject private var configuration: IOConfigurationImpl
+    @IOInject private var localization: IOLocalizationImpl
     
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
     
@@ -40,7 +44,8 @@ struct IOSwiftUISampleApp: App {
     
     init() {
         IOFontType.registerFontsIfNecessary(Bundle.resources)
-        let _ = IOAppConfiguration(environment: .debug, locale: .en)
+        self.localization.changeLocalizationBundle(bundleName: "SwiftUISampleApp_SwiftUISampleAppResources")
+        self.localization.changeLanguage(type: self.configuration.defaultLocale)
         AppTheme.applyTheme()
     }
 }

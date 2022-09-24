@@ -15,34 +15,29 @@ final public class IOConfigurationImpl: IOConfiguration, IOSingleton {
     
     // MARK: - Publics
     
+    public var defaultLocale: IOLocales { self._defaultLocale }
     public var environment: IOEnvironmentType { self._environment }
     
     // MARK: - Privates
     
-    private var configurations: IOConfigurationObject?
-    private var _environment: IOEnvironmentType
+    private let configValues: [String: Any]
+    private var _defaultLocale: IOLocales!
+    private var _environment: IOEnvironmentType!
     
     // MARK: - Initialization Methods
     
     public init() {
-        self._environment = IOEnvironmentType(rawValue: IOConfigurationType.environmentName.rawValue)
-    }
-    
-    // MARK: - Setters
-    
-    public func setConfiguration(configurations: IOConfigurationObject) {
-        self.configurations = configurations
-    }
-    
-    public func setEnvironment(type: IOEnvironmentType) {
-        self._environment = type
+        let buildConfigClass = NSClassFromString("IOBuildConfig") as! NSObject.Type
+        self.configValues = buildConfigClass.value(forKey: "configValues") as! [String: Any]
+        
+        self._defaultLocale = IOLocales(rawValue: self.configForType(type: .localizationDefaultLocaleIdentifier))
+        self._environment = IOEnvironmentType(rawValue: self.configForType(type: .environment))
     }
     
     // MARK: - Getters
     
     public func configForType(type: IOConfigurationType) -> String {
-        let environmentConfig = self.configurations?.configData[self._environment]
-        let configValue = environmentConfig?[type]
+        let configValue = self.configValues[type.rawValue] as? String
         return configValue ?? ""
     }
 }
