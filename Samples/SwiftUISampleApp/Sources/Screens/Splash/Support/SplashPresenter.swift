@@ -8,13 +8,17 @@
 import Foundation
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppPresentation
+import SwiftUI
 
 final public class SplashPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
+    public typealias Environment = SampleAppEnvironment
     public typealias Interactor = SplashInteractor
     
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: SplashInteractor!
     
     // MARK: - Initialization Methods

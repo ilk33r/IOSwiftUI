@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 public protocol IOPresenterableInitializer {
     
@@ -16,8 +17,10 @@ public protocol IOPresenterable: ObservableObject {
     
     // MARK: - Generics
     
+    associatedtype Environment: IOAppEnvironment
     associatedtype Interactor: IOInteractorable
     
+    var environment: EnvironmentObject<Environment>! { get set }
     var interactor: Interactor! { get set }
     
     // MARK: - Initialization Methods

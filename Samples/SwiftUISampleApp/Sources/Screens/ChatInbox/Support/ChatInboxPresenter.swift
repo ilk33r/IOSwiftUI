@@ -7,13 +7,17 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppPresentation
+import SwiftUI
 
 final class ChatInboxPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
+    typealias Environment = SampleAppEnvironment
     typealias Interactor = ChatInboxInteractor
     
+    var environment: EnvironmentObject<SampleAppEnvironment>!
     var interactor: ChatInboxInteractor!
     
     // MARK: - Initialization Methods

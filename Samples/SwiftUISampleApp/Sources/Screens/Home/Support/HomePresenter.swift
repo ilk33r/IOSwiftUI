@@ -7,6 +7,8 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppPresentation
+import SwiftUI
 
 final public class HomePresenter: IOPresenterable {
     
@@ -19,8 +21,10 @@ final public class HomePresenter: IOPresenterable {
     
     // MARK: - Presentable
     
+    public typealias Environment = SampleAppEnvironment
     public typealias Interactor = HomeInteractor
     
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: HomeInteractor!
     
     // MARK: - Properties

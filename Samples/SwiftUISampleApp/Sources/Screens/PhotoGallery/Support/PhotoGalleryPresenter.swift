@@ -7,14 +7,17 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppPresentation
 import SwiftUI
 
 final class PhotoGalleryPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
+    typealias Environment = SampleAppEnvironment
     typealias Interactor = PhotoGalleryInteractor
     
+    var environment: EnvironmentObject<SampleAppEnvironment>!
     var interactor: PhotoGalleryInteractor!
     
     // MARK: - Bindings

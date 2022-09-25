@@ -17,6 +17,7 @@ public protocol IOController: View {
     
     // MARK: - Properties
     
+    var isPreviewMode: Bool { get }
     var presenter: Self.Presenter { get set }
     
     // MARK: - Initialization Methods
@@ -26,6 +27,10 @@ public protocol IOController: View {
 }
 
 public extension IOController {
+    
+    var isPreviewMode: Bool {
+        return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+    }
     
     init(presenter: Presenter) {
         self.init(presenter: presenter)

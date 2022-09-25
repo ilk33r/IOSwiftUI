@@ -63,6 +63,11 @@ public struct SplashView: IOController {
         .navigationWireframe {
             SplashNavigationWireframe(navigationState: navigationState)
         }
+        .onAppear {
+            if !self.isPreviewMode {
+                self.presenter.environment = _appEnvironment
+            }
+        }
     }
     
     // MARK: - Initialization Methods

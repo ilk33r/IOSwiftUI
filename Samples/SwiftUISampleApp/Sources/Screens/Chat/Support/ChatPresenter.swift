@@ -10,13 +10,16 @@ import Foundation
 import IOSwiftUIPresentation
 import SwiftUI
 import UIKit
+import SwiftUISampleAppPresentation
 
 final class ChatPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
+    typealias Environment = SampleAppEnvironment
     typealias Interactor = ChatInteractor
     
+    var environment: EnvironmentObject<SampleAppEnvironment>!
     var interactor: ChatInteractor!
     
     // MARK: - Publishers
