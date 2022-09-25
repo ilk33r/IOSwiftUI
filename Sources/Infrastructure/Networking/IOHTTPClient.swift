@@ -20,7 +20,7 @@ public protocol IOHTTPClient {
         path: String,
         headers: [String: String]?,
         query: String?,
-        body: Data,
+        body: Data?,
         handler: IOHTTPClientHandler?
     ) -> IOCancellable
     

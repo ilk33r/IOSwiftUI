@@ -20,10 +20,5 @@ final public class SplashPresenter: IOPresenterable {
     // MARK: - Initialization Methods
     
     public init() {
-        IOLogger.verbose("verbose log")
-        IOLogger.info("info log")
-        IOLogger.debug("debug log")
-        IOLogger.warning("warning log")
-        IOLogger.error("error log")
     }
 }
