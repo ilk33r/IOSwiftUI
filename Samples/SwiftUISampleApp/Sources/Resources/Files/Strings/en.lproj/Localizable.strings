@@ -6,32 +6,36 @@
   
 */
 
-/* Common */
+// MARK: - Common
 "common.appName" = "IO Swift UI Sample";
 "common.cancel" = "Cancel";
 "common.done" = "Done";
 "common.next.uppercased" = "NEXT";
 
-/* Splash */
+// MARK: - Networking
+"network.CommonError" = "We cannot continue because of technical issues. Please try again later.";
+"network.ConnectionError" = "Look like there is no internet connection. Please check your settings and try again.";
+
+// MARK: -  Splash
 "splash.button.logIn.uppercased" = "LOG IN";
 "splash.button.register.uppercased" = "REGISTER";
 
-/* Register & Login */
+// MARK: -  Register & Login
 "login.input.password" = "Password";
 "login.title" = "Login";
 "register.input.createPassword" = "Create password";
 "register.input.emailAddress" = "Email address";
 "register.title" = "Register";
 
-/* Home */
+// MARK: -  Home
 "home.camera.actions.choosePhoto" = "Pick from gallery";
 "home.camera.actions.takePhoto" = "Take a photo";
 "home.camera.actions.title" = "Create";
 
-/* Profile */
+// MARK: -  Profile
 "profile.button.follow" = "FOLLOW JANE";
 "profile.button.message" = "MESSAGE";
 
-/* Chat */
+// MARK: -  Chat
 "chat.inbox.title" = "Chats";
 "chat.input.placeholder" = "Message...";

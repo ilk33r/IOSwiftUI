@@ -5,13 +5,13 @@
         "LOCAL_STORAGE_PREFIX": "ioswiftui_",
         "LOGGING_LOG_LEVEL": "error",
         "NETWORKING_API_TIMEOUT": "30",
-        "NETWORKING_API_URL": "http://localhost:6666"
+        "NETWORKING_API_URL": "http://localhost:5176"
     },
     "Development": {
         "GENERAL_ENVIRONMENT": "Development",
         "LOGGING_LOG_LEVEL": "verbose",
         "NETWORKING_API_TIMEOUT": "90",
-        "NETWORKING_API_URL": "http://localhost:6666"
+        "NETWORKING_API_URL": "http://localhost:5176"
     },
     "DEV": {
         "GENERAL_ENVIRONMENT": "DEV",

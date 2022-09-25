@@ -24,13 +24,11 @@ open class IOInteractor<TPresenter: IOPresenterable, TEntity: IOEntity>: IOInter
     @IOInject private var _configuration: IOConfigurationImpl
     @IOInject private var _localization: IOLocalizationImpl
     @IOInject private var _localStorage: IOLocalStorageImpl
-    @IOInject private var _service: IOServiceProviderImpl
     
     open var appState: IOAppState { self._appState }
     open var configuration: IOConfiguration { self._configuration }
     open var localization: IOLocalization { self._localization }
     open var localStorage: IOLocalStorage { self._localStorage }
-    open var service: IOServiceProvider { self._service }
     
     // MARK: - Init
     

@@ -6,5 +6,9 @@
   
 */
 
-/* Common */
+// MARK: - Common
 "common.appName" = "IO Swift UI";
+
+// MARK: - Networking
+"network.CommonError" = "We cannot continue because of technical issues. Please try again later.";
+"network.ConnectionError" = "Look like there is no internet connection. Please check your settings and try again.";

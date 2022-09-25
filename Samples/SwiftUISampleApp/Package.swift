@@ -31,10 +31,14 @@ let package = Package(
                 swiftSettings: [.define("ENV_DEV", .when(configuration: .debug)),
                                 .define("ENV_PROD", .when(configuration: .release))
                 ]),
+        .target(name: "SwiftUISampleAppInfrastructure",
+                dependencies: ["SwiftUISampleAppCommon"],
+                path: "Sources/Infrastructure"),
         .target(name: "SwiftUISampleAppPresentation",
                 dependencies: [.product(name: "IOSwiftUI", package: "IOSwiftUI"),
                                "SwiftUISampleAppResources",
-                               "SwiftUISampleAppCommon"],
+                               "SwiftUISampleAppCommon",
+                               "SwiftUISampleAppInfrastructure"],
                 path: "Sources/Presentation"),
         .target(name: "SwiftUISampleAppComponents",
                 dependencies: [.product(name: "IOSwiftUI", package: "IOSwiftUI"),
@@ -54,6 +58,7 @@ let package = Package(
             dependencies: ["SwiftUISampleAppConfigurations",
                            "SwiftUISampleAppResources",
                            "SwiftUISampleAppCommon",
+                           "SwiftUISampleAppInfrastructure",
                            "SwiftUISampleAppComponents",
                            "SwiftUISampleAppPresentation",
                            "SwiftUISampleAppScreens"])
