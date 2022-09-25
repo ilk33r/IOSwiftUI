@@ -21,6 +21,8 @@ struct IOSwiftUISampleApp: App {
     
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
     
+    let splashView = SplashView(entity: SplashEntity())
+    
     var body: some Scene {
         WindowGroup {
             ZStack {
@@ -29,7 +31,7 @@ struct IOSwiftUISampleApp: App {
                         .environmentObject(appEnvironment)
                         .transition(.opacity)
                 } else {
-                    SplashView(entity: SplashEntity())
+                    splashView
                         .environmentObject(appEnvironment)
                         .transition(.opacity)
                 }

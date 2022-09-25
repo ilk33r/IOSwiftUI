@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 21.08.2022.
 //
 
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
@@ -22,6 +23,8 @@ public struct SplashView: IOController {
     @StateObject public var navigationState = SplashNavigationState()
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    
+    @State private var buttonsIsHidden = true
     
     public var body: some View {
         VStack {
@@ -47,11 +50,13 @@ public struct SplashView: IOController {
                         self.navigationState.navigateToLogin = true
                     })
                     .frame(minWidth: 0, maxWidth: .infinity)
+                    .hidden(isHidden: $buttonsIsHidden)
                 PrimaryButton(.splashButtonRegisterUppercased)
                     .setClick {
                         self.navigationState.navigateToRegister = true
                     }
                     .frame(minWidth: 0, maxWidth: .infinity)
+                    .hidden(isHidden: $buttonsIsHidden)
             }
             .frame(minWidth: 0, maxWidth: .infinity)
             .background(Color.white)
@@ -66,6 +71,7 @@ public struct SplashView: IOController {
         .onAppear {
             if !self.isPreviewMode {
                 self.presenter.environment = _appEnvironment
+                self.presenter.interactor.handshake()
             }
         }
     }
