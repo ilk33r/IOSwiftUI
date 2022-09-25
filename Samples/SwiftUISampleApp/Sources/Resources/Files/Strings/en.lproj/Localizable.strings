@@ -11,6 +11,7 @@
 "common.cancel" = "Cancel";
 "common.done" = "Done";
 "common.next.uppercased" = "NEXT";
+"common.ok" = "Ok";
 
 // MARK: - Networking
 "network.CommonError" = "We cannot continue because of technical issues. Please try again later.";

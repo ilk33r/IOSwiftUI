@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIInfrastructure
 
-extension IOLocalizationType {
+public extension IOLocalizationType {
     
     static let networkCommonError = IOLocalizationType(rawValue: "network.CommonError")
     static let networkConnectionError = IOLocalizationType(rawValue: "network.ConnectionError")

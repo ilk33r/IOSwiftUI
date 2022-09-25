@@ -41,6 +41,37 @@ struct IOSwiftUISampleApp: App {
                         .transition(.opacity)
                 }
             }
+            .alert(isPresented: $appEnvironment.showAlert) {
+                if appEnvironment.alertButtons.count > 1 {
+                    return Alert(
+                        title: Text(appEnvironment.alertTitle),
+                        message: Text(appEnvironment.alertMessage),
+                        primaryButton: .default(
+                            Text(appEnvironment.alertButtons[0].localized),
+                            action: {
+                                appEnvironment.alertHandler?(0)
+                            }
+                        ),
+                        secondaryButton: .destructive(
+                            Text(appEnvironment.alertButtons[1].localized),
+                            action: {
+                                appEnvironment.alertHandler?(1)
+                            }
+                        )
+                    )
+                } else {
+                    return Alert(
+                        title: Text(appEnvironment.alertTitle),
+                        message: Text(appEnvironment.alertMessage),
+                        dismissButton: .default(
+                            Text(appEnvironment.alertButtons[0].localized),
+                            action: {
+                                appEnvironment.alertHandler?(0)
+                            }
+                        )
+                    )
+                }
+            }
         }
     }
     

@@ -26,7 +26,9 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
                 break
                 
             case .error(message: let message, type: let type, response: let response):
-                IOLogger.error(message)
+                self?.handleServiceError(message, type: type, response: response, handler: { _ in
+                    exit(0)
+                })
             }
         }
     }
