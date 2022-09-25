@@ -8,12 +8,11 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class IOServiceProviderImpl: IOServiceProvider, IOSingleton {
+final public class IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
 
-    // MARK: - Defs
+    // MARK: - Types
     
-    public typealias InstanceType = IOServiceProviderImpl
-    public static var _sharedInstance: IOServiceProviderImpl!
+    public typealias ServiceType = TType
     
     // MARK: - DI
     
@@ -26,7 +25,8 @@ final public class IOServiceProviderImpl: IOServiceProvider, IOSingleton {
     
     // MARK: - Request Methods
     
-    public func request<TModel: Codable>(_ type: IOServiceType, responseType: TModel.Type, handler: ResultHandler<TModel>?) -> IOCancellable? {
+    @discardableResult
+    public func request<TModel: Codable>(_ type: TType, responseType: TModel.Type, handler: @escaping ResultHandler<TModel>) -> IOCancellable? {
         return self.httpClient.request(
             type: type.methodType,
             path: type.path,
@@ -35,7 +35,7 @@ final public class IOServiceProviderImpl: IOServiceProvider, IOSingleton {
             body: type.body
         ) { result in
             let response = type.response(responseType: responseType, result: result)
-            handler?(response)
+            handler(response)
         }
     }
     

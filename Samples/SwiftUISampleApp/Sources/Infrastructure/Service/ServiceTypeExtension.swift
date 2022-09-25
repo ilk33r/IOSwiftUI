@@ -19,7 +19,7 @@ public extension IOServiceType {
         return self._handleRequest(model)
     }
     
-    func handleResponse<TModel: BaseResponseModel>(
+    func handleResponse<TModel: Codable>(
         type: TModel.Type,
         result: IOHTTPResult?
     ) -> IOServiceResult<TModel> {
@@ -27,11 +27,12 @@ public extension IOServiceType {
         
         switch result {
         case .success(response: let response):
-            if response.status?.success ?? false {
+            let baseResponse = response as? BaseResponseModel
+            if baseResponse?.status?.success ?? false {
                 return result
             } else {
                 return IOServiceResult<TModel>.error(
-                    message: response.status?.message ?? IOLocalizationType.networkCommonError.localized,
+                    message: baseResponse?.status?.message ?? IOLocalizationType.networkCommonError.localized,
                     type: .responseStatusError,
                     response: response
                 )
