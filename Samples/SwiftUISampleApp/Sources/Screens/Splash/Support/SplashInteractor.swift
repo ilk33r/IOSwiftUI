@@ -63,7 +63,7 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
                 let encryptedIV = IORSAEncryptionUtilities.encrypt(data: aesIV, publicKey: publicKey),
                 let encryptedKey = IORSAEncryptionUtilities.encrypt(data: aesKey, publicKey: publicKey)
             {
-                self.setupHttpClientHeaders(encryptedIV: encryptedIV, encryptedKey: encryptedKey)
+                self.checkSessionIfNecessary(encryptedIV: encryptedIV, encryptedKey: encryptedKey)
             } else {
                 self.handleServiceError(nil, type: .responseStatusError, response: nil) { _ in
                     exit(0)
@@ -76,14 +76,24 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
         }
     }
     
-    private func setupHttpClientHeaders(encryptedIV: Data, encryptedKey: Data) {
+    private func checkSessionIfNecessary(encryptedIV: Data, encryptedKey: Data) {
+        if let token = self.localStorage.string(forType: .userToken) {
+            self.setupHttpClientHeaders(encryptedIV: encryptedIV, encryptedKey: encryptedKey, token: token)
+            return
+        }
+        
+        self.setupHttpClientHeaders(encryptedIV: encryptedIV, encryptedKey: encryptedKey, token: nil)
+        self.presenter?.updateButtons()
+    }
+    
+    private func setupHttpClientHeaders(encryptedIV: Data, encryptedKey: Data, token: String?) {
         var headers = [
             "X-IO-AUTHORIZATION": self.configuration.configForType(type: .networkingAuthorizationHeader),
             "X-SYMMETRIC-KEY": encryptedKey.base64EncodedString(),
             "X-SYMMETRIC-IV": encryptedIV.base64EncodedString()
         ]
         
-        if let token = self.localStorage.string(forType: .userToken) {
+        if let token {
             headers["X-IO-AUTHORIZATION-TOKEN"] = token
         }
         

@@ -61,10 +61,14 @@ public struct AppTheme {
             .foregroundColor: UIColor.clear
         ]
         appearance.backButtonAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: 24, vertical: 2)
-        appearance.setBackIndicatorImage(UIImage(systemName: "chevron.left")!, transitionMaskImage: nil)
+        let backButtonImage = UIImage(systemName: "chevron.left")!.withTintColor(.black, renderingMode: .alwaysOriginal)
+        appearance.setBackIndicatorImage(backButtonImage, transitionMaskImage: backButtonImage)
         appearance.backButtonAppearance.normal.backgroundImagePositionAdjustment = UIOffset(horizontal: 24, vertical: 2)
         
         navigationBarAppearance.standardAppearance = appearance
         navigationBarAppearance.scrollEdgeAppearance = appearance
+        if #available(iOS 15.0, *) {
+            navigationBarAppearance.compactScrollEdgeAppearance = appearance
+        }
     }
 }

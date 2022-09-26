@@ -74,6 +74,9 @@ public struct SplashView: IOController {
                 self.presenter.interactor.handshake()
             }
         }
+        .onReceive(presenter.$showButtons) { isShow in
+            buttonsIsHidden = !isShow
+        }
     }
     
     // MARK: - Initialization Methods

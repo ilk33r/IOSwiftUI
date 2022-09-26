@@ -21,8 +21,16 @@ final public class SplashPresenter: IOPresenterable {
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: SplashInteractor!
     
+    // MARK: - Publisher
+    
+    @Published var showButtons = false
+    
     // MARK: - Initialization Methods
     
     public init() {
+    }
+    
+    func updateButtons() {
+        self.showButtons = true
     }
 }
