@@ -10,4 +10,5 @@ import IOSwiftUICommon
 
 public extension IOConfigurationType {
     
+    static let networkingAuthorizationHeader = IOConfigurationType(rawValue: "NETWORKING_AUTHORIZATION_HEADER")
 }

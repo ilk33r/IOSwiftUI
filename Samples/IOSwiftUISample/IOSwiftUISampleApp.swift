@@ -17,6 +17,7 @@ import SwiftUISampleAppPresentation
 struct IOSwiftUISampleApp: App {
     
     @IOInject private var configuration: IOConfigurationImpl
+    @IOInject private var httpClient: IOHTTPClientImpl
     @IOInject private var localization: IOLocalizationImpl
     
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
@@ -80,5 +81,9 @@ struct IOSwiftUISampleApp: App {
         self.localization.changeLocalizationBundle(bundleName: "SwiftUISampleApp_SwiftUISampleAppResources")
         self.localization.changeLanguage(type: self.configuration.defaultLocale)
         AppTheme.applyTheme()
+        
+        self.httpClient.setDefaultHTTPHeaders(headers: [
+            "X-IO-AUTHORIZATION": self.configuration.configForType(type: .networkingAuthorizationHeader)
+        ])
     }
 }

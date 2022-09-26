@@ -5,38 +5,45 @@
         "LOCAL_STORAGE_PREFIX": "ioswiftui_",
         "LOGGING_LOG_LEVEL": "error",
         "NETWORKING_API_TIMEOUT": "30",
-        "NETWORKING_API_URL": "http://localhost:5176"
+        "NETWORKING_API_URL": "http://localhost:6666",
+        "NETWORKING_AUTHORIZATION_HEADER": ""
     },
     "Development": {
         "GENERAL_ENVIRONMENT": "Development",
         "LOGGING_LOG_LEVEL": "verbose",
         "NETWORKING_API_TIMEOUT": "90",
-        "NETWORKING_API_URL": "http://localhost:5176"
+        "NETWORKING_API_URL": "http://localhost:5176",
+        "NETWORKING_AUTHORIZATION_HEADER": "n812iw9h0ya7r0ne4qekkcslzi2dsnjc"
     },
     "DEV": {
         "GENERAL_ENVIRONMENT": "DEV",
         "LOGGING_LOG_LEVEL": "verbose",
         "NETWORKING_API_TIMEOUT": "90",
-        "NETWORKING_API_URL": "http://localhost:6666"
+        "NETWORKING_API_URL": "http://localhost:6666",
+        "NETWORKING_AUTHORIZATION_HEADER": ""
     },
     "SIT": {
         "GENERAL_ENVIRONMENT": "SIT",
         "LOGGING_LOG_LEVEL": "verbose",
         "NETWORKING_API_TIMEOUT": "60",
-        "NETWORKING_API_URL": "http://localhost:6666"
+        "NETWORKING_API_URL": "http://localhost:6666",
+        "NETWORKING_AUTHORIZATION_HEADER": ""
     },
     "UAT": {
         "GENERAL_ENVIRONMENT": "UAT",
         "LOGGING_LOG_LEVEL": "info",
-        "NETWORKING_API_URL": "http://localhost:6666"
+        "NETWORKING_API_URL": "http://localhost:6666",
+        "NETWORKING_AUTHORIZATION_HEADER": ""
     },
     "PreProd": {
         "GENERAL_ENVIRONMENT": "PreProd",
         "LOGGING_LOG_LEVEL": "warning",
-        "NETWORKING_API_URL": "http://localhost:6666"
+        "NETWORKING_API_URL": "http://localhost:6666",
+        "NETWORKING_AUTHORIZATION_HEADER": ""
     },
     "Production": {
         "GENERAL_ENVIRONMENT": "Production",
-        "NETWORKING_API_URL": "http://localhost:6666"
+        "NETWORKING_API_URL": "http://localhost:6666",
+        "NETWORKING_AUTHORIZATION_HEADER": ""
     }
 }
