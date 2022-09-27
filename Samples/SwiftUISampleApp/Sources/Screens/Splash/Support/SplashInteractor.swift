@@ -23,7 +23,7 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
     
     // MARK: - Privates
     
-    private var service = IOServiceProviderImpl<SplashService>()
+    @IOInstance private var service: IOServiceProviderImpl<SplashService>
     
     // MARK: - Interactor
     
