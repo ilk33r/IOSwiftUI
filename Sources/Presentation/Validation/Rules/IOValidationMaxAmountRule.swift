@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUIInfrastructure
 
 public struct IOValidationMaxAmountRule: IOValidationRule {
 
@@ -16,14 +17,14 @@ public struct IOValidationMaxAmountRule: IOValidationRule {
     
     // MARK: - Initialization Methods
     
-    public init(errorMessage: String) {
-        self.errorMessage = errorMessage
+    public init(errorMessage: IOLocalizationType) {
+        self.errorMessage = errorMessage.localized
         self.amount = 0
         self.fractionLength = 0
     }
     
-    public init(errorMessage: String, amount: Double, fractionLength: Int) {
-        self.errorMessage = errorMessage
+    public init(errorMessage: IOLocalizationType, amount: Double, fractionLength: Int) {
+        self.errorMessage = errorMessage.localized
         self.fractionLength = fractionLength
         self.amount = Int(amount * Double(10 * fractionLength))
     }

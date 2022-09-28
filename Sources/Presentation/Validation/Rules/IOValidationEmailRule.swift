@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUIInfrastructure
 
 public struct IOValidationEmailRule: IOValidationRule {
 
@@ -13,8 +14,8 @@ public struct IOValidationEmailRule: IOValidationRule {
     
     // MARK: - Initialization Methods
     
-    public init(errorMessage: String) {
-        self.errorMessage = errorMessage
+    public init(errorMessage: IOLocalizationType) {
+        self.errorMessage = errorMessage.localized
     }
     
     // MARK: - Validation Methods

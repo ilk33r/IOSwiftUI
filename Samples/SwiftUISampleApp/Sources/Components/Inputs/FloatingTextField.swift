@@ -11,33 +11,43 @@ import IOSwiftUIPresentation
 import IOSwiftUIComponents
 import SwiftUISampleAppResources
 
-public struct FloatingTextField: View {
+public struct FloatingTextField: View, IOValidatable {
+    
+    public var validationText: String? { self.text }
     
     @Binding private var isEditingBinder: Bool
     @Binding private var text: String
+    @ObservedObject private var validationObservedObject = IOValidatorObservedObject()
     @State private var isEditing = false
     
     private var keyboardType: UIKeyboardType
     private var localizationType: IOLocalizationType
     
     public var body: some View {
-        IOFloatingTextField(
-            localizationType,
-            text: $text,
-            keyboardType: self.keyboardType,
-            textFieldOverlay: {
-                RoundedRectangle(cornerRadius: 0)
-                    .stroke(Color.black, lineWidth: 2)
-                    .frame(height: 52)
-            }
-        )
-        .textColor(Color.black)
-        .placeholderColor(Color.colorPlaceholder)
-        .backgroundColor(Color.white)
-        .activePlaceholderPadding(EdgeInsets(top: 0, leading: 12, bottom: 52, trailing: 0))
-        .placeholderPadding(EdgeInsets(top: 0, leading: 17, bottom: 0, trailing: 0))
-        .padding(.top, 8)
-        .frame(height: 60)
+        VStack(alignment: .leading) {
+            IOFloatingTextField(
+                localizationType,
+                text: $text,
+                keyboardType: self.keyboardType,
+                textFieldOverlay: {
+                    RoundedRectangle(cornerRadius: 0)
+                        .stroke(Color.black, lineWidth: 2)
+                        .frame(height: 52)
+                }
+            )
+            .textColor(Color.black)
+            .placeholderColor(Color.colorPlaceholder)
+            .backgroundColor(Color.white)
+            .activePlaceholderPadding(EdgeInsets(top: 0, leading: 12, bottom: 52, trailing: 0))
+            .placeholderPadding(EdgeInsets(top: 0, leading: 17, bottom: 0, trailing: 0))
+            .padding(.top, 8)
+            .frame(height: 60)
+            Text(validationObservedObject.errorMessage)
+                .font(type: .regular(12))
+                .foregroundColor(.colorTabEnd)
+                .padding(.top, 4)
+                .hidden(isHidden: $validationObservedObject.isValidated)
+        }
     }
     
     public init(
@@ -78,6 +88,12 @@ public struct FloatingTextField: View {
             keyboardType: keyboardType,
             editingBinder: isEditing
         )
+    }
+    
+    // MARK: - Validation
+    
+    public func observedObject() -> IOValidatorObservedObject {
+        return validationObservedObject
     }
 }
 

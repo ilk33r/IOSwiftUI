@@ -6,6 +6,7 @@
 //
 
 import IOSwiftUIComponents
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppComponents
@@ -16,6 +17,10 @@ struct LoginView: IOController {
     // MARK: - Generics
     
     typealias Presenter = LoginPresenter
+    
+    // MARK: - DI
+    
+    @IOInstance private var validator: IOValidator
     
     // MARK: - Properties
     
@@ -44,15 +49,25 @@ struct LoginView: IOController {
                     text: $emailText
                 )
                 .keyboardType(.emailAddress)
+                .registerValidator(
+                    to: validator,
+                    rule: IOValidationEmailRule(errorMessage: .loginInputErrorEmail)
+                )
                 .padding(.top, 32)
                 FloatingTextField(
                     .loginInputPassword,
                     text: $passwordText
                 )
+                .registerValidator(
+                    to: validator,
+                    rule: IOValidationMinLengthRule(errorMessage: .loginInputErrorPassword, length: 8)
+                )
                 .padding(.top, 16)
                 PrimaryButton(.commonNextUppercased)
                     .setClick({
-                        appEnvironment.isLoggedIn = true
+                        if validator.validate().isEmpty {
+//                            appEnvironment.isLoggedIn = true
+                        }
                     })
                     .padding(.top, 16)
                 Spacer()

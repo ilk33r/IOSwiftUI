@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUIInfrastructure
 
 public protocol IOValidationRule {
     
@@ -15,7 +16,7 @@ public protocol IOValidationRule {
     
     // MARK: - Initialization Methods
     
-    init(errorMessage: String)
+    init(errorMessage: IOLocalizationType)
     
     // MARK: - Validation Methods
     

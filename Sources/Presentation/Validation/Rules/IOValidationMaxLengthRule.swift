@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUIInfrastructure
 
 public struct IOValidationMaxLengthRule: IOValidationRule {
 
@@ -15,13 +16,13 @@ public struct IOValidationMaxLengthRule: IOValidationRule {
     
     // MARK: - Initialization Methods
     
-    public init(errorMessage: String) {
-        self.errorMessage = errorMessage
+    public init(errorMessage: IOLocalizationType) {
+        self.errorMessage = errorMessage.localized
         self.length = 0
     }
     
-    public init(errorMessage: String, length: Int) {
-        self.errorMessage = errorMessage
+    public init(errorMessage: IOLocalizationType, length: Int) {
+        self.errorMessage = errorMessage.localized
         self.length = length
     }
     
