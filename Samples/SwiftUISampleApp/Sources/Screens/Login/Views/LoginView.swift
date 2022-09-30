@@ -48,19 +48,21 @@ struct LoginView: IOController {
                     .registerInputEmailAddress,
                     text: $emailText
                 )
+                .disableCorrection(true)
+                .capitalization(.none)
                 .keyboardType(.emailAddress)
                 .registerValidator(
                     to: validator,
                     rule: IOValidationEmailRule(errorMessage: .loginInputErrorEmail)
                 )
                 .padding(.top, 32)
-                FloatingTextField(
+                SecureFloatingTextField(
                     .loginInputPassword,
                     text: $passwordText
                 )
                 .registerValidator(
                     to: validator,
-                    rule: IOValidationMinLengthRule(errorMessage: .loginInputErrorPassword, length: 8)
+                    rule: IOValidationMinLengthRule(errorMessage: .loginInputErrorPassword, length: 4)
                 )
                 .padding(.top, 16)
                 PrimaryButton(.commonNextUppercased)
@@ -76,6 +78,11 @@ struct LoginView: IOController {
         })
         .controllerWireframe {
             LoginNavigationWireframe(navigationState: navigationState)
+        }
+        .onAppear {
+            if !self.isPreviewMode {
+                self.presenter.environment = _appEnvironment
+            }
         }
     }
     

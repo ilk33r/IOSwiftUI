@@ -1,15 +1,15 @@
 //
-//  IOFloatingTextField.swift
+//  IOSecureFloatingTextField.swift
 //  
 //
-//  Created by Adnan ilker Ozcan on 23.08.2022.
+//  Created by Adnan ilker Ozcan on 30.09.2022.
 //
 
 import SwiftUI
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 
-public struct IOFloatingTextField<TextFieldOverlay: View>: View {
+public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
     
     @Binding private var isEditingBinder: Bool
     @Binding private var text: String
@@ -41,7 +41,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     
     public var body: some View {
         ZStack(alignment: .leading) {
-            TextField("", text: $text) { isEditing in
+            SecureField("", text: $text) { isEditing in
                 self.isEditing = isEditing
                 self.isEditingBinder = isEditing
             }
@@ -115,8 +115,8 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
         self.capitalization = capitalization
     }
     
-    public func activePlaceholderPadding(_ padding: EdgeInsets) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+    public func activePlaceholderPadding(_ padding: EdgeInsets) -> IOSecureFloatingTextField<TextFieldOverlay> {
+        return IOSecureFloatingTextField(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -133,8 +133,8 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
         )
     }
     
-    public func backgroundColor(_ color: Color) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+    public func backgroundColor(_ color: Color) -> IOSecureFloatingTextField<TextFieldOverlay> {
+        return IOSecureFloatingTextField(
             localizationType,
             text: $text,
             backgroundColor: color,
@@ -151,8 +151,8 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
         )
     }
     
-    public func capitalization(_ type: UITextAutocapitalizationType) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+    public func capitalization(_ type: UITextAutocapitalizationType) -> IOSecureFloatingTextField<TextFieldOverlay> {
+        return IOSecureFloatingTextField(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -169,8 +169,8 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
         )
     }
     
-    public func disableCorrection(_ correction: Bool) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+    public func disableCorrection(_ correction: Bool) -> IOSecureFloatingTextField<TextFieldOverlay> {
+        return IOSecureFloatingTextField(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -189,8 +189,8 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     
     public func editingHandler(
         isEditing: Binding<Bool>
-    ) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+    ) -> IOSecureFloatingTextField<TextFieldOverlay> {
+        return IOSecureFloatingTextField(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -207,8 +207,8 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
         )
     }
     
-    public func font(type: IOFontType) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+    public func font(type: IOFontType) -> IOSecureFloatingTextField<TextFieldOverlay> {
+        return IOSecureFloatingTextField(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -225,8 +225,8 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
         )
     }
     
-    public func textColor(_ color: Color) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+    public func textColor(_ color: Color) -> IOSecureFloatingTextField<TextFieldOverlay> {
+        return IOSecureFloatingTextField(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -243,8 +243,8 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
         )
     }
     
-    public func placeholderColor(_ color: Color) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+    public func placeholderColor(_ color: Color) -> IOSecureFloatingTextField<TextFieldOverlay> {
+        return IOSecureFloatingTextField(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -261,8 +261,8 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
         )
     }
     
-    public func placeholderPadding(_ padding: EdgeInsets) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+    public func placeholderPadding(_ padding: EdgeInsets) -> IOSecureFloatingTextField<TextFieldOverlay> {
+        return IOSecureFloatingTextField(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -280,14 +280,14 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     }
 }
 
-struct IOFloatingTextField_Previews: PreviewProvider {
+struct IOSecureFloatingTextField_Previews: PreviewProvider {
     
     struct FloatingTextFieldDemo: View {
     
         @State var emailAddress: String = ""
         
         var body: some View {
-            IOFloatingTextField(
+            IOSecureFloatingTextField(
                 .init(rawValue: "Email address"),
                 text: $emailAddress,
                 textFieldOverlay: {
