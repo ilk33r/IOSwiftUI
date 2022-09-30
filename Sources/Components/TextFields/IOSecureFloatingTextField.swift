@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 
@@ -41,10 +42,15 @@ public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
     
     public var body: some View {
         ZStack(alignment: .leading) {
-            SecureField("", text: $text) { isEditing in
-                self.isEditing = isEditing
-                self.isEditingBinder = isEditing
-            }
+            SecureField("", text: $text.onChange({ value in
+                if value != text {
+                    isEditing = true
+                    isEditingBinder = true
+                } else {
+                    isEditing = false
+                    isEditingBinder = false
+                }
+            }))
             .keyboardType(keyboardType)
             .disableAutocorrection(disableAutocorrection)
             .autocapitalization(capitalization)
