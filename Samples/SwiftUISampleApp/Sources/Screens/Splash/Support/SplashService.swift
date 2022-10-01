@@ -12,6 +12,7 @@ import SwiftUISampleAppInfrastructure
 
 enum SplashService {
     
+    case checkToken
     case handshake
 }
 
@@ -26,6 +27,9 @@ extension SplashService: IOServiceType {
     
     var path: String {
         switch self {
+        case .checkToken:
+            return "MemberLogin/CheckToken"
+            
         case .handshake:
             return "HandshakeDefault/Index"
         }

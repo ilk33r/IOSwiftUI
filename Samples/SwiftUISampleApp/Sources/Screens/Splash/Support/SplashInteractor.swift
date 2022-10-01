@@ -31,13 +31,12 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
         self.showIndicator()
         
         self.service.request(.handshake, responseType: HandshakeResponseModel.self) { [weak self] result in
-            self?.hideIndicator()
-            
             switch result {
             case .success(response: let response):
                 self?.setupCryptography(response: response)
                 
             case .error(message: let message, type: let type, response: let response):
+                self?.hideIndicator()
                 self?.handleServiceError(message, type: type, response: response, handler: { _ in
                     exit(0)
                 })
@@ -82,11 +81,30 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
     private func checkSessionIfNecessary(encryptedIV: Data, encryptedKey: Data) {
         if let token = self.localStorage.string(forType: .userToken) {
             self.setupHttpClientHeaders(encryptedIV: encryptedIV, encryptedKey: encryptedKey, token: token)
+            self.checkToken()
             return
         }
         
+        self.hideIndicator()
         self.setupHttpClientHeaders(encryptedIV: encryptedIV, encryptedKey: encryptedKey, token: nil)
         self.presenter?.updateButtons()
+    }
+    
+    private func checkToken() {
+        self.service.request(.checkToken, responseType: BaseResponseModel.self) { [weak self] result in
+            self?.hideIndicator()
+            
+            switch result {
+            case .success(response: _):
+                self?.presenter?.navigateToHome()
+                
+            case .error(message: let message, type: let type, response: let response):
+                self?.handleServiceError(message, type: type, response: response, handler: { [weak self] _ in
+                    self?.localStorage.remove(type: .userToken)
+                    self?.presenter?.updateButtons()
+                })
+            }
+        }
     }
     
     private func setupHttpClientHeaders(encryptedIV: Data, encryptedKey: Data, token: String?) {

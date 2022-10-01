@@ -33,4 +33,8 @@ final public class SplashPresenter: IOPresenterable {
     func updateButtons() {
         self.showButtons = true
     }
+    
+    func navigateToHome() {
+        self.environment.wrappedValue.isLoggedIn = true
+    }
 }
