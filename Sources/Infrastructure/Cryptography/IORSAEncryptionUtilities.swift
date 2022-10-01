@@ -17,7 +17,7 @@ final public class IORSAEncryptionUtilities {
     
     public static func encrypt(data: Data, publicKey: SecKey, rsaPaddingType: PaddingType = .pkcs1) -> Data? {
         // Convert data
-        var plainData = data as CFData
+        let plainData = data as CFData
         
         // Create an algorithm
         let algorithm: SecKeyAlgorithm
