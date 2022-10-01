@@ -13,6 +13,10 @@ import SwiftUISampleAppCommon
 
 final class LoginInteractor: IOInteractor<LoginPresenter, LoginEntity> {
     
+    // MARK: - DI
+    
+    @IOInject private var httpClient: IOHTTPClientImpl
+    
     // MARK: - Privates
     
     @IOInstance private var service: IOServiceProviderImpl<LoginService>
@@ -38,13 +42,27 @@ final class LoginInteractor: IOInteractor<LoginPresenter, LoginEntity> {
             self?.hideIndicator()
             
             switch result {
-            // case .success(response: let response):
-            case .success(response: _):
-                IOLogger.debug("Ok")
+            case .success(response: let response):
+                self?.completeLogin(response: response)
                 
             case .error(message: let message, type: let type, response: let response):
                 self?.handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func completeLogin(response: AuthenticateResponseModel?) {
+        guard let response else { return }
+        
+        self.localStorage.set(string: response.token ?? "", forType: .userToken)
+        
+        if var defaultHTTPHeaders = self.httpClient.defaultHTTPHeaders {
+            defaultHTTPHeaders["X-IO-AUTHORIZATION-TOKEN"] = response.token ?? ""
+            self.httpClient.setDefaultHTTPHeaders(headers: defaultHTTPHeaders)
+        }
+        
+        self.presenter?.loginCompleted()
     }
 }

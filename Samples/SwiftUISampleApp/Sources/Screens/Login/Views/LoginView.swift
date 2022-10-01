@@ -69,7 +69,6 @@ struct LoginView: IOController {
                     .setClick({
                         if validator.validate().isEmpty {
                             presenter.interactor.login(email: emailText, password: passwordText)
-//                            appEnvironment.isLoggedIn = true
                         }
                     })
                     .padding(.top, 16)
