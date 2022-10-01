@@ -7,7 +7,9 @@
 
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppCommon
 import SwiftUISampleAppComponents
+import SwiftUISampleAppPresentation
 
 struct ProfileView: IOController {
     
@@ -19,6 +21,8 @@ struct ProfileView: IOController {
     
     @ObservedObject public var presenter: ProfilePresenter
     @StateObject public var navigationState = ProfileNavigationState()
+    
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     @State private var headerSize: CGSize = .zero
     @State private var scrollOffset: CGFloat = 0
@@ -50,7 +54,7 @@ struct ProfileView: IOController {
             ZStack(alignment: .top) {
                 let headerHeight = max(0, headerSize.height - scrollOffset)
                 ZStack(alignment: .top) {
-                    createHeaderView()
+                    createHeaderView(member: presenter.member?.member)
                 }
                 .zIndex(20)
                 .frame(height: headerHeight, alignment: .top)
@@ -81,6 +85,12 @@ struct ProfileView: IOController {
                 entity: navigationState.entity
             )
         }
+        .onAppear {
+            if !self.isPreviewMode {
+                self.presenter.environment = _appEnvironment
+                self.presenter.interactor.getMember()
+            }
+        }
     }
     
     // MARK: - Initialization Methods
@@ -91,8 +101,8 @@ struct ProfileView: IOController {
     
     // MARK: - Helper Methods
     
-    private func createHeaderView() -> some View {
-        return ProfileHeaderView()
+    private func createHeaderView(member: MemberModel?) -> some View {
+        return ProfileHeaderView(member: member)
             .padding(.top, 32)
             .padding(.bottom, 4)
             .background(
@@ -107,6 +117,6 @@ struct ProfileView: IOController {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(entity: ProfileEntity())
+        ProfileView(entity: ProfileEntity(userName: nil))
     }
 }

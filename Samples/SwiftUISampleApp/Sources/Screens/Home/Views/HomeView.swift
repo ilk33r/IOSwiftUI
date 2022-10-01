@@ -33,7 +33,7 @@ public struct HomeView: IOController {
                 IdentifiableView(view: DiscoverView(entity: DiscoverEntity())),
                 IdentifiableView(view: HomeTabEmptyView()),
                 IdentifiableView(view: ChatInboxView(entity: ChatInboxEntity())),
-                IdentifiableView(view: ProfileView(entity: ProfileEntity()))
+                IdentifiableView(view: ProfileView(entity: ProfileEntity(userName: nil)))
             ]
         }
         .onChange(of: selectedIndex) { newValue in

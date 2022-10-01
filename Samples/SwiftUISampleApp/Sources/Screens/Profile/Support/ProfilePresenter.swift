@@ -7,6 +7,7 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 import SwiftUI
 
@@ -20,8 +21,18 @@ final class ProfilePresenter: IOPresenterable {
     var environment: EnvironmentObject<SampleAppEnvironment>!
     var interactor: ProfileInteractor!
     
+    // MARK: - Publisher
+    
+    @Published var member: MemberGetResponseModel?
+    
     // MARK: - Initialization Methods
     
     init() {
+    }
+    
+    // MARK: - Presenter
+    
+    func update(member: MemberGetResponseModel?) {
+        self.member = member
     }
 }

@@ -10,4 +10,5 @@ import IOSwiftUIPresentation
 
 struct ProfileEntity: IOEntity {
     
+    let userName: String?
 }
