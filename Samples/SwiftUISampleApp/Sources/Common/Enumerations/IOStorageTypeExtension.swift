@@ -10,5 +10,7 @@ import IOSwiftUICommon
 
 public extension IOStorageType {
     
+    static let aesIV = IOStorageType(rawValue: "aesIV")
+    static let aesKey = IOStorageType(rawValue: "aesKey")
     static let userToken = IOStorageType(rawValue: "userToken")
 }

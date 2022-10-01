@@ -10,6 +10,10 @@ import IOSwiftUICommon
 
 public final class IOModelDateTimeTransformer: IOModelTransformer {
     
+    // MARK: - Constants
+    
+    public static let iso8601DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ"
+    
     // MARK: - Privates
     
     private var dateFormat: String

@@ -10,6 +10,8 @@ import IOSwiftUICommon
 
 open class BaseResponseModel: BaseModel {
     
+    // MARK: - Base Properties
+    
     @IOJsonProperty(key: "status")
     public var status: ResponseStatusModel?
 }

@@ -59,6 +59,9 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
             let aesIV = Data(secureRandomizedData: 16)
             let aesKey = Data(secureRandomizedData: 32)
             
+            self.appState.set(object: aesIV, forType: .aesIV)
+            self.appState.set(object: aesKey, forType: .aesKey)
+            
             if
                 let encryptedIV = IORSAEncryptionUtilities.encrypt(data: aesIV, publicKey: publicKey),
                 let encryptedKey = IORSAEncryptionUtilities.encrypt(data: aesKey, publicKey: publicKey)
@@ -88,6 +91,7 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
     
     private func setupHttpClientHeaders(encryptedIV: Data, encryptedKey: Data, token: String?) {
         var headers = [
+            "Content-Type": "application/json",
             "X-IO-AUTHORIZATION": self.configuration.configForType(type: .networkingAuthorizationHeader),
             "X-SYMMETRIC-KEY": encryptedKey.base64EncodedString(),
             "X-SYMMETRIC-IV": encryptedIV.base64EncodedString()
