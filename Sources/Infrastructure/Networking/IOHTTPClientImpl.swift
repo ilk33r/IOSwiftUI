@@ -19,11 +19,15 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
     @IOInject private var configuration: IOConfigurationImpl
     @IOInject private var httpLogger: IOHTTPLogger
     
+    // MARK: - Publics
+    
+    public var defaultHTTPHeaders: [String: String]? { self._defaultHTTPHeaders }
+    
     // MARK: - Privates
     
+    private var _defaultHTTPHeaders: [String: String]?
     private var backgroundTasks: [Int: UIBackgroundTaskIdentifier]!
     private var baseURL: URL!
-    private var defaultHTTPHeaders: [String: String]?
     
     private var timeoutInterval: TimeInterval!
     private var session: URLSession!
@@ -53,7 +57,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
         headers: [String: String]?,
         query: String?,
         body: Data?,
-        handler: IOHTTPClientHandler?
+        handler: IOHTTPClient.Handler?
     ) -> IOCancellable {
         // Obtain task
         let task = self.request(
@@ -82,7 +86,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
     }
     
     public func setDefaultHTTPHeaders(headers: [String: String]?) {
-        self.defaultHTTPHeaders = headers
+        self._defaultHTTPHeaders = headers
     }
     
     // MARK: - Helper Methods
@@ -90,7 +94,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
     private func httpHeaders(with headers: [String: String]?) -> [String: String] {
         var httpHeaders = [String: String]()
         
-        if let defaultHeaders = self.defaultHTTPHeaders {
+        if let defaultHeaders = self._defaultHTTPHeaders {
             for (key, value) in defaultHeaders {
                 httpHeaders[key] = value
             }
@@ -111,7 +115,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
         headers: [String: String]?,
         body: Data?,
         query: String?,
-        handler: IOHTTPClientHandler?
+        handler: IOHTTPClient.Handler?
     ) -> URLSessionTask {
         // Prepare URL Request Object
         var requestURL: URL!

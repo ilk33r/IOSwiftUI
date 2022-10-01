@@ -8,9 +8,15 @@
 import Foundation
 import IOSwiftUICommon
 
-public typealias IOHTTPClientHandler = (_ result: IOHTTPResult?) -> Void
-
 public protocol IOHTTPClient {
+    
+    // MARK: - Defs
+    
+    typealias Handler = (_ result: IOHTTPResult?) -> Void
+    
+    // MARK: - Publics
+    
+    var defaultHTTPHeaders: [String: String]? { get }
     
     // MARK: - Http Client Methods
     
@@ -21,7 +27,7 @@ public protocol IOHTTPClient {
         headers: [String: String]?,
         query: String?,
         body: Data?,
-        handler: IOHTTPClientHandler?
+        handler: Handler?
     ) -> IOCancellable
     
     func setDefaultHTTPHeaders(headers: [String: String]?)
