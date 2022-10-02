@@ -32,8 +32,11 @@ public extension IOServiceType {
                 .compactMap({ key, value -> String? in
                     if value is Int {
                         return String(format: "%@=%d", key, value as! Int)
-                    } else if value is String {
-                        return String(format: "%@=%@", key, value as! String)
+                    } else if
+                        let stringValue = value as? String,
+                        let encodedValue = stringValue.addingPercentEncoding(withAllowedCharacters: .alphanumerics)
+                    {
+                        return String(format: "%@=%@", key, encodedValue)
                     }
                     
                     return nil

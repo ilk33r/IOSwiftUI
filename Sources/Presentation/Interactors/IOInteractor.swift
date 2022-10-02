@@ -21,11 +21,13 @@ open class IOInteractor<TPresenter: IOPresenterable, TEntity: IOEntity>: IOInter
     // MARK: - DI
     
     @IOInject private var _appState: IOAppStateImpl
+    @IOInject private var _fileCache: IOFileCacheImpl
     @IOInject private var _configuration: IOConfigurationImpl
     @IOInject private var _localization: IOLocalizationImpl
     @IOInject private var _localStorage: IOLocalStorageImpl
     
     open var appState: IOAppState { self._appState }
+    open var fileCache: IOFileCache { self._fileCache }
     open var configuration: IOConfiguration { self._configuration }
     open var localization: IOLocalization { self._localization }
     open var localStorage: IOLocalStorage { self._localStorage }

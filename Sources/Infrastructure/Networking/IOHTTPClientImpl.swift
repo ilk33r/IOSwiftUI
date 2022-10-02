@@ -65,7 +65,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
             path: path,
             headers: headers,
             body: body,
-            query: nil,
+            query: query,
             handler: handler
         )
         
