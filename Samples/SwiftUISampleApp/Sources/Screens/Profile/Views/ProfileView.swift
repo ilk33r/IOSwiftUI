@@ -54,7 +54,7 @@ struct ProfileView: IOController {
             ZStack(alignment: .top) {
                 let headerHeight = max(0, headerSize.height - scrollOffset)
                 ZStack(alignment: .top) {
-                    createHeaderView(member: presenter.member?.member)
+                    createHeaderView(member: presenter.member)
                 }
                 .zIndex(20)
                 .frame(height: headerHeight, alignment: .top)
@@ -102,7 +102,7 @@ struct ProfileView: IOController {
     // MARK: - Helper Methods
     
     private func createHeaderView(member: MemberModel?) -> some View {
-        return ProfileHeaderView(member: member)
+        return ProfileHeaderView(member: member, profilePictureData: self.presenter.profilePictureData)
             .padding(.top, 32)
             .padding(.bottom, 4)
             .background(

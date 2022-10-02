@@ -1,6 +1,7 @@
 {
     "default": {
         "GENERAL_ENVIRONMENT": "",
+        "GENERAL_FILE_CACHE_DIRECTORY_NAME": "ioFileCache",
         "LOCALIZATION_DEFAULT_LOCALE_IDENTIFIER": "en_US",
         "LOCAL_STORAGE_PREFIX": "ioswiftui_",
         "LOGGING_LOG_LEVEL": "error",

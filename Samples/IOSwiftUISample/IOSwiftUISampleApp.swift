@@ -17,6 +17,7 @@ import SwiftUISampleAppPresentation
 struct IOSwiftUISampleApp: App {
     
     @IOInject private var configuration: IOConfigurationImpl
+    @IOInject private var fileCache: IOFileCacheImpl
     @IOInject private var httpClient: IOHTTPClientImpl
     @IOInject private var localization: IOLocalizationImpl
     
@@ -86,5 +87,8 @@ struct IOSwiftUISampleApp: App {
             "Content-Type": "application/json",
             "X-IO-AUTHORIZATION": self.configuration.configForType(type: .networkingAuthorizationHeader)
         ])
+        
+        let cacheFileBeforeDate = Date()
+        self.fileCache.removeFiles(beforeDate: cacheFileBeforeDate.date(bySubtractingDays: 3)!)
     }
 }
