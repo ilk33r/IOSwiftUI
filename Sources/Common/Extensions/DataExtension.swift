@@ -40,4 +40,21 @@ public extension Data {
             SecRandomCopyBytes(kSecRandomDefault, 32, $0.baseAddress!)
         }
     }
+    
+    func toHexString() -> String {
+        // Obtain bytes
+        let bytes = self.bytes
+        
+        // Create mutable string
+        var hexString = ""
+
+        // Loop throught bytes
+        for i in 0..<self.count {
+            let formattedString = String(format: "%02lx", bytes[i])
+            hexString.append(formattedString)
+        }
+        
+        // Copy and return hex string
+        return hexString
+    }
 }
