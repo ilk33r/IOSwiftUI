@@ -20,8 +20,18 @@ final class DiscoverPresenter: IOPresenterable {
     var environment: EnvironmentObject<SampleAppEnvironment>!
     var interactor: DiscoverInteractor!
     
+    // MARK: - Constants
+    
+    private let itemPerPage = 20
+    
     // MARK: - Initialization Methods
     
     init() {
+    }
+    
+    // MARK: - Presenter
+    
+    func loadValues(start: Int) {
+        self.interactor.discover(start: start, count: self.itemPerPage)
     }
 }

@@ -7,6 +7,7 @@
 
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppPresentation
 
 struct DiscoverView: IOController {
     
@@ -18,6 +19,8 @@ struct DiscoverView: IOController {
     
     @ObservedObject public var presenter: DiscoverPresenter
     @StateObject public var navigationState = DiscoverNavigationState()
+    
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     private let items = [
         DiscoverUIModel(
@@ -153,6 +156,12 @@ struct DiscoverView: IOController {
         .navigationWireframe(wireframeView: {
             DiscoverNavigationWireframe(navigationState: navigationState)
         })
+        .onAppear {
+            if !self.isPreviewMode {
+                self.presenter.environment = _appEnvironment
+                self.presenter.loadValues(start: 0)
+            }
+        }
     }
     
     // MARK: - Initialization Methods
