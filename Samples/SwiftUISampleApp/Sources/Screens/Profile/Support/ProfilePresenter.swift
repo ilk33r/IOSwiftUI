@@ -24,7 +24,6 @@ final class ProfilePresenter: IOPresenterable {
     // MARK: - Publisher
     
     @Published var member: MemberModel?
-    var profilePictureData: Data?
     
     // MARK: - Initialization Methods
     
@@ -33,8 +32,7 @@ final class ProfilePresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func update(member: MemberModel?, profilePictureData: Data?) {
-        self.profilePictureData = profilePictureData
+    func update(member: MemberModel?) {
         self.member = member
     }
 }

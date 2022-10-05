@@ -14,13 +14,11 @@ struct ProfileHeaderView: View {
     
     private let nameAndSurname: String
     private let locationName: String
-    private let profilePictureImage: Image
+    private let profilePictureImage: AnyView
     
     var body: some View {
         VStack {
             profilePictureImage
-                .resizable()
-                .aspectRatio(contentMode: .fill)
                 .frame(width: 128, height: 128)
                 .clipShape(Circle())
             Text(nameAndSurname)
@@ -42,24 +40,27 @@ struct ProfileHeaderView: View {
         }
     }
     
-    init(member: MemberModel?, profilePictureData: Data?) {
+    init(member: MemberModel?) {
         let name = member?.name ?? ""
         let surname = member?.surname ?? ""
         
         self.nameAndSurname = String(format: "%@ %@", name, surname)
         self.locationName = member?.locationName ?? ""
         
-        if let profilePictureData {
-            self.profilePictureImage = Image(fromData: profilePictureData)
+        if let profilePicturePublicId = member?.profilePicturePublicId {
+            let profilePictureImage = Image()
+                .from(publicId: profilePicturePublicId)
+            self.profilePictureImage = AnyView(profilePictureImage)
         } else {
-            self.profilePictureImage = Image(systemName: "person.crop.circle")
+            let profilePictureImage = Image(systemName: "person.crop.circle")
                 .renderingMode(.template)
+            self.profilePictureImage = AnyView(profilePictureImage)
         }
     }
 }
 
 struct ProfileHeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileHeaderView(member: nil, profilePictureData: nil)
+        ProfileHeaderView(member: nil)
     }
 }

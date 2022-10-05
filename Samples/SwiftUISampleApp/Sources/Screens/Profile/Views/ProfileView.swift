@@ -102,7 +102,7 @@ struct ProfileView: IOController {
     // MARK: - Helper Methods
     
     private func createHeaderView(member: MemberModel?) -> some View {
-        return ProfileHeaderView(member: member, profilePictureData: self.presenter.profilePictureData)
+        return ProfileHeaderView(member: member)
             .padding(.top, 32)
             .padding(.bottom, 4)
             .background(

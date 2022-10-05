@@ -13,12 +13,16 @@ import IOSwiftUIInfrastructure
 enum ProfileService {
     
     case memberGet(request: MemberGetRequestModel)
+    case memberGetImages(request: PaginationRequestModel)
 }
 
 extension ProfileService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
+        case .memberGetImages:
+            return .post
+            
         default:
             return .get
         }
@@ -28,6 +32,9 @@ extension ProfileService: IOServiceType {
         switch self {
         case .memberGet:
             return "Member/Get"
+            
+        case .memberGetImages:
+            return "MemberImages/GetImages"
         }
     }
     
@@ -42,11 +49,17 @@ extension ProfileService: IOServiceType {
         switch self {
         case .memberGet(request: let request):
             return self.handleQuery(request)
+            
+        default:
+            return nil
         }
     }
     
     var body: Data? {
         switch self {
+        case .memberGetImages(request: let request):
+            return self.handleRequest(request)
+            
         default:
             return nil
         }

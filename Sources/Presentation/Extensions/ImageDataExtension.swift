@@ -10,6 +10,10 @@ import SwiftUI
 
 public extension Image {
     
+    init() {
+        self.init(uiImage: UIImage())
+    }
+    
     init(fromData imageData: Data) {
         let uiImage = UIImage(data: imageData) ?? UIImage()
         self.init(uiImage: uiImage)
