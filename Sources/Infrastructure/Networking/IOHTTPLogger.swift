@@ -168,8 +168,12 @@ final public class IOHTTPLogger: IOSingleton {
             return String(data: dataObject, encoding: .utf8) ?? ""
         }
         
+        guard let jsonObject = object as? [String: Any] else {
+            return ""
+        }
+        
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
             let jsonString = String(data: jsonData, encoding: .utf8)
             return jsonString ?? ""
         } catch {
