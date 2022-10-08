@@ -48,7 +48,7 @@ final class ProfileInteractor: IOInteractor<ProfilePresenter, ProfileEntity> {
         self.service.request(.memberGetImages(request: request), responseType: MemberImagesResponseModel.self) { [weak self] result in
             switch result {
             case .success(response: let response):
-                IOLogger.debug("Response \(response)")
+                self?.presenter?.update(imagesResponse: response)
                 
             case .error(message: let message, type: let type, response: let response):
                 self?.handleServiceError(message, type: type, response: response, handler: nil)

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import IOSwiftUIComponents
+import IOSwiftUIInfrastructure
 
 public struct GalleryView: View {
     
@@ -14,12 +15,17 @@ public struct GalleryView: View {
     private let rightGalleryData: [GalleryCellData]
     
     @Binding private var insetTop: CGFloat
+    @Binding private var scrollContentSize: CGSize
     @Binding private var scrollOffset: CGFloat
     @Binding private var tapIndex: Int
+    @Binding private var viewSize: CGSize
     
     public var body: some View {
         GeometryReader { proxy in
-            IOObservableScrollView(scrollOffset: $scrollOffset) { _ in
+            IOObservableScrollView(
+                contentSize: $scrollContentSize,
+                scrollOffset: $scrollOffset
+            ) { _ in
                 let itemWidth = (proxy.size.width - 16 - 16 - 9) / 2
                 Color.clear
                     .frame(height: insetTop)
@@ -27,7 +33,7 @@ public struct GalleryView: View {
                     LazyVGrid(columns: [GridItem(.flexible())]) {
                         ForEach(leftGalleryData) { it in
                             GalleryCellView(
-                                image: it.image,
+                                imagePublicId: it.imagePublicId,
                                 type: it.type,
                                 width: itemWidth
                             )
@@ -39,7 +45,7 @@ public struct GalleryView: View {
                     LazyVGrid(columns: [GridItem(.flexible())]) {
                         ForEach(rightGalleryData) { it in
                             GalleryCellView(
-                                image: it.image,
+                                imagePublicId: it.imagePublicId,
                                 type: it.type,
                                 width: itemWidth
                             )
@@ -52,14 +58,19 @@ public struct GalleryView: View {
                 .padding(.leading, 16)
                 .padding(.trailing, 16)
             }
+            .onAppear {
+                viewSize = proxy.size
+            }
         }
     }
     
     public init(
         insetTop: Binding<CGFloat>,
+        scrollContentSize: Binding<CGSize>,
         scrollOffset: Binding<CGFloat>,
         tapIndex: Binding<Int>,
-        galleryImages: [Image]
+        viewSize: Binding<CGSize>,
+        galleryImages: [String]
     ) {
         var leftGalleryData = [GalleryCellData]()
         var rightGalleryData = [GalleryCellData]()
@@ -69,7 +80,7 @@ public struct GalleryView: View {
                 let isSmall = it.offset % 4 == 0
                 leftGalleryData.append(
                     GalleryCellData(
-                        image: it.element,
+                        imagePublicId: it.element,
                         index: it.offset,
                         type: (isSmall) ? .small : .normal
                     )
@@ -77,7 +88,7 @@ public struct GalleryView: View {
             } else {
                 rightGalleryData.append(
                     GalleryCellData(
-                        image: it.element,
+                        imagePublicId: it.element,
                         index: it.offset,
                         type: .normal
                     )
@@ -88,8 +99,10 @@ public struct GalleryView: View {
         self.leftGalleryData = leftGalleryData
         self.rightGalleryData = rightGalleryData
         self._insetTop = insetTop
+        self._scrollContentSize = scrollContentSize
         self._scrollOffset = scrollOffset
         self._tapIndex = tapIndex
+        self._viewSize = viewSize
     }
 }
 
@@ -98,35 +111,39 @@ struct GalleryView_Previews: PreviewProvider {
     struct GalleryViewDemo: View {
         
         @State var insetTop: CGFloat = 0
+        @State var scrollContentSize: CGSize = .zero
         @State var scrollOffset: CGFloat = 0
         @State var tapIndex: Int = 0
+        @State var viewSize: CGSize = .zero
         
         let galleryImages = [
-            Image("pwGallery0"),
-            Image("pwGallery1"),
-            Image("pwGallery2"),
-            Image("pwGallery3"),
-            Image("pwGallery4"),
-            Image("pwGallery5"),
-            Image("pwGallery0"),
-            Image("pwGallery1"),
-            Image("pwGallery2"),
-            Image("pwGallery3"),
-            Image("pwGallery4"),
-            Image("pwGallery5"),
-            Image("pwGallery0"),
-            Image("pwGallery1"),
-            Image("pwGallery2"),
-            Image("pwGallery3"),
-            Image("pwGallery4"),
-            Image("pwGallery5")
+            "pwGallery0",
+            "pwGallery1",
+            "pwGallery2",
+            "pwGallery3",
+            "pwGallery4",
+            "pwGallery5",
+            "pwGallery0",
+            "pwGallery1",
+            "pwGallery2",
+            "pwGallery3",
+            "pwGallery4",
+            "pwGallery5",
+            "pwGallery0",
+            "pwGallery1",
+            "pwGallery2",
+            "pwGallery3",
+            "pwGallery4",
+            "pwGallery5"
         ]
         
         var body: some View {
             GalleryView(
                 insetTop: $insetTop,
+                scrollContentSize: $scrollContentSize,
                 scrollOffset: $scrollOffset,
                 tapIndex: $tapIndex,
+                viewSize: $viewSize,
                 galleryImages: galleryImages
             )
         }

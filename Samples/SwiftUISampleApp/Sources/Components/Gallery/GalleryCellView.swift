@@ -14,7 +14,7 @@ public struct GalleryCellView: View {
         case normal
     }
     
-    private var image: Image
+    private var imagePublicId: String
     private var type: `Type`
     private var width: CGFloat
     
@@ -26,20 +26,19 @@ public struct GalleryCellView: View {
             height = 220
         }
         
-        return image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
+        return Image()
+            .from(publicId: imagePublicId)
             .frame(width: width, height: height, alignment: .center)
             .contentShape(RoundedRectangle(cornerRadius: 2))
             .clipped()
     }
     
     public init(
-        image: Image,
+        imagePublicId: String,
         type: `Type`,
         width: CGFloat
     ) {
-        self.image = image
+        self.imagePublicId = imagePublicId
         self.type = type
         self.width = width
     }
@@ -47,7 +46,7 @@ public struct GalleryCellView: View {
 
 struct GalleryCellView_Previews: PreviewProvider {
     static var previews: some View {
-        GalleryCellView(image: Image("pwGallery1"), type: .normal, width: 90)
+        GalleryCellView(imagePublicId: "", type: .normal, width: 90)
             .previewLayout(.sizeThatFits)
     }
 }

@@ -33,6 +33,17 @@ struct ImagePublicIDModifier: ViewModifier {
     }
     
     func body(content: Content) -> some View {
+        if
+            ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" &&
+                publicId.starts(with: "pw")
+        {
+            return AnyView(
+                Image(publicId)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            )
+        }
+        
         if let imageData {
             return AnyView(
                 Image(fromData: imageData)
@@ -56,8 +67,8 @@ struct ImagePublicIDModifier: ViewModifier {
     
     private func loadImage() -> IOCancellable? {
         do {
-            let profilePictureData = try self.fileCache.getFile(fromCache: publicId)
-            imageData = profilePictureData
+            let cachedImage = try self.fileCache.getFile(fromCache: publicId)
+            imageData = cachedImage
             return nil
         } catch let error {
             IOLogger.debug(error.localizedDescription)

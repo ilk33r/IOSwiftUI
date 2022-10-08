@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 29.08.2022.
 //
 
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppCommon
@@ -25,29 +26,10 @@ struct ProfileView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     @State private var headerSize: CGSize = .zero
+    @State private var scrollContentSize: CGSize = .zero
     @State private var scrollOffset: CGFloat = 0
     @State private var tapIndex: Int = -1
-    
-    let galleryImages = [
-        Image("pwGallery0"),
-        Image("pwGallery1"),
-        Image("pwGallery2"),
-        Image("pwGallery3"),
-        Image("pwGallery4"),
-        Image("pwGallery5"),
-        Image("pwGallery0"),
-        Image("pwGallery1"),
-        Image("pwGallery2"),
-        Image("pwGallery3"),
-        Image("pwGallery4"),
-        Image("pwGallery5"),
-        Image("pwGallery0"),
-        Image("pwGallery1"),
-        Image("pwGallery2"),
-        Image("pwGallery3"),
-        Image("pwGallery4"),
-        Image("pwGallery5")
-    ]
+    @State private var viewSize: CGSize = .zero
     
     var body: some View {
         GeometryReader { proxy in
@@ -61,9 +43,11 @@ struct ProfileView: IOController {
                 .clipped()
                 GalleryView(
                     insetTop: $headerSize.height,
+                    scrollContentSize: $scrollContentSize,
                     scrollOffset: $scrollOffset,
                     tapIndex: $tapIndex,
-                    galleryImages: galleryImages
+                    viewSize: $viewSize,
+                    galleryImages: presenter.images
                 )
                 .zIndex(10)
             }
@@ -72,9 +56,14 @@ struct ProfileView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
-        .onChange(of: tapIndex) { _ in
-            navigationState.entity = PhotoGalleryEntity(images: galleryImages)
-            navigationState.navigateToGallery = true
+//        .onChange(of: tapIndex) { _ in
+//            navigationState.entity = PhotoGalleryEntity(images: galleryImages)
+//            navigationState.navigateToGallery = true
+//        }
+        .onChange(of: scrollOffset) { newValue in
+            if scrollContentSize.height - viewSize.height <= newValue {
+                presenter.getImages()
+            }
         }
         .navigationWireframe(isHidden: true) {
             ProfileNavigationWireframe(navigationState: navigationState)
@@ -86,9 +75,10 @@ struct ProfileView: IOController {
             )
         }
         .onAppear {
-            if !self.isPreviewMode {
-                self.presenter.environment = _appEnvironment
-                self.presenter.interactor.getMember()
+            if !isPreviewMode {
+                presenter.environment = _appEnvironment
+                presenter.interactor.getMember()
+                presenter.getImages()
             }
         }
     }
