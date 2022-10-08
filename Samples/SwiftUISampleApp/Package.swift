@@ -12,6 +12,7 @@ let package = Package(
     products: [
         .library(
             name: "SwiftUISampleApp",
+            type: .static,
             targets: ["SwiftUISampleApp"]),
     ],
     dependencies: [

@@ -8,7 +8,7 @@
         "NETWORKING_API_TIMEOUT": "30",
         "NETWORKING_API_URL": "http://localhost:6666"
     },
-    "Development": {
+    "Debug": {
         "GENERAL_ENVIRONMENT": "Development",
         "LOGGING_LOG_LEVEL": "verbose",
         "NETWORKING_API_TIMEOUT": "90",

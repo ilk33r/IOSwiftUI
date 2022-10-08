@@ -12,6 +12,7 @@ let package = Package(
     products: [
         .library(
             name: "IOSwiftUI",
+            type: .static,
             targets: ["IOSwiftUI"]),
         .plugin(name: "IOBuildConfigGeneratorPlugin",
                 targets: ["IOBuildConfigGeneratorPlugin"])
