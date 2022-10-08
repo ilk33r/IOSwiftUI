@@ -20,8 +20,8 @@
         "GENERAL_ENVIRONMENT": "DEV",
         "LOGGING_LOG_LEVEL": "verbose",
         "NETWORKING_API_TIMEOUT": "90",
-        "NETWORKING_API_URL": "http://localhost:6666",
-        "NETWORKING_AUTHORIZATION_HEADER": ""
+        "NETWORKING_API_URL": "http://192.168.1.6:5176",
+        "NETWORKING_AUTHORIZATION_HEADER": "n812iw9h0ya7r0ne4qekkcslzi2dsnjc"
     },
     "SIT": {
         "GENERAL_ENVIRONMENT": "SIT",

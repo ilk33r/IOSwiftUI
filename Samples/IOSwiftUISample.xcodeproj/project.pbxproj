@@ -29,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		F73E29B428B18E39005C8A76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F7A69E7928F16633001EDC99 /* IOSwiftUISample.DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = IOSwiftUISample.DEV.xcconfig; sourceTree = "<group>"; };
 		F7AD7DE428DCE8FA00CDB8B8 /* IOBuildConfigGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = IOBuildConfigGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IOBuildConfig.m; path = ../Plugins/IOBuildConfigGenerator/IOBuildConfig.m; sourceTree = "<group>"; };
 		F7AD7DEF28DCE96C00CDB8B8 /* IOBuildConfigGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IOBuildConfigGenerator.m; path = ../Plugins/IOBuildConfigGenerator/IOBuildConfigGenerator.m; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 			children = (
 				F7FEE5B428B0F34D005D6633 /* IOSwiftUISample.Base.xcconfig */,
 				F7FEE5B528B0F35C005D6633 /* IOSwiftUISample.Development.xcconfig */,
+				F7A69E7928F16633001EDC99 /* IOSwiftUISample.DEV.xcconfig */,
 				F7FEE5B628B0F364005D6633 /* IOSwiftUISample.Release.xcconfig */,
 			);
 			path = Configurations;
@@ -278,6 +280,100 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		F7A69E7628F16605001EDC99 /* DEV */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = DEV;
+		};
+		F7A69E7728F16605001EDC99 /* DEV */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F7A69E7928F16633001EDC99 /* IOSwiftUISample.DEV.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F728BG4L5E;
+				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access camera for adding a new photo.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+			};
+			name = DEV;
+		};
+		F7A69E7828F16605001EDC99 /* DEV */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Manual;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = DEV;
+		};
 		F7AD7DE928DCE8FA00CDB8B8 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -463,6 +559,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F7AD7DE928DCE8FA00CDB8B8 /* Development */,
+				F7A69E7828F16605001EDC99 /* DEV */,
 				F7AD7DEA28DCE8FA00CDB8B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -472,6 +569,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F7FEE59428B0F1C9005D6633 /* Development */,
+				F7A69E7628F16605001EDC99 /* DEV */,
 				F7FEE59528B0F1C9005D6633 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -481,6 +579,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F7FEE59728B0F1C9005D6633 /* Development */,
+				F7A69E7728F16605001EDC99 /* DEV */,
 				F7FEE59828B0F1C9005D6633 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

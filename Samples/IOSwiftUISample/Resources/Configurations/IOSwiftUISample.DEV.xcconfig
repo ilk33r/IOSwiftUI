@@ -1,0 +1,10 @@
+//
+//  IOSwiftUISample.DEV.xcconfig
+//  IOSwiftUISample
+//
+//  Created by Adnan ilker Ozcan on 8.10.2022.
+//
+
+#include "IOSwiftUISample/Resources/Configurations/IOSwiftUISample.Base.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = com.ilkerozcan.IOSwiftUISample.debug
