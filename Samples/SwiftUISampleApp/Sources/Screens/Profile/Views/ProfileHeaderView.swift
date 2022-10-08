@@ -54,6 +54,8 @@ struct ProfileHeaderView: View {
         } else {
             let profilePictureImage = Image(systemName: "person.crop.circle")
                 .renderingMode(.template)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
             self.profilePictureImage = AnyView(profilePictureImage)
         }
     }

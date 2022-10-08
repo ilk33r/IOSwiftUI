@@ -25,8 +25,8 @@ struct ___VARIABLE_productName___View: IOController {
                 ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
             }
             .onAppear {
-//              if !self.isPreviewMode {
-//                  self.presenter.environment = _appEnvironment
+//              if !isPreviewMode {
+//                  presenter.environment = _appEnvironment
 //              }
             }
     }

@@ -47,13 +47,13 @@ public struct SplashView: IOController {
             HStack(alignment: .bottom, spacing: 9) {
                 SecondaryButton(.splashButtonLogInUppercased)
                     .setClick({
-                        self.navigationState.navigateToLogin = true
+                        navigationState.navigateToLogin = true
                     })
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .hidden(isHidden: $buttonsIsHidden)
                 PrimaryButton(.splashButtonRegisterUppercased)
                     .setClick {
-                        self.navigationState.navigateToRegister = true
+                        navigationState.navigateToRegister = true
                     }
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .hidden(isHidden: $buttonsIsHidden)
@@ -69,9 +69,9 @@ public struct SplashView: IOController {
             SplashNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !self.isPreviewMode {
-                self.presenter.environment = _appEnvironment
-                self.presenter.interactor.handshake()
+            if !isPreviewMode {
+                presenter.environment = _appEnvironment
+                presenter.interactor.handshake()
             }
         }
         .onReceive(presenter.$showButtons) { isShow in

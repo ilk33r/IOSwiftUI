@@ -157,9 +157,9 @@ struct DiscoverView: IOController {
             DiscoverNavigationWireframe(navigationState: navigationState)
         })
         .onAppear {
-            if !self.isPreviewMode {
-                self.presenter.environment = _appEnvironment
-                self.presenter.loadValues(start: 0)
+            if !isPreviewMode {
+                presenter.environment = _appEnvironment
+                presenter.loadValues(start: 0)
             }
         }
     }
