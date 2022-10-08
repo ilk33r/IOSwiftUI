@@ -70,11 +70,11 @@ public extension String {
     // MARK: - Trim
     
     func trim(characterSet: CharacterSet) -> String {
-        return String(self.unicodeScalars.filter(characterSet.inverted.contains))
+        return String(self.unicodeScalars.filter(characterSet.contains))
     }
     
     func trimNonAlphaNumericCharacters() -> String {
-        return self.trim(characterSet: CharacterSet.urlHostAllowed)
+        return self.trim(characterSet: CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"))
     }
     
     func trimLetters() -> String {

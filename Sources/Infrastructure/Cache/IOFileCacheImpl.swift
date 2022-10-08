@@ -27,7 +27,7 @@ final public class IOFileCacheImpl: IOFileCache, IOSingleton {
     
     public func getFile(fromCache name: String) throws -> Data {
         let fileManager = FileManager.default
-        let fileURL = self.cacheFileURL(fromCache: name, cacheDirectory: fileManager.cacheDirectory)
+        let fileURL = try self.cacheFileURL(fromCache: name, cacheDirectory: fileManager.cacheDirectory)
         
         if fileManager.fileExists(atPath: fileURL.path) {
             return try Data(contentsOf: fileURL)
@@ -39,7 +39,7 @@ final public class IOFileCacheImpl: IOFileCache, IOSingleton {
     public func storeFile(toCache name: String, fileData: Data) throws {
         let fileManager = FileManager.default
         let cacheDirectory = fileManager.cacheDirectory
-        let fileURL = self.cacheFileURL(fromCache: name, cacheDirectory: cacheDirectory)
+        let fileURL = try self.cacheFileURL(fromCache: name, cacheDirectory: cacheDirectory)
         
         var isDirectory = ObjCBool(true)
         if !fileManager.fileExists(atPath: cacheDirectory, isDirectory: &isDirectory) {
@@ -83,14 +83,19 @@ final public class IOFileCacheImpl: IOFileCache, IOSingleton {
     
     // MARK: - Helper Methods
     
-    private func cacheFileURL(fromCache name: String, cacheDirectory: String) -> URL {
+    private func cacheFileURL(fromCache name: String, cacheDirectory: String) throws -> URL {
         let trimmedFileName = name.trimNonAlphaNumericCharacters()
         let cacheDirectoryName = self.configuration.configForType(type: .fileCacheDirectoryName)
         let fileManager = FileManager.default
         let fileURL = URL(fileURLWithPath: fileManager.cacheDirectory)
             .appendingPathComponent(cacheDirectoryName)
-            .appendingPathComponent(trimmedFileName)
         
-        return fileURL
+        var isDirectory = ObjCBool(true)
+        if !fileManager.fileExists(atPath: fileURL.path, isDirectory: &isDirectory) {
+            try fileManager.createDirectory(at: fileURL, withIntermediateDirectories: false)
+            try fileManager.addSkipBackupAttribute(toItemAt: cacheDirectory)
+        }
+        
+        return fileURL.appendingPathComponent(trimmedFileName)
     }
 }
