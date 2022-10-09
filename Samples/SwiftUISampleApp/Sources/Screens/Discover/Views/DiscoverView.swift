@@ -22,126 +22,11 @@ struct DiscoverView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    private let items = [
-        DiscoverUIModel(
-            image: Image("pwGallery0"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery1"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery2"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery3"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery4"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery5"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery0"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery1"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery2"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery3"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery0"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery4"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery5"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery0"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery1"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        ),
-        DiscoverUIModel(
-            image: Image("pwGallery3"),
-            userName: "@ridzjcob!",
-            userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
-            messageTime: "16 min ago"
-        )
-    ]
-    
     var body: some View {
         GeometryReader { proxy in
             ScrollView {
                 LazyVStack {
-                    ForEach(items) { item in
+                    ForEach(presenter.images) { item in
                         DiscoverCellView(uiModel: item, width: proxy.size.width)
                     }
                 }
@@ -159,7 +44,7 @@ struct DiscoverView: IOController {
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
-                presenter.loadValues(start: 0)
+                presenter.loadImages()
             }
         }
     }

@@ -10,24 +10,24 @@ import SwiftUI
 
 struct DiscoverUIModel: Identifiable {
     
-    let image: Image
+    let imagePublicId: String
     let userName: String
     let userNameAndSurname: String
-    let userAvatar: Image
+    let userAvatarPublicId: String
     let messageTime: String
     let id = UUID()
     
     init(
-        image: Image,
+        imagePublicId: String,
         userName: String,
         userNameAndSurname: String,
-        userAvatar: Image,
+        userAvatarPublicId: String,
         messageTime: String
     ) {
-        self.image = image
+        self.imagePublicId = imagePublicId
         self.userName = userName
         self.userNameAndSurname = userNameAndSurname
-        self.userAvatar = userAvatar
+        self.userAvatarPublicId = userAvatarPublicId
         self.messageTime = messageTime
     }
 }

@@ -19,19 +19,15 @@ final class DiscoverInteractor: IOInteractor<DiscoverPresenter, DiscoverEntity> 
     // MARK: - Interactor
     
     func discover(start: Int, count: Int) {
-        self.showIndicator()
-        
         let request = PaginationRequestModel()
         request.pagination = PaginationModel()
         request.pagination?.start = start
         request.pagination?.count = count
         
         self.service.request(.discover(request: request), responseType: DiscoverImagesResponseModel.self) { [weak self] result in
-            self?.hideIndicator()
-            
             switch result {
             case .success(response: let response):
-                IOLogger.debug("Response \(response)")
+                self?.presenter?.update(discoverResponse: response)
                 
             case .error(message: let message, type: let type, response: let response):
                 self?.handleServiceError(message, type: type, response: response, handler: nil)

@@ -62,7 +62,7 @@ struct ProfileView: IOController {
 //        }
         .onChange(of: scrollOffset) { newValue in
             if scrollContentSize.height - viewSize.height <= newValue {
-                presenter.getImages()
+                presenter.loadImages()
             }
         }
         .navigationWireframe(isHidden: true) {
@@ -78,7 +78,7 @@ struct ProfileView: IOController {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
                 presenter.interactor.getMember()
-                presenter.getImages()
+                presenter.loadImages()
             }
         }
     }

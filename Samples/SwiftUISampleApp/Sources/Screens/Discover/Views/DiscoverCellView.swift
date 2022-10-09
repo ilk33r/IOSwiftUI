@@ -14,16 +14,14 @@ struct DiscoverCellView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            uiModel.image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+            Image()
+                .from(publicId: uiModel.imagePublicId)
                 .frame(width: (width > 32) ? width - 32 : width, height: width)
                 .clipped()
             
             HStack(alignment: .top) {
-                uiModel.userAvatar
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
+                Image()
+                    .from(publicId: uiModel.userAvatarPublicId)
                     .frame(width: 28, height: 28)
                     .clipShape(Circle())
                 
@@ -56,10 +54,10 @@ struct DiscoverCellView: View {
 struct DiscoverCellView_Previews: PreviewProvider {
     static var previews: some View {
         let uiModel = DiscoverUIModel(
-            image: Image("pwGallery3"),
+            imagePublicId: "pwGallery3",
             userName: "@ridzjcob!",
             userNameAndSurname: "Ridhwan Nordin",
-            userAvatar: Image("pwChatAvatar"),
+            userAvatarPublicId: "pwChatAvatar",
             messageTime: "16 min ago"
         )
         

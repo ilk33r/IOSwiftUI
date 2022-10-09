@@ -46,7 +46,7 @@ final class ProfilePresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func getImages() {
+    func loadImages() {
         if self.isImagesLoading {
             return
         }
