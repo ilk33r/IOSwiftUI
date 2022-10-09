@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import IOSwiftUIComponents
 import IOSwiftUIInfrastructure
+import IOSwiftUIPresentation
 
 public struct GalleryView: View {
     

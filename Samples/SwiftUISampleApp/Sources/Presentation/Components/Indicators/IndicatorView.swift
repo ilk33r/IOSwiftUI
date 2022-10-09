@@ -5,8 +5,8 @@
 //  Created by Adnan ilker Ozcan on 27.08.2022.
 //
 
+import IOSwiftUIPresentation
 import SwiftUI
-import IOSwiftUIComponents
 
 public struct IndicatorView: View {
     

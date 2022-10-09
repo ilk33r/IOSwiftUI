@@ -6,9 +6,8 @@
 //
 
 import IOSwiftUIPresentation
-import IOSwiftUIComponents
 import SwiftUI
-import SwiftUISampleAppComponents
+import SwiftUISampleAppPresentation
 
 struct ChatView: IOController {
     

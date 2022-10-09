@@ -6,8 +6,8 @@
 //
 
 import Foundation
+import IOSwiftUIPresentation
 import SwiftUI
-import IOSwiftUIComponents
 
 struct ChatSendCellView: View {
     

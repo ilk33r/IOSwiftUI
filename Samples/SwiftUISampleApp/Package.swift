@@ -12,7 +12,6 @@ let package = Package(
     products: [
         .library(
             name: "SwiftUISampleApp",
-            type: .static,
             targets: ["SwiftUISampleApp"]),
     ],
     dependencies: [
@@ -41,17 +40,10 @@ let package = Package(
                                "SwiftUISampleAppCommon",
                                "SwiftUISampleAppInfrastructure"],
                 path: "Sources/Presentation"),
-        .target(name: "SwiftUISampleAppComponents",
-                dependencies: [.product(name: "IOSwiftUI", package: "IOSwiftUI"),
-                               "SwiftUISampleAppResources",
-                               "SwiftUISampleAppCommon",
-                               "SwiftUISampleAppPresentation"],
-                path: "Sources/Components"),
         .target(
             name: "SwiftUISampleAppScreens",
             dependencies: ["SwiftUISampleAppResources",
                            "SwiftUISampleAppCommon",
-                           "SwiftUISampleAppComponents",
                            "SwiftUISampleAppPresentation"],
             path: "Sources/Screens"),
         .target(
@@ -60,7 +52,6 @@ let package = Package(
                            "SwiftUISampleAppResources",
                            "SwiftUISampleAppCommon",
                            "SwiftUISampleAppInfrastructure",
-                           "SwiftUISampleAppComponents",
                            "SwiftUISampleAppPresentation",
                            "SwiftUISampleAppScreens"])
     ]

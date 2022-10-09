@@ -1,17 +1,16 @@
 //
-//  SecureFloatingTextField.swift
+//  SwiftUIView.swift
 //  
 //
-//  Created by Adnan ilker Ozcan on 30.09.2022.
+//  Created by Adnan ilker Ozcan on 20.08.2022.
 //
 
 import SwiftUI
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
-import IOSwiftUIComponents
 import SwiftUISampleAppResources
 
-public struct SecureFloatingTextField: View, IOValidatable {
+public struct FloatingTextField: View, IOValidatable {
     
     public var validationText: String? { self.text }
     
@@ -27,7 +26,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
     
     public var body: some View {
         VStack(alignment: .leading) {
-            IOSecureFloatingTextField(
+            IOFloatingTextField(
                 localizationType,
                 text: $text,
                 keyboardType: self.keyboardType,
@@ -82,8 +81,8 @@ public struct SecureFloatingTextField: View, IOValidatable {
         self.capitalization = capitalization
     }
     
-    public func capitalization(_ type: UITextAutocapitalizationType) -> SecureFloatingTextField {
-        return SecureFloatingTextField(
+    public func capitalization(_ type: UITextAutocapitalizationType) -> FloatingTextField {
+        return FloatingTextField(
             localizationType,
             text: $text,
             keyboardType: keyboardType,
@@ -93,8 +92,8 @@ public struct SecureFloatingTextField: View, IOValidatable {
         )
     }
     
-    public func disableCorrection(_ correction: Bool) -> SecureFloatingTextField {
-        return SecureFloatingTextField(
+    public func disableCorrection(_ correction: Bool) -> FloatingTextField {
+        return FloatingTextField(
             localizationType,
             text: $text,
             keyboardType: keyboardType,
@@ -104,8 +103,8 @@ public struct SecureFloatingTextField: View, IOValidatable {
         )
     }
     
-    public func keyboardType(_ type: UIKeyboardType) -> SecureFloatingTextField {
-        return SecureFloatingTextField(
+    public func keyboardType(_ type: UIKeyboardType) -> FloatingTextField {
+        return FloatingTextField(
             localizationType,
             text: $text,
             keyboardType: type,
@@ -115,8 +114,8 @@ public struct SecureFloatingTextField: View, IOValidatable {
         )
     }
     
-    public func editingHandler(isEditing: Binding<Bool>) -> SecureFloatingTextField {
-        return SecureFloatingTextField(
+    public func editingHandler(isEditing: Binding<Bool>) -> FloatingTextField {
+        return FloatingTextField(
             localizationType,
             text: $text,
             keyboardType: keyboardType,
@@ -133,7 +132,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
     }
 }
 
-struct SecureFloatingTextField_Previews: PreviewProvider {
+struct FloatingTextField_Previews: PreviewProvider {
     
     struct FloatingTextFieldDemo: View {
     

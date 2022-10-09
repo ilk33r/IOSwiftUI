@@ -5,10 +5,9 @@
 //  Created by Adnan ilker Ozcan on 27.08.2022.
 //
 
-import IOSwiftUIComponents
 import IOSwiftUIPresentation
 import SwiftUI
-import SwiftUISampleAppComponents
+import SwiftUISampleAppPresentation
 
 public struct HomeView: IOController {
     

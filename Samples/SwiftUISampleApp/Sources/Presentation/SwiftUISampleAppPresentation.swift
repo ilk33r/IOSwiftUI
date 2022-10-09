@@ -6,7 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct SwiftUISampleAppPresentation {
+struct SwiftUISampleAppPresentation_Previews: PreviewProvider {
     
+    static var previews: some View {
+        Group {
+            PrimaryButton(.init(rawValue: "Primary Button"))
+            SecondaryButton(.init(rawValue: "Primary Button"))
+        }
+    }
 }

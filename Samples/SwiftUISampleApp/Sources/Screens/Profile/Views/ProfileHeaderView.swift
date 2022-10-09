@@ -8,7 +8,7 @@
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppCommon
-import SwiftUISampleAppComponents
+import SwiftUISampleAppPresentation
 
 struct ProfileHeaderView: View {
     

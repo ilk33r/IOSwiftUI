@@ -5,11 +5,9 @@
 //  Created by Adnan ilker Ozcan on 22.08.2022.
 //
 
-import IOSwiftUIComponents
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
-import SwiftUISampleAppComponents
 import SwiftUISampleAppPresentation
 
 struct LoginView: IOController {

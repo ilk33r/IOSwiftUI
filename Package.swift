@@ -12,7 +12,6 @@ let package = Package(
     products: [
         .library(
             name: "IOSwiftUI",
-            type: .static,
             targets: ["IOSwiftUI"]),
         .plugin(name: "IOBuildConfigGeneratorPlugin",
                 targets: ["IOBuildConfigGeneratorPlugin"])
@@ -49,17 +48,11 @@ let package = Package(
                 dependencies: ["IOSwiftUICommon",
                                "IOSwiftUIInfrastructure"],
                 path: "Sources/Presentation"),
-        .target(name: "IOSwiftUIComponents",
-                dependencies: ["IOSwiftUICommon",
-                               "IOSwiftUIInfrastructure",
-                               "IOSwiftUIPresentation"],
-                path: "Sources/Components"),
         .target(
             name: "IOSwiftUI",
             dependencies: ["IOSwiftUICommon",
                            "IOSwiftUIInfrastructure",
-                           "IOSwiftUIPresentation",
-                           "IOSwiftUIComponents"]),
+                           "IOSwiftUIPresentation"]),
         .testTarget(
             name: "IOSwiftUITests",
             dependencies: ["IOSwiftUI"]),

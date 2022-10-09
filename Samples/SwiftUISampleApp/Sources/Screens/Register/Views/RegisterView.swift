@@ -6,10 +6,10 @@
 //
 
 import IOSwiftUICommon
-import IOSwiftUIComponents
 import IOSwiftUIInfrastructure
+import IOSwiftUIPresentation
 import SwiftUI
-import SwiftUISampleAppComponents
+import SwiftUISampleAppPresentation
 
 struct RegisterView: View {
     

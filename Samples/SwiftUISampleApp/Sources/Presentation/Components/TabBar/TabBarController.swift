@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import IOSwiftUIComponents
+import IOSwiftUIPresentation
 import UIKit
 
 final public class TabBarController: IOTabBarController {

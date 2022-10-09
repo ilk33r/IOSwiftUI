@@ -10,7 +10,6 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppScreens
 import SwiftUI
 import SwiftUISampleAppCommon
-import SwiftUISampleAppComponents
 import SwiftUISampleAppPresentation
 
 @main

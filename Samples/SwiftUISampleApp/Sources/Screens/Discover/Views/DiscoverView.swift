@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 2.09.2022.
 //
 
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
@@ -25,11 +26,16 @@ struct DiscoverView: IOController {
     var body: some View {
         GeometryReader { proxy in
             ScrollView {
+                PositionIndicator(type: .moving)
                 LazyVStack {
                     ForEach(presenter.images) { item in
                         DiscoverCellView(uiModel: item, width: proxy.size.width)
                     }
                 }
+            }
+            .background(PositionIndicator(type: .fixed))
+            .onPreferenceChange(PositionPreferenceKey.self) { value in
+                IOLogger.verbose("Position changed \(value)")
             }
             
             Color.white

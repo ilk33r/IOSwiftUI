@@ -2,7 +2,6 @@
 
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
-import IOSwiftUIComponents
 import IOSwiftUIPresentation
 import SwiftUI
 

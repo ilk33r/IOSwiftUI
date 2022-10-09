@@ -7,7 +7,7 @@
 
 import IOSwiftUIPresentation
 import SwiftUI
-import SwiftUISampleAppComponents
+import SwiftUISampleAppPresentation
 
 struct ChatInboxView: IOController {
     

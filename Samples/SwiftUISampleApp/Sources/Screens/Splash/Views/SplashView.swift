@@ -9,7 +9,6 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
-import SwiftUISampleAppComponents
 
 public struct SplashView: IOController {
     

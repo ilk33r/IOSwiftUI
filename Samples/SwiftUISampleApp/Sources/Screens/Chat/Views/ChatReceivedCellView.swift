@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import IOSwiftUIPresentation
 import SwiftUI
-import IOSwiftUIComponents
+import SwiftUISampleAppPresentation
 
 struct ChatReceivedCellView: View {
     

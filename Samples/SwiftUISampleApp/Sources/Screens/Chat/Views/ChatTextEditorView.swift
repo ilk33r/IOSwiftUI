@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import SwiftUI
 import IOSwiftUIInfrastructure
-import IOSwiftUIComponents
+import IOSwiftUIPresentation
+import SwiftUI
 
 private struct ChatTextEditorViewPreferenceKey: PreferenceKey {
     
