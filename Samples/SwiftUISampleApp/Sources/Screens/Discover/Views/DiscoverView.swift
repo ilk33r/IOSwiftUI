@@ -20,24 +20,26 @@ struct DiscoverView: IOController {
     
     @ObservedObject public var presenter: DiscoverPresenter
     @StateObject public var navigationState = DiscoverNavigationState()
+    @State private var contentSize: CGSize = .zero
+    @State private var isRefreshing = false
+    @State private var scrollOffset: CGFloat = 0
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     var body: some View {
         GeometryReader { proxy in
-            ScrollView {
-                PositionIndicator(type: .moving)
+            IORefreshableScrollView(
+                backgroundColor: .white,
+                contentSize: $contentSize,
+                isRefreshing: $isRefreshing,
+                scrollOffset: $scrollOffset
+            ) { _ in
                 LazyVStack {
                     ForEach(presenter.images) { item in
                         DiscoverCellView(uiModel: item, width: proxy.size.width)
                     }
                 }
             }
-            .background(PositionIndicator(type: .fixed))
-            .onPreferenceChange(PositionPreferenceKey.self) { value in
-                IOLogger.verbose("Position changed \(value)")
-            }
-            
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
@@ -50,7 +52,18 @@ struct DiscoverView: IOController {
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
-                presenter.loadImages()
+                presenter.loadImages(showIndicator: true)
+            }
+        }
+        .onChange(of: isRefreshing) { _ in
+            if isRefreshing {
+                presenter.resetPaging()
+                presenter.loadImages(showIndicator: false)
+            }
+        }
+        .onReceive(presenter.$isRefreshing) { newValue in
+            if !(newValue ?? false) {
+                isRefreshing = false
             }
         }
     }
