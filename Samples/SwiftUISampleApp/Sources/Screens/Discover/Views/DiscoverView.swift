@@ -45,7 +45,7 @@ struct DiscoverView: IOController {
                 .ignoresSafeArea()
         }
         .navigationBarTitleDisplayMode(.large)
-        .navigationTitle("Discover")
+        .navigationTitle(type: .discoverTitle)
         .navigationWireframe(wireframeView: {
             DiscoverNavigationWireframe(navigationState: navigationState)
         })

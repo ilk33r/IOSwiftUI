@@ -12,5 +12,7 @@ final class DiscoverNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    // @Published public var navigateToPage: Bool = false
+    @Published public var navigateToProfile = false
+    
+    public var userName: String?
 }

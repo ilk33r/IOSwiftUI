@@ -42,3 +42,6 @@
 // MARK: -  Chat
 "chat.inbox.title" = "Chats";
 "chat.input.placeholder" = "Message...";
+
+// MARK: -  Discover
+"discover.title" = "Discover";

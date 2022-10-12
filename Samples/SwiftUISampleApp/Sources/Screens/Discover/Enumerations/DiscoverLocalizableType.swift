@@ -10,4 +10,5 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let discoverTitle = IOLocalizationType(rawValue: "discover.title")
 }
