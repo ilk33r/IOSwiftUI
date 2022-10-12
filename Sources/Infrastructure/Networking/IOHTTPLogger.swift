@@ -21,6 +21,7 @@ final public class IOHTTPLogger: IOSingleton {
     // MARK: - DI
     
     @IOInject private var configuration: IOConfigurationImpl
+    @IOInstance private var thread: IOThreadImpl
     
     // MARK: - Defs
     
@@ -37,14 +38,12 @@ final public class IOHTTPLogger: IOSingleton {
     
     // MARK: - Privates
     
-    private var queue: DispatchQueue!
     private var requestBodies: [Int: String]
     
     // MARK: - Initialization Methods
     
     public init() {
         self.requestBodies = [:]
-        self.queue = DispatchQueue(label: "com.ioswiftui.infrastructure.networkLogger")
         self.networkHistory = []
     }
     
@@ -88,7 +87,7 @@ final public class IOHTTPLogger: IOSingleton {
         )
         
         // Log call
-        self.queue.async {
+        self.thread.runOnBackgroundThread {
             IOLogger.debug(requestLog)
         }
         
@@ -106,7 +105,7 @@ final public class IOHTTPLogger: IOSingleton {
             )
             
             // Log call
-            self.queue.async {
+            self.thread.runOnBackgroundThread {
                 IOLogger.debug(responseLog)
             }
 
@@ -142,7 +141,7 @@ final public class IOHTTPLogger: IOSingleton {
             let separatorString = self.separatorString()
             
             // Log call
-            self.queue.async {
+            self.thread.runOnBackgroundThread {
                 IOLogger.debug(responseLog)
                 IOLogger.debug("\n\(responseBody)")
                 IOLogger.debug(separatorString)

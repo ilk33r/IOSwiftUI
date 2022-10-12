@@ -18,6 +18,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
     
     @IOInject private var configuration: IOConfigurationImpl
     @IOInject private var httpLogger: IOHTTPLogger
+    @IOInstance private var thread: IOThreadImpl
     
     // MARK: - Publics
     
@@ -165,7 +166,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
                 )
                 
                 // Handle error
-                DispatchQueue.main.async {
+                self?.thread.runOnMainThread {
                     handler?(httpResult)
                 }
                 
@@ -185,7 +186,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
                 )
                 
                 // Handle success
-                DispatchQueue.main.async {
+                self?.thread.runOnMainThread {
                     handler?(httpResult)
                 }
                 
@@ -205,7 +206,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
             )
             
             // Handle error
-            DispatchQueue.main.async {
+            self?.thread.runOnMainThread {
                 handler?(httpResult)
             }
         }
