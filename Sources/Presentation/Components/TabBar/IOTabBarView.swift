@@ -11,14 +11,14 @@ import UIKit
 public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepresentable {
 
     @Binding private var selection: Int
-    private var content: () -> [IdentifiableView]
+    private var content: () -> [IOIdentifiableView]
     private var controllerType: Controller.Type
     private var tabBarType: UITabBar.Type
 
     public init(
         controllerType: Controller.Type,
         tabBarType: UITabBar.Type,
-        @ViewBuilder content: @escaping () -> [IdentifiableView]
+        @ViewBuilder content: @escaping () -> [IOIdentifiableView]
     ) {
         self.content = content
         self.controllerType = controllerType
@@ -30,7 +30,7 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
         controllerType: Controller.Type,
         tabBarType: UITabBar.Type,
         selection: Binding<Int>,
-        @ViewBuilder content: @escaping () -> [IdentifiableView]
+        @ViewBuilder content: @escaping () -> [IOIdentifiableView]
     ) {
         self.content = content
         self.controllerType = controllerType

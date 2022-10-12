@@ -67,7 +67,7 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
         self.selectionHandler = handler
     }
     
-    open func setupViewControllers(identifiables: [IdentifiableView]) {
+    open func setupViewControllers(identifiables: [IOIdentifiableView]) {
         var viewsControllers = [UIHostingController<AnyView>]()
         
         for identifiable in identifiables {

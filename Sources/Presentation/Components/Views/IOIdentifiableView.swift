@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  IOIdentifiableView.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 30.08.2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct IdentifiableView: Identifiable {
+public struct IOIdentifiableView: Identifiable {
     
     public let id = UUID()
     public let view: AnyView

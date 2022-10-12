@@ -23,7 +23,7 @@ final public class TabBarController: IOTabBarController {
     
     // MARK: - Controller Methods
     
-    public override func setupViewControllers(identifiables: [IdentifiableView]) {
+    public override func setupViewControllers(identifiables: [IOIdentifiableView]) {
         super.setupViewControllers(identifiables: identifiables)
         
         /*

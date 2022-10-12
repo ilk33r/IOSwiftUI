@@ -29,10 +29,10 @@ public struct HomeView: IOController {
             selection: $selectedIndex
         ) {
             return [
-                IdentifiableView(view: DiscoverView(entity: DiscoverEntity())),
-                IdentifiableView(view: HomeTabEmptyView()),
-                IdentifiableView(view: ChatInboxView(entity: ChatInboxEntity())),
-                IdentifiableView(view: ProfileView(entity: ProfileEntity(userName: nil)))
+                IOIdentifiableView(view: DiscoverView(entity: DiscoverEntity())),
+                IOIdentifiableView(view: HomeTabEmptyView()),
+                IOIdentifiableView(view: ChatInboxView(entity: ChatInboxEntity())),
+                IOIdentifiableView(view: ProfileView(entity: ProfileEntity(userName: nil)))
             ]
         }
         .onChange(of: selectedIndex) { newValue in
