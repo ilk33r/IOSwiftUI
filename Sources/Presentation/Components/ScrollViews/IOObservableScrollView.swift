@@ -28,7 +28,7 @@ struct IOScrollViewSizePreferenceKey: PreferenceKey {
 
 public struct IOObservableScrollView<Content>: View where Content: View {
     
-    private let content: (ScrollViewProxy) -> Content
+    private let content: (_ proxy: ScrollViewProxy) -> Content
     
     @Binding private var contentSize: CGSize
     @Binding private var scrollOffset: CGFloat
@@ -65,7 +65,7 @@ public struct IOObservableScrollView<Content>: View where Content: View {
     public init(
         contentSize: Binding<CGSize>,
         scrollOffset: Binding<CGFloat>,
-        @ViewBuilder content: @escaping (ScrollViewProxy) -> Content
+        @ViewBuilder content: @escaping (_ proxy: ScrollViewProxy) -> Content
     ) {
         self._contentSize = contentSize
         self._scrollOffset = scrollOffset

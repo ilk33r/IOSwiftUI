@@ -7,7 +7,6 @@
 
 import Foundation
 import IOSwiftUIInfrastructure
-import IOSwiftUIPresentation
 import SwiftUI
 
 public struct IOTextField: View {

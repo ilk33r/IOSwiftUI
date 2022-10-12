@@ -8,7 +8,6 @@
 import SwiftUI
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
-import IOSwiftUIPresentation
 
 public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
     
