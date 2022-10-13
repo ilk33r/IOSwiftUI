@@ -40,10 +40,11 @@ final class ProfileInteractor: IOInteractor<ProfilePresenter, ProfileEntity> {
     }
     
     func getImages(start: Int, count: Int) {
-        let request = PaginationRequestModel()
+        let request = MemberImagesRequestModel()
         request.pagination = PaginationModel()
         request.pagination?.start = start
         request.pagination?.count = count
+        request.userName = self.entity.userName
         
         self.service.request(.memberGetImages(request: request), responseType: MemberImagesResponseModel.self) { [weak self] result in
             switch result {

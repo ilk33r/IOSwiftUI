@@ -13,7 +13,7 @@ import IOSwiftUIInfrastructure
 enum ProfileService {
     
     case memberGet(request: MemberGetRequestModel)
-    case memberGetImages(request: PaginationRequestModel)
+    case memberGetImages(request: MemberImagesRequestModel)
 }
 
 extension ProfileService: IOServiceType {
