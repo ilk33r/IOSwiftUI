@@ -36,7 +36,13 @@ struct DiscoverView: IOController {
             ) { _ in
                 LazyVStack {
                     ForEach(presenter.images) { item in
-                        DiscoverCellView(uiModel: item, width: proxy.size.width)
+                        DiscoverCellView(
+                            uiModel: item,
+                            width: proxy.size.width
+                        ) { userName in
+                            navigationState.userName = userName
+                            navigationState.navigateToProfile = true
+                        }
                     }
                 }
             }
@@ -54,6 +60,9 @@ struct DiscoverView: IOController {
                 presenter.environment = _appEnvironment
                 presenter.loadImages(showIndicator: true)
             }
+            
+            navigationState.userName = nil
+            navigationState.navigateToProfile = false
         }
         .onChange(of: isRefreshing) { _ in
             if isRefreshing {
@@ -76,7 +85,51 @@ struct DiscoverView: IOController {
 }
 
 struct DiscoverView_Previews: PreviewProvider {
+    
+    struct DiscoverViewDemo: View {
+        
+        let uiModels = [
+            DiscoverUIModel(
+                imagePublicId: "pwGallery0",
+                userName: "ilker",
+                userNameAndSurname: "İlker Özcan",
+                userAvatarPublicId: "pwProfilePicture",
+                messageTime: "1 Hour ago"
+            ),
+            DiscoverUIModel(
+                imagePublicId: "pwGallery1",
+                userName: "ilker",
+                userNameAndSurname: "İlker Özcan",
+                userAvatarPublicId: "pwProfilePicture",
+                messageTime: "1 Hour ago"
+            ),
+            DiscoverUIModel(
+                imagePublicId: "pwGallery2",
+                userName: "ilker",
+                userNameAndSurname: "İlker Özcan",
+                userAvatarPublicId: "pwProfilePicture",
+                messageTime: "1 Hour ago"
+            ),
+            DiscoverUIModel(
+                imagePublicId: "pwGallery3",
+                userName: "ilker",
+                userNameAndSurname: "İlker Özcan",
+                userAvatarPublicId: "pwProfilePicture",
+                messageTime: "1 Hour ago"
+            )
+        ]
+        
+        let view = DiscoverView(entity: DiscoverEntity())
+        
+        var body: some View {
+            view
+                .onAppear {
+                    view.presenter.images = uiModels
+                }
+        }
+    }
+    
     static var previews: some View {
-        DiscoverView(entity: DiscoverEntity())
+        DiscoverViewDemo()
     }
 }

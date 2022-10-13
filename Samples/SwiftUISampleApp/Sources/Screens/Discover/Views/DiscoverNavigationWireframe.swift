@@ -18,12 +18,12 @@ struct DiscoverNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var linkBody: some View {
-        EmptyView()
-        /*
-        NavigationLink(destination: PageView(), isActive: $navigationState.navigateToPage) {
+        NavigationLink(
+            destination: ProfileView(entity: ProfileEntity(userName: self.navigationState.userName)),
+            isActive: $navigationState.navigateToProfile
+        ) {
             EmptyView()
         }
-        */
     }
     
     // MARK: - Initialization Methods
