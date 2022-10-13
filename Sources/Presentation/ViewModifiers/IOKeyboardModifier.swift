@@ -1,5 +1,5 @@
 //
-//  KeyboardModifier.swift
+//  IOKeyboardModifier.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 30.08.2022.
@@ -10,11 +10,11 @@ import SwiftUI
 public extension View {
     
     func hideKeyboardOnTap() -> some View {
-        modifier(KeyboardModifier())
+        modifier(IOKeyboardModifier())
     }
 }
 
-struct KeyboardModifier: ViewModifier {
+struct IOKeyboardModifier: ViewModifier {
     
     init() {
     }

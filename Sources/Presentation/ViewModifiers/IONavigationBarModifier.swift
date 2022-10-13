@@ -1,5 +1,5 @@
 //
-//  NavigationBarModifier.swift
+//  IONavigationBarModifier.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 28.08.2022.
@@ -10,11 +10,11 @@ import SwiftUI
 public extension View {
     
     func navigationBar<NavigationBar>(@ViewBuilder navigationBar: @escaping () -> NavigationBar) -> some View where NavigationBar: View {
-        modifier(NavigationBarModifier(navigationBar: navigationBar))
+        modifier(IONavigationBarModifier(navigationBar: navigationBar))
     }
 }
 
-struct NavigationBarModifier<NavigationBar>: ViewModifier where NavigationBar: View {
+struct IONavigationBarModifier<NavigationBar>: ViewModifier where NavigationBar: View {
     
     private var navigationBar: () -> NavigationBar
     

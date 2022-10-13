@@ -1,5 +1,5 @@
 //
-//  HiddenModifier.swift
+//  IOHiddenModifier.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 30.08.2022.
@@ -12,11 +12,11 @@ public extension View {
     func hidden(
         isHidden: Binding<Bool>
     ) -> some View {
-        modifier(HiddenModifier(isHidden: isHidden))
+        modifier(IOHiddenModifier(isHidden: isHidden))
     }
 }
 
-struct HiddenModifier: ViewModifier {
+struct IOHiddenModifier: ViewModifier {
     
     @Binding private var isHidden: Bool
     

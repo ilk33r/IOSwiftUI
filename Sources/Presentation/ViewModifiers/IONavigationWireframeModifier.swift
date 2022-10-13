@@ -1,5 +1,5 @@
 //
-//  NavigationWireframeModifier.swift
+//  IONavigationWireframeModifier.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 28.08.2022.
@@ -10,11 +10,11 @@ import SwiftUI
 public extension View {
     
     func navigationWireframe<Wireframe>(isHidden: Bool = false, @ViewBuilder wireframeView: @escaping () -> Wireframe) -> some View where Wireframe: IONavigationLinkView {
-        modifier(NavigationWireframeModifier(isHidden: isHidden, wireframeView: wireframeView))
+        modifier(IONavigationWireframeModifier(isHidden: isHidden, wireframeView: wireframeView))
     }
 }
 
-struct NavigationWireframeModifier<Wireframe>: ViewModifier where Wireframe: IONavigationLinkView {
+struct IONavigationWireframeModifier<Wireframe>: ViewModifier where Wireframe: IONavigationLinkView {
     
     private var isHidden: Bool
     private var wireframeView: () -> Wireframe

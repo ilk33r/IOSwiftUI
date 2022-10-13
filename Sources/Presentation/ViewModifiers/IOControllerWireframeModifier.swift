@@ -1,5 +1,5 @@
 //
-//  ControllerWireframeModifier.swift
+//  IOControllerWireframeModifier.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 28.08.2022.
@@ -10,11 +10,11 @@ import SwiftUI
 public extension View {
     
     func controllerWireframe<Wireframe>(@ViewBuilder wireframeView: () -> Wireframe) -> some View where Wireframe: IONavigationLinkView {
-        modifier(ControllerWireframeModifier(wireframeView: wireframeView()))
+        modifier(IOControllerWireframeModifier(wireframeView: wireframeView()))
     }
 }
 
-struct ControllerWireframeModifier<Wireframe>: ViewModifier where Wireframe: IONavigationLinkView {
+struct IOControllerWireframeModifier<Wireframe>: ViewModifier where Wireframe: IONavigationLinkView {
     
     private var wireframeView: Wireframe
     
