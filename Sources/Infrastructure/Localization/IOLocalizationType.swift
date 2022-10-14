@@ -24,4 +24,9 @@ public struct IOLocalizationType: RawRepresentable, Equatable {
     public func localized(alternateText: String) -> String {
         return self.localization.string(self.rawValue, alternateText: alternateText)
     }
+    
+    public func format( _ arguments: CVarArg...) -> IOLocalizationType {
+        let rawValue = String(format: self.localized, arguments)
+        return IOLocalizationType(rawValue: rawValue)
+    }
 }

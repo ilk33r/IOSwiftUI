@@ -40,4 +40,7 @@ final public class MemberModel: BaseModel {
     
     @IOJsonProperty(key: "profilePicturePublicId")
     public var profilePicturePublicId: String?
+    
+    @IOJsonProperty(key: "IsFollowing", defaultValue: false)
+    public var isFollowing: Bool!
 }

@@ -27,8 +27,8 @@ final class ProfilePresenter: IOPresenterable {
     
     // MARK: - Publisher
     
-    @Published private(set) var member: MemberModel?
     @Published private(set) var images: [String]!
+    @Published private(set) var profileUIModel: ProfileUIModel?
     
     // MARK: - Privates
     
@@ -61,8 +61,15 @@ final class ProfilePresenter: IOPresenterable {
         }
     }
     
-    func update(member: MemberModel?) {
-        self.member = member
+    func update(member: MemberModel?, isOwnProfile: Bool) {
+        self.profileUIModel = ProfileUIModel(
+            name: (member?.name ?? "").uppercased(),
+            nameSurname: String(format: "%@ %@", member?.name ?? "", member?.surname ?? ""),
+            locationName: member?.locationName ?? "",
+            isOwnProfile: isOwnProfile,
+            isFollowing: member?.isFollowing ?? false,
+            profilePicturePublicId: member?.profilePicturePublicId
+        )
     }
     
     func update(imagesResponse: MemberImagesResponseModel?) {

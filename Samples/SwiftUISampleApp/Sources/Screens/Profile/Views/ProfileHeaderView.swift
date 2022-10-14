@@ -12,8 +12,7 @@ import SwiftUISampleAppPresentation
 
 struct ProfileHeaderView: View {
     
-    private let nameAndSurname: String
-    private let locationName: String
+    private let uiModel: ProfileUIModel?
     private let profilePictureImage: AnyView
     
     var body: some View {
@@ -21,33 +20,47 @@ struct ProfileHeaderView: View {
             profilePictureImage
                 .frame(width: 128, height: 128)
                 .clipShape(Circle())
-            Text(nameAndSurname)
+            Text(uiModel?.nameSurname ?? "")
                 .font(type: .regular(36))
                 .padding(.top, 16)
                 .padding(.bottom, 4)
-            Text(locationName)
+            Text(uiModel?.locationName ?? "")
                 .font(type: .black(13))
                 .padding(.top, 0)
                 .padding(.bottom, 0)
-            PrimaryButton(.profileButtonFollow)
-                .padding(.top, 16)
-                .padding(.leading, 16)
-                .padding(.trailing, 16)
-            SecondaryButton(.profileButtonMessage)
-                .padding(.top, 16)
-                .padding(.leading, 16)
-                .padding(.trailing, 16)
+            if uiModel?.isOwnProfile ?? false {
+                PrimaryButton(.profileButtonFriends)
+                    .padding(.top, 16)
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
+                SecondaryButton(.profileButtonSettings)
+                    .padding(.top, 16)
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
+            } else {
+                if uiModel?.isFollowing ?? false {
+                    PrimaryButton(.profileButtonFollow.format(uiModel?.name ?? ""))
+                        .padding(.top, 16)
+                        .padding(.leading, 16)
+                        .padding(.trailing, 16)
+                } else {
+                    PrimaryButton(.profileButtonUnfollow.format(uiModel?.name ?? ""))
+                        .padding(.top, 16)
+                        .padding(.leading, 16)
+                        .padding(.trailing, 16)
+                }
+                SecondaryButton(.profileButtonMessage)
+                    .padding(.top, 16)
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
+            }
         }
     }
     
-    init(member: MemberModel?) {
-        let name = member?.name ?? ""
-        let surname = member?.surname ?? ""
+    init(uiModel: ProfileUIModel?) {
+        self.uiModel = uiModel
         
-        self.nameAndSurname = String(format: "%@ %@", name, surname)
-        self.locationName = member?.locationName ?? ""
-        
-        if let profilePicturePublicId = member?.profilePicturePublicId {
+        if let profilePicturePublicId = uiModel?.profilePicturePublicId {
             let profilePictureImage = Image()
                 .from(publicId: profilePicturePublicId)
             self.profilePictureImage = AnyView(profilePictureImage)
@@ -62,7 +75,8 @@ struct ProfileHeaderView: View {
 }
 
 struct ProfileHeaderView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        ProfileHeaderView(member: nil)
+        ProfileHeaderView(uiModel: nil)
     }
 }

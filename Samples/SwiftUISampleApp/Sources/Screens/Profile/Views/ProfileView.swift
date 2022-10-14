@@ -35,7 +35,16 @@ struct ProfileView: IOController {
             ZStack(alignment: .top) {
                 let headerHeight = max(0, headerSize.height - scrollOffset)
                 ZStack(alignment: .top) {
-                    createHeaderView(member: presenter.member)
+                    ProfileHeaderView(uiModel: presenter.profileUIModel)
+                        .padding(.top, 24)
+                        .padding(.bottom, 32)
+                        .background(
+                            GeometryReader { proxy in
+                                Color.clear.onAppear {
+                                    headerSize = proxy.size
+                                }
+                            }
+                        )
                 }
                 .zIndex(20)
                 .frame(height: headerHeight, alignment: .top)
@@ -90,21 +99,6 @@ struct ProfileView: IOController {
     
     init(presenter: Presenter) {
         self.presenter = presenter
-    }
-    
-    // MARK: - Helper Methods
-    
-    private func createHeaderView(member: MemberModel?) -> some View {
-        return ProfileHeaderView(member: member)
-            .padding(.top, 32)
-            .padding(.bottom, 4)
-            .background(
-                GeometryReader { proxy in
-                    Color.clear.onAppear {
-                        headerSize = proxy.size
-                    }
-                }
-            )
     }
 }
 

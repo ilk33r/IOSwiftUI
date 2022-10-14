@@ -31,7 +31,7 @@ final class ProfileInteractor: IOInteractor<ProfilePresenter, ProfileEntity> {
             
             switch result {
             case .success(response: let response):
-                self?.presenter?.update(member: response.member)
+                self?.presenter?.update(member: response.member, isOwnProfile: self?.entity.userName == nil ? true : false)
                 
             case .error(message: let message, type: let type, response: let response):
                 self?.handleServiceError(message, type: type, response: response, handler: nil)
