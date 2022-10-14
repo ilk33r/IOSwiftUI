@@ -27,8 +27,8 @@ final class ProfilePresenter: IOPresenterable {
     
     // MARK: - Publisher
     
-    @Published var member: MemberModel?
-    @Published var images: [String]!
+    @Published private(set) var member: MemberModel?
+    @Published private(set) var images: [String]!
     
     // MARK: - Privates
     

@@ -11,9 +11,9 @@ import SwiftUI
 struct PhotoGalleryImageUIModel: Identifiable {
     
     let id = UUID()
-    let image: Image
+    let imagePublicId: String
     
-    init(image: Image) {
-        self.image = image
+    init(imagePublicId: String) {
+        self.imagePublicId = imagePublicId
     }
 }

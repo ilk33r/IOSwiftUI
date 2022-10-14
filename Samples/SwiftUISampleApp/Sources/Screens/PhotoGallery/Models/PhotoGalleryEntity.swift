@@ -11,14 +11,20 @@ import SwiftUI
 
 struct PhotoGalleryEntity: IOEntity {
     
-    let images: [Image]
+    let imagePublicIds: [String]
+    let selectedIndex: Int
     
-    init(images: [Image]) {
-        self.images = images
+    init(
+        imagePublicIds: [String],
+        selectedIndex: Int
+    ) {
+        self.imagePublicIds = imagePublicIds
+        self.selectedIndex = selectedIndex
     }
     
     init(from decoder: Decoder) throws {
-        self.images = []
+        self.imagePublicIds = []
+        self.selectedIndex = 0
     }
     
     func encode(to encoder: Encoder) throws {

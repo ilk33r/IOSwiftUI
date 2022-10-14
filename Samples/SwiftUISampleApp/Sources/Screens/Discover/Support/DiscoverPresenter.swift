@@ -32,8 +32,8 @@ final class DiscoverPresenter: IOPresenterable {
     
     // MARK: - Publisher
     
-    @Published var images: [DiscoverUIModel]!
-    @Published var isRefreshing: Bool!
+    @Published private(set) var images: [DiscoverUIModel]!
+    @Published private(set) var isRefreshing: Bool!
     
     // MARK: - Privates
     

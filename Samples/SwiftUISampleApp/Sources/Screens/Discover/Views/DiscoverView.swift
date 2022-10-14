@@ -124,7 +124,7 @@ struct DiscoverView_Previews: PreviewProvider {
         var body: some View {
             view
                 .onAppear {
-                    view.presenter.images = uiModels
+//                    view.presenter.images = uiModels
                 }
         }
     }

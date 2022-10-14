@@ -32,6 +32,6 @@ final class PhotoGalleryPresenter: IOPresenterable {
     // MARK: - Presenter
     
     func getImages() {
-        self.imagesUIModel = self.interactor.entity.images.map { PhotoGalleryImageUIModel(image: $0) }
+        self.imagesUIModel = self.interactor.entity.imagePublicIds.map { PhotoGalleryImageUIModel(imagePublicId: $0) }
     }
 }

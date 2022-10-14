@@ -55,10 +55,13 @@ struct ProfileView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
-//        .onChange(of: tapIndex) { _ in
-//            navigationState.entity = PhotoGalleryEntity(images: galleryImages)
-//            navigationState.navigateToGallery = true
-//        }
+        .onChange(of: tapIndex) { newValue in
+            navigationState.entity = PhotoGalleryEntity(
+                imagePublicIds: presenter.images,
+                selectedIndex: newValue
+            )
+            navigationState.navigateToGallery = true
+        }
         .onChange(of: scrollOffset) { newValue in
             if scrollContentSize.height - viewSize.height <= newValue {
                 presenter.loadImages()

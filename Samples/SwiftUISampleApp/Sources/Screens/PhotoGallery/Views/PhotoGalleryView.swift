@@ -7,6 +7,7 @@
 
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppPresentation
 
 struct PhotoGalleryView: IOController {
     
@@ -19,17 +20,19 @@ struct PhotoGalleryView: IOController {
     @ObservedObject public var presenter: PhotoGalleryPresenter
     @StateObject public var navigationState = PhotoGalleryNavigationState()
     
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    
     @Binding private var isPresented: Bool
+    @State private var selectedPage = 0
     
     var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                IOPageView {
+                IOPageView(page: $selectedPage) {
                     LazyHStack(spacing: 0) {
                         ForEach(presenter.imagesUIModel) { image in
-                            image.image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
+                            Image()
+                                .from(publicId: image.imagePublicId)
                                 .frame(
                                     width: proxy.size.width,
                                     height: proxy.size.height,
@@ -75,7 +78,10 @@ struct PhotoGalleryView: IOController {
             PhotoGalleryNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            presenter.getImages()
+            if !isPreviewMode {
+                presenter.environment = _appEnvironment
+                presenter.getImages()
+            }
         }
     }
     
@@ -98,28 +104,31 @@ struct PhotoGalleryView: IOController {
 struct PhotoGalleryView_Previews: PreviewProvider {
     static var previews: some View {
         let galleryImages = [
-            Image("pwGallery0"),
-            Image("pwGallery1"),
-            Image("pwGallery2"),
-            Image("pwGallery3"),
-            Image("pwGallery4"),
-            Image("pwGallery5"),
-            Image("pwGallery0"),
-            Image("pwGallery1"),
-            Image("pwGallery2"),
-            Image("pwGallery3"),
-            Image("pwGallery4"),
-            Image("pwGallery5"),
-            Image("pwGallery0"),
-            Image("pwGallery1"),
-            Image("pwGallery2"),
-            Image("pwGallery3"),
-            Image("pwGallery4"),
-            Image("pwGallery5")
+            "pwGallery0",
+            "pwGallery1",
+            "pwGallery2",
+            "pwGallery3",
+            "pwGallery4",
+            "pwGallery5",
+            "pwGallery0",
+            "pwGallery1",
+            "pwGallery2",
+            "pwGallery3",
+            "pwGallery4",
+            "pwGallery5",
+            "pwGallery0",
+            "pwGallery1",
+            "pwGallery2",
+            "pwGallery3",
+            "pwGallery4",
+            "pwGallery5"
         ]
         
         PhotoGalleryView(
-            entity: PhotoGalleryEntity(images: galleryImages)
+            entity: PhotoGalleryEntity(
+                imagePublicIds: galleryImages,
+                selectedIndex: 0
+            )
         )
     }
 }

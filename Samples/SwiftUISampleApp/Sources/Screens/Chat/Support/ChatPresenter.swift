@@ -24,7 +24,7 @@ final class ChatPresenter: IOPresenterable {
     
     // MARK: - Publishers
     
-    @Published var keyboardPublisher: AnyPublisher<Bool, Never>
+    @Published private(set) var keyboardPublisher: AnyPublisher<Bool, Never>
     
     // MARK: - Initialization Methods
     

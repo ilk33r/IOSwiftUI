@@ -14,7 +14,11 @@ final public class IOPageViewController: UIViewController {
     // MARK: - Properties
     
     private(set) public var hostingController: UIHostingController<AnyView>!
-            
+    
+    // MARK: - Privates
+    
+    private weak var scrollView: UIScrollView?
+    
     // MARK: - View Lifecycle
     
     public init() {
@@ -47,7 +51,7 @@ final public class IOPageViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
-
+        
         self.hostingController.willMove(toParent: self)
         self.hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(self.hostingController.view)
@@ -61,5 +65,18 @@ final public class IOPageViewController: UIViewController {
         ])
         
         self.hostingController.didMove(toParent: self)
+        self.scrollView = scrollView
     }
+    
+    // MARK: - Helper Methods
+    
+    public func setPage(_ page: Int) {
+        let itemWidth = self.scrollView?.bounds.size.width ?? 0
+        let newX = (itemWidth * CGFloat(page)) - itemWidth
+        
+        if newX >= 0 {
+            self.scrollView?.setContentOffset(CGPoint(x: newX, y: 0), animated: true)
+        }
+    }
+    
 }

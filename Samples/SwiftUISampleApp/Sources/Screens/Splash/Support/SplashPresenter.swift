@@ -23,7 +23,7 @@ final public class SplashPresenter: IOPresenterable {
     
     // MARK: - Publisher
     
-    @Published var showButtons = false
+    @Published private(set) var showButtons = false
     
     // MARK: - Initialization Methods
     
