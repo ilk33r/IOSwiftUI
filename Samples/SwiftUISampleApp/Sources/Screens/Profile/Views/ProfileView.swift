@@ -67,6 +67,7 @@ struct ProfileView: IOController {
         .navigationWireframe(isHidden: true) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
+        .navigationBarTitle("", displayMode: .inline)
         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
             PhotoGalleryView(
                 isPresented: $navigationState.navigateToGallery,

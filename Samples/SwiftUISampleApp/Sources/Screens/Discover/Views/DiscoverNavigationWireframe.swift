@@ -24,6 +24,7 @@ struct DiscoverNavigationWireframe: IONavigationLinkView {
         ) {
             EmptyView()
         }
+        .navigationBarTitle("", displayMode: .inline)
     }
     
     // MARK: - Initialization Methods
