@@ -48,11 +48,23 @@ let package = Package(
                 dependencies: ["IOSwiftUICommon",
                                "IOSwiftUIInfrastructure"],
                 path: "Sources/Presentation"),
+        .target(name: "IOSwiftUIScreensShared",
+                dependencies: ["IOSwiftUIPresentation"],
+                path: "Sources/Screens/Shared"),
+        
+        // MARK: - Screens
+        
+        // MARK: - Application
+        
+        .target(name: "IOSwiftUIRouter",
+                dependencies: ["IOSwiftUIScreensShared"],
+                path: "Sources/Router"),
         .target(
             name: "IOSwiftUI",
             dependencies: ["IOSwiftUICommon",
                            "IOSwiftUIInfrastructure",
-                           "IOSwiftUIPresentation"]),
+                           "IOSwiftUIPresentation",
+                           "IOSwiftUIRouter"]),
         .testTarget(
             name: "IOSwiftUITests",
             dependencies: ["IOSwiftUI"]),
