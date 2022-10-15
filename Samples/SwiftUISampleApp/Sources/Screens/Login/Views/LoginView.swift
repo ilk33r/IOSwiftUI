@@ -9,12 +9,13 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
-struct LoginView: IOController {
+public struct LoginView: IOController {
     
     // MARK: - Generics
     
-    typealias Presenter = LoginPresenter
+    public typealias Presenter = LoginPresenter
     
     // MARK: - DI
     
@@ -33,7 +34,7 @@ struct LoginView: IOController {
     
     // MARK: - Body
     
-    var body: some View {
+    public var body: some View {
         IOFormGroup(.commonDone, handler: {
 
         }, content: {
@@ -43,7 +44,7 @@ struct LoginView: IOController {
                     .font(type: .regular(36))
                     .multilineTextAlignment(.leading)
                 FloatingTextField(
-                    .registerInputEmailAddress,
+                    .loginInputEmailAddress,
                     text: $emailText
                 )
                 .disableCorrection(true)
@@ -86,7 +87,7 @@ struct LoginView: IOController {
     
     // MARK: - Initialization Methods
     
-    init(presenter: Presenter) {
+    public init(presenter: Presenter) {
         self.presenter = presenter
     }
 }

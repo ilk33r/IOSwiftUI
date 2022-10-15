@@ -21,12 +21,4 @@ struct PhotoGalleryEntity: IOEntity {
         self.imagePublicIds = imagePublicIds
         self.selectedIndex = selectedIndex
     }
-    
-    init(from decoder: Decoder) throws {
-        self.imagePublicIds = []
-        self.selectedIndex = 0
-    }
-    
-    func encode(to encoder: Encoder) throws {
-    }
 }

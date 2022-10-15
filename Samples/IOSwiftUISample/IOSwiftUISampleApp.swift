@@ -7,10 +7,11 @@
 
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
-import SwiftUISampleAppScreens
+import SwiftUISampleAppScreensSplash
 import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 @main
 struct IOSwiftUISampleApp: App {
@@ -28,9 +29,9 @@ struct IOSwiftUISampleApp: App {
         WindowGroup {
             ZStack {
                 if appEnvironment.isLoggedIn {
-                    HomeView(entity: HomeEntity())
-                        .environmentObject(appEnvironment)
-                        .transition(.opacity)
+//                    HomeView(entity: HomeEntity())
+//                        .environmentObject(appEnvironment)
+//                        .transition(.opacity)
                 } else {
                     splashView
                         .environmentObject(appEnvironment)

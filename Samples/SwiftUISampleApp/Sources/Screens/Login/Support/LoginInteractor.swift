@@ -10,8 +10,9 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
+import SwiftUISampleAppScreensShared
 
-final class LoginInteractor: IOInteractor<LoginPresenter, LoginEntity> {
+final public class LoginInteractor: IOInteractor<LoginPresenter, LoginEntity> {
     
     // MARK: - DI
     

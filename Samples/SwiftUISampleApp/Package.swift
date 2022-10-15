@@ -40,12 +40,31 @@ let package = Package(
                                "SwiftUISampleAppCommon",
                                "SwiftUISampleAppInfrastructure"],
                 path: "Sources/Presentation"),
-        .target(
-            name: "SwiftUISampleAppScreens",
-            dependencies: ["SwiftUISampleAppResources",
-                           "SwiftUISampleAppCommon",
-                           "SwiftUISampleAppPresentation"],
-            path: "Sources/Screens"),
+        .target(name: "SwiftUISampleAppScreensShared",
+                dependencies: ["SwiftUISampleAppResources",
+                               "SwiftUISampleAppCommon",
+                               "SwiftUISampleAppPresentation"],
+                path: "Sources/Screens/Shared"),
+        
+        // MARK: - Screens
+        
+        .target(name: "SwiftUISampleAppScreensSplash",
+                dependencies: ["SwiftUISampleAppScreensShared"],
+                path: "Sources/Screens/Splash"),
+        .target(name: "SwiftUISampleAppScreensLogin",
+                dependencies: ["SwiftUISampleAppScreensShared"],
+                path: "Sources/Screens/Login"),
+        .target(name: "SwiftUISampleAppScreensRegister",
+                dependencies: ["SwiftUISampleAppScreensShared"],
+                path: "Sources/Screens/Register"),
+        
+        // MARK: - Application
+        
+        .target(name: "SwiftUISampleAppRouter",
+                dependencies: ["SwiftUISampleAppScreensSplash",
+                               "SwiftUISampleAppScreensLogin",
+                               "SwiftUISampleAppScreensRegister"],
+                path: "Sources/Router"),
         .target(
             name: "SwiftUISampleApp",
             dependencies: ["SwiftUISampleAppConfigurations",
@@ -53,6 +72,6 @@ let package = Package(
                            "SwiftUISampleAppCommon",
                            "SwiftUISampleAppInfrastructure",
                            "SwiftUISampleAppPresentation",
-                           "SwiftUISampleAppScreens"])
+                           "SwiftUISampleAppRouter"])
     ]
 )

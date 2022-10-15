@@ -8,6 +8,8 @@
 import Foundation
 import IOSwiftUIPresentation
 
-struct LoginEntity: IOEntity {
+public struct LoginEntity: IOEntity {
     
+    public init() {
+    }
 }

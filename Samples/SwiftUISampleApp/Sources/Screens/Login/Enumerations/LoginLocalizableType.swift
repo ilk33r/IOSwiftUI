@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let loginInputEmailAddress = IOLocalizationType(rawValue: "login.input.emailAddress")
     static let loginInputErrorEmail = IOLocalizationType(rawValue: "login.input.error.email")
     static let loginInputErrorPassword = IOLocalizationType(rawValue: "login.input.error.password")
     static let loginInputPassword = IOLocalizationType(rawValue: "login.input.password")

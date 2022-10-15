@@ -10,19 +10,19 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppPresentation
 import SwiftUI
 
-final class LoginPresenter: IOPresenterable {
+final public class LoginPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    typealias Environment = SampleAppEnvironment
-    typealias Interactor = LoginInteractor
+    public typealias Environment = SampleAppEnvironment
+    public typealias Interactor = LoginInteractor
     
-    var environment: EnvironmentObject<SampleAppEnvironment>!
-    var interactor: LoginInteractor!
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
+    public var interactor: LoginInteractor!
     
     // MARK: - Initialization Methods
     
-    init() {
+    public init() {
     }
     
     // MARK: - Presenter

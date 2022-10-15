@@ -10,6 +10,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
+import SwiftUISampleAppScreensShared
 
 final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity> {
     
