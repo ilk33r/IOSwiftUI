@@ -5,7 +5,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 
-final class ___VARIABLE_productName___NavigationState: IONavigationState {
+final public class ___VARIABLE_productName___NavigationState: IONavigationState {
     
     // MARK: - Properties
     

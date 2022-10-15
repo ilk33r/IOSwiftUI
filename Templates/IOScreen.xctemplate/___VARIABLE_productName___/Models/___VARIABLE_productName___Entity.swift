@@ -3,6 +3,8 @@
 import Foundation
 import IOSwiftUIPresentation
 
-struct ___VARIABLE_productName___Entity: IOEntity {
+public struct ___VARIABLE_productName___Entity: IOEntity {
     
+    public init() {
+    }
 }

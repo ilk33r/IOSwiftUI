@@ -75,7 +75,6 @@ extension ProfileService: IOServiceType {
         }
     }
     
-    #warning("Response type enum'da olcak")
     func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
         return self.handleResponse(type: responseType, result: result)
     }

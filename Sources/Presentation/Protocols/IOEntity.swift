@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol IOEntity: Codable {
+public protocol IOEntity {
     
 }

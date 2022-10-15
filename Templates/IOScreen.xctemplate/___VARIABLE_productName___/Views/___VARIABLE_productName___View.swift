@@ -5,11 +5,11 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 
-struct ___VARIABLE_productName___View: IOController {
+public struct ___VARIABLE_productName___View: IOController {
     
     // MARK: - Generics
     
-    typealias Presenter = ___VARIABLE_productName___Presenter
+    public typealias Presenter = ___VARIABLE_productName___Presenter
     
     // MARK: - Properties
     
@@ -20,7 +20,7 @@ struct ___VARIABLE_productName___View: IOController {
     
     // MARK: - Body
     
-    var body: some View {
+    public var body: some View {
         Text("___VARIABLE_productName___")
             .controllerWireframe {
                 ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
@@ -34,7 +34,7 @@ struct ___VARIABLE_productName___View: IOController {
     
     // MARK: - Initialization Methods
     
-    init(presenter: Presenter) {
+    public init(presenter: Presenter) {
         self.presenter = presenter
     }
 }

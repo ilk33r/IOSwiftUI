@@ -23,7 +23,7 @@ public protocol IOController: View {
     // MARK: - Initialization Methods
     
     init(presenter: Presenter)
-    init(entity: Presenter.Interactor.Entity)
+    init(entity: IOEntity?)
 }
 
 public extension IOController {
@@ -36,7 +36,7 @@ public extension IOController {
         self.init(presenter: presenter)
     }
     
-    init(entity: Presenter.Interactor.Entity) {
+    init(entity: IOEntity?) {
         // swiftlint:disable explicit_init
         let presenter = Presenter.init()
         presenter._initializaPresenterable(entity: entity)
