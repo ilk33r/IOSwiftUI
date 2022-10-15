@@ -18,6 +18,8 @@ struct ___VARIABLE_productName___View: IOController {
     
 //    @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
     
+    // MARK: - Body
+    
     var body: some View {
         Text("___VARIABLE_productName___")
             .controllerWireframe {

@@ -12,6 +12,7 @@ import IOSwiftUIInfrastructure
 
 enum ProfileService {
     
+    case createInbox(request: CreateInboxRequestModel)
     case memberGet(request: MemberGetRequestModel)
     case memberGetImages(request: MemberImagesRequestModel)
 }
@@ -20,6 +21,9 @@ extension ProfileService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
+        case .createInbox:
+            return .post
+            
         case .memberGetImages:
             return .post
             
@@ -30,6 +34,9 @@ extension ProfileService: IOServiceType {
     
     var path: String {
         switch self {
+        case .createInbox:
+            return "DirectMessage/CreateInbox"
+            
         case .memberGet:
             return "Member/Get"
             
@@ -57,6 +64,9 @@ extension ProfileService: IOServiceType {
     
     var body: Data? {
         switch self {
+        case .createInbox(request: let request):
+            return self.handleRequest(request)
+
         case .memberGetImages(request: let request):
             return self.handleRequest(request)
             
@@ -65,6 +75,7 @@ extension ProfileService: IOServiceType {
         }
     }
     
+    #warning("Response type enum'da olcak")
     func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
         return self.handleResponse(type: responseType, result: result)
     }

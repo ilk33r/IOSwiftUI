@@ -18,7 +18,28 @@ final class ProfileInteractor: IOInteractor<ProfilePresenter, ProfileEntity> {
     @IOInstance private var baseService: IOServiceProviderImpl<BaseService>
     @IOInstance private var service: IOServiceProviderImpl<ProfileService>
     
+    private var member: MemberModel?
+    
     // MARK: - Interactor
+    
+    func createInbox() {
+        self.showIndicator()
+        
+        let request = CreateInboxRequestModel()
+        request.toMemberID = member?.id ?? 0
+        
+        self.service.request(.createInbox(request: request), responseType: CreateInboxResponseModel.self) { [weak self] result in
+            self?.hideIndicator()
+            
+            switch result {
+            case .success(response: let response):
+                break
+                
+            case .error(message: let message, type: let type, response: let response):
+                self?.handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
     
     func getMember() {
         self.showIndicator()
@@ -31,6 +52,7 @@ final class ProfileInteractor: IOInteractor<ProfilePresenter, ProfileEntity> {
             
             switch result {
             case .success(response: let response):
+                self?.member = response.member
                 self?.presenter?.update(member: response.member, isOwnProfile: self?.entity.userName == nil ? true : false)
                 
             case .error(message: let message, type: let type, response: let response):
