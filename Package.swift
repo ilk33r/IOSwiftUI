@@ -33,6 +33,7 @@ let package = Package(
                 capability: .buildTool(),
                 dependencies: []),
         /*
+        // This target auto generate IOBuildConfig.swift file from using Configuration.json
         .target(name: "IOSwiftUIConfigurations",
                 dependencies: [],
                 path: "Sources/Configuration",
@@ -63,11 +64,13 @@ let package = Package(
         
         // MARK: - Application
         
+        // This target auto generate AppRouter.swift file from Screens folder
         .target(name: "IOSwiftUIRouter",
                 dependencies: ["IOSwiftUIScreensShared"],
                 path: "Sources/Router",
                 plugins: [ //.plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI")
                     ]),
+        
         .target(
             name: "IOSwiftUI",
             dependencies: ["IOSwiftUICommon",

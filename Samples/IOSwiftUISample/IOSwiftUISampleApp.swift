@@ -24,18 +24,18 @@ struct IOSwiftUISampleApp: App {
     
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
     
-    let splashView = IORouterUtilities.route(PreLoginRouters.splash(entity: nil))
+    let splashView = IORouterUtilities.route(PreLoginRouters.self, .splash(entity: nil))
     
     var body: some Scene {
         WindowGroup {
             ZStack {
                 if appEnvironment.isLoggedIn {
-//                    HomeView(entity: HomeEntity())
-//                        .environmentObject(appEnvironment)
-//                        .transition(.opacity)
+                    IORouterUtilities.route(HomeRouters.self, .home(entity: nil))
+                        .setEnvironment(appEnvironment)
+                        .transition(.opacity)
                 } else {
                     splashView
-                        .environmentObject(appEnvironment)
+                        .setEnvironment(appEnvironment)
                         .transition(.opacity)
                 }
                 

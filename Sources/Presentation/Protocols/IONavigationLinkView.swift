@@ -20,7 +20,7 @@ public protocol IONavigationLinkView: View {
     
     // MARK: - Helper Methods
     
-    func route(_ type: any IOBaseRouterDefinition) -> AnyView
+    func route(_ type: any IOBaseRouterDefinition) -> IORouterView
 }
 
 public extension IONavigationLinkView {
@@ -29,13 +29,13 @@ public extension IONavigationLinkView {
         self.linkBody
     }
     
-    // MARK: - Helper Methods
+    // MARK: - Router Methods
     
-    func route(_ type: any IOBaseRouterDefinition) -> AnyView {
-        guard let appRouter = NSClassFromString("AppRouter") as? IORouterProtocol.Type else {
-            fatalError("Could not found AppRouter class")
-        }
-        
-        return AnyView(appRouter._instance(controllerName: type.viewName, entity: type.entity))
+    func route<Router: IOBaseRouterDefinition>(_ router: Router.Type, _ type: Router) -> IORouterView {
+        return self.route(type)
+    }
+    
+    func route(_ type: any IOBaseRouterDefinition) -> IORouterView {
+        return IORouterUtilities.route(type)
     }
 }

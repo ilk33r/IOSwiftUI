@@ -22,14 +22,12 @@ public struct SplashNavigationWireframe: IONavigationLinkView {
     public var linkBody: some View {
         Group {
             NavigationLink(
-                destination: route(PreLoginRouters.login(entity: nil)),
+                destination: route(PreLoginRouters.self, .login(entity: nil)),
                 isActive: $navigationState.navigateToLogin
             ) {
                 EmptyView()
             }
             /*
-             LoginView(entity: LoginEntity()
-             
             NavigationLink(
                 destination: RegisterView(),
                 isActive: $navigationState.navigateToRegister

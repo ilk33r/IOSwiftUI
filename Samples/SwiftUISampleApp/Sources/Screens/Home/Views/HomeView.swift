@@ -8,6 +8,7 @@
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 public struct HomeView: IOController {
     
@@ -29,10 +30,10 @@ public struct HomeView: IOController {
             selection: $selectedIndex
         ) {
             return [
-                IOIdentifiableView(view: DiscoverView(entity: DiscoverEntity())),
-                IOIdentifiableView(view: HomeTabEmptyView()),
-                IOIdentifiableView(view: ChatInboxView(entity: ChatInboxEntity())),
-                IOIdentifiableView(view: ProfileView(entity: ProfileEntity(userName: nil)))
+//                IOIdentifiableView(view: DiscoverView(entity: DiscoverEntity())),
+                IOIdentifiableView(view: HomeTabEmptyView())
+//                IOIdentifiableView(view: ChatInboxView(entity: ChatInboxEntity())),
+//                IOIdentifiableView(view: ProfileView(entity: ProfileEntity(userName: nil)))
             ]
         }
         .onChange(of: selectedIndex) { newValue in

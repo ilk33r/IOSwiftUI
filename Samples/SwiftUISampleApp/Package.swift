@@ -18,10 +18,12 @@ let package = Package(
         .package(path: "../..")
     ],
     targets: [
+        // This target auto generate IOBuildConfig.swift file from using Configuration.json
         .target(name: "SwiftUISampleAppConfigurations",
                 dependencies: [],
                 path: "Sources/Configuration",
                 plugins: [ .plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI") ]),
+        
         .target(name: "SwiftUISampleAppResources",
                 path: "Sources/Resources",
                 resources: [.process("Files")]),
@@ -54,17 +56,23 @@ let package = Package(
         .target(name: "SwiftUISampleAppScreensLogin",
                 dependencies: ["SwiftUISampleAppScreensShared"],
                 path: "Sources/Screens/Login"),
+        .target(name: "SwiftUISampleAppScreensHome",
+                dependencies: ["SwiftUISampleAppScreensShared"],
+                path: "Sources/Screens/Home"),
 //        .target(name: "SwiftUISampleAppScreensRegister",
 //                dependencies: ["SwiftUISampleAppScreensShared"],
 //                path: "Sources/Screens/Register"),
         
         // MARK: - Application
         
+        // This target auto generate AppRouter.swift file from Screens folder
         .target(name: "SwiftUISampleAppRouter",
                 dependencies: ["SwiftUISampleAppScreensSplash",
-                               "SwiftUISampleAppScreensLogin"],
+                               "SwiftUISampleAppScreensLogin",
+                               "SwiftUISampleAppScreensHome"],
                 path: "Sources/Router",
                 plugins: [ .plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI") ]),
+        
         .target(
             name: "SwiftUISampleApp",
             dependencies: ["SwiftUISampleAppConfigurations",

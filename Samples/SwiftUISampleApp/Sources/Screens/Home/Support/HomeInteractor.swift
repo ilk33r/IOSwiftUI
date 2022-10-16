@@ -7,6 +7,7 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppScreensShared
 
 final public class HomeInteractor: IOInteractor<HomePresenter, HomeEntity> {
     
