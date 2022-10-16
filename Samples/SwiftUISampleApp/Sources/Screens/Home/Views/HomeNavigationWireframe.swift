@@ -17,7 +17,7 @@ public struct HomeNavigationWireframe: IONavigationLinkView {
     
     // MARK: - Properties
     
-    public var linkBody: some View {
+    public var body: some View {
         EmptyView()
         /*
         NavigationLink(destination: PageView(), isActive: $navigationState.navigateToPage) {

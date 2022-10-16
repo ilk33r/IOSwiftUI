@@ -19,7 +19,7 @@ public struct SplashNavigationWireframe: IONavigationLinkView {
     
     // MARK: - Properties
     
-    public var linkBody: some View {
+    public var body: some View {
         Group {
             NavigationLink(
                 destination: route(PreLoginRouters.self, .login(entity: nil)),

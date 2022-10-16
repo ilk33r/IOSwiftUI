@@ -75,14 +75,13 @@ public struct ProfileView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
-        .onChange(of: tapIndex) { _ in // newValue in
-            /*
+        .onChange(of: tapIndex) { newValue in
             navigationState.entity = PhotoGalleryEntity(
                 imagePublicIds: presenter.images,
+                isPresented: $navigationState.navigateToGallery,
                 selectedIndex: newValue
             )
             navigationState.navigateToGallery = true
-             */
         }
         .onChange(of: scrollOffset) { newValue in
             if scrollContentSize.height - viewSize.height <= newValue {
@@ -94,12 +93,7 @@ public struct ProfileView: IOController {
         }
         .navigationBarTitle("", displayMode: .inline)
         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
-            /*
-            PhotoGalleryView(
-                isPresented: $navigationState.navigateToGallery,
-                entity: navigationState.entity
-            )
-             */
+            IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.entity))
         }
         .onAppear {
             if !isPreviewMode {

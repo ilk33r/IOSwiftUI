@@ -7,7 +7,8 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppScreensShared
 
-final class PhotoGalleryInteractor: IOInteractor<PhotoGalleryPresenter, PhotoGalleryEntity> {
+final public class PhotoGalleryInteractor: IOInteractor<PhotoGalleryPresenter, PhotoGalleryEntity> {
     
 }

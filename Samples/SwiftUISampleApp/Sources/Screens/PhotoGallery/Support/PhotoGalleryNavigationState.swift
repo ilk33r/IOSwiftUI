@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIPresentation
 
-final class PhotoGalleryNavigationState: IONavigationState {
+final public class PhotoGalleryNavigationState: IONavigationState {
     
     // MARK: - Properties
     

@@ -14,7 +14,7 @@ struct ___VARIABLE_productName___NavigationWireframe: IONavigationLinkView {
     
     // MARK: - Properties
     
-    var linkBody: some View {
+    var body: some View {
         EmptyView()
         /*
         NavigationLink(destination: PageView(), isActive: $navigationState.navigateToPage) {

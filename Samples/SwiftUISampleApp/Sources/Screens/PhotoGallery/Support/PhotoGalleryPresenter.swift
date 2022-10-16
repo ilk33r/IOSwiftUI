@@ -10,15 +10,15 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppPresentation
 import SwiftUI
 
-final class PhotoGalleryPresenter: IOPresenterable {
+final public class PhotoGalleryPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    typealias Environment = SampleAppEnvironment
-    typealias Interactor = PhotoGalleryInteractor
+    public typealias Environment = SampleAppEnvironment
+    public typealias Interactor = PhotoGalleryInteractor
     
-    var environment: EnvironmentObject<SampleAppEnvironment>!
-    var interactor: PhotoGalleryInteractor!
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
+    public var interactor: PhotoGalleryInteractor!
     
     // MARK: - Bindings
     
@@ -26,7 +26,7 @@ final class PhotoGalleryPresenter: IOPresenterable {
     
     // MARK: - Initialization Methods
     
-    init() {
+    public init() {
     }
     
     // MARK: - Presenter

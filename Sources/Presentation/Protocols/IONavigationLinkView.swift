@@ -10,24 +10,12 @@ import SwiftUI
 
 public protocol IONavigationLinkView: View {
     
-    // MARK: - Generics
-    
-    associatedtype LinkBody: View
-    
-    // MARK: - Properties
-    
-    @ViewBuilder var linkBody: Self.LinkBody { get }
-    
     // MARK: - Helper Methods
     
     func route(_ type: any IOBaseRouterDefinition) -> IORouterView
 }
 
 public extension IONavigationLinkView {
-    
-    var body: some View {
-        self.linkBody
-    }
     
     // MARK: - Router Methods
     

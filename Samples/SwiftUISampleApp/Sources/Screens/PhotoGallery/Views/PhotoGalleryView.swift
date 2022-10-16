@@ -8,12 +8,13 @@
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
-struct PhotoGalleryView: IOController {
+public struct PhotoGalleryView: IOController {
     
     // MARK: - Generics
     
-    typealias Presenter = PhotoGalleryPresenter
+    public typealias Presenter = PhotoGalleryPresenter
     
     // MARK: - Properties
     
@@ -25,7 +26,7 @@ struct PhotoGalleryView: IOController {
     @Binding private var isPresented: Bool
     @State private var selectedPage = 0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOPageView(page: $selectedPage) {
@@ -87,17 +88,9 @@ struct PhotoGalleryView: IOController {
     
     // MARK: - Initialization Methods
     
-    init(presenter: Presenter) {
+    public init(presenter: Presenter) {
         self.presenter = presenter
-        self._isPresented = Binding.constant(true)
-    }
-    
-    init(isPresented: Binding<Bool>, entity: PhotoGalleryEntity) {
-        let presenter = PhotoGalleryPresenter()
-        presenter._initializaPresenterable(entity: entity)
-        self.presenter = presenter
-        
-        self._isPresented = isPresented
+        self._isPresented = presenter.interactor.entity.isPresented
     }
 }
 
@@ -127,6 +120,7 @@ struct PhotoGalleryView_Previews: PreviewProvider {
         PhotoGalleryView(
             entity: PhotoGalleryEntity(
                 imagePublicIds: galleryImages,
+                isPresented: Binding.constant(false),
                 selectedIndex: 0
             )
         )

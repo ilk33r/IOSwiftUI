@@ -18,7 +18,7 @@ struct DiscoverNavigationWireframe: IONavigationLinkView {
     
     // MARK: - Properties
     
-    var linkBody: some View {
+    var body: some View {
         NavigationLink(
             destination: route(HomeRouters.self, .profile(entity: ProfileEntity(userName: self.navigationState.userName))),
             isActive: $navigationState.navigateToProfile

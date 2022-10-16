@@ -8,6 +8,7 @@
 import Foundation
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct ProfileNavigationWireframe: IONavigationLinkView {
     
@@ -17,7 +18,7 @@ struct ProfileNavigationWireframe: IONavigationLinkView {
     
     // MARK: - Properties
     
-    var linkBody: some View {
+    var body: some View {
         EmptyView()
         /*
         NavigationLink(destination: PageView(), isActive: $navigationState.navigateToPage) {
