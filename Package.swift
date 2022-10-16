@@ -14,7 +14,9 @@ let package = Package(
             name: "IOSwiftUI",
             targets: ["IOSwiftUI"]),
         .plugin(name: "IOBuildConfigGeneratorPlugin",
-                targets: ["IOBuildConfigGeneratorPlugin"])
+                targets: ["IOBuildConfigGeneratorPlugin"]),
+        .plugin(name: "IORouterGeneratorPlugin",
+                targets: ["IORouterGeneratorPlugin"])
     ],
     dependencies: [
     ],
@@ -27,11 +29,16 @@ let package = Package(
         .plugin(name: "IOBuildConfigGeneratorPlugin",
                 capability: .buildTool(),
                 dependencies: []),
+        .plugin(name: "IORouterGeneratorPlugin",
+                capability: .buildTool(),
+                dependencies: []),
+        /*
         .target(name: "IOSwiftUIConfigurations",
                 dependencies: [],
                 path: "Sources/Configuration",
                 plugins: [ //.plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI")
                            "IOBuildConfigGeneratorPlugin"]),
+         */
         .target(name: "IOSwiftUIResources",
                 path: "Sources/Resources",
                 resources: [.process("Files")]),
@@ -58,7 +65,9 @@ let package = Package(
         
         .target(name: "IOSwiftUIRouter",
                 dependencies: ["IOSwiftUIScreensShared"],
-                path: "Sources/Router"),
+                path: "Sources/Router",
+                plugins: [ //.plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI")
+                    ]),
         .target(
             name: "IOSwiftUI",
             dependencies: ["IOSwiftUICommon",

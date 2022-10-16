@@ -54,17 +54,17 @@ let package = Package(
         .target(name: "SwiftUISampleAppScreensLogin",
                 dependencies: ["SwiftUISampleAppScreensShared"],
                 path: "Sources/Screens/Login"),
-        .target(name: "SwiftUISampleAppScreensRegister",
-                dependencies: ["SwiftUISampleAppScreensShared"],
-                path: "Sources/Screens/Register"),
+//        .target(name: "SwiftUISampleAppScreensRegister",
+//                dependencies: ["SwiftUISampleAppScreensShared"],
+//                path: "Sources/Screens/Register"),
         
         // MARK: - Application
         
         .target(name: "SwiftUISampleAppRouter",
                 dependencies: ["SwiftUISampleAppScreensSplash",
-                               "SwiftUISampleAppScreensLogin",
-                               "SwiftUISampleAppScreensRegister"],
-                path: "Sources/Router"),
+                               "SwiftUISampleAppScreensLogin"],
+                path: "Sources/Router",
+                plugins: [ .plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI") ]),
         .target(
             name: "SwiftUISampleApp",
             dependencies: ["SwiftUISampleAppConfigurations",

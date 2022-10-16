@@ -12,6 +12,7 @@ import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppScreensShared
+import IOSwiftUIRouter
 
 @main
 struct IOSwiftUISampleApp: App {
@@ -23,7 +24,7 @@ struct IOSwiftUISampleApp: App {
     
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
     
-    let splashView = SplashView(entity: SplashEntity())
+    let splashView = IORouterUtilities.route(PreLoginRouters.splash(entity: nil))
     
     var body: some Scene {
         WindowGroup {
