@@ -18,6 +18,8 @@ struct DiscoverNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var linkBody: some View {
+        EmptyView()
+        /*
         NavigationLink(
             destination: ProfileView(entity: ProfileEntity(userName: self.navigationState.userName)),
             isActive: $navigationState.navigateToProfile
@@ -25,6 +27,7 @@ struct DiscoverNavigationWireframe: IONavigationLinkView {
             EmptyView()
         }
         .navigationBarTitle("", displayMode: .inline)
+         */
     }
     
     // MARK: - Initialization Methods

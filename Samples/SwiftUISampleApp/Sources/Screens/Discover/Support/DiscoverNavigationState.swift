@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIPresentation
 
-final class DiscoverNavigationState: IONavigationState {
+final public class DiscoverNavigationState: IONavigationState {
     
     // MARK: - Properties
     

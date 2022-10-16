@@ -30,7 +30,10 @@ public struct HomeView: IOController {
             selection: $selectedIndex
         ) {
             return [
-//                IOIdentifiableView(view: DiscoverView(entity: DiscoverEntity())),
+                IOIdentifiableView(anyView: IORouterUtilities.route(
+                    HomeRouters.self,
+                    .discover(entity: nil)
+                ).contentView),
                 IOIdentifiableView(view: HomeTabEmptyView())
 //                IOIdentifiableView(view: ChatInboxView(entity: ChatInboxEntity())),
 //                IOIdentifiableView(view: ProfileView(entity: ProfileEntity(userName: nil)))

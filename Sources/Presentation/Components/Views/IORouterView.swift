@@ -10,10 +10,13 @@ import SwiftUI
 
 public struct IORouterView: View {
     
+    // MARK: - Publics
+    
+    public let contentView: AnyView
+    
     // MARK: - Privates
     
     private let view: (any IOController)?
-    private let contentView: AnyView
     
     // MARK: - Body
     

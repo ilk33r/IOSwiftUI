@@ -9,12 +9,13 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
-struct DiscoverView: IOController {
+public struct DiscoverView: IOController {
     
     // MARK: - Generics
     
-    typealias Presenter = DiscoverPresenter
+    public typealias Presenter = DiscoverPresenter
     
     // MARK: - Properties
     
@@ -26,7 +27,7 @@ struct DiscoverView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { proxy in
             IORefreshableScrollView(
                 backgroundColor: .white,
@@ -79,7 +80,7 @@ struct DiscoverView: IOController {
     
     // MARK: - Initialization Methods
     
-    init(presenter: Presenter) {
+    public init(presenter: Presenter) {
         self.presenter = presenter
     }
 }

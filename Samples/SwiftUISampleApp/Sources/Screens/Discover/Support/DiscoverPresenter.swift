@@ -12,15 +12,15 @@ import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 import SwiftUI
 
-final class DiscoverPresenter: IOPresenterable {
+final public class DiscoverPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    typealias Environment = SampleAppEnvironment
-    typealias Interactor = DiscoverInteractor
+    public typealias Environment = SampleAppEnvironment
+    public typealias Interactor = DiscoverInteractor
     
-    var environment: EnvironmentObject<SampleAppEnvironment>!
-    var interactor: DiscoverInteractor!
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
+    public var interactor: DiscoverInteractor!
     
     // MARK: - Constants
     
@@ -43,7 +43,7 @@ final class DiscoverPresenter: IOPresenterable {
     
     // MARK: - Initialization Methods
     
-    init() {
+    public init() {
         self.imagesStart = 0
         self.isImagesLoading = false
         self.images = []

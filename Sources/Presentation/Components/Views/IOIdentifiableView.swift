@@ -15,4 +15,8 @@ public struct IOIdentifiableView: Identifiable {
     public init<Content: View>(view: Content) {
         self.view = AnyView(view)
     }
+    
+    public init(anyView: AnyView) {
+        self.view = anyView
+    }
 }

@@ -9,8 +9,9 @@ import Foundation
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
+import SwiftUISampleAppScreensShared
 
-final class DiscoverInteractor: IOInteractor<DiscoverPresenter, DiscoverEntity> {
+final public class DiscoverInteractor: IOInteractor<DiscoverPresenter, DiscoverEntity> {
     
     // MARK: - Privates
     

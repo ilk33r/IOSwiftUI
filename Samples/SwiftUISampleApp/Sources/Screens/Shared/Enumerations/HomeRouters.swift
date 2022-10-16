@@ -12,10 +12,14 @@ import IOSwiftUIScreensShared
 public enum HomeRouters: IORouterDefinition {
     
     case home(entity: HomeEntity?)
+    case discover(entity: DiscoverEntity?)
     
     public var entity: IOEntity? {
         switch self {
         case .home(entity: let entity):
+            return entity
+            
+        case .discover(entity: let entity):
             return entity
         }
     }
@@ -24,6 +28,9 @@ public enum HomeRouters: IORouterDefinition {
         switch self {
         case .home:
             return "HomeView"
+            
+        case .discover:
+            return "DiscoverView"
         }
     }
 }

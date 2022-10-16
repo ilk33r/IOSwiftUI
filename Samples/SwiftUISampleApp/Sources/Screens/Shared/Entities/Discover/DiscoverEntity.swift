@@ -8,6 +8,8 @@
 import Foundation
 import IOSwiftUIPresentation
 
-struct DiscoverEntity: IOEntity {
+public struct DiscoverEntity: IOEntity {
     
+    public init() {
+    }
 }
