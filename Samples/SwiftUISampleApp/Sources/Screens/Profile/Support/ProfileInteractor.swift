@@ -10,8 +10,9 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppInfrastructure
+import SwiftUISampleAppScreensShared
 
-final class ProfileInteractor: IOInteractor<ProfilePresenter, ProfileEntity> {
+final public class ProfileInteractor: IOInteractor<ProfilePresenter, ProfileEntity> {
     
     // MARK: - Privates
     

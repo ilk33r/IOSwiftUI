@@ -8,6 +8,9 @@
 import Foundation
 import IOSwiftUIPresentation
 
-struct ChatInboxEntity: IOEntity {
+public struct ChatInboxEntity: IOEntity {
     
+    public init() {
+        
+    }
 }

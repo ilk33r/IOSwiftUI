@@ -11,15 +11,15 @@ import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 import SwiftUI
 
-final class ProfilePresenter: IOPresenterable {
+final public class ProfilePresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    typealias Environment = SampleAppEnvironment
-    typealias Interactor = ProfileInteractor
+    public typealias Environment = SampleAppEnvironment
+    public typealias Interactor = ProfileInteractor
     
-    var environment: EnvironmentObject<SampleAppEnvironment>!
-    var interactor: ProfileInteractor!
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
+    public var interactor: ProfileInteractor!
     
     // MARK: - Constants
     
@@ -38,7 +38,7 @@ final class ProfilePresenter: IOPresenterable {
     
     // MARK: - Initialization Methods
     
-    init() {
+    public init() {
         self.imagesStart = 0
         self.isImagesLoading = false
         self.images = []

@@ -10,19 +10,19 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppPresentation
 import SwiftUI
 
-final class ChatInboxPresenter: IOPresenterable {
+final public class ChatInboxPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    typealias Environment = SampleAppEnvironment
-    typealias Interactor = ChatInboxInteractor
+    public typealias Environment = SampleAppEnvironment
+    public typealias Interactor = ChatInboxInteractor
     
-    var environment: EnvironmentObject<SampleAppEnvironment>!
-    var interactor: ChatInboxInteractor!
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
+    public var interactor: ChatInboxInteractor!
     
     // MARK: - Initialization Methods
     
-    init() {
+    public init() {
     }
     
     // MARK: - Presenter

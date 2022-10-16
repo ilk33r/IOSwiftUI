@@ -13,6 +13,8 @@ public enum HomeRouters: IORouterDefinition {
     
     case home(entity: HomeEntity?)
     case discover(entity: DiscoverEntity?)
+    case chatInbox(entity: ChatInboxEntity?)
+    case profile(entity: ProfileEntity?)
     
     public var entity: IOEntity? {
         switch self {
@@ -20,6 +22,12 @@ public enum HomeRouters: IORouterDefinition {
             return entity
             
         case .discover(entity: let entity):
+            return entity
+            
+        case .chatInbox(entity: let entity):
+            return entity
+            
+        case .profile(entity: let entity):
             return entity
         }
     }
@@ -31,6 +39,12 @@ public enum HomeRouters: IORouterDefinition {
             
         case .discover:
             return "DiscoverView"
+            
+        case .chatInbox:
+            return "ChatInboxView"
+            
+        case .profile:
+            return "ProfileView"
         }
     }
 }

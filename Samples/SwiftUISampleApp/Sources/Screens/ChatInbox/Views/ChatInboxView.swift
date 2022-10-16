@@ -8,19 +8,20 @@
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
-struct ChatInboxView: IOController {
+public struct ChatInboxView: IOController {
     
     // MARK: - Generics
     
-    typealias Presenter = ChatInboxPresenter
+    public typealias Presenter = ChatInboxPresenter
     
     // MARK: - Properties
     
     @ObservedObject public var presenter: ChatInboxPresenter
     @StateObject public var navigationState = ChatInboxNavigationState()
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { proxy in
             List {
                 Section {
@@ -62,7 +63,7 @@ struct ChatInboxView: IOController {
     
     // MARK: - Initialization Methods
     
-    init(presenter: Presenter) {
+    public init(presenter: Presenter) {
         self.presenter = presenter
     }
 }

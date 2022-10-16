@@ -7,7 +7,8 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppScreensShared
 
-final class ChatInboxInteractor: IOInteractor<ChatInboxPresenter, ChatInboxEntity> {
+final public class ChatInboxInteractor: IOInteractor<ChatInboxPresenter, ChatInboxEntity> {
     
 }

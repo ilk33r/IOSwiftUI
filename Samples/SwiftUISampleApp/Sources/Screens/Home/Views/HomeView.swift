@@ -34,9 +34,15 @@ public struct HomeView: IOController {
                     HomeRouters.self,
                     .discover(entity: nil)
                 ).contentView),
-                IOIdentifiableView(view: HomeTabEmptyView())
-//                IOIdentifiableView(view: ChatInboxView(entity: ChatInboxEntity())),
-//                IOIdentifiableView(view: ProfileView(entity: ProfileEntity(userName: nil)))
+                IOIdentifiableView(view: HomeTabEmptyView()),
+                IOIdentifiableView(anyView: IORouterUtilities.route(
+                    HomeRouters.self,
+                    .chatInbox(entity: nil)
+                ).contentView),
+                IOIdentifiableView(anyView: IORouterUtilities.route(
+                    HomeRouters.self,
+                    .profile(entity: ProfileEntity(userName: nil))
+                ).contentView)
             ]
         }
         .onChange(of: selectedIndex) { newValue in

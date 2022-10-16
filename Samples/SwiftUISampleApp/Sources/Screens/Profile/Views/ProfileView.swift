@@ -10,12 +10,13 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
-struct ProfileView: IOController {
+public struct ProfileView: IOController {
     
     // MARK: - Generics
     
-    typealias Presenter = ProfilePresenter
+    public typealias Presenter = ProfilePresenter
     
     // MARK: - Properties
     
@@ -32,7 +33,7 @@ struct ProfileView: IOController {
     
     // MARK: - Body
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 let headerHeight = max(0, headerSize.height - scrollOffset)
@@ -74,12 +75,14 @@ struct ProfileView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
-        .onChange(of: tapIndex) { newValue in
+        .onChange(of: tapIndex) { _ in // newValue in
+            /*
             navigationState.entity = PhotoGalleryEntity(
                 imagePublicIds: presenter.images,
                 selectedIndex: newValue
             )
             navigationState.navigateToGallery = true
+             */
         }
         .onChange(of: scrollOffset) { newValue in
             if scrollContentSize.height - viewSize.height <= newValue {
@@ -91,10 +94,12 @@ struct ProfileView: IOController {
         }
         .navigationBarTitle("", displayMode: .inline)
         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
+            /*
             PhotoGalleryView(
                 isPresented: $navigationState.navigateToGallery,
                 entity: navigationState.entity
             )
+             */
         }
         .onAppear {
             if !isPreviewMode {
@@ -107,7 +112,7 @@ struct ProfileView: IOController {
     
     // MARK: - Initialization Methods
     
-    init(presenter: Presenter) {
+    public init(presenter: Presenter) {
         self.presenter = presenter
     }
 }
