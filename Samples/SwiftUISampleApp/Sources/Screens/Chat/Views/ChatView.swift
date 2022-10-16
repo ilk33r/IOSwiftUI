@@ -8,12 +8,13 @@
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
-struct ChatView: IOController {
+public struct ChatView: IOController {
     
     // MARK: - Generics
     
-    typealias Presenter = ChatPresenter
+    public typealias Presenter = ChatPresenter
     
     // MARK: - Properties
     
@@ -110,7 +111,7 @@ struct ChatView: IOController {
         )
     ]
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 VStack {
@@ -154,7 +155,7 @@ struct ChatView: IOController {
     
     // MARK: - Initialization Methods
     
-    init(presenter: Presenter) {
+    public init(presenter: Presenter) {
         self.presenter = presenter
     }
 }

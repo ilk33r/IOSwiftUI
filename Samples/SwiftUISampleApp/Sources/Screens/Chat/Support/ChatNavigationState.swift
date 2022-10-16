@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIPresentation
 
-final class ChatNavigationState: IONavigationState {
+final public class ChatNavigationState: IONavigationState {
     
     // MARK: - Properties
     

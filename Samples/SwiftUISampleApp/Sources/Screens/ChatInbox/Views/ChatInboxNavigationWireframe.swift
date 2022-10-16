@@ -9,6 +9,7 @@ import Foundation
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct ChatInboxNavigationWireframe: IONavigationLinkView {
     
@@ -19,14 +20,12 @@ struct ChatInboxNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        /*NavigationLink(
-            destination: ChatView(entity: ChatEntity()),
+        NavigationLink(
+            destination: route(HomeRouters.self, .chat(entity: nil)),
             isActive: $navigationState.navigateToChat
         ) {
             EmptyView()
         }
-         */
-        EmptyView()
     }
     
     // MARK: - Initialization Methods

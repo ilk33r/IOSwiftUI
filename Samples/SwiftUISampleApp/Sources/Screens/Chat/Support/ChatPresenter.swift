@@ -12,15 +12,15 @@ import SwiftUI
 import UIKit
 import SwiftUISampleAppPresentation
 
-final class ChatPresenter: IOPresenterable {
+final public class ChatPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    typealias Environment = SampleAppEnvironment
-    typealias Interactor = ChatInteractor
+    public typealias Environment = SampleAppEnvironment
+    public typealias Interactor = ChatInteractor
     
-    var environment: EnvironmentObject<SampleAppEnvironment>!
-    var interactor: ChatInteractor!
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
+    public var interactor: ChatInteractor!
     
     // MARK: - Publishers
     
@@ -28,7 +28,7 @@ final class ChatPresenter: IOPresenterable {
     
     // MARK: - Initialization Methods
     
-    init() {
+    public init() {
         self.keyboardPublisher = Publishers
             .Merge(
                 NotificationCenter
