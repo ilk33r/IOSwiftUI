@@ -8,6 +8,7 @@
 import Foundation
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct DiscoverNavigationWireframe: IONavigationLinkView {
     
@@ -18,16 +19,13 @@ struct DiscoverNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var linkBody: some View {
-        EmptyView()
-        /*
         NavigationLink(
-            destination: ProfileView(entity: ProfileEntity(userName: self.navigationState.userName)),
+            destination: route(HomeRouters.self, .profile(entity: ProfileEntity(userName: self.navigationState.userName))),
             isActive: $navigationState.navigateToProfile
         ) {
             EmptyView()
         }
         .navigationBarTitle("", displayMode: .inline)
-         */
     }
     
     // MARK: - Initialization Methods

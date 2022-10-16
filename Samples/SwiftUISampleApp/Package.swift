@@ -92,6 +92,12 @@ let package = Package(
                            "SwiftUISampleAppCommon",
                            "SwiftUISampleAppInfrastructure",
                            "SwiftUISampleAppPresentation",
+                           "SwiftUISampleAppScreensSplash",
+                           "SwiftUISampleAppScreensLogin",
+                           "SwiftUISampleAppScreensHome",
+                           "SwiftUISampleAppScreensDiscover",
+                           "SwiftUISampleAppScreensChatInbox",
+                           "SwiftUISampleAppScreensProfile",
                            "SwiftUISampleAppRouter"])
     ]
 )
