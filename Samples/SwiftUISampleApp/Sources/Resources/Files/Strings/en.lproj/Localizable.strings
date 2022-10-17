@@ -44,6 +44,7 @@
 "profile.button.unfollow" = "UNFOLLOW %@";
 
 // MARK: -  Chat
+"chat.button.send" = "Send";
 "chat.inbox.title" = "Chats";
 "chat.input.placeholder" = "Message...";
 

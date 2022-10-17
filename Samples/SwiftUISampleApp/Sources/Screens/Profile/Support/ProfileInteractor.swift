@@ -34,7 +34,7 @@ final public class ProfileInteractor: IOInteractor<ProfilePresenter, ProfileEnti
             
             switch result {
             case .success(response: let response):
-                self?.presenter?.navigate(inbox: response.inbox)
+                self?.presenter?.navigate(toMemberId: request.toMemberID ?? 0, inbox: response.inbox)
                 
             case .error(message: let message, type: let type, response: let response):
                 self?.handleServiceError(message, type: type, response: response, handler: nil)

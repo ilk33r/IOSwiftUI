@@ -10,5 +10,6 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let chatButtonSend = IOLocalizationType(rawValue: "chat.button.send")
     static let chatInputPlaceholder = IOLocalizationType(rawValue: "chat.input.placeholder")
 }

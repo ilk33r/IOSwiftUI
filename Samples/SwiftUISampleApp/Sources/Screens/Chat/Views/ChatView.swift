@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 30.08.2022.
 //
 
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
@@ -23,6 +24,8 @@ public struct ChatView: IOController {
     
     @State private var isKoyboardVisible = false
     @State private var messageText: String = ""
+    
+    @IOInstance private var thread: IOThreadImpl
     
     private let items = [
         ChatItemUIModel(
@@ -130,8 +133,14 @@ public struct ChatView: IOController {
                         }
                     }
                     .hideKeyboardOnTap()
-                    ChatTextEditorView(.chatInputPlaceholder, text: $messageText)
-                        .padding(.bottom, isKoyboardVisible ? 0 : -proxy.safeAreaInsets.bottom)
+                    ChatTextEditorView(
+                        .chatInputPlaceholder,
+                        text: $messageText,
+                        handler: {
+                            sendMessage()
+                        }
+                    )
+                    .padding(.bottom, isKoyboardVisible ? 0 : -proxy.safeAreaInsets.bottom)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -165,10 +174,23 @@ public struct ChatView: IOController {
     public init(presenter: Presenter) {
         self.presenter = presenter
     }
+    
+    // MARK: - Helper Methods
+    
+    private func sendMessage() {
+        if messageText.isEmpty {
+            return
+        }
+        
+        presenter.interactor.sendMessage(message: messageText)
+        thread.runOnMainThread {
+            messageText = ""
+        }
+    }
 }
 
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView(entity: ChatEntity(inbox: nil))
+        ChatView(entity: ChatEntity(toMemberId: 0, inbox: nil))
     }
 }

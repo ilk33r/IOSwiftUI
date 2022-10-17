@@ -12,9 +12,11 @@ import SwiftUI
 
 public struct ChatEntity: IOEntity {
     
+    public let toMemberId: Int
     public let inbox: InboxModel!
     
-    public init(inbox: InboxModel!) {
+    public init(toMemberId: Int, inbox: InboxModel!) {
+        self.toMemberId = toMemberId
         self.inbox = inbox
     }
 }
