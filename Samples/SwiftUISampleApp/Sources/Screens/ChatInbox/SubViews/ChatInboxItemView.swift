@@ -6,24 +6,27 @@
 //
 
 import SwiftUI
+import IOSwiftUICommon
 
 struct ChatInboxItemView: View {
     
-    @Binding private var isTapped: Bool
+    typealias ClickHandler = (_ index: Int) -> Void
+    
+    private let uiModel: ChatInboxUIModel
+    private let clickHandler: ClickHandler?
     
     var body: some View {
         VStack {
             HStack(alignment: .top) {
-                Image("pwChatAvatar")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
+                Image()
+                    .from(publicId: uiModel.profilePicturePublicId)
                     .frame(width: 64, height: 64)
                     .clipShape(Circle())
                 VStack(alignment: .leading) {
-                    Text("Rev Shawn")
+                    Text(uiModel.nameSurname)
                         .font(type: .bold(13))
                         .foregroundColor(.black)
-                    Text("Wanted to ask if you’re available for a portrait shoot next week.")
+                    Text(uiModel.lastMessage)
                         .lineLimit(3)
                         .font(type: .regular(13))
                         .foregroundColor(.black)
@@ -42,18 +45,30 @@ struct ChatInboxItemView: View {
                 .frame(height: 1)
         }
         .onTapGesture {
-            isTapped = true
+            clickHandler?(uiModel.index)
         }
     }
     
-    init(isTapped: Binding<Bool>) {
-        self._isTapped = isTapped
+    init(
+        uiModel: ChatInboxUIModel,
+        clickHandler: ClickHandler?
+    ) {
+        self.uiModel = uiModel
+        self.clickHandler = clickHandler
     }
 }
 
 struct ChatInboxItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatInboxItemView(isTapped: Binding.constant(false))
-            .previewLayout(.sizeThatFits)
+        ChatInboxItemView(
+            uiModel: ChatInboxUIModel(
+                index: 0,
+                profilePicturePublicId: "",
+                nameSurname: "İlker Özcan",
+                lastMessage: "Wanted to ask if you’re available for a portrait shoot next week."
+            ),
+            clickHandler: nil
+        )
+        .previewLayout(.sizeThatFits)
     }
 }

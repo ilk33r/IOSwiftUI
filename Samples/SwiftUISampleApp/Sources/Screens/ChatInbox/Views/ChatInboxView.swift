@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 28.08.2022.
 //
 
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
@@ -21,13 +22,20 @@ public struct ChatInboxView: IOController {
     @ObservedObject public var presenter: ChatInboxPresenter
     @StateObject public var navigationState = ChatInboxNavigationState()
     
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    
     public var body: some View {
         GeometryReader { proxy in
             List {
                 Section {
-                    ForEach(0..<100) { _ in
-                        let itemView = ChatInboxItemView(isTapped: $navigationState.navigateToChat)
-                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    ForEach(presenter.inboxes) { inbox in
+                        let itemView = ChatInboxItemView(
+                            uiModel: inbox,
+                            clickHandler: { index in
+                                IOLogger.verbose("Chat item tapped \(index)")
+                            }
+                        )
+                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         
                         if #available(iOS 15.0, *) {
                             itemView
@@ -55,6 +63,12 @@ public struct ChatInboxView: IOController {
         }
         .navigationWireframe {
             ChatInboxNavigationWireframe(navigationState: navigationState)
+        }
+        .onAppear {
+            if !isPreviewMode {
+                presenter.environment = _appEnvironment
+                presenter.interactor.getInboxes()
+            }
         }
     }
     
