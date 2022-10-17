@@ -116,23 +116,34 @@ public struct ChatView: IOController {
     
     public var body: some View {
         GeometryReader { proxy in
+            Color.white
+                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                .ignoresSafeArea()
             ZStack(alignment: .top) {
                 VStack {
-                    ScrollView {
-                        ScrollViewReader { _ in
-                            LazyVStack {
-                                ForEach(items) { item in
-                                    if item.isSend {
-                                        ChatSendCellView(uiModel: item)
-                                    } else {
-                                        ChatReceivedCellView(uiModel: item)
+                    IOUIView { lifecycle in
+                        if lifecycle == .willAppear {
+                            presenter.hideTabBar()
+                        } else if lifecycle == .willDisappear {
+                            presenter.showTabBar()
+                        }
+                    } content: {
+                        ScrollView {
+                            ScrollViewReader { _ in
+                                LazyVStack {
+                                    ForEach(items) { item in
+                                        if item.isSend {
+                                            ChatSendCellView(uiModel: item)
+                                        } else {
+                                            ChatReceivedCellView(uiModel: item)
+                                        }
                                     }
                                 }
+                                .padding(.top, 8)
                             }
-                            .padding(.top, 8)
                         }
+                        .hideKeyboardOnTap()
                     }
-                    .hideKeyboardOnTap()
                     ChatTextEditorView(
                         .chatInputPlaceholder,
                         text: $messageText,
@@ -144,19 +155,6 @@ public struct ChatView: IOController {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            Color.white
-                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
-                .ignoresSafeArea()
-        }
-        .onAppear {
-            if !isPreviewMode {
-                presenter.hideTabBar()
-            }
-        }
-        .onDisappear {
-            if !isPreviewMode {
-                presenter.showTabBar()
-            }
         }
         .onReceive(presenter.keyboardPublisher, perform: { value in
             isKoyboardVisible = value

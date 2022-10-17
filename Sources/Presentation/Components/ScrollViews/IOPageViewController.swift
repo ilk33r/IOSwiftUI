@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUICommon
 import UIKit
 import SwiftUI
 
@@ -38,32 +39,20 @@ final public class IOPageViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        let scrollView = UIScrollView()
+        let scrollView = UIScrollView(
+            containerView: self.view,
+            constraints: IOConstraints.safeAreaAll
+        )
         scrollView.isPagingEnabled = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(scrollView)
-        
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        ])
         
         self.hostingController.willMove(toParent: self)
-        self.hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(self.hostingController.view)
-        
-        NSLayoutConstraint.activate([
-            self.hostingController.view.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            self.hostingController.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            self.hostingController.view.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            self.hostingController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            self.hostingController.view.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
-        ])
-        
+        scrollView.addSubview(
+            view: self.hostingController.view,
+            constraints: IOConstraints.all
+        )
+        self.hostingController.view.addEqualHeight(scrollView.heightAnchor)
         self.hostingController.didMove(toParent: self)
         self.scrollView = scrollView
     }

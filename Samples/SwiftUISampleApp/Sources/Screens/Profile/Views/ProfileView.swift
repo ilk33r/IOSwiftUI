@@ -36,42 +36,48 @@ public struct ProfileView: IOController {
     
     public var body: some View {
         GeometryReader { proxy in
-            ZStack(alignment: .top) {
-                let headerHeight = max(0, headerSize.height - scrollOffset)
+            IOUIView { lifecycle in
+                if lifecycle == .willAppear && navigationBarHidden {
+                    navigationBarHidden = false
+                }
+            } content: {
                 ZStack(alignment: .top) {
-                    ProfileHeaderView(uiModel: presenter.profileUIModel) { buttonType in
-                        switch buttonType {
-                        case .message:
-                            presenter.interactor.createInbox()
-                            
-                        default:
-                            break
-                        }
-                    }
-                    .padding(.top, 24)
-                    .padding(.bottom, 32)
-                    .background(
-                        GeometryReader { proxy in
-                            Color.clear.onAppear {
-                                headerSize = proxy.size
+                    let headerHeight = max(0, headerSize.height - scrollOffset)
+                    ZStack(alignment: .top) {
+                        ProfileHeaderView(uiModel: presenter.profileUIModel) { buttonType in
+                            switch buttonType {
+                            case .message:
+                                presenter.interactor.createInbox()
+                                
+                            default:
+                                break
                             }
                         }
+                        .padding(.top, 24)
+                        .padding(.bottom, 32)
+                        .background(
+                            GeometryReader { proxy in
+                                Color.clear.onAppear {
+                                    headerSize = proxy.size
+                                }
+                            }
+                        )
+                    }
+                    .zIndex(20)
+                    .frame(height: headerHeight, alignment: .top)
+                    .clipped()
+                    GalleryView(
+                        insetTop: $headerSize.height,
+                        scrollContentSize: $scrollContentSize,
+                        scrollOffset: $scrollOffset,
+                        tapIndex: $tapIndex,
+                        viewSize: $viewSize,
+                        galleryImages: presenter.images
                     )
+                    .zIndex(10)
                 }
-                .zIndex(20)
-                .frame(height: headerHeight, alignment: .top)
-                .clipped()
-                GalleryView(
-                    insetTop: $headerSize.height,
-                    scrollContentSize: $scrollContentSize,
-                    scrollOffset: $scrollOffset,
-                    tapIndex: $tapIndex,
-                    viewSize: $viewSize,
-                    galleryImages: presenter.images
-                )
-                .zIndex(10)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
@@ -99,11 +105,6 @@ public struct ProfileView: IOController {
             navigationBarHidden = true
             navigationState.chatEntity = chatEntity
             navigationState.navigateToChat = true
-        })
-        .onReceive(navigationState.$navigateToChat, perform: { newValue in
-            if !newValue && navigationBarHidden {
-                navigationBarHidden = false
-            }
         })
         .navigationBarHidden(navigationBarHidden)
         .navigationBarTitle("", displayMode: .inline)
