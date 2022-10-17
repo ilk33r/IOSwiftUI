@@ -1,5 +1,5 @@
 //
-//  InboxModelInboxModel.swift
+//  InboxModel.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 15.10.2022.
@@ -9,7 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 
-final public class InboxModelInboxModel: BaseModel {
+final public class InboxModel: BaseModel {
     
     @IOJsonProperty(key: "inboxID")
     public var inboxID: Int?

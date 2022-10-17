@@ -26,6 +26,7 @@ public struct ProfileView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     @State private var headerSize: CGSize = .zero
+    @State private var navigationBarHidden = false
     @State private var scrollContentSize: CGSize = .zero
     @State private var scrollOffset: CGFloat = 0
     @State private var tapIndex: Int = -1
@@ -76,7 +77,7 @@ public struct ProfileView: IOController {
                 .ignoresSafeArea()
         }
         .onChange(of: tapIndex) { newValue in
-            navigationState.entity = PhotoGalleryEntity(
+            navigationState.galleryEntity = PhotoGalleryEntity(
                 imagePublicIds: presenter.images,
                 isPresented: $navigationState.navigateToGallery,
                 selectedIndex: newValue
@@ -91,9 +92,23 @@ public struct ProfileView: IOController {
         .navigationWireframe(isHidden: true) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
+        .onReceive(presenter.$chatEntity, perform: { chatEntity in
+            if chatEntity == nil {
+                return
+            }
+            navigationBarHidden = true
+            navigationState.chatEntity = chatEntity
+            navigationState.navigateToChat = true
+        })
+        .onReceive(navigationState.$navigateToChat, perform: { newValue in
+            if !newValue && navigationBarHidden {
+                navigationBarHidden = false
+            }
+        })
+        .navigationBarHidden(navigationBarHidden)
         .navigationBarTitle("", displayMode: .inline)
         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
-            IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.entity))
+            IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
         }
         .onAppear {
             if !isPreviewMode {

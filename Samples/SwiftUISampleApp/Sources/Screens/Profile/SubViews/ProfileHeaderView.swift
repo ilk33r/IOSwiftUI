@@ -47,44 +47,44 @@ struct ProfileHeaderView: View {
                 .padding(.bottom, 0)
             if uiModel?.isOwnProfile ?? false {
                 PrimaryButton(.profileButtonFriends)
-                    .padding(.top, 16)
-                    .padding(.leading, 16)
-                    .padding(.trailing, 16)
                     .setClick {
                         clickHandler?(.friends)
                     }
-                SecondaryButton(.profileButtonSettings)
                     .padding(.top, 16)
                     .padding(.leading, 16)
                     .padding(.trailing, 16)
+                SecondaryButton(.profileButtonSettings)
                     .setClick {
                         clickHandler?(.settings)
                     }
-            } else {
-                if uiModel?.isFollowing ?? false {
-                    PrimaryButton(.profileButtonFollow.format(uiModel?.name ?? ""))
-                        .padding(.top, 16)
-                        .padding(.leading, 16)
-                        .padding(.trailing, 16)
-                        .setClick {
-                            clickHandler?(.follow)
-                        }
-                } else {
-                    PrimaryButton(.profileButtonUnfollow.format(uiModel?.name ?? ""))
-                        .padding(.top, 16)
-                        .padding(.leading, 16)
-                        .padding(.trailing, 16)
-                        .setClick {
-                            clickHandler?(.unfollow)
-                        }
-                }
-                SecondaryButton(.profileButtonMessage)
                     .padding(.top, 16)
                     .padding(.leading, 16)
                     .padding(.trailing, 16)
+            } else {
+                if uiModel?.isFollowing ?? false {
+                    PrimaryButton(.profileButtonFollow.format(uiModel?.name ?? ""))
+                        .setClick {
+                            clickHandler?(.follow)
+                        }
+                        .padding(.top, 16)
+                        .padding(.leading, 16)
+                        .padding(.trailing, 16)
+                } else {
+                    PrimaryButton(.profileButtonUnfollow.format(uiModel?.name ?? ""))
+                        .setClick {
+                            clickHandler?(.unfollow)
+                        }
+                        .padding(.top, 16)
+                        .padding(.leading, 16)
+                        .padding(.trailing, 16)
+                }
+                SecondaryButton(.profileButtonMessage)
                     .setClick {
                         clickHandler?(.message)
                     }
+                    .padding(.top, 16)
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
             }
         }
     }

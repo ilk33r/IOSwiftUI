@@ -11,5 +11,5 @@ import IOSwiftUICommon
 final public class CreateInboxResponseModel: BaseResponseModel {
     
     @IOJsonProperty(key: "inbox")
-    public var inbox: InboxModelInboxModel?
+    public var inbox: InboxModel?
 }

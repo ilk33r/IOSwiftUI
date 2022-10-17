@@ -7,9 +7,14 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
+import SwiftUI
 
 public struct ChatEntity: IOEntity {
     
-    public init() {
+    public let inbox: InboxModel!
+    
+    public init(inbox: InboxModel!) {
+        self.inbox = inbox
     }
 }

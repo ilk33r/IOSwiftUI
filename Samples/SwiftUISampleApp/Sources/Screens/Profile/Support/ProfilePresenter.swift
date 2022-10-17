@@ -10,6 +10,7 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 final public class ProfilePresenter: IOPresenterable {
     
@@ -27,6 +28,7 @@ final public class ProfilePresenter: IOPresenterable {
     
     // MARK: - Publisher
     
+    @Published private(set) var chatEntity: ChatEntity?
     @Published private(set) var images: [String]!
     @Published private(set) var profileUIModel: ProfileUIModel?
     
@@ -59,6 +61,11 @@ final public class ProfilePresenter: IOPresenterable {
             self.isImagesLoading = true
             self.interactor.getImages(start: self.imagesStart, count: self.numberOfImagesPerPage)
         }
+    }
+    
+    func navigate(inbox: InboxModel?) {
+        guard let inbox = inbox else { return }
+        self.chatEntity = ChatEntity(inbox: inbox)
     }
     
     func update(member: MemberModel?, isOwnProfile: Bool) {

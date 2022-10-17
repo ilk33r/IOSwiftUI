@@ -135,21 +135,28 @@ public struct ChatView: IOController {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .navigationBar {
-                NavBarTitleView(.init(rawValue: "James"))
-            }
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
         .onAppear {
-            presenter.hideTabBar()
+            if !isPreviewMode {
+                presenter.hideTabBar()
+            }
+        }
+        .onDisappear {
+            if !isPreviewMode {
+                presenter.showTabBar()
+            }
         }
         .onReceive(presenter.keyboardPublisher, perform: { value in
             isKoyboardVisible = value
         })
         .controllerWireframe {
             ChatNavigationWireframe(navigationState: navigationState)
+        }
+        .navigationBar {
+            NavBarTitleView(.init(rawValue: "James"))
         }
     }
     
@@ -162,6 +169,6 @@ public struct ChatView: IOController {
 
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView(entity: ChatEntity())
+        ChatView(entity: ChatEntity(inbox: nil))
     }
 }

@@ -50,4 +50,9 @@ final public class ChatPresenter: IOPresenterable {
         self.interactor.appState.set(bool: true, forType: .tabBarIsHidden)
         NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
     }
+    
+    func showTabBar() {
+        self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
+        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+    }
 }

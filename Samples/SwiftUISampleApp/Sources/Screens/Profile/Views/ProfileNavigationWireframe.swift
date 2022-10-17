@@ -19,12 +19,9 @@ struct ProfileNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        EmptyView()
-        /*
-        NavigationLink(destination: PageView(), isActive: $navigationState.navigateToPage) {
+        NavigationLink(destination: route(HomeRouters.self, .chat(entity: navigationState.chatEntity)), isActive: $navigationState.navigateToChat) {
             EmptyView()
         }
-        */
     }
     
     // MARK: - Initialization Methods
