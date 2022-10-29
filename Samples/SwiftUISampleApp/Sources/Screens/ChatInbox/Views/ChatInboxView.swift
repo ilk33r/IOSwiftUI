@@ -55,7 +55,7 @@ public struct ChatInboxView: IOController {
             .frame(maxWidth: .infinity)
             .listStyle(InsetListStyle())
             .navigationBar(navigationBar: {
-                NavBarTitleView(.chatInboxTitle)
+                NavBarTitleView(.chatInboxTitle, iconName: "message")
             })
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)

@@ -155,15 +155,15 @@ public struct ChatView: IOController {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                NavBarTitleView(.init(rawValue: "James"), iconName: "ellipsis.message")
+            }
         }
         .onReceive(presenter.keyboardPublisher, perform: { value in
             isKoyboardVisible = value
         })
         .controllerWireframe {
             ChatNavigationWireframe(navigationState: navigationState)
-        }
-        .navigationBar {
-            NavBarTitleView(.init(rawValue: "James"))
         }
     }
     

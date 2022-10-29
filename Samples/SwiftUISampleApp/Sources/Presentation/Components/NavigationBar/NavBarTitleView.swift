@@ -10,21 +10,30 @@ import IOSwiftUIInfrastructure
 
 public struct NavBarTitleView: View {
     
+    private var iconName: String
     private var localizationType: IOLocalizationType
     
     public var body: some View {
-        Text(type: localizationType)
-            .font(type: .systemSemibold(17))
+        HStack {
+            Image(systemName: iconName)
+                .resizable()
+                .frame(width: 16, height: 16)
+                .padding(.trailing, 4)
+                .padding(.leading, -8)
+            Text(type: localizationType)
+                .font(type: .systemSemibold(17))
+        }
     }
     
-    public init(_ l: IOLocalizationType) {
+    public init(_ l: IOLocalizationType, iconName: String) {
         self.localizationType = l
+        self.iconName = iconName
     }
 }
 
 struct NavBarTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        NavBarTitleView(.init(rawValue: "Navigation Bar"))
+        NavBarTitleView(.init(rawValue: "Navigation Bar"), iconName: "bolt.fill")
             .previewLayout(.sizeThatFits)
     }
 }
