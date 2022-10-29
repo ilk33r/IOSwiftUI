@@ -50,4 +50,8 @@ final public class ChatInboxInteractor: IOInteractor<ChatInboxPresenter, ChatInb
             }
         }
     }
+    
+    func getMessages(inboxID: Int) {
+        
+    }
 }
