@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class IOThreadImpl: IOThread {
+public struct IOThreadImpl: IOThread {
     
     // MARK: - Privates
     

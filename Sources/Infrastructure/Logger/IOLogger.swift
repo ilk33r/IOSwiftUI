@@ -9,7 +9,7 @@ import Foundation
 import os
 import IOSwiftUICommon
 
-final public class IOLogger: IOSingleton {
+public struct IOLogger: IOSingleton {
     
     // MARK: - Defs
     

@@ -8,7 +8,7 @@
 import CommonCrypto
 import Foundation
 
-final public class IOAESUtilities {
+public struct IOAESUtilities {
  
     // MARK: - AES
     

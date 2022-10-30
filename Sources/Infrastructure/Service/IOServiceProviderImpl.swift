@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
+public struct IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
 
     // MARK: - Types
     
@@ -20,7 +20,7 @@ final public class IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvide
     
     // MARK: - Initialization Methods
     
-    required public init() {
+    public init() {
     }
     
     // MARK: - Request Methods

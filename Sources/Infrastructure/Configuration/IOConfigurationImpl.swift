@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class IOConfigurationImpl: IOConfiguration, IOSingleton {
+public struct IOConfigurationImpl: IOConfiguration, IOSingleton {
     
     public typealias InstanceType = IOConfigurationImpl
     public static var _sharedInstance: IOConfigurationImpl!

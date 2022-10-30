@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class IOLocalStorageImpl: IOLocalStorage, IOSingleton {
+public struct IOLocalStorageImpl: IOLocalStorage, IOSingleton {
     
     public typealias InstanceType = IOLocalStorageImpl
     public static var _sharedInstance: IOLocalStorageImpl!
@@ -23,7 +23,7 @@ final public class IOLocalStorageImpl: IOLocalStorage, IOSingleton {
     
     // MARK: - Initialization Methods
     
-    required public init() {
+    public init() {
         self.userDefaults = UserDefaults.standard
     }
     
@@ -106,8 +106,8 @@ final public class IOLocalStorageImpl: IOLocalStorage, IOSingleton {
     }
     
     public func removeAllObjects() {
-        self.allKeys().forEach({ [weak self] key in
-            self?.userDefaults.removeObject(forKey: key)
+        self.allKeys().forEach({ key in
+            self.userDefaults.removeObject(forKey: key)
         })
         
         self.synchronize()

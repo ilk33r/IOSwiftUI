@@ -8,7 +8,7 @@
 import Foundation
 import Security
 
-final public class IORSAEncryptionUtilities {
+public struct IORSAEncryptionUtilities {
     
     public enum PaddingType {
         case pkcs1

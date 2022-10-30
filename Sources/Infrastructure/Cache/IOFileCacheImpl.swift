@@ -7,7 +7,7 @@
 
 import Foundation
 
-final public class IOFileCacheImpl: IOFileCache, IOSingleton {
+public struct IOFileCacheImpl: IOFileCache, IOSingleton {
     
     // MARK: - Singleton
     

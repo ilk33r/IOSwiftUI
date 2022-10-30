@@ -8,7 +8,7 @@
 import Foundation
 import Security
 
-final public class IORSAKeyUtilities {
+public struct IORSAKeyUtilities {
     
     public static func generatePublicKey(exponent: String, modulus: String, tag: String) -> SecKey? {
         let exponentData = Data(fromHexString: exponent)

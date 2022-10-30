@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-internal class IOHTTPRequestCancel: IOCancellable {
+internal struct IOHTTPRequestCancel: IOCancellable {
     
     private var sessionTask: URLSessionTask?
     
@@ -18,6 +18,5 @@ internal class IOHTTPRequestCancel: IOCancellable {
     
     func cancel() {
         self.sessionTask?.cancel()
-        self.sessionTask = nil
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-final class IOThreadCancel: IOCancellable {
+internal struct IOThreadCancel: IOCancellable {
     
     // MARK: - Privatees
     

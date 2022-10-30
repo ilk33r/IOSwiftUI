@@ -7,7 +7,7 @@
 
 import Foundation
 
-final public class IOMapperImpl: IOMapper, IOSingleton {
+public struct IOMapperImpl: IOMapper, IOSingleton {
 
     // MARK: - Defs
     
@@ -21,7 +21,7 @@ final public class IOMapperImpl: IOMapper, IOSingleton {
     
     // MARK: - Initialization Methods
     
-    required public init() {
+    public init() {
     }
     
     // MARK: - Mapper Methods

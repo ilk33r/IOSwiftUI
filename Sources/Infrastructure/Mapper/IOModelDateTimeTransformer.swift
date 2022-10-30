@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-public final class IOModelDateTimeTransformer: IOModelTransformer {
+public struct IOModelDateTimeTransformer: IOModelTransformer {
     
     // MARK: - Constants
     

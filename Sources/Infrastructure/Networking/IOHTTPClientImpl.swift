@@ -9,41 +9,40 @@ import Foundation
 import UIKit
 import IOSwiftUICommon
 
-final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
+public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     
     public typealias InstanceType = IOHTTPClientImpl
     public static var _sharedInstance: IOHTTPClientImpl!
     
     // MARK: - DI
     
+    @IOInject private var appState: IOAppStateImpl
     @IOInject private var configuration: IOConfigurationImpl
     @IOInject private var httpLogger: IOHTTPLogger
     @IOInstance private var thread: IOThreadImpl
     
     // MARK: - Publics
     
-    public var defaultHTTPHeaders: [String: String]? { self._defaultHTTPHeaders }
+    public var defaultHTTPHeaders: [String: String]? { self.appState.object(forType: .httpClientDefaultHeaders) as? [String: String] }
     
     // MARK: - Privates
     
-    private var _defaultHTTPHeaders: [String: String]?
-    private var backgroundTasks: [Int: UIBackgroundTaskIdentifier]!
-    private var baseURL: URL!
+    private var backgroundTasks: [Int: UIBackgroundTaskIdentifier]? { self.appState.object(forType: .httpClientBackgroundTasks) as? [Int: UIBackgroundTaskIdentifier] }
     
+    private var baseURL: URL!
     private var timeoutInterval: TimeInterval!
     private var session: URLSession!
     
     // MARK: - Initialization Methods
     
-    required public override init() {
-        super.init()
-        self.backgroundTasks = [:]
+    public init() {
+        self.appState.set(object: [Int: UIBackgroundTaskIdentifier](), forType: .httpClientBackgroundTasks)
         self.baseURL = URL(string: self.configuration.configForType(type: .networkingApiUrl))!
-        self.timeoutInterval = TimeInterval(self.configuration.configForType(type: .networkingApiTimeout))
+        self.timeoutInterval = TimeInterval(self.configuration.configForType(type: .networkingApiTimeout)) ?? 0
         
         let sessionConfiguration = URLSessionConfiguration.ephemeral
         sessionConfiguration.timeoutIntervalForRequest = self.timeoutInterval
-        self.session = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: nil)
+        self.session = URLSession(configuration: sessionConfiguration, delegate: nil, delegateQueue: nil)
         
         // Log call
         IOLogger.info("Http Client 2 configured. Base Url: \(self.baseURL.absoluteString)")
@@ -87,7 +86,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
     }
     
     public func setDefaultHTTPHeaders(headers: [String: String]?) {
-        self._defaultHTTPHeaders = headers
+        self.appState.set(object: headers, forType: .httpClientDefaultHeaders)
     }
     
     // MARK: - Helper Methods
@@ -95,7 +94,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
     private func httpHeaders(with headers: [String: String]?) -> [String: String] {
         var httpHeaders = [String: String]()
         
-        if let defaultHeaders = self._defaultHTTPHeaders {
+        if let defaultHeaders = self.defaultHTTPHeaders {
             for (key, value) in defaultHeaders {
                 httpHeaders[key] = value
             }
@@ -139,7 +138,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
         
         // Create a task
         var task: URLSessionTask?
-        task = self.session.dataTask(with: request) { [weak self] data, response, error in
+        task = self.session.dataTask(with: request) { data, response, error in
             // Obtain values
             let httpResponse = response as? HTTPURLResponse
             let responseHeaders = httpResponse?.allHeaderFields as? [String: String]
@@ -147,10 +146,10 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
             let taskIdentifier = task?.taskIdentifier ?? 0
             
             // End background task
-            self?.endBackgroundTask(identifier: taskIdentifier)
+            self.endBackgroundTask(identifier: taskIdentifier)
             
             // Log call
-            self?.httpLogger.requestDidFinish(task: task, responseObject: data, error: error as NSError?)
+            self.httpLogger.requestDidFinish(task: task, responseObject: data, error: error as NSError?)
             
             // Check error exist
             if let errorVal = error as NSError? {
@@ -166,7 +165,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
                 )
                 
                 // Handle error
-                self?.thread.runOnMainThread {
+                self.thread.runOnMainThread {
                     handler?(httpResult)
                 }
                 
@@ -186,7 +185,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
                 )
                 
                 // Handle success
-                self?.thread.runOnMainThread {
+                self.thread.runOnMainThread {
                     handler?(httpResult)
                 }
                 
@@ -206,7 +205,7 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
             )
             
             // Handle error
-            self?.thread.runOnMainThread {
+            self.thread.runOnMainThread {
                 handler?(httpResult)
             }
         }
@@ -217,20 +216,21 @@ final public class IOHTTPClientImpl: NSObject, IOHTTPClient, IOSingleton {
     // MARK: - Background Task
     
     private func beginBackgroundTask(identifier: Int) {
-        let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask { [weak self] in
-            self?.endBackgroundTask(identifier: identifier)
+        let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
+            self.endBackgroundTask(identifier: identifier)
         }
         
-        self.backgroundTasks[identifier] = backgroundTaskIdentifier
+        var backgroundTasks = self.backgroundTasks
+        backgroundTasks?[identifier] = backgroundTaskIdentifier
+        self.appState.set(object: backgroundTasks, forType: .httpClientBackgroundTasks)
     }
     
     private func endBackgroundTask(identifier: Int) {
-        guard let backgroundTaskIdentifier = self.backgroundTasks[identifier] else { return }
+        guard let backgroundTaskIdentifier = self.backgroundTasks?[identifier] else { return }
         UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
-        self.backgroundTasks.removeValue(forKey: identifier)
+        
+        var backgroundTasks = self.backgroundTasks
+        backgroundTasks?.removeValue(forKey: identifier)
+        self.appState.set(object: backgroundTasks, forType: .httpClientBackgroundTasks)
     }
-}
-
-extension IOHTTPClientImpl: URLSessionDelegate {
-    
 }
