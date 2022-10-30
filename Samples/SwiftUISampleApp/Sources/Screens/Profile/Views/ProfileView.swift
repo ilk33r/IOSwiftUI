@@ -47,7 +47,7 @@ public struct ProfileView: IOController {
                         ProfileHeaderView(uiModel: presenter.profileUIModel) { buttonType in
                             switch buttonType {
                             case .message:
-                                presenter.interactor.createInbox()
+                                presenter.createInbox()
                                 
                             default:
                                 break

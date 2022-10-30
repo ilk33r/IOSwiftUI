@@ -18,7 +18,7 @@ public protocol IOPresenterable: ObservableObject {
     // MARK: - Generics
     
     associatedtype Environment: IOAppEnvironment
-    associatedtype Interactor: IOInteractorable
+    associatedtype Interactor: IOInteractor
     
     var environment: EnvironmentObject<Environment>! { get set }
     var interactor: Interactor! { get set }
@@ -31,10 +31,6 @@ public protocol IOPresenterable: ObservableObject {
 public extension IOPresenterable {
     
     func _initializaPresenterable(entity: IOEntity?) {
-        let interactor = Interactor()
-        interactor._presenterInstance = self
-        interactor._entityInstance = entity
-        
-        self.interactor = interactor
+        self.interactor = Interactor(entityInstance: entity, presenterInstance: self)
     }
 }

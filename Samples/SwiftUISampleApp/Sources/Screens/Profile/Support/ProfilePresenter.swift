@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import IOSwiftUICommon
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
@@ -15,9 +17,6 @@ import SwiftUISampleAppScreensShared
 final public class ProfilePresenter: IOPresenterable {
     
     // MARK: - Presentable
-    
-    public typealias Environment = SampleAppEnvironment
-    public typealias Interactor = ProfileInteractor
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: ProfileInteractor!
@@ -37,6 +36,7 @@ final public class ProfilePresenter: IOPresenterable {
     private var imagesStart: Int!
     private var isImagesLoading: Bool!
     private var totalImageCount: Int?
+    private var member: MemberModel?
     
     // MARK: - Initialization Methods
     
@@ -47,6 +47,10 @@ final public class ProfilePresenter: IOPresenterable {
     }
     
     // MARK: - Presenter
+    
+    func createInbox() {
+        self.interactor.createInbox(memberID: self.member?.id ?? 0)
+    }
     
     func loadImages() {
         if self.isImagesLoading {
@@ -66,6 +70,10 @@ final public class ProfilePresenter: IOPresenterable {
     func navigate(toMemberId: Int, inbox: InboxModel?) {
         guard let inbox = inbox else { return }
         self.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox)
+    }
+    
+    func set(member: MemberModel?) {
+        self.member = member
     }
     
     func update(member: MemberModel?, isOwnProfile: Bool) {

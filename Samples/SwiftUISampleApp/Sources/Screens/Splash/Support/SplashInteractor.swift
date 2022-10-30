@@ -12,7 +12,12 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
-final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity> {
+public struct SplashInteractor: IOInteractor {
+    
+    // MARK: - Interactorable
+    
+    public var entity: SplashEntity!
+    public weak var presenter: SplashPresenter?
     
     // MARK: - Constants
     
@@ -26,19 +31,24 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
     
     @IOInstance private var service: IOServiceProviderImpl<SplashService>
     
+    // MARK: - Initialization Methods
+    
+    public init() {
+    }
+    
     // MARK: - Interactor
     
     func handshake() {
         self.showIndicator()
         
-        self.service.request(.handshake, responseType: HandshakeResponseModel.self) { [weak self] result in
+        self.service.request(.handshake, responseType: HandshakeResponseModel.self) { result in
             switch result {
             case .success(response: let response):
-                self?.setupCryptography(response: response)
+                self.setupCryptography(response: response)
                 
             case .error(message: let message, type: let type, response: let response):
-                self?.hideIndicator()
-                self?.handleServiceError(message, type: type, response: response, handler: { _ in
+                self.hideIndicator()
+                self.handleServiceError(message, type: type, response: response, handler: { _ in
                     exit(0)
                 })
             }
@@ -92,17 +102,17 @@ final public class SplashInteractor: IOInteractor<SplashPresenter, SplashEntity>
     }
     
     private func checkToken() {
-        self.service.request(.checkToken, responseType: BaseResponseModel.self) { [weak self] result in
-            self?.hideIndicator()
+        self.service.request(.checkToken, responseType: BaseResponseModel.self) { result in
+            self.hideIndicator()
             
             switch result {
             case .success(response: _):
-                self?.presenter?.navigateToHome()
+                self.presenter?.navigateToHome()
                 
             case .error(message: let message, type: let type, response: let response):
-                self?.handleServiceError(message, type: type, response: response, handler: { [weak self] _ in
-                    self?.localStorage.remove(type: .userToken)
-                    self?.presenter?.updateButtons()
+                self.handleServiceError(message, type: type, response: response, handler: { _ in
+                    self.localStorage.remove(type: .userToken)
+                    self.presenter?.updateButtons()
                 })
             }
         }

@@ -6,20 +6,27 @@
 //
 
 import Foundation
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
-final public class ChatInboxInteractor: IOInteractor<ChatInboxPresenter, ChatInboxEntity> {
+public struct ChatInboxInteractor: IOInteractor {
+    
+    // MARK: - Interactorable
+    
+    public var entity: ChatInboxEntity!
+    public weak var presenter: ChatInboxPresenter?
     
     // MARK: - Privates
     
     @IOInstance private var service: IOServiceProviderImpl<ChatInboxService>
     
-    // MARK: - Privates
+    // MARK: - Initialization Methods
     
-    private var inboxes: [InboxModel]?
+    public init() {
+    }
     
     // MARK: - Interactor
     
@@ -37,16 +44,16 @@ final public class ChatInboxInteractor: IOInteractor<ChatInboxPresenter, ChatInb
     func getInboxes() {
         self.showIndicator()
         
-        self.service.request(.getInboxes, responseType: InboxResponseModel.self) { [weak self] result in
-            self?.hideIndicator()
+        self.service.request(.getInboxes, responseType: InboxResponseModel.self) { result in
+            self.hideIndicator()
             
             switch result {
             case .success(response: let response):
-                self?.inboxes = response.inboxes
-                self?.presenter?.update(inboxes: response.inboxes ?? [])
+                self.presenter?.set(inboxListModel: response.inboxes)
+                self.presenter?.update(inboxes: response.inboxes ?? [])
                 
             case .error(message: let message, type: let type, response: let response):
-                self?.handleServiceError(message, type: type, response: response, handler: nil)
+                self.handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
     }

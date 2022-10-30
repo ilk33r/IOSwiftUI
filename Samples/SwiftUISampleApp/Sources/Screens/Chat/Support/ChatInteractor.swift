@@ -6,16 +6,27 @@
 //
 
 import Foundation
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
-final public class ChatInteractor: IOInteractor<ChatPresenter, ChatEntity> {
+public struct ChatInteractor: IOInteractor {
+    
+    // MARK: - Interactorable
+    
+    public var entity: ChatEntity!
+    public weak var presenter: ChatPresenter?
     
     // MARK: - Privates
     
     @IOInstance private var service: IOServiceProviderImpl<ChatService>
+    
+    // MARK: - Initialization Methods
+    
+    public init() {
+    }
     
     // MARK: - Interactor
     

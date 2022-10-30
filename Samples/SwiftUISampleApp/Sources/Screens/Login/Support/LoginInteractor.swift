@@ -12,7 +12,12 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
-final public class LoginInteractor: IOInteractor<LoginPresenter, LoginEntity> {
+public struct LoginInteractor: IOInteractor {
+    
+    // MARK: - Interactorable
+    
+    public var entity: LoginEntity!
+    public weak var presenter: LoginPresenter?
     
     // MARK: - DI
     
@@ -21,6 +26,11 @@ final public class LoginInteractor: IOInteractor<LoginPresenter, LoginEntity> {
     // MARK: - Privates
     
     @IOInstance private var service: IOServiceProviderImpl<LoginService>
+    
+    // MARK: - Initialization Methods
+    
+    public init() {
+    }
     
     // MARK: - Interactor
     
@@ -39,15 +49,15 @@ final public class LoginInteractor: IOInteractor<LoginPresenter, LoginEntity> {
         self.service.request(
             .authenticate(request: request),
             responseType: AuthenticateResponseModel.self
-        ) { [weak self] result in
-            self?.hideIndicator()
+        ) { result in
+            self.hideIndicator()
             
             switch result {
             case .success(response: let response):
-                self?.completeLogin(response: response)
+                self.completeLogin(response: response)
                 
             case .error(message: let message, type: let type, response: let response):
-                self?.handleServiceError(message, type: type, response: response, handler: nil)
+                self.handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
     }

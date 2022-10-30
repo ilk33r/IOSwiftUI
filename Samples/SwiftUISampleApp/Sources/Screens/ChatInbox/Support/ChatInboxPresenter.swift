@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import IOSwiftUICommon
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
@@ -15,15 +17,16 @@ final public class ChatInboxPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    public typealias Environment = SampleAppEnvironment
-    public typealias Interactor = ChatInboxInteractor
-    
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: ChatInboxInteractor!
     
     // MARK: - Publisher
     
     @Published var inboxes: [ChatInboxUIModel]
+    
+    // MARK: - Privates
+    
+    private var inboxListModel: [InboxModel]?
     
     // MARK: - Initialization Methods
     
@@ -32,6 +35,10 @@ final public class ChatInboxPresenter: IOPresenterable {
     }
     
     // MARK: - Presenter
+    
+    func set(inboxListModel: [InboxModel]?) {
+        self.inboxListModel = inboxListModel
+    }
     
     func update(inboxes: [InboxModel]) {
         self.inboxes = inboxes.enumerated().map({ [weak self] it in

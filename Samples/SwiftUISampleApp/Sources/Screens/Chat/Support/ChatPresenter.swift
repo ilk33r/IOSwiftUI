@@ -7,6 +7,8 @@
 
 import Combine
 import Foundation
+import IOSwiftUICommon
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import UIKit
@@ -15,9 +17,6 @@ import SwiftUISampleAppPresentation
 final public class ChatPresenter: IOPresenterable {
     
     // MARK: - Presentable
-    
-    public typealias Environment = SampleAppEnvironment
-    public typealias Interactor = ChatInteractor
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: ChatInteractor!

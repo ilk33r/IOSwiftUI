@@ -6,16 +6,27 @@
 //
 
 import Foundation
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
-final public class DiscoverInteractor: IOInteractor<DiscoverPresenter, DiscoverEntity> {
+public struct DiscoverInteractor: IOInteractor {
+    
+    // MARK: - Interactorable
+    
+    public var entity: DiscoverEntity!
+    public weak var presenter: DiscoverPresenter?
     
     // MARK: - Privates
     
     @IOInstance private var service: IOServiceProviderImpl<DiscoverService>
+    
+    // MARK: - Initialization Methods
+    
+    public init() {
+    }
     
     // MARK: - Interactor
     
@@ -25,13 +36,13 @@ final public class DiscoverInteractor: IOInteractor<DiscoverPresenter, DiscoverE
         request.pagination?.start = start
         request.pagination?.count = count
         
-        self.service.request(.discover(request: request), responseType: DiscoverImagesResponseModel.self) { [weak self] result in
+        self.service.request(.discover(request: request), responseType: DiscoverImagesResponseModel.self) { result in
             switch result {
             case .success(response: let response):
-                self?.presenter?.update(discoverResponse: response)
+                self.presenter?.update(discoverResponse: response)
                 
             case .error(message: let message, type: let type, response: let response):
-                self?.handleServiceError(message, type: type, response: response, handler: nil)
+                self.handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
     }

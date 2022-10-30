@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import IOSwiftUICommon
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppPresentation
 import SwiftUI
@@ -13,9 +15,6 @@ import SwiftUI
 final public class LoginPresenter: IOPresenterable {
     
     // MARK: - Presentable
-    
-    public typealias Environment = SampleAppEnvironment
-    public typealias Interactor = LoginInteractor
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: LoginInteractor!

@@ -6,9 +6,20 @@
 //
 
 import Foundation
+import IOSwiftUICommon
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppScreensShared
 
-final public class HomeInteractor: IOInteractor<HomePresenter, HomeEntity> {
+public struct HomeInteractor: IOInteractor {
     
+    // MARK: - Interactorable
+    
+    public var entity: HomeEntity!
+    public weak var presenter: HomePresenter?
+    
+    // MARK: - Initialization Methods
+    
+    public init() {
+    }
 }

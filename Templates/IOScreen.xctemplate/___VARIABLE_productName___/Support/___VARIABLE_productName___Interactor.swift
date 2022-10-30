@@ -5,11 +5,21 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 
-final public class ___VARIABLE_productName___Interactor: IOInteractor<___VARIABLE_productName___Presenter, ___VARIABLE_productName___Entity> {
+public struct ___VARIABLE_productName___Interactor: IOInteractor {
+    
+    // MARK: - Interactorable
+    
+    public var entity: ___VARIABLE_productName___Entity!
+    public weak var presenter: ___VARIABLE_productName___Presenter?
     
     // MARK: - Privates
     
     @IOInstance private var service: IOServiceProviderImpl<___VARIABLE_productName___Service>
+    
+    // MARK: - Initialization Methods
+    
+    public init() {
+    }
     
     // MARK: - Interactor
 }

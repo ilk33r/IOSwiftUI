@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
@@ -15,9 +16,6 @@ import SwiftUI
 final public class DiscoverPresenter: IOPresenterable {
     
     // MARK: - Presentable
-    
-    public typealias Environment = SampleAppEnvironment
-    public typealias Interactor = DiscoverInteractor
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: DiscoverInteractor!

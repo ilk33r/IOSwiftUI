@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import IOSwiftUICommon
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUISampleAppPresentation
 import SwiftUI
@@ -13,10 +15,7 @@ import SwiftUI
 final public class PhotoGalleryPresenter: IOPresenterable {
     
     // MARK: - Presentable
-    
-    public typealias Environment = SampleAppEnvironment
-    public typealias Interactor = PhotoGalleryInteractor
-    
+
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: PhotoGalleryInteractor!
     
