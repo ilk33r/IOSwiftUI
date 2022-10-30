@@ -26,7 +26,7 @@ public protocol IOLocalization {
     func availableLocales() -> [Locale]
     func changeLanguage(locale: Locale)
     func changeLanguage(type: IOLocales)
-    func changeLocalizationBundle(bundleName: String)
+    func setLocalizationBundle(bundleName: String)
     
     // MARK: - Accessor Methods
     

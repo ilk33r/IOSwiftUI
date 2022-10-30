@@ -80,8 +80,8 @@ struct IOSwiftUISampleApp: App {
     
     init() {
         IOFontType.registerFontsIfNecessary(Bundle.resources)
-        self.localization.changeLocalizationBundle(bundleName: "SwiftUISampleApp_SwiftUISampleAppResources")
-        self.localization.changeLanguage(type: self.configuration.defaultLocale)
+        IOLocalizationImpl.shared.setLocalizationBundle(bundleName: "SwiftUISampleApp_SwiftUISampleAppResources")
+        IOLocalizationImpl.shared.changeLanguage(type: self.configuration.defaultLocale)
         AppTheme.applyTheme()
         
         self.httpClient.setDefaultHTTPHeaders(headers: [
