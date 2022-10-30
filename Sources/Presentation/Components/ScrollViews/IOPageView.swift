@@ -12,7 +12,7 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
     
     // MARK: - Defs
     
-    public class Coordinator: NSObject {
+    final public class Coordinator: NSObject {
         
         weak var viewController: IOPageViewController?
 
