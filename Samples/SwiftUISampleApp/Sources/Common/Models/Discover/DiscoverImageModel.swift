@@ -9,7 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 
-final public class DiscoverImageModel: BaseModel {
+public struct DiscoverImageModel: BaseModel {
     
     @IOJsonProperty(key: "memberId")
     public var memberId: Int?
@@ -28,4 +28,7 @@ final public class DiscoverImageModel: BaseModel {
     
     @IOJsonProperty(key: "createDate", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
     public var createDate: Date?
+    
+    public init() {
+    }
 }

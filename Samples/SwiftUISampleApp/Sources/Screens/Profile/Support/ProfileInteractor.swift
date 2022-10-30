@@ -35,9 +35,7 @@ public struct ProfileInteractor: IOInteractor {
     func createInbox(memberID: Int) {
         self.showIndicator()
         
-        let request = CreateInboxRequestModel()
-        request.toMemberID = memberID
-        
+        let request = CreateInboxRequestModel(toMemberID: memberID)
         self.service.request(.createInbox(request: request), responseType: CreateInboxResponseModel.self) { result in
             self.hideIndicator()
             
@@ -54,9 +52,7 @@ public struct ProfileInteractor: IOInteractor {
     func getMember() {
         self.showIndicator()
         
-        let request = MemberGetRequestModel()
-        request.userName = self.entity.userName
-        
+        let request = MemberGetRequestModel(userName: self.entity.userName)
         self.service.request(.memberGet(request: request), responseType: MemberGetResponseModel.self) { result in
             self.hideIndicator()
             
@@ -72,11 +68,8 @@ public struct ProfileInteractor: IOInteractor {
     }
     
     func getImages(start: Int, count: Int) {
-        let request = MemberImagesRequestModel()
-        request.pagination = PaginationModel()
-        request.pagination?.start = start
-        request.pagination?.count = count
-        request.userName = self.entity.userName
+        let pagination = PaginationModel(start: start, count: count, total: nil)
+        let request = MemberImagesRequestModel(userName: self.entity.userName, pagination: pagination)
         
         self.service.request(.memberGetImages(request: request), responseType: MemberImagesResponseModel.self) { result in
             switch result {

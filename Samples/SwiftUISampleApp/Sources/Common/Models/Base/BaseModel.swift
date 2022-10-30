@@ -8,6 +8,6 @@
 import Foundation
 import IOSwiftUICommon
 
-open class BaseModel: IOModel {
+public protocol BaseModel: IOModel {
     
 }

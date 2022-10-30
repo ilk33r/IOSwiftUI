@@ -8,8 +8,15 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class CreateInboxRequestModel: BaseRequestModel {
+public struct CreateInboxRequestModel: BaseRequestModel {
     
     @IOJsonProperty(key: "toMemberID")
     public var toMemberID: Int?
+    
+    public init() {
+    }
+    
+    public init(toMemberID: Int?) {
+        self.toMemberID = toMemberID
+    }
 }

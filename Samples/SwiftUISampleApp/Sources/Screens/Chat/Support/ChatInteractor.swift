@@ -36,11 +36,8 @@ public struct ChatInteractor: IOInteractor {
         
         guard let encryptedMessage = IOAESUtilities.encrypt(string: message, keyData: aesKey, ivData: aesIV) else { return }
         
-        let request = SendMessageRequestModel()
-        request.toMemberID = self.entity.toMemberId
-        request.encryptedMessage = encryptedMessage.base64EncodedString()
-        
-        self.service.request(.sendMessage(request: request), responseType: BaseResponseModel.self) { result in
+        let request = SendMessageRequestModel(toMemberID: self.entity.toMemberId, encryptedMessage: encryptedMessage.base64EncodedString())
+        self.service.request(.sendMessage(request: request), responseType: GenericResponseModel.self) { result in
             switch result {
             case .success(response: let response):
                 IOLogger.verbose("Response \(response)")

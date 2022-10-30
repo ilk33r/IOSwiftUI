@@ -7,11 +7,18 @@
 
 import Foundation
 
-open class IOModel: Codable {
+public protocol IOModel: Codable {
+    
+    init()
+}
+
+public extension IOModel {
     
     // MARK: - Decoding and Encoding
     
-    public required init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
+        self.init()
+        
         // Get the container keyed by the SerializedCodingKeys defined by the propertyWrapper @Serialized
         let container = try decoder.container(keyedBy: IOModelCodingKey.self)
         
@@ -37,10 +44,7 @@ open class IOModel: Codable {
         } while mirror != nil
     }
     
-    public init() {
-    }
-    
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         // Get the container keyed by the SerializedCodingKeys defined by the propertyWrapper @Serialized
         var container = encoder.container(keyedBy: IOModelCodingKey.self)
         

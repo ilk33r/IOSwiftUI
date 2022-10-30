@@ -8,8 +8,11 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class GetMessagesRequestModel: BaseRequestModel {
+public struct GetMessagesRequestModel: BaseRequestModel {
     
     @IOJsonProperty(key: "toMemberID")
     public var toMemberID: Int?
+    
+    public init() {
+    }
 }

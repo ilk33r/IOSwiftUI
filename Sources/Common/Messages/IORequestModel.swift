@@ -7,6 +7,6 @@
 
 import Foundation
 
-open class IORequestModel: IOModel {
+public protocol IORequestModel: IOModel {
     
 }

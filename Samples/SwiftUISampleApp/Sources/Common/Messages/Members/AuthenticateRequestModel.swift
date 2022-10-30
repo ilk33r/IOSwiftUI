@@ -8,11 +8,19 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class AuthenticateRequestModel: BaseRequestModel {
+public struct AuthenticateRequestModel: BaseRequestModel {
     
     @IOJsonProperty(key: "email")
     public var email: String?
     
     @IOJsonProperty(key: "password")
     public var password: String?
+    
+    public init() {
+    }
+    
+    public init(email: String?, password: String?) {
+        self.email = email
+        self.password = password
+    }
 }

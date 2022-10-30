@@ -8,8 +8,14 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class MemberGetResponseModel: BaseResponseModel {
+public struct MemberGetResponseModel: BaseResponseModel {
+    
+    public var _status: IOJsonProperty<ResponseStatusModel>
     
     @IOJsonProperty(key: "member")
     public var member: MemberModel?
+    
+    public init() {
+        _status = IOJsonProperty(key: "status")
+    }
 }

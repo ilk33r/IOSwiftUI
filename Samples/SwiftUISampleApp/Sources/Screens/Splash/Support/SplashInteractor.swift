@@ -102,7 +102,7 @@ public struct SplashInteractor: IOInteractor {
     }
     
     private func checkToken() {
-        self.service.request(.checkToken, responseType: BaseResponseModel.self) { result in
+        self.service.request(.checkToken, responseType: GenericResponseModel.self) { result in
             self.hideIndicator()
             
             switch result {

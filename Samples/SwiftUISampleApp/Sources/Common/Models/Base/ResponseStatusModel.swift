@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class ResponseStatusModel: BaseModel {
+public struct ResponseStatusModel: BaseModel {
     
     @IOJsonProperty(key: "code", defaultValue: 0)
     public var code: Int!
@@ -21,4 +21,7 @@ final public class ResponseStatusModel: BaseModel {
     
     @IOJsonProperty(key: "success", defaultValue: false)
     public var success: Bool!
+    
+    public init() {
+    }
 }

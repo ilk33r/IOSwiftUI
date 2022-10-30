@@ -8,8 +8,15 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class PaginationRequestModel: BaseRequestModel {
+public struct PaginationRequestModel: BaseRequestModel {
     
     @IOJsonProperty(key: "pagination")
     public var pagination: PaginationModel?
+    
+    public init() {
+    }
+    
+    public init(pagination: PaginationModel?) {
+        self.pagination = pagination
+    }
 }

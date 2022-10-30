@@ -8,11 +8,19 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class MemberImagesRequestModel: BaseRequestModel {
+public struct MemberImagesRequestModel: BaseRequestModel {
     
     @IOJsonProperty(key: "userName")
     public var userName: String?
     
     @IOJsonProperty(key: "pagination")
     public var pagination: PaginationModel?
+    
+    public init() {
+    }
+    
+    public init(userName: String?, pagination: PaginationModel?) {
+        self.userName = userName
+        self.pagination = pagination
+    }
 }

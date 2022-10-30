@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class PaginationModel: BaseModel {
+public struct PaginationModel: BaseModel {
     
     @IOJsonProperty(key: "start")
     public var start: Int?
@@ -18,4 +18,13 @@ final public class PaginationModel: BaseModel {
     
     @IOJsonProperty(key: "total")
     public var total: Int?
+    
+    public init() {
+    }
+    
+    public init(start: Int?, count: Int?, total: Int?) {
+        self.start = start
+        self.count = count
+        self.total = total
+    }
 }

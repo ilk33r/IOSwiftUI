@@ -8,8 +8,14 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class CreateInboxResponseModel: BaseResponseModel {
+public struct CreateInboxResponseModel: BaseResponseModel {
+    
+    public var _status: IOJsonProperty<ResponseStatusModel>
     
     @IOJsonProperty(key: "inbox")
     public var inbox: InboxModel?
+    
+    public init() {
+        _status = IOJsonProperty(key: "status")
+    }
 }

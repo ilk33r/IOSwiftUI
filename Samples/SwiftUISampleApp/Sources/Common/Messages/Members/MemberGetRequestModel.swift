@@ -8,8 +8,15 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class MemberGetRequestModel: BaseRequestModel {
+public struct MemberGetRequestModel: BaseRequestModel {
     
     @IOJsonProperty(key: "userName", defaultValue: nil)
     public var userName: String?
+    
+    public init() {
+    }
+    
+    public init(userName: String?) {
+        self.userName = userName
+    }
 }

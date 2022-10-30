@@ -7,6 +7,6 @@
 
 import Foundation
 
-open class IOResponseModel: IOModel {
+public protocol IOResponseModel: IOModel {
     
 }

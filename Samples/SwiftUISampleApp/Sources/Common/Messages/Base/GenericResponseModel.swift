@@ -1,19 +1,18 @@
 //
-//  InboxResponseModel.swift
+//  GenericResponseModel.swift
 //  
 //
-//  Created by Adnan ilker Ozcan on 17.10.2022.
+//  Created by Adnan ilker Ozcan on 30.10.2022.
 //
 
 import Foundation
 import IOSwiftUICommon
 
-public struct InboxResponseModel: BaseResponseModel {
+public struct GenericResponseModel: BaseResponseModel {
     
     public var _status: IOJsonProperty<ResponseStatusModel>
     
-    @IOJsonProperty(key: "inboxes")
-    public var inboxes: [InboxModel]?
+    // MARK: - Base Properties
     
     public init() {
         _status = IOJsonProperty(key: "status")

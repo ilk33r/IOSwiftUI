@@ -9,7 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 
-final public class MessageModel: BaseModel {
+public struct MessageModel: BaseModel {
     
     @IOJsonProperty(key: "messageID")
     public var messageID: Int?
@@ -19,4 +19,7 @@ final public class MessageModel: BaseModel {
     
     @IOJsonProperty(key: "messageDate", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
     public var messageDate: Date?
+    
+    public init() {
+    }
 }

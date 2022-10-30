@@ -8,7 +8,9 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class HandshakeResponseModel: BaseResponseModel {
+public struct HandshakeResponseModel: BaseResponseModel {
+    
+    public var _status: IOJsonProperty<ResponseStatusModel>
     
     @IOJsonProperty(key: "keyID")
     public var keyID: String?
@@ -18,4 +20,8 @@ final public class HandshakeResponseModel: BaseResponseModel {
     
     @IOJsonProperty(key: "publicKeyModulus")
     public var publicKeyModulus: String?
+    
+    public init() {
+        _status = IOJsonProperty(key: "status")
+    }
 }

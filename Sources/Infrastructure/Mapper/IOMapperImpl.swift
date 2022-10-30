@@ -19,15 +19,22 @@ public struct IOMapperImpl: IOMapper, IOSingleton {
         case invalidJSON
     }
     
+    // MARK: - Privates
+    
+    private let decoder: JSONDecoder
+    private let encoder: JSONEncoder
+    
     // MARK: - Initialization Methods
     
     public init() {
+        self.decoder = JSONDecoder()
+        self.encoder = JSONEncoder()
     }
     
     // MARK: - Mapper Methods
     
     public func mapJson<TModel: Codable>(model: TModel.Type, data: Data) throws -> TModel {
-        return try JSONDecoder().decode(model, from: data)
+        return try self.decoder.decode(model, from: data)
     }
     
     public func mapJson<TModel: Codable>(model: TModel.Type, string: String) throws -> TModel {
@@ -39,7 +46,7 @@ public struct IOMapperImpl: IOMapper, IOSingleton {
     }
     
     public func toJsonData<TModel: Codable>(_ model: TModel) throws -> Data {
-        return try JSONEncoder().encode(model)
+        return try self.encoder.encode(model)
     }
     
     public func toJsonString<TModel: Codable>(_ model: TModel) throws -> String {

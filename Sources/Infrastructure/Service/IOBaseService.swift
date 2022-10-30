@@ -41,8 +41,8 @@ extension IOBaseService: IOServiceType {
     
     var query: String? {
         switch self {
-        case .ioGet:
-            return self._handleQuery(IORequestModel())
+        // case .ioGet:
+            // return self._handleQuery(IORequestModel())
             
         default:
             return nil

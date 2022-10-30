@@ -31,10 +31,8 @@ public struct DiscoverInteractor: IOInteractor {
     // MARK: - Interactor
     
     func discover(start: Int, count: Int) {
-        let request = PaginationRequestModel()
-        request.pagination = PaginationModel()
-        request.pagination?.start = start
-        request.pagination?.count = count
+        let pagination = PaginationModel(start: start, count: count, total: nil)
+        let request = PaginationRequestModel(pagination: pagination)
         
         self.service.request(.discover(request: request), responseType: DiscoverImagesResponseModel.self) { result in
             switch result {

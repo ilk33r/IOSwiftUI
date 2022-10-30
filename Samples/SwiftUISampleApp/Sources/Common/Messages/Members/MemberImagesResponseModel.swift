@@ -8,11 +8,17 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class MemberImagesResponseModel: BaseResponseModel {
+public struct MemberImagesResponseModel: BaseResponseModel {
+    
+    public var _status: IOJsonProperty<ResponseStatusModel>
     
     @IOJsonProperty(key: "images")
     public var images: [MemberImageModel]?
     
     @IOJsonProperty(key: "pagination")
     public var pagination: PaginationModel?
+    
+    public init() {
+        _status = IOJsonProperty(key: "status")
+    }
 }

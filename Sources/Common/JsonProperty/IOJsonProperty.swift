@@ -7,7 +7,7 @@
 
 import Foundation
 
-@propertyWrapper public class IOJsonProperty<TType>: IOJsonPropertyProtocol {
+@propertyWrapper final public class IOJsonProperty<TType>: IOJsonPropertyProtocol {
     
     // MARK: - Publics
     

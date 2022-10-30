@@ -9,11 +9,17 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 
-final public class DiscoverImagesResponseModel: BaseResponseModel {
+public struct DiscoverImagesResponseModel: BaseResponseModel {
+    
+    public var _status: IOJsonProperty<ResponseStatusModel>
     
     @IOJsonProperty(key: "images")
     public var images: [DiscoverImageModel]?
     
     @IOJsonProperty(key: "pagination")
     public var pagination: PaginationModel?
+    
+    public init() {
+        _status = IOJsonProperty(key: "status")
+    }
 }

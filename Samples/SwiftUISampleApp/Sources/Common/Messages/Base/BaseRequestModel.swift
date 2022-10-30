@@ -7,6 +7,6 @@
 
 import Foundation
 
-open class BaseRequestModel: BaseModel {
+public protocol BaseRequestModel: BaseModel {
     
 }

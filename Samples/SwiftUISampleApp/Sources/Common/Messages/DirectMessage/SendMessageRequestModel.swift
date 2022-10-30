@@ -8,11 +8,19 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class SendMessageRequestModel: BaseRequestModel {
+public struct SendMessageRequestModel: BaseRequestModel {
     
     @IOJsonProperty(key: "toMemberID")
     public var toMemberID: Int!
     
     @IOJsonProperty(key: "encryptedMessage")
     public var encryptedMessage: String?
+    
+    public init() {
+    }
+    
+    public init(toMemberID: Int!, encryptedMessage: String?) {
+        self.toMemberID = toMemberID
+        self.encryptedMessage = encryptedMessage
+    }
 }

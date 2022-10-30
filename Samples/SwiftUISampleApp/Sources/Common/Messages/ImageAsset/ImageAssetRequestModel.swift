@@ -8,17 +8,15 @@
 import Foundation
 import IOSwiftUICommon
 
-final public class ImageAssetRequestModel: BaseRequestModel {
+public struct ImageAssetRequestModel: BaseRequestModel {
     
     @IOJsonProperty(key: "publicId")
     public var publicId: String?
     
-    public init(publicId: String?) {
-        super.init()
-        self.publicId = publicId
+    public init() {
     }
     
-    required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
+    public init(publicId: String?) {
+        self.publicId = publicId
     }
 }

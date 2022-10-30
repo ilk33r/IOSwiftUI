@@ -9,7 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 
-final public class MemberModel: BaseModel {
+public struct MemberModel: BaseModel {
     
     @IOJsonProperty(key: "id")
     public var id: Int?
@@ -43,4 +43,7 @@ final public class MemberModel: BaseModel {
     
     @IOJsonProperty(key: "IsFollowing", defaultValue: false)
     public var isFollowing: Bool!
+    
+    public init() {
+    }
 }

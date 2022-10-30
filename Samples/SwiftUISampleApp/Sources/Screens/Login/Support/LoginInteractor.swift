@@ -42,9 +42,7 @@ public struct LoginInteractor: IOInteractor {
         
         self.showIndicator()
         
-        let request = AuthenticateRequestModel()
-        request.email = email
-        request.password = encryptedPassword.base64EncodedString()
+        let request = AuthenticateRequestModel(email: email, password: encryptedPassword.base64EncodedString())
         
         self.service.request(
             .authenticate(request: request),

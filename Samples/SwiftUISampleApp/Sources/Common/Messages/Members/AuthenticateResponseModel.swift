@@ -9,11 +9,17 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 
-final public class AuthenticateResponseModel: BaseResponseModel {
+public struct AuthenticateResponseModel: BaseResponseModel {
+    
+    public var _status: IOJsonProperty<ResponseStatusModel>
     
     @IOJsonProperty(key: "token")
     public var token: String?
     
     @IOJsonProperty(key: "expire", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
     public var expire: Date?
+    
+    public init() {
+        _status = IOJsonProperty(key: "status")
+    }
 }

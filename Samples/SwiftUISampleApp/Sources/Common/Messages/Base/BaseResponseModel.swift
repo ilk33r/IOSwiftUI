@@ -8,10 +8,21 @@
 import Foundation
 import IOSwiftUICommon
 
-open class BaseResponseModel: BaseModel {
+public protocol BaseResponseModel: BaseModel {
     
     // MARK: - Base Properties
     
-    @IOJsonProperty(key: "status")
-    public var status: ResponseStatusModel?
+    var _status: IOJsonProperty<ResponseStatusModel> { get set }
+}
+
+public extension BaseResponseModel {
+    
+    var status: ResponseStatusModel? {
+        get {
+            _status.wrappedValue
+        }
+        set {
+            _status.wrappedValue = newValue
+        }
+    }
 }

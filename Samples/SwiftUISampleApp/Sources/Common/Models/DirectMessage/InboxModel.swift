@@ -9,7 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 
-final public class InboxModel: BaseModel {
+public struct InboxModel: BaseModel {
     
     @IOJsonProperty(key: "inboxID")
     public var inboxID: Int?
@@ -31,5 +31,8 @@ final public class InboxModel: BaseModel {
 
     @IOJsonProperty(key: "lastMessage")
     public var lastMessage: MessageModel?
+    
+    public init() {
+    }
     
 }
