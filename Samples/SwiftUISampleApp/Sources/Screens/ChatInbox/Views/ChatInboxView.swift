@@ -32,7 +32,7 @@ public struct ChatInboxView: IOController {
                         let itemView = ChatInboxItemView(
                             uiModel: inbox,
                             clickHandler: { index in
-                                IOLogger.verbose("Chat item tapped \(index)")
+                                presenter.getMessages(index: index)
                             }
                         )
                         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -64,6 +64,14 @@ public struct ChatInboxView: IOController {
         .navigationWireframe {
             ChatInboxNavigationWireframe(navigationState: navigationState)
         }
+        .onReceive(presenter.$chatEntity, perform: { chatEntity in
+            if chatEntity == nil {
+                return
+            }
+            // navigationBarHidden = true
+            navigationState.chatEntity = chatEntity
+            navigationState.navigateToChat = true
+        })
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment

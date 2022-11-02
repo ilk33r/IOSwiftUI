@@ -12,11 +12,15 @@ import SwiftUI
 
 public struct ChatEntity: IOEntity {
     
-    public let toMemberId: Int
+    public let toMemberId: Int?
     public let inbox: InboxModel!
+    public let messages: [MessageModel]
+    public let pagination: PaginationModel
     
-    public init(toMemberId: Int, inbox: InboxModel!) {
+    public init(toMemberId: Int?, inbox: InboxModel!, messages: [MessageModel], pagination: PaginationModel) {
         self.toMemberId = toMemberId
         self.inbox = inbox
+        self.messages = messages
+        self.pagination = pagination
     }
 }

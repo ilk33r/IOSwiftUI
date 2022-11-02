@@ -10,9 +10,17 @@ import IOSwiftUICommon
 
 public struct GetMessagesRequestModel: BaseRequestModel {
     
-    @IOJsonProperty(key: "toMemberID")
-    public var toMemberID: Int?
+    @IOJsonProperty(key: "pagination")
+    public var pagination: PaginationModel?
+    
+    @IOJsonProperty(key: "inboxID")
+    public var inboxID: Int?
     
     public init() {
+    }
+    
+    public init(pagination: PaginationModel?, inboxID: Int?) {
+        self.pagination = pagination
+        self.inboxID = inboxID
     }
 }

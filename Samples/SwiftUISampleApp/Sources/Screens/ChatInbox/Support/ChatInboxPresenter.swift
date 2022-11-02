@@ -12,6 +12,7 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 final public class ChatInboxPresenter: IOPresenterable {
     
@@ -22,7 +23,8 @@ final public class ChatInboxPresenter: IOPresenterable {
     
     // MARK: - Publisher
     
-    @Published var inboxes: [ChatInboxUIModel]
+    @Published private(set) var chatEntity: ChatEntity?
+    @Published private(set) var inboxes: [ChatInboxUIModel]
     
     // MARK: - Privates
     
@@ -35,6 +37,16 @@ final public class ChatInboxPresenter: IOPresenterable {
     }
     
     // MARK: - Presenter
+    
+    func getMessages(index: Int) {
+        guard let inbox = self.inboxListModel?[index] else { return }
+        self.interactor.getMessages(inbox: inbox)
+    }
+    
+    func navigate(toMemberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
+        guard let inbox = inbox else { return }
+        self.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox, messages: messages, pagination: pagination)
+    }
     
     func set(inboxListModel: [InboxModel]?) {
         self.inboxListModel = inboxListModel

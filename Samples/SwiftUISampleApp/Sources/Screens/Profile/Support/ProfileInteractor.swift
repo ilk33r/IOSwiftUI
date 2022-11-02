@@ -23,6 +23,7 @@ public struct ProfileInteractor: IOInteractor {
     // MARK: - Privates
     
     @IOInstance private var baseService: IOServiceProviderImpl<BaseService>
+    @IOInstance private var chatService: IOServiceProviderImpl<ChatService>
     @IOInstance private var service: IOServiceProviderImpl<ProfileService>
     
     // MARK: - Initialization Methods
@@ -37,13 +38,13 @@ public struct ProfileInteractor: IOInteractor {
         
         let request = CreateInboxRequestModel(toMemberID: memberID)
         self.service.request(.createInbox(request: request), responseType: CreateInboxResponseModel.self) { result in
-            self.hideIndicator()
             
             switch result {
             case .success(response: let response):
-                self.presenter?.navigate(toMemberId: request.toMemberID ?? 0, inbox: response.inbox)
+                self.getMessages(toMemberId: memberID, inbox: response.inbox)
                 
             case .error(message: let message, type: let type, response: let response):
+                self.hideIndicator()
                 self.handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
@@ -78,6 +79,30 @@ public struct ProfileInteractor: IOInteractor {
                 
             case .error(message: let message, type: let type, response: let response):
                 self.handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func getMessages(toMemberId: Int?, inbox: InboxModel?) {
+        let pagination = PaginationModel(start: 0, count: ChatConstants.messageCountPerPage, total: nil)
+        let request = GetMessagesRequestModel(pagination: pagination, inboxID: inbox?.inboxID ?? 0)
+        self.chatService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
+            self.hideIndicator()
+            
+            switch result {
+            case .success(response: let response):
+                self.presenter?.navigate(
+                    toMemberId: toMemberId,
+                    inbox: inbox,
+                    messages: response.messages ?? [],
+                    pagination: pagination
+                )
+                
+            case .error(message: let message, type: let type, response: let response):
+                self.handleServiceError(message, type: type, response: response, handler: nil)
+                
             }
         }
     }

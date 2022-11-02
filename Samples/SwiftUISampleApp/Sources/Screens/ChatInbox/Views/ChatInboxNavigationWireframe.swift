@@ -21,7 +21,7 @@ struct ChatInboxNavigationWireframe: IONavigationLinkView {
     
     var body: some View {
         NavigationLink(
-            destination: route(HomeRouters.self, .chat(entity: nil)),
+            destination: route(HomeRouters.self, .chat(entity: navigationState.chatEntity)),
             isActive: $navigationState.navigateToChat
         ) {
             EmptyView()

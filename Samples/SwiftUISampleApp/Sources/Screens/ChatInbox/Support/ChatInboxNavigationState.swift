@@ -7,10 +7,13 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppScreensShared
 
 final public class ChatInboxNavigationState: IONavigationState {
     
     // MARK: - Properties
     
     @Published public var navigateToChat = false
+    
+    var chatEntity: ChatEntity!
 }

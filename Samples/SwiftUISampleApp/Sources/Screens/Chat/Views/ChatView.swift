@@ -8,6 +8,7 @@
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppScreensShared
 
@@ -189,6 +190,13 @@ public struct ChatView: IOController {
 
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView(entity: ChatEntity(toMemberId: 0, inbox: nil))
+        ChatView(
+            entity: ChatEntity(
+                toMemberId: 0,
+                inbox: nil,
+                messages: [],
+                pagination: PaginationModel(start: 0, count: 10, total: nil)
+            )
+        )
     }
 }

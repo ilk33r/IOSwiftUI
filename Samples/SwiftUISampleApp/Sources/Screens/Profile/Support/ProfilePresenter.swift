@@ -67,9 +67,9 @@ final public class ProfilePresenter: IOPresenterable {
         }
     }
     
-    func navigate(toMemberId: Int, inbox: InboxModel?) {
+    func navigate(toMemberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
         guard let inbox = inbox else { return }
-        self.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox)
+        self.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox, messages: messages, pagination: pagination)
     }
     
     func set(member: MemberModel?) {
