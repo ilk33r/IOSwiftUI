@@ -80,7 +80,7 @@ final public class ChatPresenter: IOPresenterable {
         
         let mappedMessages = messages.map { [weak self] message in
             ChatItemUIModel(
-                image: Image("pwProfilePicture"),
+                imagePublicID: message.userAvatarPublicID,
                 chatMessage: self?.interactor.decryptMessage(encryptedMessage: message.message ?? "") ?? "",
                 isLastMessage: lastMessageID == message.messageID,
                 isSend: message.isSent ?? false,

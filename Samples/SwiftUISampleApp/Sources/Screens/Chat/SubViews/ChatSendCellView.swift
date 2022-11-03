@@ -27,9 +27,7 @@ struct ChatSendCellView: View {
                 )
                 .padding(.leading, 16)
             VStack {
-                uiModel.image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
+                profilePictureImage
                     .frame(width: 25, height: 25)
                     .clipShape(Circle())
                 Text(uiModel.messageTime)
@@ -43,6 +41,20 @@ struct ChatSendCellView: View {
         .frame(maxWidth: .infinity, alignment: .topTrailing)
     }
     
+    private var profilePictureImage: AnyView {
+        if let profilePicturePublicId = uiModel.imagePublicID, !profilePicturePublicId.isEmpty {
+            let profilePictureImage = Image()
+                .from(publicId: profilePicturePublicId)
+            return AnyView(profilePictureImage)
+        } else {
+            let profilePictureImage = Image(systemName: "person.crop.circle")
+                .renderingMode(.template)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            return AnyView(profilePictureImage)
+        }
+    }
+    
     init(uiModel: ChatItemUIModel) {
         self.uiModel = uiModel
     }
@@ -51,7 +63,7 @@ struct ChatSendCellView: View {
 struct ChatSendCellView_Previews: PreviewProvider {
     static var previews: some View {
         let uiModel = ChatItemUIModel(
-            image: Image("pwProfilePicture"),
+            imagePublicID: "pwProfilePicture",
             chatMessage: "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
             isLastMessage: false,
             isSend: true,

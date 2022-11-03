@@ -17,9 +17,7 @@ struct ChatReceivedCellView: View {
     var body: some View {
         HStack(alignment: .top) {
             VStack {
-                uiModel.image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
+                profilePictureImage
                     .frame(width: 25, height: 25)
                     .clipShape(Circle())
                 Text(uiModel.messageTime)
@@ -44,6 +42,20 @@ struct ChatReceivedCellView: View {
         .frame(maxWidth: .infinity, alignment: .topLeading)
     }
     
+    private var profilePictureImage: AnyView {
+        if let profilePicturePublicId = uiModel.imagePublicID, !profilePicturePublicId.isEmpty {
+            let profilePictureImage = Image()
+                .from(publicId: profilePicturePublicId)
+            return AnyView(profilePictureImage)
+        } else {
+            let profilePictureImage = Image(systemName: "person.crop.circle")
+                .renderingMode(.template)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            return AnyView(profilePictureImage)
+        }
+    }
+    
     init(uiModel: ChatItemUIModel) {
         self.uiModel = uiModel
     }
@@ -52,7 +64,7 @@ struct ChatReceivedCellView: View {
 struct ChatReceivedCellView_Previews: PreviewProvider {
     static var previews: some View {
         let uiModel = ChatItemUIModel(
-            image: Image("pwProfilePicture"),
+            imagePublicID: "pwProfilePicture",
             chatMessage: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
             isLastMessage: false,
             isSend: false,

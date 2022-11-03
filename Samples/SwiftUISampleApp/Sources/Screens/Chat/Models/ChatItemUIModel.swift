@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ChatItemUIModel: Identifiable {
     
-    let image: Image
+    let imagePublicID: String?
     let chatMessage: String
     let isLastMessage: Bool
     let isSend: Bool
@@ -18,13 +18,13 @@ struct ChatItemUIModel: Identifiable {
     let id = UUID()
     
     init(
-        image: Image,
+        imagePublicID: String?,
         chatMessage: String,
         isLastMessage: Bool,
         isSend: Bool,
         messageTime: String
     ) {
-        self.image = image
+        self.imagePublicID = imagePublicID
         self.chatMessage = chatMessage
         self.isLastMessage = isLastMessage
         self.isSend = isSend

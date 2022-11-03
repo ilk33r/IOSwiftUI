@@ -70,7 +70,7 @@ public struct ChatInboxInteractor: IOInteractor {
             switch result {
             case .success(response: let response):
                 self.presenter?.navigate(
-                    toMemberId: nil,
+                    toMemberId: inbox.toMemberID,
                     inbox: inbox,
                     messages: response.messages ?? [],
                     pagination: pagination

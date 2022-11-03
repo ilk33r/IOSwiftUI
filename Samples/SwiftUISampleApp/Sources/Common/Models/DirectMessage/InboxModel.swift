@@ -14,6 +14,9 @@ public struct InboxModel: BaseModel {
     @IOJsonProperty(key: "inboxID")
     public var inboxID: Int?
     
+    @IOJsonProperty(key: "toMemberID")
+    public var toMemberID: Int?
+    
     @IOJsonProperty(key: "userName")
     public var userName: String?
     
