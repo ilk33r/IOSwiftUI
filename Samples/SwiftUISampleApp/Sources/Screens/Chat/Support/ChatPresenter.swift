@@ -11,7 +11,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
-import UIKit
+import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 
 final public class ChatPresenter: IOPresenterable {
@@ -23,11 +23,19 @@ final public class ChatPresenter: IOPresenterable {
     
     // MARK: - Publishers
     
+    @Published private(set) var chatMessages: [ChatItemUIModel]
     @Published private(set) var keyboardPublisher: AnyPublisher<Bool, Never>
+    @Published private(set) var userNameSurname: String
+    
+    // MARK: - Privates
+    
+    private var pagination: PaginationModel!
     
     // MARK: - Initialization Methods
     
     public init() {
+        self.chatMessages = []
+        self.userNameSurname = ""
         self.keyboardPublisher = Publishers
             .Merge(
                 NotificationCenter
@@ -50,8 +58,36 @@ final public class ChatPresenter: IOPresenterable {
         NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
     }
     
+    func loadInitialMessages() {
+        self.pagination = self.interactor.entity.pagination
+        self.userNameSurname = self.interactor.entity.inbox.nameSurname ?? ""
+        self.updateMessages(messages: self.interactor.entity.messages)
+    }
+    
     func showTabBar() {
         self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
         NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func updateMessages(messages: [MessageModel]) {
+        let relativeDate = Date()
+        let dateFormatter = RelativeDateTimeFormatter()
+        dateFormatter.dateTimeStyle = .numeric
+        
+        let lastMessageID = messages.last?.messageID ?? 0
+        
+        let mappedMessages = messages.map { [weak self] message in
+            ChatItemUIModel(
+                image: Image("pwProfilePicture"),
+                chatMessage: self?.interactor.decryptMessage(encryptedMessage: message.message ?? "") ?? "",
+                isLastMessage: lastMessageID == message.messageID,
+                isSend: message.isSent ?? false,
+                messageTime: dateFormatter.localizedString(for: message.messageDate ?? Date(), relativeTo: relativeDate)
+            )
+        }
+        
+        self.chatMessages.insert(contentsOf: mappedMessages, at: 0)
     }
 }

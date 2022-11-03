@@ -20,6 +20,12 @@ public struct MessageModel: BaseModel {
     @IOJsonProperty(key: "messageDate", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
     public var messageDate: Date?
     
+    @IOJsonProperty(key: "isSent")
+    public var isSent: Bool?
+    
+    @IOJsonProperty(key: "userAvatarPublicID")
+    public var userAvatarPublicID: String?
+    
     public init() {
     }
 }

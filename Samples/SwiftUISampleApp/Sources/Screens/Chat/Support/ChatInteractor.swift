@@ -30,6 +30,15 @@ public struct ChatInteractor: IOInteractor {
     
     // MARK: - Interactor
     
+    func decryptMessage(encryptedMessage: String) -> String {
+        guard let aesIV = self.appState.object(forType: .aesIV) as? Data else { return "" }
+        guard let aesKey = self.appState.object(forType: .aesKey) as? Data else { return "" }
+        
+        guard let decodedMessage = Data(base64Encoded: encryptedMessage) else { return "" }
+        guard let decryptedMessage = IOAESUtilities.decrypt(data: decodedMessage, keyData: aesKey, ivData: aesIV) else { return "" }
+        return String(data: decryptedMessage, encoding: .utf8) ?? ""
+    }
+    
     func sendMessage(message: String) {
         guard let aesIV = self.appState.object(forType: .aesIV) as? Data else { return }
         guard let aesKey = self.appState.object(forType: .aesKey) as? Data else { return }

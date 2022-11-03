@@ -26,94 +26,9 @@ public struct ChatView: IOController {
     @State private var isKoyboardVisible = false
     @State private var messageText: String = ""
     
-    @IOInstance private var thread: IOThreadImpl
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    private let items = [
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Hello!",
-            isLastMessage: false,
-            isSend: false,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Hi!",
-            isLastMessage: false,
-            isSend: true,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
-            isLastMessage: false,
-            isSend: false,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
-            isLastMessage: false,
-            isSend: true,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            isLastMessage: false,
-            isSend: false,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Vestibulum at nisl sit amet turpis lobortis lobortis.",
-            isLastMessage: false,
-            isSend: true,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Nunc ut libero ac massa egestas viverra ut eu velit.",
-            isLastMessage: false,
-            isSend: true,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Donec in augue eget justo rhoncus maximus.",
-            isLastMessage: false,
-            isSend: false,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Vestibulum id elit congue neque venenatis molestie tincidunt at lorem.",
-            isLastMessage: false,
-            isSend: true,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Aliquam ut sem sed felis lacinia bibendum.",
-            isLastMessage: false,
-            isSend: false,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Nullam suscipit ante at ante cursus, congue placerat massa mattis.",
-            isLastMessage: false,
-            isSend: true,
-            messageTime: "16 min ago"
-        ),
-        ChatItemUIModel(
-            image: Image("pwProfilePicture"),
-            chatMessage: "Thank you! That was very helpful!",
-            isLastMessage: true,
-            isSend: false,
-            messageTime: "16 min ago"
-        )
-    ]
+    @IOInstance private var thread: IOThreadImpl
     
     public var body: some View {
         GeometryReader { proxy in
@@ -132,7 +47,7 @@ public struct ChatView: IOController {
                         ScrollView {
                             ScrollViewReader { _ in
                                 LazyVStack {
-                                    ForEach(items) { item in
+                                    ForEach(presenter.chatMessages) { item in
                                         if item.isSend {
                                             ChatSendCellView(uiModel: item)
                                         } else {
@@ -157,7 +72,7 @@ public struct ChatView: IOController {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
-                NavBarTitleView(.init(rawValue: "James"), iconName: "ellipsis.message")
+                NavBarTitleView(.init(rawValue: presenter.userNameSurname), iconName: "ellipsis.message")
             }
         }
         .onReceive(presenter.keyboardPublisher, perform: { value in
@@ -165,6 +80,12 @@ public struct ChatView: IOController {
         })
         .controllerWireframe {
             ChatNavigationWireframe(navigationState: navigationState)
+        }
+        .onAppear {
+            if !isPreviewMode {
+                presenter.environment = _appEnvironment
+                presenter.loadInitialMessages()
+            }
         }
     }
     
