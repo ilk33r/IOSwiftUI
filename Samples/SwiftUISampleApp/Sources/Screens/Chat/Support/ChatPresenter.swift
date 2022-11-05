@@ -13,6 +13,7 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 final public class ChatPresenter: IOPresenterable {
     
@@ -23,12 +24,15 @@ final public class ChatPresenter: IOPresenterable {
     
     // MARK: - Publics
     
-    var isInitialLoaded: Bool
+    var isMessagesLoading: Bool
+    var appearedMessages: [Int]
+    var scrollToLastMessage: Bool
     
     // MARK: - Publishers
     
     @Published private(set) var chatMessages: [ChatItemUIModel]
     @Published private(set) var keyboardPublisher: AnyPublisher<Bool, Never>
+    @Published private(set) var navigatingMessageID: Int?
     @Published private(set) var userNameSurname: String
     
     // MARK: - Privates
@@ -38,7 +42,9 @@ final public class ChatPresenter: IOPresenterable {
     // MARK: - Initialization Methods
     
     public init() {
-        self.isInitialLoaded = false
+        self.appearedMessages = []
+        self.isMessagesLoading = false
+        self.scrollToLastMessage = true
         self.chatMessages = []
         self.userNameSurname = ""
         self.keyboardPublisher = Publishers
@@ -66,12 +72,65 @@ final public class ChatPresenter: IOPresenterable {
     func loadInitialMessages() {
         self.pagination = self.interactor.entity.pagination
         self.userNameSurname = self.interactor.entity.inbox.nameSurname ?? ""
+        self.scrollToLastMessage = true
         self.updateMessages(messages: self.interactor.entity.messages)
+    }
+    
+    func loadPreviousMessages() {
+        if self.isMessagesLoading {
+            return
+        }
+        
+        self.isMessagesLoading = true
+        
+        let start = self.pagination.start ?? 0
+        let pagination = PaginationModel(start: start + ChatConstants.messageCountPerPage, count: ChatConstants.messageCountPerPage, total: nil)
+        self.interactor.loadMessages(pagination: pagination)
     }
     
     func showTabBar() {
         self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
         NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+    }
+    
+    func update(lastMessage: MessageModel?) {
+        guard let lastMessage else { return }
+        
+        let relativeDate = Date()
+        let dateFormatter = RelativeDateTimeFormatter()
+        dateFormatter.dateTimeStyle = .numeric
+        
+        let newMessage = ChatItemUIModel(
+            id: lastMessage.messageID ?? 0,
+            imagePublicID: lastMessage.userAvatarPublicID,
+            chatMessage: self.interactor.decryptMessage(encryptedMessage: lastMessage.message ?? ""),
+            isLastMessage: true,
+            isSend: lastMessage.isSent ?? false,
+            messageTime: dateFormatter.localizedString(for: lastMessage.messageDate ?? Date(), relativeTo: relativeDate)
+        )
+        
+        self.scrollToLastMessage = true
+        self.chatMessages.append(newMessage)
+    }
+    
+    func update(previousMessagesResponse: GetMessagesResponseModel?) {
+        guard let previousMessagesResponse else { return }
+        
+        let navigatingMessageID: Int
+        if
+            let lastMessageID = self.appearedMessages.max(),
+            let lastMessageIndex = self.chatMessages.firstIndex(where: { $0.id == lastMessageID }) {
+            navigatingMessageID = self.chatMessages[lastMessageIndex].id
+        } else {
+            navigatingMessageID = self.chatMessages.last?.id ?? 0
+        }
+        
+        self.pagination = previousMessagesResponse.pagination
+        
+        if let messages = previousMessagesResponse.messages, !messages.isEmpty {
+            self.updateMessages(messages: messages)
+            self.navigatingMessageID = navigatingMessageID
+        }
     }
     
     // MARK: - Helper Methods

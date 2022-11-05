@@ -25,6 +25,8 @@ public struct ChatView: IOController {
     
     @State private var isKoyboardVisible = false
     @State private var messageText: String = ""
+    @State private var scrollViewContentSize: CGSize = .zero
+    @State private var scrollViewOffset: CGFloat = 0
     @State private var scrollViewProxy: ScrollViewProxy?
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
@@ -45,21 +47,34 @@ public struct ChatView: IOController {
                             presenter.showTabBar()
                         }
                     } content: {
-                        ScrollView {
-                            ScrollViewReader { scrollViewProxy in
-                                LazyVStack {
-                                    ForEach(presenter.chatMessages) { item in
-                                        if item.isSend {
-                                            ChatSendCellView(uiModel: item)
-                                        } else {
-                                            ChatReceivedCellView(uiModel: item)
-                                        }
+                        IOObservableScrollView(
+                            contentSize: $scrollViewContentSize,
+                            scrollOffset: $scrollViewOffset
+                        ) { scrollViewProxy in
+                            LazyVStack {
+                                ForEach(presenter.chatMessages) { item in
+                                    if item.isSend {
+                                        ChatSendCellView(uiModel: item)
+                                            .onAppear {
+                                                presenter.appearedMessages.append(item.id)
+                                            }
+                                            .onDisappear {
+                                                presenter.appearedMessages.removeAll(where: { $0 == item.id })
+                                            }
+                                    } else {
+                                        ChatReceivedCellView(uiModel: item)
+                                            .onAppear {
+                                                presenter.appearedMessages.append(item.id)
+                                            }
+                                            .onDisappear {
+                                                presenter.appearedMessages.removeAll(where: { $0 == item.id })
+                                            }
                                     }
                                 }
-                                .padding(.top, 8)
-                                .onAppear {
-                                    self.scrollViewProxy = scrollViewProxy
-                                }
+                            }
+                            .padding(.top, 8)
+                            .onAppear {
+                                self.scrollViewProxy = scrollViewProxy
                             }
                         }
                         .hideKeyboardOnTap()
@@ -104,13 +119,28 @@ public struct ChatView: IOController {
             }
         }
         .onReceive(presenter.$chatMessages) { chatMessages in
-            if chatMessages.last != nil && !presenter.isInitialLoaded {
-                presenter.isInitialLoaded = true
+            if chatMessages.last != nil && presenter.scrollToLastMessage {
+                presenter.scrollToLastMessage = false
                 
                 guard let lastMessageID = chatMessages.last?.id else { return }
                 thread.runOnMainThread {
-                    scrollViewProxy?.scrollTo(lastMessageID)
+                    withAnimation {
+                        scrollViewProxy?.scrollTo(lastMessageID)
+                    }
                 }
+            }
+        }
+        .onReceive(presenter.$navigatingMessageID) { navigatingMessageID in
+            guard let navigatingMessageID else { return }
+            
+            thread.runOnMainThread {
+                scrollViewProxy?.scrollTo(navigatingMessageID)
+                presenter.isMessagesLoading = false
+            }
+        }
+        .onChange(of: scrollViewOffset) { newValue in
+            if newValue <= 0 {
+                presenter.loadPreviousMessages()
             }
         }
     }
