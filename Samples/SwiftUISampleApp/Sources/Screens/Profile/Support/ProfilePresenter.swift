@@ -30,6 +30,7 @@ final public class ProfilePresenter: IOPresenterable {
     @Published private(set) var chatEntity: ChatEntity?
     @Published private(set) var images: [String]!
     @Published private(set) var profileUIModel: ProfileUIModel?
+    @Published private(set) var settingsEntity: SettingsEntity?
     
     // MARK: - Privates
     
@@ -70,6 +71,11 @@ final public class ProfilePresenter: IOPresenterable {
     func navigate(toMemberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
         guard let inbox = inbox else { return }
         self.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox, messages: messages, pagination: pagination)
+    }
+    
+    func navigateToSettings() {
+        guard let member = self.member else { return }
+        self.settingsEntity = SettingsEntity(member: member)
     }
     
     func set(member: MemberModel?) {

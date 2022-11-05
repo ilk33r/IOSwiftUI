@@ -49,6 +49,9 @@ public struct ProfileView: IOController {
                             case .message:
                                 presenter.createInbox()
                                 
+                            case .settings:
+                                presenter.navigateToSettings()
+                                
                             default:
                                 break
                             }
@@ -98,14 +101,21 @@ public struct ProfileView: IOController {
         .navigationWireframe(isHidden: true) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
-        .onReceive(presenter.$chatEntity, perform: { chatEntity in
+        .onReceive(presenter.$chatEntity) { chatEntity in
             if chatEntity == nil {
                 return
             }
             navigationBarHidden = true
             navigationState.chatEntity = chatEntity
             navigationState.navigateToChat = true
-        })
+        }
+        .onReceive(presenter.$settingsEntity) { settingsEntity in
+            if settingsEntity == nil {
+                return
+            }
+            navigationState.settingsEntity = settingsEntity
+            navigationState.navigateToSettings = true
+        }
         .navigationBarHidden(navigationBarHidden)
         .navigationBarTitle("", displayMode: .inline)
         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {

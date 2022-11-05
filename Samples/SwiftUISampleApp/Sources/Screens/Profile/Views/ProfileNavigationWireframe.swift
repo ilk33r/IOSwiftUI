@@ -22,6 +22,9 @@ struct ProfileNavigationWireframe: IONavigationLinkView {
         NavigationLink(destination: route(HomeRouters.self, .chat(entity: navigationState.chatEntity)), isActive: $navigationState.navigateToChat) {
             EmptyView()
         }
+        NavigationLink(destination: route(ProfileRouters.self, .settings(entity: navigationState.settingsEntity)), isActive: $navigationState.navigateToSettings) {
+            EmptyView()
+        }
     }
     
     // MARK: - Initialization Methods

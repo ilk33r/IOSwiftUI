@@ -7,6 +7,7 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
 final public class ProfileNavigationState: IONavigationState {
@@ -16,7 +17,9 @@ final public class ProfileNavigationState: IONavigationState {
     @Published public var navigateToChat = false
     @Published public var navigateToGallery = false
     @Published public var navigateToMessage = false
+    @Published public var navigateToSettings = false
     
     var chatEntity: ChatEntity!
     var galleryEntity: PhotoGalleryEntity!
+    var settingsEntity: SettingsEntity!
 }

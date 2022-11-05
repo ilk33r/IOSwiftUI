@@ -1,15 +1,20 @@
-// ___FILEHEADER___
+// 
+//  SettingsService.swift
+//  
+//
+//  Created by Adnan ilker Ozcan on 5.11.2022.
+//
 
 import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 
-enum ___VARIABLE_productName___Service {
+enum SettingsService {
 
 }
 
-extension ___VARIABLE_productName___Service: IOServiceType {
+extension SettingsService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
