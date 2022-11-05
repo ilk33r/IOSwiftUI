@@ -21,7 +21,7 @@ public struct ChatInboxInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var chatService: IOServiceProviderImpl<ChatService>
+    @IOInstance private var chatMessageService: IOServiceProviderImpl<ChatMessageService>
     @IOInstance private var service: IOServiceProviderImpl<ChatInboxService>
     
     // MARK: - Initialization Methods
@@ -64,7 +64,7 @@ public struct ChatInboxInteractor: IOInteractor {
         
         let pagination = PaginationModel(start: 0, count: ChatConstants.messageCountPerPage, total: nil)
         let request = GetMessagesRequestModel(pagination: pagination, inboxID: inbox.inboxID ?? 0)
-        self.chatService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
+        self.chatMessageService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
             self.hideIndicator()
             
             switch result {

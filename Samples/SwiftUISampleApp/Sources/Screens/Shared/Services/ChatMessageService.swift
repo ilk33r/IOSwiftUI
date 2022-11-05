@@ -1,5 +1,5 @@
 //
-//  ChatService.swift
+//  ChatMessageService.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 29.10.2022.
@@ -11,12 +11,12 @@ import IOSwiftUIInfrastructure
 import SwiftUISampleAppCommon
 import SwiftUISampleAppInfrastructure
 
-public enum ChatService {
+public enum ChatMessageService {
     
     case getMessages(request: GetMessagesRequestModel)
 }
 
-extension ChatService: IOServiceType {
+extension ChatMessageService: IOServiceType {
     
     public var methodType: IOHTTPRequestType {
         switch self {
