@@ -48,6 +48,6 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
     }
 
     public func updateUIViewController(_ viewController: Controller, context: Context) {
-        viewController.setupViewControllers(identifiables: self.content())
+//        viewController.setupViewControllers(identifiables: self.content())
     }
 }

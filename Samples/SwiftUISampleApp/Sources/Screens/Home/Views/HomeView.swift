@@ -21,6 +21,8 @@ public struct HomeView: IOController {
     @ObservedObject public var presenter: HomePresenter
     @StateObject public var navigationState = HomeNavigationState()
     
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    
     @State private var selectedIndex: Int = 0
     
     public var body: some View {
@@ -30,19 +32,25 @@ public struct HomeView: IOController {
             selection: $selectedIndex
         ) {
             return [
-                IOIdentifiableView(anyView: IORouterUtilities.route(
-                    HomeRouters.self,
-                    .discover(entity: nil)
-                ).contentView),
+                IOIdentifiableView(
+                    anyView: IORouterUtilities.route(
+                        HomeRouters.self,
+                        .discover(entity: nil)
+                    ).setEnvironment(appEnvironment).contentView
+                ),
                 IOIdentifiableView(view: HomeTabEmptyView()),
-                IOIdentifiableView(anyView: IORouterUtilities.route(
-                    HomeRouters.self,
-                    .chatInbox(entity: nil)
-                ).contentView),
-                IOIdentifiableView(anyView: IORouterUtilities.route(
-                    HomeRouters.self,
-                    .profile(entity: ProfileEntity(userName: nil))
-                ).contentView)
+                IOIdentifiableView(
+                    anyView: IORouterUtilities.route(
+                        HomeRouters.self,
+                        .chatInbox(entity: nil)
+                    ).setEnvironment(appEnvironment).contentView
+                ),
+                IOIdentifiableView(
+                    anyView: IORouterUtilities.route(
+                        HomeRouters.self,
+                        .profile(entity: ProfileEntity(userName: nil))
+                    ).setEnvironment(appEnvironment).contentView
+                )
             ]
         }
         .onChange(of: selectedIndex) { newValue in
