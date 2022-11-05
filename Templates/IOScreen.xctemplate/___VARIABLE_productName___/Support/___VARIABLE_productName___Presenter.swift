@@ -13,8 +13,16 @@ final public class ___VARIABLE_productName___Presenter: IOPresenterable {
     public var environment: EnvironmentObject<IOAppEnvironmentObject>!
     public var interactor: ___VARIABLE_productName___Interactor!
     
+    // MARK: - Publics
+    
+    // MARK: - Publishers
+    
+    // MARK: - Privates
+    
     // MARK: - Initialization Methods
     
     public init() {
     }
+    
+    // MARK: - Presenter
 }

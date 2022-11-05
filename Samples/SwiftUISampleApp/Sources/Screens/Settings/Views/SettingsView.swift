@@ -11,6 +11,7 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
+import SwiftUISampleAppPresentation
 
 public struct SettingsView: IOController {
     
@@ -23,20 +24,43 @@ public struct SettingsView: IOController {
     @ObservedObject public var presenter: SettingsPresenter
     @StateObject public var navigationState = SettingsNavigationState()
     
-//    @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     // MARK: - Body
     
     public var body: some View {
-        Text("Settings")
-            .controllerWireframe {
-                SettingsNavigationWireframe(navigationState: navigationState)
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                ScrollView {
+                    LazyVStack {
+                        ForEach(presenter.menu) { item in
+                            SettingMenuItemView(menuItem: item) {
+                                
+                            }
+                        }
+                    }
+                }
             }
-            .onAppear {
-//              if !isPreviewMode {
-//                  presenter.environment = _appEnvironment
-//              }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                NavBarTitleView(
+                    .settingsTitle,
+                    iconName: "slider.horizontal.3"
+                )
             }
+            Color.white
+                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                .ignoresSafeArea()
+        }
+        .controllerWireframe {
+            SettingsNavigationWireframe(navigationState: navigationState)
+        }
+        .onAppear {
+            if !isPreviewMode {
+                presenter.environment = _appEnvironment
+                presenter.interactor.loadMenu()
+            }
+        }
     }
     
     // MARK: - Initialization Methods

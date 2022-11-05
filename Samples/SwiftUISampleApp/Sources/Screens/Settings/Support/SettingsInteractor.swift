@@ -28,4 +28,18 @@ public struct SettingsInteractor: IOInteractor {
     }
     
     // MARK: - Interactor
+    
+    func loadMenu() {
+        var settingMenu = [SettingsMenuItemUIModel]()
+        
+        settingMenu.append(SettingsMenuItemUIModel(iconName: "person.fill", localizableKey: .settingsMenuUpdateProfile))
+        settingMenu.append(SettingsMenuItemUIModel(iconName: "person.crop.circle", localizableKey: .settingsMenuUpdateProfilePicture))
+        settingMenu.append(SettingsMenuItemUIModel(iconName: "person.crop.circle.badge.minus", localizableKey: .settingsMenuRemoveProfilePicture))
+        settingMenu.append(SettingsMenuItemUIModel(iconName: "lock.fill", localizableKey: .settingsMenuChangePassword))
+        settingMenu.append(SettingsMenuItemUIModel(iconName: "doc.text", localizableKey: .settingsMenuPrivacyPolicy))
+        settingMenu.append(SettingsMenuItemUIModel(iconName: "doc.richtext", localizableKey: .settingsMenuTermOfUse))
+        settingMenu.append(SettingsMenuItemUIModel(iconName: "xmark.shield", localizableKey: .settingsMenuLogout))
+        
+        self.presenter?.update(menu: settingMenu)
+    }
 }

@@ -50,3 +50,13 @@
 
 // MARK: -  Discover
 "discover.title" = "Discover";
+
+// MARK: - Settings
+"settings.menu.changePassword" = "Change password";
+"settings.menu.logout" = "Log out";
+"settings.menu.privacyPolicy" = "Privacy policy";
+"settings.menu.removeProfilePicture" = "Remove profile picture";
+"settings.menu.termOfUse" = "Term of use";
+"settings.menu.updateProfilePicture" = "Update profile picture";
+"settings.menu.updateProfile" = "Update Profile";
+"settings.title" = "Settings";

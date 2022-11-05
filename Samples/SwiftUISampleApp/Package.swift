@@ -112,6 +112,7 @@ let package = Package(
                            "SwiftUISampleAppScreensProfile",
                            "SwiftUISampleAppScreensPhotoGallery",
                            "SwiftUISampleAppScreensChat",
+                           "SwiftUISampleAppScreensSettings",
                            "SwiftUISampleAppRouter"])
     ]
 )
