@@ -15,15 +15,17 @@ struct ChatItemUIModel: Identifiable {
     let isLastMessage: Bool
     let isSend: Bool
     let messageTime: String
-    let id = UUID()
+    let id: Int
     
     init(
+        id: Int,
         imagePublicID: String?,
         chatMessage: String,
         isLastMessage: Bool,
         isSend: Bool,
         messageTime: String
     ) {
+        self.id = id
         self.imagePublicID = imagePublicID
         self.chatMessage = chatMessage
         self.isLastMessage = isLastMessage

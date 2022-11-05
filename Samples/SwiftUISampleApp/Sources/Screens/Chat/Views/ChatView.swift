@@ -25,6 +25,7 @@ public struct ChatView: IOController {
     
     @State private var isKoyboardVisible = false
     @State private var messageText: String = ""
+    @State private var scrollViewProxy: ScrollViewProxy?
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
@@ -45,7 +46,7 @@ public struct ChatView: IOController {
                         }
                     } content: {
                         ScrollView {
-                            ScrollViewReader { _ in
+                            ScrollViewReader { scrollViewProxy in
                                 LazyVStack {
                                     ForEach(presenter.chatMessages) { item in
                                         if item.isSend {
@@ -56,6 +57,9 @@ public struct ChatView: IOController {
                                     }
                                 }
                                 .padding(.top, 8)
+                                .onAppear {
+                                    self.scrollViewProxy = scrollViewProxy
+                                }
                             }
                         }
                         .hideKeyboardOnTap()
@@ -72,11 +76,23 @@ public struct ChatView: IOController {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
-                NavBarTitleView(.init(rawValue: presenter.userNameSurname), iconName: "ellipsis.message")
+                NavBarTitleView(
+                    .init(rawValue: presenter.userNameSurname),
+                    iconName: "keyboard",
+                    height: 12
+                )
             }
         }
         .onReceive(presenter.keyboardPublisher, perform: { value in
             isKoyboardVisible = value
+            
+            if value, let lastMessageID = presenter.chatMessages.last?.id {
+                thread.runOnMainThread(afterMilliSecond: 250) {
+                    withAnimation {
+                        scrollViewProxy?.scrollTo(lastMessageID)
+                    }
+                }
+            }
         })
         .controllerWireframe {
             ChatNavigationWireframe(navigationState: navigationState)
@@ -85,6 +101,16 @@ public struct ChatView: IOController {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
                 presenter.loadInitialMessages()
+            }
+        }
+        .onReceive(presenter.$chatMessages) { chatMessages in
+            if chatMessages.last != nil && !presenter.isInitialLoaded {
+                presenter.isInitialLoaded = true
+                
+                guard let lastMessageID = chatMessages.last?.id else { return }
+                thread.runOnMainThread {
+                    scrollViewProxy?.scrollTo(lastMessageID)
+                }
             }
         }
     }

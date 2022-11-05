@@ -10,6 +10,8 @@ import IOSwiftUIInfrastructure
 
 public struct NavBarTitleView: View {
     
+    private let height: CGFloat
+    
     private var iconName: String
     private var localizationType: IOLocalizationType
     
@@ -17,7 +19,7 @@ public struct NavBarTitleView: View {
         HStack {
             Image(systemName: iconName)
                 .resizable()
-                .frame(width: 16, height: 16)
+                .frame(width: 16, height: height)
                 .padding(.trailing, 4)
                 .padding(.leading, -8)
             Text(type: localizationType)
@@ -25,9 +27,10 @@ public struct NavBarTitleView: View {
         }
     }
     
-    public init(_ l: IOLocalizationType, iconName: String) {
+    public init(_ l: IOLocalizationType, iconName: String, height: CGFloat = 16) {
         self.localizationType = l
         self.iconName = iconName
+        self.height = height
     }
 }
 

@@ -21,6 +21,10 @@ final public class ChatPresenter: IOPresenterable {
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: ChatInteractor!
     
+    // MARK: - Publics
+    
+    var isInitialLoaded: Bool
+    
     // MARK: - Publishers
     
     @Published private(set) var chatMessages: [ChatItemUIModel]
@@ -34,6 +38,7 @@ final public class ChatPresenter: IOPresenterable {
     // MARK: - Initialization Methods
     
     public init() {
+        self.isInitialLoaded = false
         self.chatMessages = []
         self.userNameSurname = ""
         self.keyboardPublisher = Publishers
@@ -80,6 +85,7 @@ final public class ChatPresenter: IOPresenterable {
         
         let mappedMessages = messages.map { [weak self] message in
             ChatItemUIModel(
+                id: message.messageID ?? 0,
                 imagePublicID: message.userAvatarPublicID,
                 chatMessage: self?.interactor.decryptMessage(encryptedMessage: message.message ?? "") ?? "",
                 isLastMessage: lastMessageID == message.messageID,

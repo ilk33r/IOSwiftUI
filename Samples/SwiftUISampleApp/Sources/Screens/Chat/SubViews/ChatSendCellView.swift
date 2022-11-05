@@ -63,6 +63,7 @@ struct ChatSendCellView: View {
 struct ChatSendCellView_Previews: PreviewProvider {
     static var previews: some View {
         let uiModel = ChatItemUIModel(
+            id: 0,
             imagePublicID: "pwProfilePicture",
             chatMessage: "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
             isLastMessage: false,

@@ -64,6 +64,7 @@ struct ChatReceivedCellView: View {
 struct ChatReceivedCellView_Previews: PreviewProvider {
     static var previews: some View {
         let uiModel = ChatItemUIModel(
+            id: 0,
             imagePublicID: "pwProfilePicture",
             chatMessage: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
             isLastMessage: false,
