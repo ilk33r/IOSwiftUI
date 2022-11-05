@@ -32,7 +32,7 @@ struct ChatInboxItemView: View {
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(.top, 6)
+                        .padding(.top, 2)
                 }
                 .padding(.leading, 16)
             }
@@ -63,7 +63,7 @@ struct ChatInboxItemView_Previews: PreviewProvider {
         ChatInboxItemView(
             uiModel: ChatInboxUIModel(
                 index: 0,
-                profilePicturePublicId: "",
+                profilePicturePublicId: "pwProfilePicture",
                 nameSurname: "İlker Özcan",
                 lastMessage: "Wanted to ask if you’re available for a portrait shoot next week."
             ),

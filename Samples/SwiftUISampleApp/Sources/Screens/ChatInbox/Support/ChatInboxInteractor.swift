@@ -42,11 +42,15 @@ public struct ChatInboxInteractor: IOInteractor {
         return String(data: decryptedMessage, encoding: .utf8) ?? ""
     }
     
-    func getInboxes() {
-        self.showIndicator()
+    func getInboxes(showIndicator: Bool) {
+        if showIndicator {
+            self.showIndicator()
+        }
         
         self.service.request(.getInboxes, responseType: InboxResponseModel.self) { result in
-            self.hideIndicator()
+            if showIndicator {
+                self.hideIndicator()
+            }
             
             switch result {
             case .success(response: let response):

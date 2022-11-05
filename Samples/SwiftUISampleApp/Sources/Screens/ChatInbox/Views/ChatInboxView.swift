@@ -22,38 +22,31 @@ public struct ChatInboxView: IOController {
     @ObservedObject public var presenter: ChatInboxPresenter
     @StateObject public var navigationState = ChatInboxNavigationState()
     
+    @State private var contentSize: CGSize = .zero
+    @State private var isRefreshing = false
+    @State private var scrollOffset: CGFloat = 0
+    
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     public var body: some View {
         GeometryReader { proxy in
-            List {
-                Section {
+            IORefreshableScrollView(
+                backgroundColor: .white,
+                contentSize: $contentSize,
+                isRefreshing: $isRefreshing,
+                scrollOffset: $scrollOffset
+            ) { _ in
+                LazyVStack {
                     ForEach(presenter.inboxes) { inbox in
-                        let itemView = ChatInboxItemView(
+                        ChatInboxItemView(
                             uiModel: inbox,
                             clickHandler: { index in
                                 presenter.getMessages(index: index)
                             }
                         )
-                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        
-                        if #available(iOS 15.0, *) {
-                            itemView
-                                .listRowSeparator(.hidden)
-                        } else {
-                            itemView
-                        }
                     }
-                } header: {
-                    EmptyView()
-                        .frame(height: 0)
-                } footer: {
-                    EmptyView()
-                        .frame(height: proxy.safeAreaInsets.bottom + proxy.safeAreaInsets.top)
                 }
             }
-            .frame(maxWidth: .infinity)
-            .listStyle(InsetListStyle())
             .navigationBar(navigationBar: {
                 NavBarTitleView(.chatInboxTitle, iconName: "message")
             })
@@ -64,18 +57,27 @@ public struct ChatInboxView: IOController {
         .navigationWireframe {
             ChatInboxNavigationWireframe(navigationState: navigationState)
         }
-        .onReceive(presenter.$chatEntity, perform: { chatEntity in
+        .onReceive(presenter.$chatEntity) { chatEntity in
             if chatEntity == nil {
                 return
             }
-            // navigationBarHidden = true
             navigationState.chatEntity = chatEntity
             navigationState.navigateToChat = true
-        })
+        }
+        .onReceive(presenter.$inboxes) { _ in
+            if isRefreshing {
+                isRefreshing = false
+            }
+        }
+        .onChange(of: isRefreshing) { _ in
+            if isRefreshing {
+                presenter.interactor.getInboxes(showIndicator: false)
+            }
+        }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
-                presenter.interactor.getInboxes()
+                presenter.interactor.getInboxes(showIndicator: true)
             }
         }
     }
