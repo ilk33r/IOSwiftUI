@@ -82,6 +82,6 @@ public struct SettingsInteractor: IOInteractor {
             )
         )
         
-        self.presenter?.update(menu: settingMenu)
+        presenter?.update(menu: settingMenu)
     }
 }

@@ -12,12 +12,15 @@ import IOSwiftUIScreensShared
 public enum ProfileRouters: IORouterDefinition {
     
     case settings(entity: SettingsEntity?)
+    case updateProfile(entity: UpdateProfileEntity?)
     
     public var entity: IOEntity? {
         switch self {
         case .settings(entity: let entity):
             return entity
             
+        case .updateProfile(entity: let entity):
+            return entity
         }
     }
     
@@ -25,6 +28,9 @@ public enum ProfileRouters: IORouterDefinition {
         switch self {
         case .settings:
             return "SettingsView"
+            
+        case .updateProfile:
+            return "UpdateProfileView"
         }
     }
 }

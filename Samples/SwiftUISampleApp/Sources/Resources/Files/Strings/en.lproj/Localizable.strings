@@ -58,5 +58,11 @@
 "settings.menu.removeProfilePicture" = "Remove profile picture";
 "settings.menu.termOfUse" = "Term of use";
 "settings.menu.updateProfilePicture" = "Update profile picture";
-"settings.menu.updateProfile" = "Update Profile";
+"settings.menu.updateProfile" = "Update profile";
 "settings.title" = "Settings";
+
+// MARK: - Update Profile
+"updateProfile.form.name" = "Name";
+"updateProfile.form.surname" = "Surname";
+"updateProfile.form.userName" = "User Name";
+"updateProfile.title" = "Update Profile";

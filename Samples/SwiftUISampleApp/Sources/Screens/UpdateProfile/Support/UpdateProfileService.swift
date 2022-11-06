@@ -1,8 +1,8 @@
 // 
-//  SettingsService.swift
+//  UpdateProfileService.swift
 //  
 //
-//  Created by Adnan ilker Ozcan on 5.11.2022.
+//  Created by Adnan ilker Ozcan on 6.11.2022.
 //
 
 import Foundation
@@ -10,11 +10,11 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 
-enum SettingsService {
+enum UpdateProfileService {
 
 }
 
-extension SettingsService: IOServiceType {
+extension UpdateProfileService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {

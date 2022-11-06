@@ -11,6 +11,7 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 final public class SettingsPresenter: IOPresenterable {
     
@@ -39,8 +40,8 @@ final public class SettingsPresenter: IOPresenterable {
     func navigate(menu: SettingsMenuItemUIModel) {
         switch menu.type {
         case .updateProfile:
-//            navigationState.navigateToUpdateProfile = true
-            break
+            self.navigationState.wrappedValue.updateProfileEntity = UpdateProfileEntity(member: self.interactor.entity.member)
+            self.navigationState.wrappedValue.navigateToUpdateProfile = true
             
         default:
             break
