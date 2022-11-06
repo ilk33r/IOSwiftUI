@@ -13,7 +13,7 @@ public struct IORSAKeyUtilities {
     public static func generatePublicKey(exponent: String, modulus: String, tag: String) -> SecKey? {
         let exponentData = Data(fromHexString: exponent)
         let modulusData = Data(fromHexString: modulus)
-        return self.generatePublicKey(exponent: exponentData, modulus: modulusData, tag: tag)
+        return generatePublicKey(exponent: exponentData, modulus: modulusData, tag: tag)
     }
     
     public static func generatePublicKey(exponent: Data, modulus: Data, tag: String) -> SecKey? {
@@ -26,9 +26,9 @@ public struct IORSAKeyUtilities {
         }
         
         // Obtain lengths
-        let modulusLengthOctets = self.length(of: modulusBytes.count)
-        let exponentLengthOctets = self.length(of: exponentBytes.count)
-        let totalLengthOctets = self.length(of: modulusLengthOctets.count + modulusBytes.count + exponentLengthOctets.count + exponentBytes.count + 2)
+        let modulusLengthOctets = length(of: modulusBytes.count)
+        let exponentLengthOctets = length(of: exponentBytes.count)
+        let totalLengthOctets = length(of: modulusLengthOctets.count + modulusBytes.count + exponentLengthOctets.count + exponentBytes.count + 2)
         
         // Create encoded bytes
         var sequenceEncoded = [UInt8]()
@@ -51,26 +51,26 @@ public struct IORSAKeyUtilities {
         let keyData = sequenceEncoded.data
         
         // Obtain existing key data
-        if let publicKeyData = self.obtainKeyData(forTag: tag) {
+        if let publicKeyData = obtainKeyData(forTag: tag) {
             if !publicKeyData.elementsEqual(keyData) {
                 // Then update key
-                let updatedKey = self.updateKey(with: keyData, tag: tag)
+                let updatedKey = updateKey(with: keyData, tag: tag)
                 
                 // Do nothing
                 return updatedKey
             }
             
-            return self.obtainKey(forTag: tag)
+            return obtainKey(forTag: tag)
         }
         
         // Insert key
-        if let publicKey = self.insertKey(with: keyData, tag: tag) {
+        if let publicKey = insertKey(with: keyData, tag: tag) {
             // Call handler
             return publicKey
         }
         
         // Obtain key from tag
-        return self.obtainKey(forTag: tag)
+        return obtainKey(forTag: tag)
     }
     
     // MARK: - Helper Methods
@@ -127,7 +127,7 @@ public struct IORSAKeyUtilities {
         // Check status
         if status == noErr {
             // Obtain key for given tag
-            return self.obtainKey(forTag: tag)
+            return obtainKey(forTag: tag)
         }
         
         return nil
@@ -213,7 +213,7 @@ public struct IORSAKeyUtilities {
         // Check status
         if status == noErr {
             // Obtain key for given tag
-            return self.obtainKey(forTag: tag)
+            return obtainKey(forTag: tag)
         }
         
         return nil

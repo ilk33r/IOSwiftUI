@@ -15,8 +15,8 @@ public struct IOConfigurationImpl: IOConfiguration, IOSingleton {
     
     // MARK: - Publics
     
-    public var defaultLocale: IOLocales { self._defaultLocale }
-    public var environment: IOEnvironmentType { self._environment }
+    public var defaultLocale: IOLocales { _defaultLocale }
+    public var environment: IOEnvironmentType { _environment }
     
     // MARK: - Privates
     
@@ -37,7 +37,7 @@ public struct IOConfigurationImpl: IOConfiguration, IOSingleton {
     // MARK: - Getters
     
     public func configForType(type: IOConfigurationType) -> String {
-        let configValue = self.configValues[type.rawValue] as? String
+        let configValue = configValues[type.rawValue] as? String
         return configValue ?? ""
     }
 }

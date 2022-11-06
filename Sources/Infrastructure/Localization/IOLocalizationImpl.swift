@@ -16,15 +16,15 @@ public struct IOLocalizationImpl: IOLocalization, IOSingleton {
     // MARK: - Getters
     
     public var currentLanguageCode: String {
-        return self.currentLanguageCodeVal
+        return currentLanguageCodeVal
     }
     
     public var currentLocale: Locale {
-        return self.currentLocaleVal
+        return currentLocaleVal
     }
     
     public var currentLocaleType: IOLocales {
-        return self.currentLocaleTypeVal
+        return currentLocaleTypeVal
     }
     
     // MARK: - Privates
@@ -57,20 +57,20 @@ public struct IOLocalizationImpl: IOLocalization, IOSingleton {
     // MARK: - Language Methods
     
     public func availableLanguageCodes() -> [String] {
-        return self.bundle.localizations
+        return bundle.localizations
     }
     
     public func availableLocales() -> [Locale] {
-        return self.availableLanguageCodes().map { Locale(identifier: $0) }
+        return availableLanguageCodes().map { Locale(identifier: $0) }
     }
     
     public func changeLanguage(locale: Locale) {
-        Self._sharedInstance = IOLocalizationImpl(currentLocale: locale, bundle: self.bundle)
+        Self._sharedInstance = IOLocalizationImpl(currentLocale: locale, bundle: bundle)
     }
     
     public func changeLanguage(type: IOLocales) {
         let locale = Locale(identifier: type.rawValue)
-        self.changeLanguage(locale: locale)
+        changeLanguage(locale: locale)
     }
     
     public func setLocalizationBundle(bundleName: String) {
@@ -79,21 +79,21 @@ public struct IOLocalizationImpl: IOLocalization, IOSingleton {
         if !resourcesBundle.isLoaded {
             resourcesBundle.load()
         }
-        Self._sharedInstance = IOLocalizationImpl(currentLocale: self.currentLocaleVal, bundle: resourcesBundle)
+        Self._sharedInstance = IOLocalizationImpl(currentLocale: currentLocaleVal, bundle: resourcesBundle)
     }
     
     // MARK: - Accessor Methods
     
     public func string(_ key: String) -> String {
-        return self.string(key, alternateText: nil)
+        return string(key, alternateText: nil)
     }
     
     public func string(_ key: String, alternateText: String?) -> String {
-        if self.languageBundle == nil {
+        if languageBundle == nil {
             return alternateText ?? key
         }
         
-        let localizedString = self.languageBundle!.localizedString(forKey: key, value: nil, table: nil)
+        let localizedString = languageBundle!.localizedString(forKey: key, value: nil, table: nil)
         if !localizedString.isEmpty {
             return localizedString
         }
@@ -102,13 +102,13 @@ public struct IOLocalizationImpl: IOLocalization, IOSingleton {
             return alternate
         }
 
-        return String(format: "%@.%@", self.languageBundle!, key)
+        return String(format: "%@.%@", languageBundle!, key)
     }
     
     // MARK: - Privates
     
     private func readLanguageBundle(code: String) -> Bundle? {
-        if let languageBundlePath = self.bundle.path(forResource: code, ofType: "lproj") {
+        if let languageBundlePath = bundle.path(forResource: code, ofType: "lproj") {
             return Bundle(path: languageBundlePath)!
         }
         

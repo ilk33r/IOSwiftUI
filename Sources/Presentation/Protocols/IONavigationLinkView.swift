@@ -20,7 +20,7 @@ public extension IONavigationLinkView {
     // MARK: - Router Methods
     
     func route<Router: IOBaseRouterDefinition>(_ router: Router.Type, _ type: Router) -> IORouterView {
-        return self.route(type)
+        return route(type)
     }
     
     func route(_ type: any IOBaseRouterDefinition) -> IORouterView {

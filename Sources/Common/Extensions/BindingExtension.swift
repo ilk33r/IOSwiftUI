@@ -12,9 +12,9 @@ public extension Binding {
     
     func onChange(_ handler: @escaping (_ value: Value) -> Void) -> Binding<Value> {
         Binding(
-            get: { self.wrappedValue },
+            get: { wrappedValue },
             set: { newValue in
-                self.wrappedValue = newValue
+                wrappedValue = newValue
                 handler(newValue)
             }
         )

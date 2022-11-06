@@ -81,15 +81,15 @@ struct IOSwiftUISampleApp: App {
     init() {
         IOFontType.registerFontsIfNecessary(Bundle.resources)
         IOLocalizationImpl.shared.setLocalizationBundle(bundleName: "SwiftUISampleApp_SwiftUISampleAppResources")
-        IOLocalizationImpl.shared.changeLanguage(type: self.configuration.defaultLocale)
+        IOLocalizationImpl.shared.changeLanguage(type: configuration.defaultLocale)
         AppTheme.applyTheme()
         
-        self.httpClient.setDefaultHTTPHeaders(headers: [
+        httpClient.setDefaultHTTPHeaders(headers: [
             "Content-Type": "application/json",
-            "X-IO-AUTHORIZATION": self.configuration.configForType(type: .networkingAuthorizationHeader)
+            "X-IO-AUTHORIZATION": configuration.configForType(type: .networkingAuthorizationHeader)
         ])
         
         let cacheFileBeforeDate = Date()
-        self.fileCache.removeFiles(beforeDate: cacheFileBeforeDate.date(bySubtractingDays: 3)!)
+        fileCache.removeFiles(beforeDate: cacheFileBeforeDate.date(bySubtractingDays: 3)!)
     }
 }

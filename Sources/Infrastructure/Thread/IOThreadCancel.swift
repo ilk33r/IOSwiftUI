@@ -23,6 +23,6 @@ internal struct IOThreadCancel: IOCancellable {
     // MARK: - Cancellable
     
     func cancel() {
-        self.workItem?.cancel()
+        workItem?.cancel()
     }
 }

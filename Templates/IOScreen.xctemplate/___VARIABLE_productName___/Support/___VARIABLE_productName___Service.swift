@@ -47,6 +47,6 @@ extension ___VARIABLE_productName___Service: IOServiceType {
     }
     
     func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
-        return self._handleResponse(type: responseType, result: result)
+        return _handleResponse(type: responseType, result: result)
     }
 }

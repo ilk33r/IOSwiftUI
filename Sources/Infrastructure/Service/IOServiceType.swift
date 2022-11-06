@@ -25,7 +25,7 @@ public extension IOServiceType {
     
     func _handleQuery<TModel: Codable>(_ model: TModel) -> String? {
         do {
-            let jsonData = try self.mapper.toJsonData(model)
+            let jsonData = try mapper.toJsonData(model)
             let dictionary = try JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)
             guard let jsonDictionary = dictionary as? [String: Any] else { return nil }
             let encodedDictionary = jsonDictionary
@@ -53,7 +53,7 @@ public extension IOServiceType {
     
     func _handleRequest<TModel: Codable>(_ model: TModel) -> Data? {
         do {
-            return try self.mapper.toJsonData(model)
+            return try mapper.toJsonData(model)
         } catch let jsonError {
             IOLogger.error("Model encode error: \(jsonError.localizedDescription)")
         }
@@ -76,7 +76,7 @@ public extension IOServiceType {
         }
         
         do {
-            let responseModel = try self.mapper.mapJson(model: type, data: resultData)
+            let responseModel = try mapper.mapJson(model: type, data: resultData)
             
             if let httpError = result?.error {
                 return IOServiceResult<TModel>.error(message: httpError.errorMessage, type: httpError.errorType, response: responseModel)

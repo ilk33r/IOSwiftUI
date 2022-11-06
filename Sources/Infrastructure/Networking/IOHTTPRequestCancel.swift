@@ -17,6 +17,6 @@ internal struct IOHTTPRequestCancel: IOCancellable {
     }
     
     func cancel() {
-        self.sessionTask?.cancel()
+        sessionTask?.cancel()
     }
 }

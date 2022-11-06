@@ -35,47 +35,47 @@ public struct IOLogger: IOSingleton {
     // MARK: - Logging Methods
     
     fileprivate func logVerbose(_ logMessage: String) {
-        guard self.logLevel == .verbose else {
+        guard logLevel == .verbose else {
             return
         }
-        let targetName = self.appState.targetName
-        os_log("%@: %{public}s", log: self.logger, type: .default, targetName, logMessage)
+        let targetName = appState.targetName
+        os_log("%@: %{public}s", log: logger, type: .default, targetName, logMessage)
     }
     
     fileprivate func logInfo(_ logMessage: String) {
-        guard self.logLevel == .verbose || self.logLevel == .info else {
+        guard logLevel == .verbose || logLevel == .info else {
             return
         }
         
-        let targetName = self.appState.targetName
-        os_log("%@: %{public}s", log: self.logger, type: .info, targetName, logMessage)
+        let targetName = appState.targetName
+        os_log("%@: %{public}s", log: logger, type: .info, targetName, logMessage)
     }
     
     fileprivate func logDebug(_ logMessage: String) {
-        guard self.logLevel == .verbose || self.logLevel == .info || self.logLevel == .debug else {
+        guard logLevel == .verbose || logLevel == .info || logLevel == .debug else {
             return
         }
         
-        let targetName = self.appState.targetName
-        os_log("%@: %{public}s", log: self.logger, type: .debug, targetName, logMessage)
+        let targetName = appState.targetName
+        os_log("%@: %{public}s", log: logger, type: .debug, targetName, logMessage)
     }
     
     fileprivate func logWarning(_ logMessage: String) {
-        guard self.logLevel == .verbose || self.logLevel == .info || self.logLevel == .debug || self.logLevel == .warning else {
+        guard logLevel == .verbose || logLevel == .info || logLevel == .debug || logLevel == .warning else {
             return
         }
         
-        let targetName = self.appState.targetName
-        os_log("%@ %{public}s", log: self.logger, type: .error, targetName, logMessage)
+        let targetName = appState.targetName
+        os_log("%@ %{public}s", log: logger, type: .error, targetName, logMessage)
     }
     
     fileprivate func logError(_ logMessage: String) {
-        guard self.logLevel == .verbose || self.logLevel == .info || self.logLevel == .debug || self.logLevel == .warning || self.logLevel == .error else {
+        guard logLevel == .verbose || logLevel == .info || logLevel == .debug || logLevel == .warning || logLevel == .error else {
             return
         }
         
-        let targetName = self.appState.targetName
-        os_log("%@ %{public}s", log: self.logger, type: .fault, targetName, logMessage)
+        let targetName = appState.targetName
+        os_log("%@ %{public}s", log: logger, type: .fault, targetName, logMessage)
     }
     
     // MARK: - Helper Methods
@@ -96,7 +96,7 @@ public struct IOLogger: IOSingleton {
             line,
             column,
             logLevelString,
-            self.icon(for: level),
+            icon(for: level),
             message ?? ""
         )
         

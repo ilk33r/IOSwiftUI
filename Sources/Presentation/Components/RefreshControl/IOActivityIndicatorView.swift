@@ -33,12 +33,12 @@ public struct IOActivityIndicatorView: UIViewRepresentable {
     }
     
     public func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
-        if self.isAnimating {
+        if isAnimating {
             uiView.startAnimating()
         } else {
             uiView.stopAnimating()
         }
         
-        self.configuration?(uiView)
+        configuration?(uiView)
     }
 }

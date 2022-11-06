@@ -31,6 +31,6 @@ public struct IOValidationMaxLengthRule: IOValidationRule {
     public func validate(value: String?) -> Bool {
         guard let value else { return false }
         
-        return value.count <= self.length
+        return value.count <= length
     }
 }

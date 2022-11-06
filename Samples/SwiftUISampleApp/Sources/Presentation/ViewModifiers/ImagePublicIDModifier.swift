@@ -67,7 +67,7 @@ struct ImagePublicIDModifier: ViewModifier {
     
     private func loadImage() -> IOCancellable? {
         do {
-            let cachedImage = try self.fileCache.getFile(fromCache: publicId)
+            let cachedImage = try fileCache.getFile(fromCache: publicId)
             imageData = cachedImage
             return nil
         } catch let error {
@@ -80,7 +80,7 @@ struct ImagePublicIDModifier: ViewModifier {
             switch result {
             case .success(response: let response):
                 do {
-                    try self.fileCache.storeFile(toCache: publicId, fileData: response.imageData)
+                    try fileCache.storeFile(toCache: publicId, fileData: response.imageData)
                     imageData = response.imageData
                 } catch let error {
                     IOLogger.debug(error.localizedDescription)

@@ -13,24 +13,24 @@ public struct IOAESUtilities {
     // MARK: - AES
     
     public static func encrypt(data: Data, keyData: Data, ivData: Data?) -> Data? {
-        return self.crypt(data: data, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCEncrypt), key: keyData, iv: ivData)
+        return crypt(data: data, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCEncrypt), key: keyData, iv: ivData)
     }
     
     public static func encrypt(string: String, keyData: Data, ivData: Data?) -> Data? {
         if let data = string.data(using: .utf8) {
-            return self.encrypt(data: data, keyData: keyData, ivData: ivData)
+            return encrypt(data: data, keyData: keyData, ivData: ivData)
         }
         
         return nil
     }
     
     public static func decrypt(data: Data, keyData: Data, ivData: Data?) -> Data? {
-        return self.crypt(data: data, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCDecrypt), key: keyData, iv: ivData)
+        return crypt(data: data, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCDecrypt), key: keyData, iv: ivData)
     }
     
     public static func decrypt(string: String, keyData: Data, ivData: Data?) -> Data? {
         if let data = string.data(using: .utf8) {
-            return self.decrypt(data: data, keyData: keyData, ivData: ivData)
+            return decrypt(data: data, keyData: keyData, ivData: ivData)
         }
         
         return nil
@@ -46,7 +46,7 @@ public struct IOAESUtilities {
         
         // Create algorithm size
         var dataMoved = 0
-        let algorithmSize = self.size(forAlgorithm: algorithm)
+        let algorithmSize = size(forAlgorithm: algorithm)
         
         // Create decrypted data
         let cryptedDataCapacity = data.count + algorithmSize

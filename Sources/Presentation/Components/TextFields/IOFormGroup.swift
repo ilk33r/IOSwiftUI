@@ -19,18 +19,18 @@ public struct IOFormGroup<Content>: View where Content: View {
     
     public var body: some View {
         if #available(iOS 15.0, *) {
-            self.contentView
+            contentView
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
                         Button(localizationType.localized) {
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                            self.clickHandler?()
+                            clickHandler?()
                         }
                     }
                 }
         } else {
-            self.contentView
+            contentView
         }
     }
     

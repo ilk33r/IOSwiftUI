@@ -31,41 +31,41 @@ public struct IOLocalStorageImpl: IOLocalStorage, IOSingleton {
     
     public func allKeys() -> [String] {
         // Read all keys from user defaults
-        let allKeys = self.userDefaults.dictionaryRepresentation().keys.map { String($0) }
+        let allKeys = userDefaults.dictionaryRepresentation().keys.map { String($0) }
         return allKeys
     }
     
     public func bool(forType type: IOStorageType) -> Bool? {
-        let key = self.reformKey(type)
-        if self.has(key: key) {
-            return self.userDefaults.bool(forKey: key)
+        let key = reformKey(type)
+        if has(key: key) {
+            return userDefaults.bool(forKey: key)
         }
         
         return nil
     }
     
     public func double(forType type: IOStorageType) -> Double? {
-        let key = self.reformKey(type)
-        if self.has(key: key) {
-            return self.userDefaults.double(forKey: key)
+        let key = reformKey(type)
+        if has(key: key) {
+            return userDefaults.double(forKey: key)
         }
         
         return nil
     }
     
     public func int(forType type: IOStorageType) -> Int? {
-        let key = self.reformKey(type)
-        if self.has(key: key) {
-            return self.userDefaults.integer(forKey: key)
+        let key = reformKey(type)
+        if has(key: key) {
+            return userDefaults.integer(forKey: key)
         }
         
         return nil
     }
     
     public func string(forType type: IOStorageType) -> String? {
-        let key = self.reformKey(type)
-        if self.has(key: key) {
-            return self.userDefaults.string(forKey: key)
+        let key = reformKey(type)
+        if has(key: key) {
+            return userDefaults.string(forKey: key)
         }
         
         return nil
@@ -74,49 +74,49 @@ public struct IOLocalStorageImpl: IOLocalStorage, IOSingleton {
     // MARK: - Setters
     
     public func set(bool value: Bool, forType type: IOStorageType) {
-        let key = self.reformKey(type)
-        self.userDefaults.set(value, forKey: key)
-        self.synchronize()
+        let key = reformKey(type)
+        userDefaults.set(value, forKey: key)
+        synchronize()
     }
     
     public func set(double value: Double, forType type: IOStorageType) {
-        let key = self.reformKey(type)
-        self.userDefaults.set(value, forKey: key)
-        self.synchronize()
+        let key = reformKey(type)
+        userDefaults.set(value, forKey: key)
+        synchronize()
     }
     
     public func set(int value: Int, forType type: IOStorageType) {
-        let key = self.reformKey(type)
-        self.userDefaults.set(value, forKey: key)
-        self.synchronize()
+        let key = reformKey(type)
+        userDefaults.set(value, forKey: key)
+        synchronize()
     }
     
     public func set(string value: String, forType type: IOStorageType) {
-        let key = self.reformKey(type)
-        self.userDefaults.set(value, forKey: key)
-        self.synchronize()
+        let key = reformKey(type)
+        userDefaults.set(value, forKey: key)
+        synchronize()
     }
     
     // MARK: - Removers
     
     public func remove(type: IOStorageType) {
-        let key = self.reformKey(type)
-        self.userDefaults.removeObject(forKey: key)
-        self.synchronize()
+        let key = reformKey(type)
+        userDefaults.removeObject(forKey: key)
+        synchronize()
     }
     
     public func removeAllObjects() {
-        self.allKeys().forEach({ key in
-            self.userDefaults.removeObject(forKey: key)
+        allKeys().forEach({ key in
+            userDefaults.removeObject(forKey: key)
         })
         
-        self.synchronize()
+        synchronize()
     }
     
     // MARK: - Helper Methods
     
     private func has(key: String) -> Bool {
-        let key = self.allKeys().first(where: { $0 == key })
+        let key = allKeys().first(where: { $0 == key })
         if key == nil {
             return false
         }
@@ -125,7 +125,7 @@ public struct IOLocalStorageImpl: IOLocalStorage, IOSingleton {
     }
     
     private func reformKey(_ key: IOStorageType) -> String {
-        return String(format: "%@_%@", self.configuration.configForType(type: .localStoragePrefix), key.rawValue)
+        return String(format: "%@_%@", configuration.configForType(type: .localStoragePrefix), key.rawValue)
     }
     
     private func synchronize() {

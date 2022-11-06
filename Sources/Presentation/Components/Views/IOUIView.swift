@@ -26,12 +26,12 @@ public struct IOUIView<Content: View>: UIViewControllerRepresentable {
     }
     
     public func makeUIViewController(context: Context) -> IOUIViewController {
-        let vc = IOUIViewController(handler: self.lifecycleHandler)
-        vc.hostingController.rootView = AnyView(self.content())
+        let vc = IOUIViewController(handler: lifecycleHandler)
+        vc.hostingController.rootView = AnyView(content())
         return vc
     }
     
     public func updateUIViewController(_ viewController: IOUIViewController, context: Context) {
-        viewController.hostingController.rootView = AnyView(self.content())
+        viewController.hostingController.rootView = AnyView(content())
     }
 }

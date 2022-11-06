@@ -49,11 +49,11 @@ extension DiscoverService: IOServiceType {
     var body: Data? {
         switch self {
         case .discover(request: let request):
-            return self.handleRequest(request)
+            return handleRequest(request)
         }
     }
     
     func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
-        return self.handleResponse(type: responseType, result: result)
+        return handleResponse(type: responseType, result: result)
     }
 }

@@ -34,13 +34,13 @@ public struct DiscoverInteractor: IOInteractor {
         let pagination = PaginationModel(start: start, count: count, total: nil)
         let request = PaginationRequestModel(pagination: pagination)
         
-        self.service.request(.discover(request: request), responseType: DiscoverImagesResponseModel.self) { result in
+        service.request(.discover(request: request), responseType: DiscoverImagesResponseModel.self) { result in
             switch result {
             case .success(response: let response):
-                self.presenter?.update(discoverResponse: response)
+                presenter?.update(discoverResponse: response)
                 
             case .error(message: let message, type: let type, response: let response):
-                self.handleServiceError(message, type: type, response: response, handler: nil)
+                handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
     }

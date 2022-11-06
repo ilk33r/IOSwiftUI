@@ -27,15 +27,15 @@ public struct IOImagePickerView: UIViewControllerRepresentable {
             let editedImage = info[.editedImage] as? UIImage
             let originalImage = info[.originalImage] as? UIImage
             guard let image = editedImage ?? originalImage else {
-                self.dismissHandler()
+                dismissHandler()
                 return
             }
-            self.pickHandler?(image)
-            self.dismissHandler()
+            pickHandler?(image)
+            dismissHandler()
         }
 
         public func imagePickerControllerDidCancel(_: UIImagePickerController) {
-            self.dismissHandler()
+            dismissHandler()
         }
     }
     
@@ -62,11 +62,11 @@ public struct IOImagePickerView: UIViewControllerRepresentable {
 
     public func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
-        picker.sourceType = self.sourceType
-        picker.allowsEditing = self.allowEditing
+        picker.sourceType = sourceType
+        picker.allowsEditing = allowEditing
         
-        if self.sourceType == .camera {
-            picker.cameraCaptureMode = self.cameraCaptureMode
+        if sourceType == .camera {
+            picker.cameraCaptureMode = cameraCaptureMode
         }
         
         picker.delegate = context.coordinator
@@ -78,9 +78,9 @@ public struct IOImagePickerView: UIViewControllerRepresentable {
 
     public func makeCoordinator() -> Coordinator {
         Coordinator {
-            self.presentationMode.wrappedValue.dismiss()
+            presentationMode.wrappedValue.dismiss()
         } pickHandler: { image in
-            self.handler?(image)
+            handler?(image)
         }
     }
 }

@@ -29,7 +29,7 @@ public struct IOThreadImpl: IOThread {
         }
         
         let cancellable = IOThreadCancel(workItem: workItem)
-        self.queue.async(execute: workItem)
+        queue.async(execute: workItem)
         return cancellable
     }
     
@@ -40,7 +40,7 @@ public struct IOThreadImpl: IOThread {
         }
         
         let cancellable = IOThreadCancel(workItem: workItem)
-        self.queue.asyncAfter(deadline: .now() + .milliseconds(afterMilliSecond), execute: workItem)
+        queue.asyncAfter(deadline: .now() + .milliseconds(afterMilliSecond), execute: workItem)
         return cancellable
     }
     

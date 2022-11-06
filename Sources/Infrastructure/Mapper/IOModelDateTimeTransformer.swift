@@ -30,7 +30,7 @@ public struct IOModelDateTimeTransformer: IOModelTransformer {
         guard let date = data as? Date else { return nil }
                 
         // Obtain date formatter
-        let formatter = self.dateFormatter()
+        let formatter = dateFormatter()
         
         // Format value
         return formatter.string(from: date)
@@ -40,10 +40,10 @@ public struct IOModelDateTimeTransformer: IOModelTransformer {
         guard let dateString = string else { return nil }
                 
         // Obtain date formatter
-        let formatter = self.dateFormatter()
+        let formatter = dateFormatter()
         
         // Create formatted date
-        let dateStringWithoutMilliseconds = self.stripMillisecondsFromDateString(dateString: dateString)
+        let dateStringWithoutMilliseconds = stripMillisecondsFromDateString(dateString: dateString)
         return formatter.date(from: dateStringWithoutMilliseconds) as? TType
     }
     
@@ -58,7 +58,7 @@ public struct IOModelDateTimeTransformer: IOModelTransformer {
         dateTimeFormatter.timeZone = TimeZone.current
         
         // Set date format
-        dateTimeFormatter.dateFormat = self.dateFormat
+        dateTimeFormatter.dateFormat = dateFormat
         
         return dateTimeFormatter
     }

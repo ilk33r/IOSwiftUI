@@ -16,11 +16,11 @@ public extension IOInteractor {
     // MARK: - Indicator
     
     func showIndicator() {
-        self.presenter?.showIndicator()
+        presenter?.showIndicator()
     }
     
     func hideIndicator() {
-        self.presenter?.hideIndicator()
+        presenter?.hideIndicator()
     }
     
     // MARK: - Alert
@@ -31,7 +31,7 @@ public extension IOInteractor {
         buttonTitles: [IOLocalizationType] = [IOLocalizationType.commonOk],
         handler: SampleAppEnvironment.AlertHandler?
     ) {
-        self.presenter?.showAlert(
+        presenter?.showAlert(
             message,
             title: title,
             buttonTitles: buttonTitles,
@@ -48,6 +48,6 @@ public extension IOInteractor {
         handler: SampleAppEnvironment.AlertHandler?
     ) {
         let message = message ?? IOLocalizationType.networkCommonError.localized
-        self.showAlert(message, handler: handler)
+        showAlert(message, handler: handler)
     }
 }

@@ -42,7 +42,7 @@ extension IOBaseService: IOServiceType {
     var query: String? {
         switch self {
         // case .ioGet:
-            // return self._handleQuery(IORequestModel())
+            // return _handleQuery(IORequestModel())
             
         default:
             return nil
@@ -52,7 +52,7 @@ extension IOBaseService: IOServiceType {
     var body: Data? {
         switch self {
         case let .ioPost(request):
-            return self._handleRequest(request)
+            return _handleRequest(request)
             
         default:
             return nil
@@ -60,6 +60,6 @@ extension IOBaseService: IOServiceType {
     }
     
     func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
-        return self._handleResponse(type: responseType, result: result)
+        return _handleResponse(type: responseType, result: result)
     }
 }

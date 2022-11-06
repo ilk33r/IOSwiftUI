@@ -42,7 +42,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
         ZStack(alignment: .leading) {
             TextField("", text: $text) { isEditing in
                 self.isEditing = isEditing
-                self.isEditingBinder = isEditing
+                isEditingBinder = isEditing
             }
             .keyboardType(keyboardType)
             .disableAutocorrection(disableAutocorrection)

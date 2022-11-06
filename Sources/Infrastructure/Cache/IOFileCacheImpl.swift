@@ -27,7 +27,7 @@ public struct IOFileCacheImpl: IOFileCache, IOSingleton {
     
     public func getFile(fromCache name: String) throws -> Data {
         let fileManager = FileManager.default
-        let fileURL = try self.cacheFileURL(fromCache: name, cacheDirectory: fileManager.cacheDirectory)
+        let fileURL = try cacheFileURL(fromCache: name, cacheDirectory: fileManager.cacheDirectory)
         
         if fileManager.fileExists(atPath: fileURL.path) {
             return try Data(contentsOf: fileURL)
@@ -39,7 +39,7 @@ public struct IOFileCacheImpl: IOFileCache, IOSingleton {
     public func storeFile(toCache name: String, fileData: Data) throws {
         let fileManager = FileManager.default
         let cacheDirectory = fileManager.cacheDirectory
-        let fileURL = try self.cacheFileURL(fromCache: name, cacheDirectory: cacheDirectory)
+        let fileURL = try cacheFileURL(fromCache: name, cacheDirectory: cacheDirectory)
         
         var isDirectory = ObjCBool(true)
         if !fileManager.fileExists(atPath: cacheDirectory, isDirectory: &isDirectory) {
@@ -85,7 +85,7 @@ public struct IOFileCacheImpl: IOFileCache, IOSingleton {
     
     private func cacheFileURL(fromCache name: String, cacheDirectory: String) throws -> URL {
         let trimmedFileName = name.trimNonAlphaNumericCharacters()
-        let cacheDirectoryName = self.configuration.configForType(type: .fileCacheDirectoryName)
+        let cacheDirectoryName = configuration.configForType(type: .fileCacheDirectoryName)
         let fileManager = FileManager.default
         let fileURL = URL(fileURLWithPath: fileManager.cacheDirectory)
             .appendingPathComponent(cacheDirectoryName)

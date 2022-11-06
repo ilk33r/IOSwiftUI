@@ -55,7 +55,7 @@ extension ProfileService: IOServiceType {
     var query: String? {
         switch self {
         case .memberGet(request: let request):
-            return self.handleQuery(request)
+            return handleQuery(request)
             
         default:
             return nil
@@ -65,10 +65,10 @@ extension ProfileService: IOServiceType {
     var body: Data? {
         switch self {
         case .createInbox(request: let request):
-            return self.handleRequest(request)
+            return handleRequest(request)
 
         case .memberGetImages(request: let request):
-            return self.handleRequest(request)
+            return handleRequest(request)
             
         default:
             return nil
@@ -76,6 +76,6 @@ extension ProfileService: IOServiceType {
     }
     
     func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
-        return self.handleResponse(type: responseType, result: result)
+        return handleResponse(type: responseType, result: result)
     }
 }

@@ -34,51 +34,51 @@ public struct ProfileInteractor: IOInteractor {
     // MARK: - Interactor
     
     func createInbox(memberID: Int) {
-        self.showIndicator()
+        showIndicator()
         
         let request = CreateInboxRequestModel(toMemberID: memberID)
-        self.service.request(.createInbox(request: request), responseType: CreateInboxResponseModel.self) { result in
+        service.request(.createInbox(request: request), responseType: CreateInboxResponseModel.self) { result in
             
             switch result {
             case .success(response: let response):
-                self.getMessages(toMemberId: memberID, inbox: response.inbox)
+                getMessages(toMemberId: memberID, inbox: response.inbox)
                 
             case .error(message: let message, type: let type, response: let response):
-                self.hideIndicator()
-                self.handleServiceError(message, type: type, response: response, handler: nil)
+                hideIndicator()
+                handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
     }
     
     func getMember() {
-        self.showIndicator()
+        showIndicator()
         
-        let request = MemberGetRequestModel(userName: self.entity.userName)
-        self.service.request(.memberGet(request: request), responseType: MemberGetResponseModel.self) { result in
-            self.hideIndicator()
+        let request = MemberGetRequestModel(userName: entity.userName)
+        service.request(.memberGet(request: request), responseType: MemberGetResponseModel.self) { result in
+            hideIndicator()
             
             switch result {
             case .success(response: let response):
-                self.presenter?.set(member: response.member)
-                self.presenter?.update(member: response.member, isOwnProfile: self.entity.userName == nil ? true : false)
+                presenter?.set(member: response.member)
+                presenter?.update(member: response.member, isOwnProfile: entity.userName == nil ? true : false)
                 
             case .error(message: let message, type: let type, response: let response):
-                self.handleServiceError(message, type: type, response: response, handler: nil)
+                handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
     }
     
     func getImages(start: Int, count: Int) {
         let pagination = PaginationModel(start: start, count: count, total: nil)
-        let request = MemberImagesRequestModel(userName: self.entity.userName, pagination: pagination)
+        let request = MemberImagesRequestModel(userName: entity.userName, pagination: pagination)
         
-        self.service.request(.memberGetImages(request: request), responseType: MemberImagesResponseModel.self) { result in
+        service.request(.memberGetImages(request: request), responseType: MemberImagesResponseModel.self) { result in
             switch result {
             case .success(response: let response):
-                self.presenter?.update(imagesResponse: response)
+                presenter?.update(imagesResponse: response)
                 
             case .error(message: let message, type: let type, response: let response):
-                self.handleServiceError(message, type: type, response: response, handler: nil)
+                handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
     }
@@ -88,12 +88,12 @@ public struct ProfileInteractor: IOInteractor {
     private func getMessages(toMemberId: Int?, inbox: InboxModel?) {
         let pagination = PaginationModel(start: 0, count: ChatConstants.messageCountPerPage, total: nil)
         let request = GetMessagesRequestModel(pagination: pagination, inboxID: inbox?.inboxID ?? 0)
-        self.chatMessageService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
-            self.hideIndicator()
+        chatMessageService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
+            hideIndicator()
             
             switch result {
             case .success(response: let response):
-                self.presenter?.navigate(
+                presenter?.navigate(
                     toMemberId: toMemberId,
                     inbox: inbox,
                     messages: response.messages ?? [],
@@ -101,7 +101,7 @@ public struct ProfileInteractor: IOInteractor {
                 )
                 
             case .error(message: let message, type: let type, response: let response):
-                self.handleServiceError(message, type: type, response: response, handler: nil)
+                handleServiceError(message, type: type, response: response, handler: nil)
                 
             }
         }

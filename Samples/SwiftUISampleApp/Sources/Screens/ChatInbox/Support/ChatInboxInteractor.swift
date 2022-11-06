@@ -34,8 +34,8 @@ public struct ChatInboxInteractor: IOInteractor {
     func decryptMessage(_ message: String?) -> String {
         guard let message else { return "" }
         
-        guard let aesIV = self.appState.object(forType: .aesIV) as? Data else { return "" }
-        guard let aesKey = self.appState.object(forType: .aesKey) as? Data else { return "" }
+        guard let aesIV = appState.object(forType: .aesIV) as? Data else { return "" }
+        guard let aesKey = appState.object(forType: .aesKey) as? Data else { return "" }
         
         guard let decodedMessage = Data(base64Encoded: message) else { return "" }
         guard let decryptedMessage = IOAESUtilities.decrypt(data: decodedMessage, keyData: aesKey, ivData: aesIV) else { return "" }
@@ -47,33 +47,33 @@ public struct ChatInboxInteractor: IOInteractor {
             self.showIndicator()
         }
         
-        self.service.request(.getInboxes, responseType: InboxResponseModel.self) { result in
+        service.request(.getInboxes, responseType: InboxResponseModel.self) { result in
             if showIndicator {
-                self.hideIndicator()
+                hideIndicator()
             }
             
             switch result {
             case .success(response: let response):
-                self.presenter?.set(inboxListModel: response.inboxes)
-                self.presenter?.update(inboxes: response.inboxes ?? [])
+                presenter?.set(inboxListModel: response.inboxes)
+                presenter?.update(inboxes: response.inboxes ?? [])
                 
             case .error(message: let message, type: let type, response: let response):
-                self.handleServiceError(message, type: type, response: response, handler: nil)
+                handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
     }
     
     func getMessages(inbox: InboxModel) {
-        self.showIndicator()
+        showIndicator()
         
         let pagination = PaginationModel(start: 0, count: ChatConstants.messageCountPerPage, total: nil)
         let request = GetMessagesRequestModel(pagination: pagination, inboxID: inbox.inboxID ?? 0)
-        self.chatMessageService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
-            self.hideIndicator()
+        chatMessageService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
+            hideIndicator()
             
             switch result {
             case .success(response: let response):
-                self.presenter?.navigate(
+                presenter?.navigate(
                     toMemberId: inbox.toMemberID,
                     inbox: inbox,
                     messages: response.messages ?? [],
@@ -81,7 +81,7 @@ public struct ChatInboxInteractor: IOInteractor {
                 )
                 
             case .error(message: let message, type: let type, response: let response):
-                self.handleServiceError(message, type: type, response: response, handler: nil)
+                handleServiceError(message, type: type, response: response, handler: nil)
                 
             }
         }

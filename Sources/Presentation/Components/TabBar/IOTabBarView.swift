@@ -39,10 +39,10 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
     }
 
     public func makeUIViewController(context: Context) -> Controller {
-        let vc = self.controllerType.init(tabBarType: self.tabBarType)
-        vc.setupViewControllers(identifiables: self.content())
+        let vc = controllerType.init(tabBarType: tabBarType)
+        vc.setupViewControllers(identifiables: content())
         vc.setSelectionHandler { index in
-            self.selection = index
+            selection = index
         }
         return vc
     }

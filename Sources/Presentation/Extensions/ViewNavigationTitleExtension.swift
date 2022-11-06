@@ -11,7 +11,7 @@ import SwiftUI
 
 public extension View {
     
-    func navigationTitle(type: IOLocalizationType) -> some View {
-        return self.navigationTitle(type.localized)
+    @inlinable func navigationTitle(type: IOLocalizationType) -> some View {
+        return navigationTitle(type.localized)
     }
 }

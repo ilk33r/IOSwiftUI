@@ -57,6 +57,6 @@ extension SplashService: IOServiceType {
     }
     
     func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
-        return self.handleResponse(type: responseType, result: result)
+        return handleResponse(type: responseType, result: result)
     }
 }

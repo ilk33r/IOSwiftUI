@@ -41,7 +41,7 @@ extension BaseService: IOServiceType {
     public var query: String? {
         switch self {
         case .imageAsset(request: let request):
-            return self.handleQuery(request)
+            return handleQuery(request)
         }
     }
     
@@ -54,10 +54,10 @@ extension BaseService: IOServiceType {
     
     public func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
         if result?.path.contains("ImageAsset/Get") ?? false {
-            return self.handleImageDataResponse(responseType: responseType, result: result)
+            return handleImageDataResponse(responseType: responseType, result: result)
         }
         
-        return self.handleResponse(type: responseType, result: result)
+        return handleResponse(type: responseType, result: result)
     }
     
     private func handleImageDataResponse<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {

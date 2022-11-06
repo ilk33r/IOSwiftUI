@@ -21,7 +21,7 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
         }
 
         func setPage(_ page: Int) {
-            self.viewController?.setPage(page)
+            viewController?.setPage(page)
         }
     }
 

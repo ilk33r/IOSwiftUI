@@ -35,7 +35,7 @@ public struct IOIndicatorView: View {
                             .linear(duration: 1)
                             .repeatForever(autoreverses: false)
                     ) {
-                        self.isCircleRotating.toggle()
+                        isCircleRotating.toggle()
                     }
                     withAnimation(
                         Animation
@@ -43,7 +43,7 @@ public struct IOIndicatorView: View {
                             .delay(0.5)
                             .repeatForever(autoreverses: true)
                     ) {
-                        self.animateStart.toggle()
+                        animateStart.toggle()
                     }
                     withAnimation(
                         Animation
@@ -51,7 +51,7 @@ public struct IOIndicatorView: View {
                             .delay(1)
                             .repeatForever(autoreverses: true)
                     ) {
-                        self.animateEnd.toggle()
+                        animateEnd.toggle()
                     }
                 }
         }

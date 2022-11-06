@@ -12,7 +12,7 @@ public struct IOValidatableTextField: View, IOValidatable {
     
     // MARK: - Publics
     
-    public var validationText: String? { self.text }
+    public var validationText: String? { text }
     
     // MARK: - Privates
     

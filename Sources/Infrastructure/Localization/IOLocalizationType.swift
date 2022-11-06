@@ -13,7 +13,7 @@ public struct IOLocalizationType: RawRepresentable, Equatable {
     
     public var rawValue: String
     
-    public var localized: String { self.localization.string(self.rawValue) }
+    public var localized: String { localization.string(rawValue) }
     
     @IOInject private var localization: IOLocalizationImpl
     
@@ -22,11 +22,11 @@ public struct IOLocalizationType: RawRepresentable, Equatable {
     }
     
     public func localized(alternateText: String) -> String {
-        return self.localization.string(self.rawValue, alternateText: alternateText)
+        return localization.string(rawValue, alternateText: alternateText)
     }
     
     public func format( _ arguments: CVarArg...) -> IOLocalizationType {
-        let rawValue = String(format: self.localized, arguments)
+        let rawValue = String(format: localized, arguments)
         return IOLocalizationType(rawValue: rawValue)
     }
 }

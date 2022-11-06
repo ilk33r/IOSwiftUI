@@ -39,9 +39,9 @@ public struct IOValidationMinAmountRule: IOValidationRule {
         formatter.numberStyle = .decimal
         
         guard let numberValue = formatter.number(from: value) else { return false }
-        let intValue = Int(numberValue.doubleValue * Double(10 * self.fractionLength))
+        let intValue = Int(numberValue.doubleValue * Double(10 * fractionLength))
         
-        if intValue >= self.amount {
+        if intValue >= amount {
             return true
         }
         

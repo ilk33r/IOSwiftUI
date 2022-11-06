@@ -25,7 +25,7 @@ public struct IOTextField: View {
     
     public var body: some View {
         TextField(localizationType.localized(alternateText: ""), text: $text) { isEditing in
-            self.changeHandler?(isEditing)
+            changeHandler?(isEditing)
         }
         .keyboardType(keyboardType)
     }

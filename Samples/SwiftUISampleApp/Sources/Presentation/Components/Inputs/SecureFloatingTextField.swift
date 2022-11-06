@@ -12,7 +12,7 @@ import SwiftUISampleAppResources
 
 public struct SecureFloatingTextField: View, IOValidatable {
     
-    public var validationText: String? { self.text }
+    public var validationText: String? { text }
     
     @Binding private var isEditingBinder: Bool
     @Binding private var text: String
@@ -29,7 +29,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
             IOSecureFloatingTextField(
                 localizationType,
                 text: $text,
-                keyboardType: self.keyboardType,
+                keyboardType: keyboardType,
                 textFieldOverlay: {
                     RoundedRectangle(cornerRadius: 0)
                         .stroke(Color.black, lineWidth: 2)

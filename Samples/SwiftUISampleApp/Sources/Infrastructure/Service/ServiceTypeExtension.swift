@@ -12,18 +12,18 @@ import SwiftUISampleAppCommon
 public extension IOServiceType {
     
     func handleQuery<TModel: BaseRequestModel>(_ model: TModel) -> String? {
-        return self._handleQuery(model)
+        return _handleQuery(model)
     }
     
     func handleRequest<TModel: BaseRequestModel>(_ model: TModel) -> Data? {
-        return self._handleRequest(model)
+        return _handleRequest(model)
     }
     
     func handleResponse<TModel: Codable>(
         type: TModel.Type,
         result: IOHTTPResult?
     ) -> IOServiceResult<TModel> {
-        let result = self._handleResponse(type: type, result: result)
+        let result = _handleResponse(type: type, result: result)
         
         switch result {
         case .success(response: let response):

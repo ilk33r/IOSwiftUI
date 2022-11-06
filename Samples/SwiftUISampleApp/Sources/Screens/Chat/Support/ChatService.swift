@@ -48,11 +48,11 @@ extension ChatService: IOServiceType {
     var body: Data? {
         switch self {
         case .sendMessage(request: let request):
-            return self.handleRequest(request)
+            return handleRequest(request)
         }
     }
     
     func response<TModel>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> where TModel: Decodable, TModel: Encodable {
-        return self.handleResponse(type: responseType, result: result)
+        return handleResponse(type: responseType, result: result)
     }
 }

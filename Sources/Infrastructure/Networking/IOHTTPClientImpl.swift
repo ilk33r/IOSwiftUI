@@ -23,11 +23,11 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     
     // MARK: - Publics
     
-    public var defaultHTTPHeaders: [String: String]? { self.appState.object(forType: .httpClientDefaultHeaders) as? [String: String] }
+    public var defaultHTTPHeaders: [String: String]? { appState.object(forType: .httpClientDefaultHeaders) as? [String: String] }
     
     // MARK: - Privates
     
-    private var backgroundTasks: [Int: UIBackgroundTaskIdentifier]? { self.appState.object(forType: .httpClientBackgroundTasks) as? [Int: UIBackgroundTaskIdentifier] }
+    private var backgroundTasks: [Int: UIBackgroundTaskIdentifier]? { appState.object(forType: .httpClientBackgroundTasks) as? [Int: UIBackgroundTaskIdentifier] }
     
     private var baseURL: URL!
     private var timeoutInterval: TimeInterval!
@@ -60,7 +60,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
         handler: IOHTTPClient.Handler?
     ) -> IOCancellable {
         // Obtain task
-        let task = self.request(
+        let task = request(
             method: type.rawValue,
             path: path,
             headers: headers,
@@ -70,10 +70,10 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
         )
         
         // Create a background task
-        self.beginBackgroundTask(identifier: task.taskIdentifier)
+        beginBackgroundTask(identifier: task.taskIdentifier)
         
         // Log call
-        self.httpLogger.requestDidStart(task: task)
+        httpLogger.requestDidStart(task: task)
         
         // Create cancellable object
         let cancellable = IOHTTPRequestCancel(sessionTask: task)
@@ -86,7 +86,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     }
     
     public func setDefaultHTTPHeaders(headers: [String: String]?) {
-        self.appState.set(object: headers, forType: .httpClientDefaultHeaders)
+        appState.set(object: headers, forType: .httpClientDefaultHeaders)
     }
     
     // MARK: - Helper Methods
@@ -94,7 +94,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     private func httpHeaders(with headers: [String: String]?) -> [String: String] {
         var httpHeaders = [String: String]()
         
-        if let defaultHeaders = self.defaultHTTPHeaders {
+        if let defaultHeaders = defaultHTTPHeaders {
             for (key, value) in defaultHeaders {
                 httpHeaders[key] = value
             }
@@ -122,7 +122,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
         if path.starts(with: "http") {
             requestURL = URL(string: path)!
         } else {
-            requestURL = self.baseURL.appendingPathComponent(path)
+            requestURL = baseURL.appendingPathComponent(path)
         }
         if let urlQuery = query {
             requestURL = URL(string: String(format: "%@?%@", requestURL.absoluteString, urlQuery))!
@@ -131,14 +131,14 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
         request.httpMethod = method
         request.httpBody = body
         
-        let httpHeaders = self.httpHeaders(with: headers)
+        let httpHeaders = httpHeaders(with: headers)
         for (headerKey, headerValue) in httpHeaders {
             request.setValue(headerValue, forHTTPHeaderField: headerKey)
         }
         
         // Create a task
         var task: URLSessionTask?
-        task = self.session.dataTask(with: request) { data, response, error in
+        task = session.dataTask(with: request) { data, response, error in
             // Obtain values
             let httpResponse = response as? HTTPURLResponse
             let responseHeaders = httpResponse?.allHeaderFields as? [String: String]
@@ -146,10 +146,10 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
             let taskIdentifier = task?.taskIdentifier ?? 0
             
             // End background task
-            self.endBackgroundTask(identifier: taskIdentifier)
+            endBackgroundTask(identifier: taskIdentifier)
             
             // Log call
-            self.httpLogger.requestDidFinish(task: task, responseObject: data, error: error as NSError?)
+            httpLogger.requestDidFinish(task: task, responseObject: data, error: error as NSError?)
             
             // Check error exist
             if let errorVal = error as NSError? {
@@ -165,7 +165,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
                 )
                 
                 // Handle error
-                self.thread.runOnMainThread {
+                thread.runOnMainThread {
                     handler?(httpResult)
                 }
                 
@@ -185,7 +185,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
                 )
                 
                 // Handle success
-                self.thread.runOnMainThread {
+                thread.runOnMainThread {
                     handler?(httpResult)
                 }
                 
@@ -205,7 +205,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
             )
             
             // Handle error
-            self.thread.runOnMainThread {
+            thread.runOnMainThread {
                 handler?(httpResult)
             }
         }
@@ -217,20 +217,20 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     
     private func beginBackgroundTask(identifier: Int) {
         let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
-            self.endBackgroundTask(identifier: identifier)
+            endBackgroundTask(identifier: identifier)
         }
         
-        var backgroundTasks = self.backgroundTasks
+        var backgroundTasks = backgroundTasks
         backgroundTasks?[identifier] = backgroundTaskIdentifier
-        self.appState.set(object: backgroundTasks, forType: .httpClientBackgroundTasks)
+        appState.set(object: backgroundTasks, forType: .httpClientBackgroundTasks)
     }
     
     private func endBackgroundTask(identifier: Int) {
-        guard let backgroundTaskIdentifier = self.backgroundTasks?[identifier] else { return }
+        guard let backgroundTaskIdentifier = backgroundTasks?[identifier] else { return }
         UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
         
-        var backgroundTasks = self.backgroundTasks
+        var backgroundTasks = backgroundTasks
         backgroundTasks?.removeValue(forKey: identifier)
-        self.appState.set(object: backgroundTasks, forType: .httpClientBackgroundTasks)
+        appState.set(object: backgroundTasks, forType: .httpClientBackgroundTasks)
     }
 }
