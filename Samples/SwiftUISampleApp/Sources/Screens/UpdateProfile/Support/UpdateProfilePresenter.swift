@@ -38,7 +38,8 @@ final public class UpdateProfilePresenter: IOPresenterable {
         self.uiModel = UpdateProfileUIModel(
             userName: self.interactor.entity.member.userName ?? "",
             name: self.interactor.entity.member.name ?? "",
-            surname: self.interactor.entity.member.surname ?? ""
+            surname: self.interactor.entity.member.surname ?? "",
+            birthDate: self.interactor.entity.member.birthDate
         )
     }
 }

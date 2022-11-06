@@ -17,9 +17,10 @@ public struct IOTextField: View {
     
     // MARK: - Privates
     
+    private let localizationType: IOLocalizationType
+    
     private var changeHandler: ChangeHandler?
     private var keyboardType: UIKeyboardType
-    private var localizationType: IOLocalizationType
     
     @Binding var text: String
     

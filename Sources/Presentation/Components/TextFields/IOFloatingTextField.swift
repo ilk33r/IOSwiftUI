@@ -14,13 +14,14 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     @Binding private var text: String
     @State private var isEditing = false
     
+    private let localizationType: IOLocalizationType
+    
     private var backgroundColor: Color
     private var capitalization: UITextAutocapitalizationType
     private var disableAutocorrection: Bool
     private var fontType: IOFontType
     private var foregroundColor: Color
     private var keyboardType: UIKeyboardType
-    private var localizationType: IOLocalizationType
     private var placeholderColor: Color
     private var placeholderPaddingActive: EdgeInsets
     private var placeholderPaddingDefault: EdgeInsets

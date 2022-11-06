@@ -19,10 +19,11 @@ public struct SecureFloatingTextField: View, IOValidatable {
     @ObservedObject private var validationObservedObject = IOValidatorObservedObject()
     @State private var isEditing = false
     
+    private let localizationType: IOLocalizationType
+    
     private var capitalization: UITextAutocapitalizationType
     private var disableAutocorrection: Bool
     private var keyboardType: UIKeyboardType
-    private var localizationType: IOLocalizationType
     
     public var body: some View {
         VStack(alignment: .leading) {

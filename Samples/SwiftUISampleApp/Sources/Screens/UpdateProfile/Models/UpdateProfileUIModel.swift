@@ -12,4 +12,5 @@ struct UpdateProfileUIModel {
     let userName: String
     let name: String
     let surname: String
+    let birthDate: Date?
 }

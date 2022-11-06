@@ -62,6 +62,7 @@
 "settings.title" = "Settings";
 
 // MARK: - Update Profile
+"updateProfile.form.birthDate" = "Birthdate";
 "updateProfile.form.name" = "Name";
 "updateProfile.form.surname" = "Surname";
 "updateProfile.form.userName" = "User Name";

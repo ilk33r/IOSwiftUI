@@ -16,9 +16,10 @@ public struct IOValidatableTextField: View, IOValidatable {
     
     // MARK: - Privates
     
+    private let localizationType: IOLocalizationType
+    
     private var changeHandler: IOTextField.ChangeHandler?
     private var keyboardType: UIKeyboardType
-    private var localizationType: IOLocalizationType
     
     @Binding private var text: String
     @ObservedObject private var validationObservedObject = IOValidatorObservedObject()

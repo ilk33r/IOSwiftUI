@@ -27,6 +27,7 @@ public struct UpdateProfileView: IOController {
     @State private var formUserNameText = ""
     @State private var formNameText = ""
     @State private var formSurnameText = ""
+    @State private var formBirthDate: Date?
     
     @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
     
@@ -40,8 +41,10 @@ public struct UpdateProfileView: IOController {
                     }, content: {
                         VStack(alignment: .leading) {
                             FloatingTextField(.updateProfileFormUserName, text: $formUserNameText)
+                                .disabled(true)
                             FloatingTextField(.updateProfileFormName, text: $formNameText)
                             FloatingTextField(.updateProfileFormSurname, text: $formSurnameText)
+                            FloatingDatePicker(.updateProfileFormBirthdate, date: $formBirthDate)
                         }
                         .padding(.horizontal, 16.0)
                         .padding(.vertical, 8.0)
@@ -75,6 +78,7 @@ public struct UpdateProfileView: IOController {
             formUserNameText = output.userName
             formNameText = output.name
             formSurnameText = output.surname
+            formBirthDate = output.birthDate
         }
     }
     
