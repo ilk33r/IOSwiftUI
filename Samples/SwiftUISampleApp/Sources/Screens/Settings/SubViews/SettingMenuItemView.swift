@@ -20,20 +20,28 @@ struct SettingMenuItemView: View {
     
     var body: some View {
         ZStack {
-            HStack {
-                Image(systemName: menuItem.iconName)
-                    .allowsHitTesting(false)
-                Text(type: menuItem.localizableKey)
-                    .allowsHitTesting(false)
-                    .font(type: .regular(14))
-                    .foregroundColor(.black)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(1)
-                    .padding(.leading, 4)
+            VStack(alignment: .leading) {
+                HStack {
+                    Image(systemName: menuItem.iconName)
+                        .allowsHitTesting(false)
+                    Text(type: menuItem.localizableKey)
+                        .allowsHitTesting(false)
+                        .font(type: .regular(14))
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .padding(.leading, 4)
+                }
+                .padding(.vertical, 16)
+                Rectangle()
+                    .fill(Color.colorPassthrought)
+                    .frame(height: 1, alignment: .bottomTrailing)
+                    .padding(.leading, -2)
+                    .padding(.trailing, -16)
+                    .padding(.bottom, 4)
             }
-            .padding(.vertical, 12)
         }
-        .padding(.horizontal, 12)
+        .padding(.horizontal, 24)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             Color(.white)
