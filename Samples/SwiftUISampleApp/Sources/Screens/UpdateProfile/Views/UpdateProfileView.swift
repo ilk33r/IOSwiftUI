@@ -21,6 +21,8 @@ public struct UpdateProfileView: IOController {
     
     // MARK: - Properties
     
+    private let phoneNumberPattern = "+## (###) ### ## ##"
+    
     @ObservedObject public var presenter: UpdateProfilePresenter
     @StateObject public var navigationState = UpdateProfileNavigationState()
     
@@ -28,6 +30,7 @@ public struct UpdateProfileView: IOController {
     @State private var formNameText = ""
     @State private var formSurnameText = ""
     @State private var formBirthDate: Date?
+    @State private var formPhone = ""
     
     @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
     
@@ -36,19 +39,29 @@ public struct UpdateProfileView: IOController {
     public var body: some View {
         GeometryReader { proxy in
             ZStack {
-                ScrollView {
-                    IOFormGroup(.commonDone, handler: {
-                    }, content: {
-                        VStack(alignment: .leading) {
-                            FloatingTextField(.updateProfileFormUserName, text: $formUserNameText)
-                                .disabled(true)
-                            FloatingTextField(.updateProfileFormName, text: $formNameText)
-                            FloatingTextField(.updateProfileFormSurname, text: $formSurnameText)
-                            FloatingDatePicker(.updateProfileFormBirthdate, date: $formBirthDate)
-                        }
-                        .padding(.horizontal, 16.0)
-                        .padding(.vertical, 8.0)
-                    })
+                IOUIView { lifecycle in
+                    if lifecycle == .willAppear {
+                        presenter.hideTabBar()
+                    } else if lifecycle == .willDisappear {
+                        presenter.showTabBar()
+                    }
+                } content: {
+                    ScrollView {
+                        IOFormGroup(.commonDone, handler: {
+                        }, content: {
+                            VStack(alignment: .leading) {
+                                FloatingTextField(.updateProfileFormUserName, text: $formUserNameText)
+                                    .disabled(true)
+                                FloatingTextField(.updateProfileFormName, text: $formNameText)
+                                FloatingTextField(.updateProfileFormSurname, text: $formSurnameText)
+                                FloatingDatePicker(.updateProfileFormBirthdate, date: $formBirthDate)
+                                FloatingTextField(.updateProfileFormPhone, text: $formPhone)
+                                    .keyboardType(.numberPad)
+                            }
+                            .padding(.horizontal, 16.0)
+                            .padding(.vertical, 8.0)
+                        })
+                    }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -79,6 +92,11 @@ public struct UpdateProfileView: IOController {
             formNameText = output.name
             formSurnameText = output.surname
             formBirthDate = output.birthDate
+            formPhone = output.phone.applyPattern(pattern: phoneNumberPattern)
+        }
+        .onChange(of: formPhone) { newValue in
+            let plainNumber = newValue.trimLetters()
+            formPhone = plainNumber.applyPattern(pattern: phoneNumberPattern)
         }
     }
     

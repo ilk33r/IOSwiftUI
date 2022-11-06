@@ -34,12 +34,23 @@ final public class UpdateProfilePresenter: IOPresenterable {
     
     // MARK: - Presenter
     
+    func hideTabBar() {
+        self.interactor.appState.set(bool: true, forType: .tabBarIsHidden)
+        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+    }
+    
     func load() {
         self.uiModel = UpdateProfileUIModel(
             userName: self.interactor.entity.member.userName ?? "",
             name: self.interactor.entity.member.name ?? "",
             surname: self.interactor.entity.member.surname ?? "",
-            birthDate: self.interactor.entity.member.birthDate
+            birthDate: self.interactor.entity.member.birthDate,
+            phone: self.interactor.entity.member.phoneNumber ?? ""
         )
+    }
+    
+    func showTabBar() {
+        self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
+        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
     }
 }

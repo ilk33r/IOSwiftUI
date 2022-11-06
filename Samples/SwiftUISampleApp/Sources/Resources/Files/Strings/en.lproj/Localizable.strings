@@ -64,6 +64,7 @@
 // MARK: - Update Profile
 "updateProfile.form.birthDate" = "Birthdate";
 "updateProfile.form.name" = "Name";
+"updateProfile.form.phone" = "Phone";
 "updateProfile.form.surname" = "Surname";
 "updateProfile.form.userName" = "User Name";
 "updateProfile.title" = "Update Profile";

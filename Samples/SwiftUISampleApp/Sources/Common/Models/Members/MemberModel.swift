@@ -41,6 +41,9 @@ public struct MemberModel: BaseModel {
     @IOJsonProperty(key: "profilePicturePublicId")
     public var profilePicturePublicId: String?
     
+    @IOJsonProperty(key: "phoneNumber")
+    public var phoneNumber: String?
+    
     @IOJsonProperty(key: "IsFollowing", defaultValue: false)
     public var isFollowing: Bool!
     
