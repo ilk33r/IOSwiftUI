@@ -20,10 +20,10 @@ final public class ChatInboxPresenter: IOPresenterable {
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: ChatInboxInteractor!
+    public var navigationState: StateObject<ChatInboxNavigationState>!
     
     // MARK: - Publisher
     
-    @Published private(set) var chatEntity: ChatEntity?
     @Published private(set) var inboxes: [ChatInboxUIModel]
     
     // MARK: - Privates
@@ -45,7 +45,9 @@ final public class ChatInboxPresenter: IOPresenterable {
     
     func navigate(toMemberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
         guard let inbox = inbox else { return }
-        self.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox, messages: messages, pagination: pagination)
+        
+        self.navigationState.wrappedValue.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox, messages: messages, pagination: pagination)
+        self.navigationState.wrappedValue.navigateToChat = true
     }
     
     func set(inboxListModel: [InboxModel]?) {

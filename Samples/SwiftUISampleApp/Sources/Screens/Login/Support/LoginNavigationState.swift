@@ -12,5 +12,5 @@ final public class LoginNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    // @Published public var navigateToPage: Bool = false
+//    @Published public var navigateToPage = false
 }

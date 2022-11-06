@@ -18,12 +18,13 @@ final public class SettingsPresenter: IOPresenterable {
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: SettingsInteractor!
+    public var navigationState: StateObject<SettingsNavigationState>!
     
     // MARK: - Publics
     
     // MARK: - Publishers
     
-    @Published var menu: [SettingsMenuItemUIModel]
+    @Published private(set) var menu: [SettingsMenuItemUIModel]
     
     // MARK: - Privates
     
@@ -34,6 +35,17 @@ final public class SettingsPresenter: IOPresenterable {
     }
     
     // MARK: - Presenter
+    
+    func navigate(menu: SettingsMenuItemUIModel) {
+        switch menu.type {
+        case .updateProfile:
+//            navigationState.navigateToUpdateProfile = true
+            break
+            
+        default:
+            break
+        }
+    }
     
     func update(menu: [SettingsMenuItemUIModel]) {
         self.menu = menu

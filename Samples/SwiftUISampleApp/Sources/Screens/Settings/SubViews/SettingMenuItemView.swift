@@ -63,7 +63,11 @@ struct SettingMenuItemView: View {
 struct SettingMenuItemView_Previews: PreviewProvider {
     static var previews: some View {
         SettingMenuItemView(
-            menuItem: SettingsMenuItemUIModel(iconName: "person.fill", localizableKey: .settingsMenuUpdateProfile),
+            menuItem: SettingsMenuItemUIModel(
+                iconName: "person.fill",
+                localizableKey: .settingsMenuUpdateProfile,
+                type: .updateProfile
+            ),
             handler: {
             }
         )

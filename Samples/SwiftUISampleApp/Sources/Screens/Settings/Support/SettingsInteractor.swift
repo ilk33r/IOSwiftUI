@@ -32,13 +32,55 @@ public struct SettingsInteractor: IOInteractor {
     func loadMenu() {
         var settingMenu = [SettingsMenuItemUIModel]()
         
-        settingMenu.append(SettingsMenuItemUIModel(iconName: "person.fill", localizableKey: .settingsMenuUpdateProfile))
-        settingMenu.append(SettingsMenuItemUIModel(iconName: "person.crop.circle", localizableKey: .settingsMenuUpdateProfilePicture))
-        settingMenu.append(SettingsMenuItemUIModel(iconName: "person.crop.circle.badge.minus", localizableKey: .settingsMenuRemoveProfilePicture))
-        settingMenu.append(SettingsMenuItemUIModel(iconName: "lock.fill", localizableKey: .settingsMenuChangePassword))
-        settingMenu.append(SettingsMenuItemUIModel(iconName: "doc.text", localizableKey: .settingsMenuPrivacyPolicy))
-        settingMenu.append(SettingsMenuItemUIModel(iconName: "doc.richtext", localizableKey: .settingsMenuTermOfUse))
-        settingMenu.append(SettingsMenuItemUIModel(iconName: "xmark.shield", localizableKey: .settingsMenuLogout))
+        settingMenu.append(
+            SettingsMenuItemUIModel(
+                iconName: "person.fill",
+                localizableKey: .settingsMenuUpdateProfile,
+                type: .updateProfile
+            )
+        )
+        settingMenu.append(
+            SettingsMenuItemUIModel(
+                iconName: "person.crop.circle",
+                localizableKey: .settingsMenuUpdateProfilePicture,
+                type: .updateProfilePicture
+            )
+        )
+        settingMenu.append(
+            SettingsMenuItemUIModel(
+                iconName: "person.crop.circle.badge.minus",
+                localizableKey: .settingsMenuRemoveProfilePicture,
+                type: .removeProfilePicture
+            )
+        )
+        settingMenu.append(
+            SettingsMenuItemUIModel(
+                iconName: "lock.fill",
+                localizableKey: .settingsMenuChangePassword,
+                type: .changePassword
+            )
+        )
+        settingMenu.append(
+            SettingsMenuItemUIModel(
+                iconName: "doc.text",
+                localizableKey: .settingsMenuPrivacyPolicy,
+                type: .web
+            )
+        )
+        settingMenu.append(
+            SettingsMenuItemUIModel(
+                iconName: "doc.richtext",
+                localizableKey: .settingsMenuTermOfUse,
+                type: .web
+            )
+        )
+        settingMenu.append(
+            SettingsMenuItemUIModel(
+                iconName: "xmark.shield",
+                localizableKey: .settingsMenuLogout,
+                type: .logout
+            )
+        )
         
         self.presenter?.update(menu: settingMenu)
     }

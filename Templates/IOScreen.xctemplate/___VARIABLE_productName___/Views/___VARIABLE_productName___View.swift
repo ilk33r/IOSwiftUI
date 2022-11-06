@@ -28,6 +28,7 @@ public struct ___VARIABLE_productName___View: IOController {
             .onAppear {
                 if !isPreviewMode {
                     presenter.environment = _appEnvironment
+                    presenter.navigationState = _navigationState
                 }
             }
     }

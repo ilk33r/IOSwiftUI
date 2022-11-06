@@ -81,6 +81,7 @@ public struct LoginView: IOController {
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
+                presenter.navigationState = _navigationState
             }
         }
     }

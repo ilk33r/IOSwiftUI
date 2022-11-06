@@ -17,7 +17,7 @@ struct ___VARIABLE_productName___NavigationWireframe: IONavigationLinkView {
     var body: some View {
         EmptyView()
         /*
-        NavigationLink(destination: PageView(), isActive: $navigationState.navigateToPage) {
+        NavigationLink(destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)), isActive: $navigationState.navigateToPage) {
             EmptyView()
         }
         */

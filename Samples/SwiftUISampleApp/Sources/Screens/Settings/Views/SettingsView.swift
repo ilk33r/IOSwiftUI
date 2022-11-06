@@ -35,7 +35,7 @@ public struct SettingsView: IOController {
                     LazyVStack {
                         ForEach(presenter.menu) { item in
                             SettingMenuItemView(menuItem: item) {
-                                
+                                presenter.navigate(menu: item)
                             }
                         }
                     }
@@ -58,6 +58,7 @@ public struct SettingsView: IOController {
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
+                presenter.navigationState = _navigationState
                 presenter.interactor.loadMenu()
             }
         }

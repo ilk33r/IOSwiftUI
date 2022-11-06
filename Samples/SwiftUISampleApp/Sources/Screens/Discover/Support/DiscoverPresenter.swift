@@ -19,6 +19,7 @@ final public class DiscoverPresenter: IOPresenterable {
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: DiscoverInteractor!
+    public var navigationState: StateObject<DiscoverNavigationState>!
     
     // MARK: - Constants
     

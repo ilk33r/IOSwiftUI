@@ -19,9 +19,11 @@ public protocol IOPresenterable: ObservableObject {
     
     associatedtype Environment: IOAppEnvironment
     associatedtype Interactor: IOInteractor
+    associatedtype NavigationState: IONavigationState
     
     var environment: EnvironmentObject<Environment>! { get set }
     var interactor: Interactor! { get set }
+    var navigationState: StateObject<NavigationState>! { get set }
     
     // MARK: - Initialization Methods
     

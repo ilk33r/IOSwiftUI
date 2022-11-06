@@ -10,6 +10,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct SettingsNavigationWireframe: IONavigationLinkView {
     
@@ -20,12 +21,9 @@ struct SettingsNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        EmptyView()
-        /*
-        NavigationLink(destination: PageView(), isActive: $navigationState.navigateToPage) {
+        NavigationLink(destination: route(ProfileRouters.self, .updateProfile(entity: navigationState.updateProfileEntity)), isActive: $navigationState.navigateToUpdateProfile) {
             EmptyView()
         }
-        */
     }
     
     // MARK: - Initialization Methods

@@ -57,13 +57,6 @@ public struct ChatInboxView: IOController {
         .navigationWireframe {
             ChatInboxNavigationWireframe(navigationState: navigationState)
         }
-        .onReceive(presenter.$chatEntity) { chatEntity in
-            if chatEntity == nil {
-                return
-            }
-            navigationState.chatEntity = chatEntity
-            navigationState.navigateToChat = true
-        }
         .onReceive(presenter.$inboxes) { _ in
             if isRefreshing {
                 isRefreshing = false
@@ -77,6 +70,7 @@ public struct ChatInboxView: IOController {
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
+                presenter.navigationState = _navigationState
                 presenter.interactor.getInboxes(showIndicator: true)
             }
         }

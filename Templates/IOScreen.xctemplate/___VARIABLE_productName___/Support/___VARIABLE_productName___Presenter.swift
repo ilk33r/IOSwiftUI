@@ -12,6 +12,7 @@ final public class ___VARIABLE_productName___Presenter: IOPresenterable {
     
     public var environment: EnvironmentObject<IOAppEnvironmentObject>!
     public var interactor: ___VARIABLE_productName___Interactor!
+    public var navigationState: StateObject<___VARIABLE_productName___Interactor>!
     
     // MARK: - Publics
     

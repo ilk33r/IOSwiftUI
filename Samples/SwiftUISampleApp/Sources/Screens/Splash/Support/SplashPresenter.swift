@@ -18,6 +18,7 @@ final public class SplashPresenter: IOPresenterable {
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: SplashInteractor!
+    public var navigationState: StateObject<SplashNavigationState>!
     
     // MARK: - Publisher
     

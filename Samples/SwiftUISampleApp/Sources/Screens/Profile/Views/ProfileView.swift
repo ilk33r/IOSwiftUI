@@ -109,13 +109,6 @@ public struct ProfileView: IOController {
             navigationState.chatEntity = chatEntity
             navigationState.navigateToChat = true
         }
-        .onReceive(presenter.$settingsEntity) { settingsEntity in
-            if settingsEntity == nil {
-                return
-            }
-            navigationState.settingsEntity = settingsEntity
-            navigationState.navigateToSettings = true
-        }
         .navigationBarHidden(navigationBarHidden)
         .navigationBarTitle("", displayMode: .inline)
         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
@@ -124,6 +117,7 @@ public struct ProfileView: IOController {
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
+                presenter.navigationState = _navigationState
                 presenter.interactor.getMember()
                 presenter.loadImages()
             }

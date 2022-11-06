@@ -21,6 +21,7 @@ public struct DiscoverView: IOController {
     
     @ObservedObject public var presenter: DiscoverPresenter
     @StateObject public var navigationState = DiscoverNavigationState()
+    
     @State private var contentSize: CGSize = .zero
     @State private var isRefreshing = false
     @State private var scrollOffset: CGFloat = 0
@@ -59,6 +60,7 @@ public struct DiscoverView: IOController {
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
+                presenter.navigationState = _navigationState
                 presenter.loadImages(showIndicator: true)
             }
             

@@ -71,6 +71,7 @@ public struct SplashView: IOController {
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
+                presenter.navigationState = _navigationState
                 presenter.interactor.handshake()
             }
         }

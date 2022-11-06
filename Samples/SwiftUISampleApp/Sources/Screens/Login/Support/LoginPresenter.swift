@@ -18,6 +18,7 @@ final public class LoginPresenter: IOPresenterable {
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: LoginInteractor!
+    public var navigationState: StateObject<LoginNavigationState>!
     
     // MARK: - Initialization Methods
     

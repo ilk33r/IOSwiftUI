@@ -18,6 +18,7 @@ final public class PhotoGalleryPresenter: IOPresenterable {
 
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: PhotoGalleryInteractor!
+    public var navigationState: StateObject<PhotoGalleryNavigationState>!
     
     // MARK: - Bindings
     

@@ -20,6 +20,7 @@ final public class ProfilePresenter: IOPresenterable {
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: ProfileInteractor!
+    public var navigationState: StateObject<ProfileNavigationState>!
     
     // MARK: - Constants
     
@@ -30,7 +31,6 @@ final public class ProfilePresenter: IOPresenterable {
     @Published private(set) var chatEntity: ChatEntity?
     @Published private(set) var images: [String]!
     @Published private(set) var profileUIModel: ProfileUIModel?
-    @Published private(set) var settingsEntity: SettingsEntity?
     
     // MARK: - Privates
     
@@ -75,7 +75,9 @@ final public class ProfilePresenter: IOPresenterable {
     
     func navigateToSettings() {
         guard let member = self.member else { return }
-        self.settingsEntity = SettingsEntity(member: member)
+        
+        self.navigationState.wrappedValue.settingsEntity = SettingsEntity(member: member)
+        self.navigationState.wrappedValue.navigateToSettings = true
     }
     
     func set(member: MemberModel?) {

@@ -21,6 +21,7 @@ final public class ChatPresenter: IOPresenterable {
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: ChatInteractor!
+    public var navigationState: StateObject<ChatNavigationState>!
     
     // MARK: - Publics
     

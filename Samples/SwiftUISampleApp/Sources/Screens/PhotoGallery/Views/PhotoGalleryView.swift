@@ -81,6 +81,7 @@ public struct PhotoGalleryView: IOController {
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
+                presenter.navigationState = _navigationState
                 presenter.getImages()
             }
         }

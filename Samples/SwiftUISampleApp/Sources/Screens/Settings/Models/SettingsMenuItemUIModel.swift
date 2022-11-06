@@ -10,12 +10,23 @@ import IOSwiftUIInfrastructure
 
 struct SettingsMenuItemUIModel: Identifiable {
     
+    enum `Type` {
+        case updateProfile
+        case updateProfilePicture
+        case removeProfilePicture
+        case changePassword
+        case web
+        case logout
+    }
+    
     var iconName: String
     var localizableKey: IOLocalizationType
+    var type: `Type`
     var id = UUID()
     
-    init(iconName: String, localizableKey: IOLocalizationType) {
+    init(iconName: String, localizableKey: IOLocalizationType, type: `Type`) {
         self.iconName = iconName
         self.localizableKey = localizableKey
+        self.type = type
     }
 }

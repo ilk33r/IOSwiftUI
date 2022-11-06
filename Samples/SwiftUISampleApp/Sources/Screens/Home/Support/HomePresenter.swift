@@ -25,6 +25,7 @@ final public class HomePresenter: IOPresenterable {
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: HomeInteractor!
+    public var navigationState: StateObject<HomeNavigationState>!
     
     // MARK: - Properties
     
