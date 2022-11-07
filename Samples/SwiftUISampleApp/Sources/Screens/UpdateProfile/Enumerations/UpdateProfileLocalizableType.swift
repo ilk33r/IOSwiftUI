@@ -11,6 +11,7 @@ import IOSwiftUIInfrastructure
 extension IOLocalizationType {
     
     static let updateProfileFormBirthdate = IOLocalizationType(rawValue: "updateProfile.form.birthDate")
+    static let updateProfileFormLocation = IOLocalizationType(rawValue: "updateProfile.form.location")
     static let updateProfileFormName = IOLocalizationType(rawValue: "updateProfile.form.name")
     static let updateProfileFormPhone = IOLocalizationType(rawValue: "updateProfile.form.phone")
     static let updateProfileFormSurname = IOLocalizationType(rawValue: "updateProfile.form.surname")

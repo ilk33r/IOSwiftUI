@@ -26,13 +26,16 @@ public struct UpdateProfileView: IOController {
     @ObservedObject public var presenter: UpdateProfilePresenter
     @StateObject public var navigationState = UpdateProfileNavigationState()
     
+    @State private var showLocationSelection = false
+    
     @State private var formUserNameText = ""
     @State private var formNameText = ""
     @State private var formSurnameText = ""
     @State private var formBirthDate: Date?
     @State private var formPhone = ""
+    @State private var formLocationName = ""
     
-    @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     // MARK: - Body
     
@@ -57,6 +60,11 @@ public struct UpdateProfileView: IOController {
                                 FloatingDatePicker(.updateProfileFormBirthdate, date: $formBirthDate)
                                 FloatingTextField(.updateProfileFormPhone, text: $formPhone)
                                     .keyboardType(.numberPad)
+                                FloatingTextField(.updateProfileFormLocation, text: $formLocationName)
+                                    .disabled(true)
+                                    .setClick {
+                                        showLocationSelection = true
+                                    }
                             }
                             .padding(.horizontal, 16.0)
                             .padding(.vertical, 8.0)
@@ -78,6 +86,16 @@ public struct UpdateProfileView: IOController {
         .controllerWireframe {
             UpdateProfileNavigationWireframe(navigationState: navigationState)
         }
+        .popover(isPresented: $showLocationSelection, content: {
+            IORouterUtilities.route(
+                ProfileRouters.self,
+                .userLocation(
+                    entity: UserLocationEntity(
+                        isPresented: $showLocationSelection
+                    )
+                )
+            )
+        })
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment

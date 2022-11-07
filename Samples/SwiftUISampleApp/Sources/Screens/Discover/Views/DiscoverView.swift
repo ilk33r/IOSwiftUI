@@ -54,9 +54,9 @@ public struct DiscoverView: IOController {
         }
         .navigationBarTitleDisplayMode(.large)
         .navigationTitle(type: .discoverTitle)
-        .navigationWireframe(wireframeView: {
+        .navigationWireframe {
             DiscoverNavigationWireframe(navigationState: navigationState)
-        })
+        }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment

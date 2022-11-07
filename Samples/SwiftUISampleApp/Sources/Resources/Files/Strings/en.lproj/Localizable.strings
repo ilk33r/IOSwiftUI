@@ -12,10 +12,16 @@
 "common.done" = "Done";
 "common.next.uppercased" = "NEXT";
 "common.ok" = "Ok";
+"common.save" = "Save";
 
 // MARK: - Networking
 "network.CommonError" = "We cannot continue because of technical issues. Please try again later.";
 "network.ConnectionError" = "Look like there is no internet connection. Please check your settings and try again.";
+
+// MARK: - Location
+"location.serviceDeniedMessage" = "You should allow location services usage to take advantage of all the features of the app. Would you like to turn on location services?";
+"location.serviceDisabledMessage" = "Location services disabled. Would you like to turn on location services?";
+"location.serviceRestrictedMessage" = "Location services are restricted. Would you like to turn on location services?";
 
 // MARK: -  Splash
 "splash.button.logIn.uppercased" = "LOG IN";
@@ -63,8 +69,12 @@
 
 // MARK: - Update Profile
 "updateProfile.form.birthDate" = "Birthdate";
+"updateProfile.form.location" = "Location";
 "updateProfile.form.name" = "Name";
 "updateProfile.form.phone" = "Phone";
 "updateProfile.form.surname" = "Surname";
 "updateProfile.form.userName" = "User Name";
 "updateProfile.title" = "Update Profile";
+
+// MARK: - User Location
+"userLocation.selectLocation.title" = "Select Location";

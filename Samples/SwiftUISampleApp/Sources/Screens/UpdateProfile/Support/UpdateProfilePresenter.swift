@@ -10,12 +10,13 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppPresentation
 
 final public class UpdateProfilePresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    public var environment: EnvironmentObject<IOAppEnvironmentObject>!
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: UpdateProfileInteractor!
     public var navigationState: StateObject<UpdateProfileNavigationState>!
     

@@ -80,6 +80,10 @@ let package = Package(
         .target(name: "SwiftUISampleAppScreensUpdateProfile",
                 dependencies: ["SwiftUISampleAppScreensShared"],
                 path: "Sources/Screens/UpdateProfile"),
+        .target(name: "SwiftUISampleAppScreensUserLocation",
+                dependencies: [.product(name: "IOSwiftUISupportLocation", package: "IOSwiftUI"),
+                               "SwiftUISampleAppScreensShared"],
+                path: "Sources/Screens/UserLocation"),
 //        .target(name: "SwiftUISampleAppScreensRegister",
 //                dependencies: ["SwiftUISampleAppScreensShared"],
 //                path: "Sources/Screens/Register"),
@@ -97,7 +101,8 @@ let package = Package(
                                "SwiftUISampleAppScreensPhotoGallery",
                                "SwiftUISampleAppScreensChat",
                                "SwiftUISampleAppScreensSettings",
-                               "SwiftUISampleAppScreensUpdateProfile"],
+                               "SwiftUISampleAppScreensUpdateProfile",
+                               "SwiftUISampleAppScreensUserLocation"],
                 path: "Sources/Router",
                 plugins: [ .plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI") ]),
         
@@ -118,6 +123,7 @@ let package = Package(
                            "SwiftUISampleAppScreensChat",
                            "SwiftUISampleAppScreensSettings",
                            "SwiftUISampleAppScreensUpdateProfile",
+                           "SwiftUISampleAppScreensUserLocation",
                            "SwiftUISampleAppRouter"])
     ]
 )

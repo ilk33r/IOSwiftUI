@@ -12,3 +12,15 @@
 // MARK: - Networking
 "network.CommonError" = "We cannot continue because of technical issues. Please try again later.";
 "network.ConnectionError" = "Look like there is no internet connection. Please check your settings and try again.";
+
+// MARK: - Location
+"location.serviceDeniedMessage" = "You should allow location services usage to take advantage of all the features of the app. Would you like to turn on location services?";
+"location.serviceDisabledMessage" = "Location services disabled. Would you like to turn on location services?";
+"location.serviceRestrictedMessage" = "Location services are restricted. Would you like to turn on location services?";
+
+// MARK: - Permissions
+"NSCameraUsageDescription" = "We need to access camera for adding a new photo.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "We need your location for display on your profile page.";
+"NSLocationAlwaysUsageDescription" = "We need your location for display on your profile page.";
+"NSLocationUsageDescription" = "We need your location for display on your profile page.";
+"NSLocationWhenInUseUsageDescription" = "We need your location for display on your profile page.";

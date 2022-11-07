@@ -13,6 +13,7 @@ public enum ProfileRouters: IORouterDefinition {
     
     case settings(entity: SettingsEntity?)
     case updateProfile(entity: UpdateProfileEntity?)
+    case userLocation(entity: UserLocationEntity?)
     
     public var entity: IOEntity? {
         switch self {
@@ -20,6 +21,9 @@ public enum ProfileRouters: IORouterDefinition {
             return entity
             
         case .updateProfile(entity: let entity):
+            return entity
+            
+        case .userLocation(entity: let entity):
             return entity
         }
     }
@@ -31,6 +35,9 @@ public enum ProfileRouters: IORouterDefinition {
             
         case .updateProfile:
             return "UpdateProfileView"
+            
+        case .userLocation:
+            return "UserLocationView"
         }
     }
 }

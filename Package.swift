@@ -13,6 +13,9 @@ let package = Package(
         .library(
             name: "IOSwiftUI",
             targets: ["IOSwiftUI"]),
+        .library(
+            name: "IOSwiftUISupportLocation",
+            targets: ["IOSwiftUISupportLocation"]),
         .plugin(name: "IOBuildConfigGeneratorPlugin",
                 targets: ["IOBuildConfigGeneratorPlugin"]),
         .plugin(name: "IORouterGeneratorPlugin",
@@ -59,6 +62,12 @@ let package = Package(
         .target(name: "IOSwiftUIScreensShared",
                 dependencies: ["IOSwiftUIPresentation"],
                 path: "Sources/Screens/Shared"),
+        
+        // MARK: - Support
+        
+        .target(name: "IOSwiftUISupportLocation",
+               dependencies: ["IOSwiftUIInfrastructure"],
+               path: "Sources/Support/Location"),
         
         // MARK: - Screens
         
