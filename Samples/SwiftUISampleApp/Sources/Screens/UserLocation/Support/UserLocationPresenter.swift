@@ -55,11 +55,20 @@ final public class UserLocationPresenter: IOPresenterable {
     }
     
     func saveUserLocation(annotations: [UserLocationMapPinUIModel]) {
-        if annotations.isEmpty {
+        guard let annotation = annotations.first else {
             self.showAlert(IOLocalizationType.userLocationErrorSelectLocation.localized, handler: nil)
             return
         }
         
+        let location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+        self.interactor.geocodeLocation(userLocation: location)
+    }
+    
+    func update(location: CLLocation, locationName: String) {
+        self.interactor.entity.locationName.wrappedValue = locationName
+        self.interactor.entity.locationLatitude.wrappedValue = location.coordinate.latitude
+        self.interactor.entity.locationLongitude.wrappedValue = location.coordinate.longitude
+        self.interactor.entity.isPresented.wrappedValue = false
     }
     
     // MARK: - Helper Methods

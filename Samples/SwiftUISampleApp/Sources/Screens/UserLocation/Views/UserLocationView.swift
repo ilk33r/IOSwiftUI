@@ -29,14 +29,15 @@ public struct UserLocationView: IOController {
     
     @Binding private var isPresented: Bool
     
+    @State private var showAlert = false
     @State private var annotations = [UserLocationMapPinUIModel]()
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
             latitude: 0,
             longitude: 0
         ),
-        latitudinalMeters: 750,
-        longitudinalMeters: 750
+        latitudinalMeters: 500,
+        longitudinalMeters: 500
     )
     
     @State private var tracking: MapUserTrackingMode = .follow
@@ -98,7 +99,7 @@ public struct UserLocationView: IOController {
         .navigationWireframe {
             UserLocationNavigationWireframe(navigationState: navigationState)
         }
-        .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
+        .alertView(isPresented: $showAlert) { navigationState.alertData }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
@@ -121,6 +122,9 @@ public struct UserLocationView: IOController {
         .onReceive(presenter.$userLocation) { location in
             guard let location else { return }
             region.center = location.coordinate
+        }
+        .onReceive(navigationState.showAlert) { newValue in
+            showAlert = newValue
         }
     }
     
