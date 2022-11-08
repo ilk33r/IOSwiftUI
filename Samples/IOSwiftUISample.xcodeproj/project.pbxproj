@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F78D1A7E291A47FE00E6C38B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F78D1A7D291A47FE00E6C38B /* Settings.bundle */; };
 		F7AD7DEC28DCE92100CDB8B8 /* IOBuildConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */; };
 		F7AD7DF028DCE96C00CDB8B8 /* IOBuildConfigGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AD7DEF28DCE96C00CDB8B8 /* IOBuildConfigGenerator.m */; };
 		F7FEE58C28B0F1C9005D6633 /* IOSwiftUISampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FEE58B28B0F1C9005D6633 /* IOSwiftUISampleApp.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		F73E29B428B18E39005C8A76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F758756F29192D2200C665D1 /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
+		F78D1A7D291A47FE00E6C38B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F7A69E7928F16633001EDC99 /* IOSwiftUISample.DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = IOSwiftUISample.DEV.xcconfig; sourceTree = "<group>"; };
 		F7AD7DE428DCE8FA00CDB8B8 /* IOBuildConfigGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = IOBuildConfigGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IOBuildConfig.m; path = ../Plugins/IOBuildConfigGenerator/IOBuildConfig.m; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				F7FEE59A28B0F227005D6633 /* Configurations */,
+				F78D1A7D291A47FE00E6C38B /* Settings.bundle */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -226,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7FEE59328B0F1C9005D6633 /* Preview Assets.xcassets in Resources */,
+				F78D1A7E291A47FE00E6C38B /* Settings.bundle in Resources */,
 				F7FEE59028B0F1C9005D6633 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

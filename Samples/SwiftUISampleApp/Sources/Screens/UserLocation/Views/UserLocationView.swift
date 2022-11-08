@@ -29,6 +29,7 @@ public struct UserLocationView: IOController {
     
     @Binding private var isPresented: Bool
     
+    @State private var annotations = [UserLocationMapPin]()
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
             latitude: 0,
@@ -44,26 +45,53 @@ public struct UserLocationView: IOController {
     
     public var body: some View {
         ZStack {
-            Map(
-                coordinateRegion: $region,
-                interactionModes: .all,
-                showsUserLocation: true,
-                userTrackingMode: $tracking
-            )
-            .navigationBar {
-                HStack {
-                    Text(type: .userLocationSelectLocationTitle)
-                        .font(type: .systemSemibold(17))
-                        .multilineTextAlignment(.center)
-                        .padding(.leading, 64)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                    IOButton(.commonSave)
-                        .font(type: .regular(16))
-                        .foregroundColor(.colorTabEnd)
-                        .frame(width: 64)
-                        .setClick {
+            GeometryReader { proxy in
+                Map(
+                    coordinateRegion: $region,
+                    interactionModes: .all,
+                    showsUserLocation: true,
+                    userTrackingMode: $tracking,
+                    annotationItems: annotations
+                ) { place in
+                    MapPin(coordinate: place.coordinate)
+                }
+                .gesture(
+                    LongPressGesture(
+                        minimumDuration: 0.15
+                    )
+                    .sequenced(
+                        before:
+                            DragGesture(
+                                minimumDistance: 0,
+                                coordinateSpace: .local
+                            )
+                    )
+                    .onEnded { value in
+                        switch value {
+                        case .second(true, let drag):
+                            updatePinLocation(at: drag?.location ?? .zero, for: proxy.size)
                             
+                        default:
+                            break
                         }
+                    }
+                )
+                .highPriorityGesture(DragGesture(minimumDistance: 10))
+                .navigationBar {
+                    HStack {
+                        Text(type: .userLocationSelectLocationTitle)
+                            .font(type: .systemSemibold(17))
+                            .multilineTextAlignment(.center)
+                            .padding(.leading, 64)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                        IOButton(.commonSave)
+                            .font(type: .regular(16))
+                            .foregroundColor(.colorTabEnd)
+                            .frame(width: 64)
+                            .setClick {
+                                
+                            }
+                    }
                 }
             }
         }
@@ -76,6 +104,10 @@ public struct UserLocationView: IOController {
                 presenter.navigationState = _navigationState
                 presenter.loadUserLocation()
             }
+        }
+        .onReceive(presenter.$userLocation) { location in
+            guard let location else { return }
+            region.center = location.coordinate
         }
         .alert(isPresented: $appEnvironment.showAlert) {
             return Alert(
@@ -102,6 +134,29 @@ public struct UserLocationView: IOController {
     public init(presenter: Presenter) {
         self.presenter = presenter
         self._isPresented = presenter.interactor.entity.isPresented
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func updatePinLocation(at point: CGPoint, for mapSize: CGSize) {
+        let lat = region.center.latitude
+        let lon = region.center.longitude
+        
+        let mapCenter = CGPoint(x: mapSize.width / 2, y: mapSize.height / 2)
+        
+        // X
+        let xValue = (point.x - mapCenter.x) / mapCenter.x
+        let xSpan = xValue * region.span.longitudeDelta / 2
+        
+        // Y
+        let yValue = (point.y - mapCenter.y) / mapCenter.y
+        let ySpan = yValue * region.span.latitudeDelta / 2
+        
+        annotations = [
+            UserLocationMapPin(
+                coordinate: CLLocationCoordinate2D(latitude: lat - ySpan, longitude: lon + xSpan)
+            )
+        ]
     }
 }
 

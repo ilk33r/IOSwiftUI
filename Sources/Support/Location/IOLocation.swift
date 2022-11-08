@@ -288,15 +288,6 @@ extension IOLocation {
     private func authorize(isAlways: Bool) {
         // Obtain authorization status
         let authorizationStatus = self.locationManager.authorizationStatus
-
-        // Check location services is not enabled
-        if !CLLocationManager.locationServicesEnabled() {
-            // Show alert
-            self.thread.runOnMainThread { [weak self] in
-                self?.sendAuthorizationStatus(status: nil)
-            }
-            return
-        }
         
         if authorizationStatus == .notDetermined {
             // Request always authorization
@@ -306,6 +297,15 @@ extension IOLocation {
                 self.locationManager.requestWhenInUseAuthorization()
             }
             
+            return
+        }
+        
+        // Check location services is not enabled
+        if !CLLocationManager.locationServicesEnabled() {
+            // Show alert
+            self.thread.runOnMainThread { [weak self] in
+                self?.sendAuthorizationStatus(status: nil)
+            }
             return
         }
         
@@ -354,6 +354,7 @@ extension IOLocation {
         
         if status == .authorizedWhenInUse || status == .authorizedAlways {
             self.isAuthorized = true
+            self.authorizationStatusHandler?(status, nil, nil)
         }
         
         self.authorizationStatusHandler = nil
