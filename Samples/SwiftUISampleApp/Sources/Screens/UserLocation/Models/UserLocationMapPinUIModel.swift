@@ -1,5 +1,5 @@
 //
-//  UserLocationMapPin.swift
+//  UserLocationMapPinUIModel.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 8.11.2022.
@@ -8,7 +8,7 @@
 import CoreLocation
 import Foundation
 
-struct UserLocationMapPin: Identifiable {
+struct UserLocationMapPinUIModel: Identifiable {
     
     var id = UUID()
     

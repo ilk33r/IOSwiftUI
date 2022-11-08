@@ -69,6 +69,7 @@
 
 // MARK: - Update Profile
 "updateProfile.form.birthDate" = "Birthdate";
+"updateProfile.form.email" = "Email";
 "updateProfile.form.location" = "Location";
 "updateProfile.form.name" = "Name";
 "updateProfile.form.phone" = "Phone";
@@ -77,4 +78,5 @@
 "updateProfile.title" = "Update Profile";
 
 // MARK: - User Location
+"userLocation.error.selectLocation" = "Please select a location.";
 "userLocation.selectLocation.title" = "Select Location";

@@ -34,7 +34,10 @@ final public class SampleAppEnvironment: IOAppEnvironment {
             title: title ?? "",
             message: message,
             buttons: buttonTitles,
-            handler: handler
+            handler: { [weak self] index in
+                handler?(index)
+                self?.showAlert = false
+            }
         )
 
         self.showAlert = true

@@ -43,10 +43,14 @@ final public class UpdateProfilePresenter: IOPresenterable {
     func load() {
         self.uiModel = UpdateProfileUIModel(
             userName: self.interactor.entity.member.userName ?? "",
+            email: self.interactor.entity.member.email ?? "",
             name: self.interactor.entity.member.name ?? "",
             surname: self.interactor.entity.member.surname ?? "",
             birthDate: self.interactor.entity.member.birthDate,
-            phone: self.interactor.entity.member.phoneNumber ?? ""
+            phone: self.interactor.entity.member.phoneNumber ?? "",
+            locationName: self.interactor.entity.member.locationName ?? "",
+            locationLatitude: self.interactor.entity.member.locationLatitude,
+            locationLongitude: self.interactor.entity.member.locationLongitude
         )
     }
     

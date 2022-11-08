@@ -54,6 +54,14 @@ final public class UserLocationPresenter: IOPresenterable {
         }
     }
     
+    func saveUserLocation(annotations: [UserLocationMapPinUIModel]) {
+        if annotations.isEmpty {
+            self.showAlert(IOLocalizationType.userLocationErrorSelectLocation.localized, handler: nil)
+            return
+        }
+        
+    }
+    
     // MARK: - Helper Methods
     
     private func requestLocation() {

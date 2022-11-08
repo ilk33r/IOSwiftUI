@@ -29,7 +29,7 @@ public struct UserLocationView: IOController {
     
     @Binding private var isPresented: Bool
     
-    @State private var annotations = [UserLocationMapPin]()
+    @State private var annotations = [UserLocationMapPinUIModel]()
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
             latitude: 0,
@@ -85,12 +85,12 @@ public struct UserLocationView: IOController {
                             .padding(.leading, 64)
                             .frame(minWidth: 0, maxWidth: .infinity)
                         IOButton(.commonSave)
+                            .setClick {
+                                presenter.saveUserLocation(annotations: annotations)
+                            }
                             .font(type: .regular(16))
                             .foregroundColor(.colorTabEnd)
                             .frame(width: 64)
-                            .setClick {
-                                
-                            }
                     }
                 }
             }
@@ -103,6 +103,18 @@ public struct UserLocationView: IOController {
                 presenter.environment = _appEnvironment
                 presenter.navigationState = _navigationState
                 presenter.loadUserLocation()
+                
+                if
+                    let latitude = presenter.interactor.entity.locationLatitude.wrappedValue,
+                    let longitude = presenter.interactor.entity.locationLongitude.wrappedValue,
+                    latitude != 0 && longitude != 0
+                {
+                    annotations = [
+                        UserLocationMapPinUIModel(
+                            coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                        )
+                    ]
+                }
             }
         }
         .onReceive(presenter.$userLocation) { location in
@@ -136,7 +148,7 @@ public struct UserLocationView: IOController {
         let ySpan = yValue * region.span.latitudeDelta / 2
         
         annotations = [
-            UserLocationMapPin(
+            UserLocationMapPinUIModel(
                 coordinate: CLLocationCoordinate2D(latitude: lat - ySpan, longitude: lon + xSpan)
             )
         ]
@@ -147,7 +159,10 @@ struct UserLocationView_Previews: PreviewProvider {
     static var previews: some View {
         UserLocationView(
             entity: UserLocationEntity(
-                isPresented: Binding.constant(false)
+                isPresented: Binding.constant(false),
+                locationName: Binding.constant(""),
+                locationLatitude: Binding.constant(0),
+                locationLongitude: Binding.constant(0)
             )
         )
     }

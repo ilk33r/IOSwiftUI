@@ -29,11 +29,14 @@ public struct UpdateProfileView: IOController {
     @State private var showLocationSelection = false
     
     @State private var formUserNameText = ""
+    @State private var formEmailText = ""
     @State private var formNameText = ""
     @State private var formSurnameText = ""
     @State private var formBirthDate: Date?
     @State private var formPhone = ""
     @State private var formLocationName = ""
+    @State private var formLocationLatitude: Double?
+    @State private var formLocationLongitude: Double?
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
@@ -54,6 +57,8 @@ public struct UpdateProfileView: IOController {
                         }, content: {
                             VStack(alignment: .leading) {
                                 FloatingTextField(.updateProfileFormUserName, text: $formUserNameText)
+                                    .disabled(true)
+                                FloatingTextField(.updateProfileFormEmail, text: $formEmailText)
                                     .disabled(true)
                                 FloatingTextField(.updateProfileFormName, text: $formNameText)
                                 FloatingTextField(.updateProfileFormSurname, text: $formSurnameText)
@@ -91,7 +96,10 @@ public struct UpdateProfileView: IOController {
                 ProfileRouters.self,
                 .userLocation(
                     entity: UserLocationEntity(
-                        isPresented: $showLocationSelection
+                        isPresented: $showLocationSelection,
+                        locationName: $formLocationName,
+                        locationLatitude: $formLocationLatitude,
+                        locationLongitude: $formLocationLongitude
                     )
                 )
             )
@@ -111,6 +119,9 @@ public struct UpdateProfileView: IOController {
             formSurnameText = output.surname
             formBirthDate = output.birthDate
             formPhone = output.phone.applyPattern(pattern: phoneNumberPattern)
+            formLocationName = output.locationName
+            formLocationLatitude = output.locationLatitude
+            formLocationLongitude = output.locationLongitude
         }
         .onChange(of: formPhone) { newValue in
             let plainNumber = newValue.trimLetters()
