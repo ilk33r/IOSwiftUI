@@ -91,6 +91,7 @@ public struct UpdateProfileView: IOController {
         .controllerWireframe {
             UpdateProfileNavigationWireframe(navigationState: navigationState)
         }
+        .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
         .popover(isPresented: $showLocationSelection, content: {
             IORouterUtilities.route(
                 ProfileRouters.self,

@@ -23,21 +23,4 @@ public extension IOPresenterable {
         let environment = self.environment as? EnvironmentObject<SampleAppEnvironment>
         environment?.wrappedValue.showLoading = false
     }
-    
-    // MARK: - Alert
-    
-    func showAlert(
-        _ message: String,
-        title: String? = nil,
-        buttonTitles: [IOLocalizationType] = [IOLocalizationType.commonOk],
-        handler: IOAlertModifierResultHandler?
-    ) {
-        let environment = self.environment as? EnvironmentObject<SampleAppEnvironment>
-        environment?.wrappedValue.showAlert(
-            message,
-            title: title,
-            buttonTitles: buttonTitles,
-            handler: handler
-        )
-    }
 }

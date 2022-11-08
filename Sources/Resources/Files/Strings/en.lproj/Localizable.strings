@@ -8,6 +8,7 @@
 
 // MARK: - Common
 "common.appName" = "IO Swift UI";
+"common.ok" = "Ok";
 
 // MARK: - Networking
 "network.CommonError" = "We cannot continue because of technical issues. Please try again later.";

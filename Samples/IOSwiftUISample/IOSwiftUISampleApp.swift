@@ -44,7 +44,6 @@ struct IOSwiftUISampleApp: App {
                         .transition(.opacity)
                 }
             }
-            .alertView(isPresented: $appEnvironment.showAlert) { appEnvironment.alertData }
         }
     }
     

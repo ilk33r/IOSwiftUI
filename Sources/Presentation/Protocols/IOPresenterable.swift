@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import IOSwiftUIInfrastructure
 
 public protocol IOPresenterableInitializer {
     
@@ -34,5 +35,26 @@ public extension IOPresenterable {
     
     func _initializaPresenterable(entity: IOEntity?) {
         self.interactor = Interactor(entityInstance: entity, presenterInstance: self)
+    }
+    
+    // MARK: - Alert
+    
+    func showAlert(
+        _ message: String,
+        title: String? = nil,
+        buttonTitles: [IOLocalizationType] = [IOLocalizationType.commonOk],
+        handler: IOAlertModifierResultHandler?
+    ) {
+        self.navigationState.wrappedValue.alertData = IOAlertData(
+            title: title ?? "",
+            message: message,
+            buttons: buttonTitles,
+            handler: { [weak self] index in
+                handler?(index)
+                self?.navigationState.wrappedValue.showAlert.send(false)
+            }
+        )
+        
+        self.navigationState.wrappedValue.showAlert.send(true)
     }
 }

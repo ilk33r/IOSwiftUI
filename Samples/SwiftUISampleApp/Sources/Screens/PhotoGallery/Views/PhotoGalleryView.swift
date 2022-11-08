@@ -78,6 +78,7 @@ public struct PhotoGalleryView: IOController {
         .controllerWireframe {
             PhotoGalleryNavigationWireframe(navigationState: navigationState)
         }
+        .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment

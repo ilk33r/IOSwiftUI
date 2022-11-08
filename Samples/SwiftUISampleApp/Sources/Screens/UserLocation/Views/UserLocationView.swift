@@ -98,6 +98,7 @@ public struct UserLocationView: IOController {
         .navigationWireframe {
             UserLocationNavigationWireframe(navigationState: navigationState)
         }
+        .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
@@ -121,7 +122,6 @@ public struct UserLocationView: IOController {
             guard let location else { return }
             region.center = location.coordinate
         }
-        .alertView(isPresented: $appEnvironment.showAlert) { appEnvironment.alertData }
     }
     
     // MARK: - Initialization Methods

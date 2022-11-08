@@ -219,7 +219,6 @@ opt_in_rules:
     - prefixed_toplevel_constant
     - private_action
     - private_outlet
-    - private_subject
     - quick_discouraged_call
     - raw_value_for_camel_cased_codable_enum
     - reduce_into

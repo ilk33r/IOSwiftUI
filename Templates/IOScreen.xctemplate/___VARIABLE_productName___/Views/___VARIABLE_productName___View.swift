@@ -22,9 +22,13 @@ public struct ___VARIABLE_productName___View: IOController {
     
     public var body: some View {
         Text("___VARIABLE_productName___")
+//            .navigationWireframe {
+//                ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
+//            }
             .controllerWireframe {
                 ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
             }
+            .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
             .onAppear {
                 if !isPreviewMode {
                     presenter.environment = _appEnvironment

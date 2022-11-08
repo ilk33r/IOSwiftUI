@@ -23,22 +23,6 @@ public extension IOInteractor {
         presenter?.hideIndicator()
     }
     
-    // MARK: - Alert
-    
-    func showAlert(
-        _ message: String,
-        title: String? = nil,
-        buttonTitles: [IOLocalizationType] = [IOLocalizationType.commonOk],
-        handler: IOAlertModifierResultHandler?
-    ) {
-        presenter?.showAlert(
-            message,
-            title: title,
-            buttonTitles: buttonTitles,
-            handler: handler
-        )
-    }
-    
     // MARK: - Service
     
     func handleServiceError(
