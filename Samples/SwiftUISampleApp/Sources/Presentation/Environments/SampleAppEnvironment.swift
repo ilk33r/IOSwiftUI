@@ -11,39 +11,32 @@ import IOSwiftUIPresentation
 
 final public class SampleAppEnvironment: IOAppEnvironment {
     
-    // MARK: - Types
-    
-    public typealias AlertHandler = (_ index: Int) -> Void
-    
     // MARK: - Properties
     
     @Published public var showAlert = false
     @Published public var showLoading = false
     @Published public var isLoggedIn = false
     
-    private(set) public var alertButtons: [IOLocalizationType]
-    private(set) public var alertHandler: AlertHandler?
-    private(set) public var alertMessage: String
-    private(set) public var alertTitle: String
+    private(set) public var alertData: IOAlertData!
     
     // MARK: - Initialization Methods
     
     public init() {
-        self.alertButtons = []
-        self.alertMessage = ""
-        self.alertTitle = ""
     }
     
     func showAlert(
         _ message: String,
         title: String? = nil,
         buttonTitles: [IOLocalizationType] = [IOLocalizationType.commonOk],
-        handler: AlertHandler?
+        handler: IOAlertModifierResultHandler?
     ) {
-        self.alertButtons = buttonTitles
-        self.alertHandler = handler
-        self.alertMessage = message
-        self.alertTitle = title ?? ""
+        self.alertData = IOAlertData(
+            title: title ?? "",
+            message: message,
+            buttons: buttonTitles,
+            handler: handler
+        )
+
         self.showAlert = true
     }
 }

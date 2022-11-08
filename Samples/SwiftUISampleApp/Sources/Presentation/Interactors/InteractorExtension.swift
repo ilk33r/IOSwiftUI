@@ -29,7 +29,7 @@ public extension IOInteractor {
         _ message: String,
         title: String? = nil,
         buttonTitles: [IOLocalizationType] = [IOLocalizationType.commonOk],
-        handler: SampleAppEnvironment.AlertHandler?
+        handler: IOAlertModifierResultHandler?
     ) {
         presenter?.showAlert(
             message,
@@ -45,7 +45,7 @@ public extension IOInteractor {
         _ message: String?,
         type: IOHTTPError.ErrorType,
         response: BaseResponseModel?,
-        handler: SampleAppEnvironment.AlertHandler?
+        handler: IOAlertModifierResultHandler?
     ) {
         let message = message ?? IOLocalizationType.networkCommonError.localized
         showAlert(message, handler: handler)

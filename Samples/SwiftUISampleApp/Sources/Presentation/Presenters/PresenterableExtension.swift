@@ -30,7 +30,7 @@ public extension IOPresenterable {
         _ message: String,
         title: String? = nil,
         buttonTitles: [IOLocalizationType] = [IOLocalizationType.commonOk],
-        handler: SampleAppEnvironment.AlertHandler?
+        handler: IOAlertModifierResultHandler?
     ) {
         let environment = self.environment as? EnvironmentObject<SampleAppEnvironment>
         environment?.wrappedValue.showAlert(
