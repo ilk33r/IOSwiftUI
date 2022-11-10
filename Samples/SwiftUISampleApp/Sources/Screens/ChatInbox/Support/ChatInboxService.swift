@@ -23,6 +23,13 @@ extension ChatInboxService: IOServiceType {
         }
     }
     
+    var requestContentType: IOServiceContentType {
+        switch self {
+        default:
+            return .applicationJSON
+        }
+    }
+    
     var path: String {
         switch self {
         case .getInboxes:

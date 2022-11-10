@@ -22,9 +22,13 @@ extension LoginService: IOServiceType {
         switch self {
         case .authenticate:
             return .post
-            
-//        default:
-//            return .get
+        }
+    }
+    
+    var requestContentType: IOServiceContentType {
+        switch self {
+        default:
+            return .applicationJSON
         }
     }
     
@@ -53,9 +57,6 @@ extension LoginService: IOServiceType {
         switch self {
         case .authenticate(let request):
             return handleRequest(request)
-            
-//        default:
-//            return nil
         }
     }
     

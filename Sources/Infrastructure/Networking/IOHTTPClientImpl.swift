@@ -54,6 +54,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     public func request(
         type: IOHTTPRequestType,
         path: String,
+        contentType: String,
         headers: [String: String]?,
         query: String?,
         body: Data?,
@@ -63,6 +64,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
         let task = request(
             method: type.rawValue,
             path: path,
+            contentType: contentType,
             headers: headers,
             body: body,
             query: query,
@@ -91,7 +93,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     
     // MARK: - Helper Methods
     
-    private func httpHeaders(with headers: [String: String]?) -> [String: String] {
+    private func httpHeaders(with headers: [String: String]?, contentType: String) -> [String: String] {
         var httpHeaders = [String: String]()
         
         if let defaultHeaders = defaultHTTPHeaders {
@@ -106,12 +108,14 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
             }
         }
         
+        httpHeaders["Content-Type"] = contentType
         return httpHeaders
     }
     
     private func request(
         method: String,
         path: String,
+        contentType: String,
         headers: [String: String]?,
         body: Data?,
         query: String?,
@@ -131,7 +135,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
         request.httpMethod = method
         request.httpBody = body
         
-        let httpHeaders = httpHeaders(with: headers)
+        let httpHeaders = httpHeaders(with: headers, contentType: contentType)
         for (headerKey, headerValue) in httpHeaders {
             request.setValue(headerValue, forHTTPHeaderField: headerKey)
         }

@@ -68,7 +68,6 @@ struct IOSwiftUISampleApp: App {
         AppTheme.applyTheme()
         
         httpClient.setDefaultHTTPHeaders(headers: [
-            "Content-Type": "application/json",
             "X-IO-AUTHORIZATION": configuration.configForType(type: .networkingAuthorizationHeader)
         ])
         

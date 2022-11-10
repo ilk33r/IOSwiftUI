@@ -24,6 +24,7 @@ public protocol IOHTTPClient {
     func request(
         type: IOHTTPRequestType,
         path: String,
+        contentType: String,
         headers: [String: String]?,
         query: String?,
         body: Data?,

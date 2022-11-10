@@ -12,21 +12,29 @@ import IOSwiftUIPresentation
 
 enum SettingsService {
 
+    case uploadProfilePicture(name: String, type: String, image: Data)
 }
 
 extension SettingsService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
+        case .uploadProfilePicture:
+            return .put
+        }
+    }
+    
+    var requestContentType: IOServiceContentType {
+        switch self {
         default:
-            return .get
+            return .applicationJSON
         }
     }
     
     var path: String {
         switch self {
-        default:
-            return ""
+        case .uploadProfilePicture:
+            return "MemberImages/UploadProfilePicture"
         }
     }
     

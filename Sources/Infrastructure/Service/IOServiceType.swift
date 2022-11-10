@@ -11,6 +11,7 @@ import IOSwiftUICommon
 public protocol IOServiceType {
     
     var methodType: IOHTTPRequestType { get }
+    var requestContentType: IOServiceContentType { get }
     var path: String { get }
     var headers: [String: String]? { get }
     var query: String? { get }

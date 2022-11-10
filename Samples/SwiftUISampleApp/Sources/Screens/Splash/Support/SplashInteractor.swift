@@ -120,7 +120,6 @@ public struct SplashInteractor: IOInteractor {
     
     private func setupHttpClientHeaders(encryptedIV: Data, encryptedKey: Data, token: String?) {
         var headers = [
-            "Content-Type": "application/json",
             "X-IO-AUTHORIZATION": configuration.configForType(type: .networkingAuthorizationHeader),
             "X-SYMMETRIC-KEY": encryptedKey.base64EncodedString(),
             "X-SYMMETRIC-IV": encryptedIV.base64EncodedString()

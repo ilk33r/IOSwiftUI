@@ -25,6 +25,13 @@ extension ChatMessageService: IOServiceType {
         }
     }
     
+    public var requestContentType: IOServiceContentType {
+        switch self {
+        default:
+            return .applicationJSON
+        }
+    }
+    
     public var path: String {
         switch self {
         case .getMessages:

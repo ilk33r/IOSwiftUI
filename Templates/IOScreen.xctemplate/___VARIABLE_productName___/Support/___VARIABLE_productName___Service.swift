@@ -18,6 +18,13 @@ extension ___VARIABLE_productName___Service: IOServiceType {
         }
     }
     
+    var requestContentType: IOServiceContentType {
+        switch self {
+        default:
+            return .applicationJSON
+        }
+    }
+    
     var path: String {
         switch self {
         default:

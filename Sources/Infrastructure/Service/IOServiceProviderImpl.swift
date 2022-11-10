@@ -30,6 +30,7 @@ public struct IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
         return httpClient.request(
             type: type.methodType,
             path: type.path,
+            contentType: type.requestContentType.rawValue,
             headers: type.headers,
             query: type.query,
             body: type.body
