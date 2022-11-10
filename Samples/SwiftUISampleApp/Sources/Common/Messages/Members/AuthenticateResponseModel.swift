@@ -16,7 +16,7 @@ public struct AuthenticateResponseModel: BaseResponseModel {
     @IOJsonProperty(key: "token")
     public var token: String?
     
-    @IOJsonProperty(key: "expire", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
+    @IOJsonProperty(key: "expire", transformer: IOModelDateTimeTransformer.iso8601())
     public var expire: Date?
     
     public init() {

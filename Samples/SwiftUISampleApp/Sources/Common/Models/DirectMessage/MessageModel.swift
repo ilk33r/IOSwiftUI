@@ -17,7 +17,7 @@ public struct MessageModel: BaseModel {
     @IOJsonProperty(key: "message")
     public var message: String?
     
-    @IOJsonProperty(key: "messageDate", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
+    @IOJsonProperty(key: "messageDate", transformer: IOModelDateTimeTransformer.iso8601())
     public var messageDate: Date?
     
     @IOJsonProperty(key: "isSent")

@@ -26,7 +26,7 @@ public struct DiscoverImageModel: BaseModel {
     @IOJsonProperty(key: "userProfilePicturePublicId")
     public var userProfilePicturePublicId: String?
     
-    @IOJsonProperty(key: "createDate", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
+    @IOJsonProperty(key: "createDate", transformer: IOModelDateTimeTransformer.iso8601())
     public var createDate: Date?
     
     public init() {

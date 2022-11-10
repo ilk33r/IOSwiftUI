@@ -20,7 +20,7 @@ public struct MemberImageModel: BaseModel {
     @IOJsonProperty(key: "publicId")
     public var publicId: String?
     
-    @IOJsonProperty(key: "createDate", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
+    @IOJsonProperty(key: "createDate", transformer: IOModelDateTimeTransformer.iso8601())
     public var createDate: Date?
     
     public init() {

@@ -17,7 +17,7 @@ public struct MemberModel: BaseModel {
     @IOJsonProperty(key: "userName")
     public var userName: String?
     
-    @IOJsonProperty(key: "birthDate", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
+    @IOJsonProperty(key: "birthDate", transformer: IOModelDateTimeTransformer.iso8601())
     public var birthDate: Date?
     
     @IOJsonProperty(key: "email")

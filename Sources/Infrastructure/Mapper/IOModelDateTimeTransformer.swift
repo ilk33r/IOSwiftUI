@@ -20,6 +20,10 @@ public struct IOModelDateTimeTransformer: IOModelTransformer {
     
     // MARK: - Initialization Methods
     
+    public static func iso8601() -> IOModelDateTimeTransformer {
+        return IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat)
+    }
+    
     public init(dateFormat: String) {
         self.dateFormat = dateFormat
     }

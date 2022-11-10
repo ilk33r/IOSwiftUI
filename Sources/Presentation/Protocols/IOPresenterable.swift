@@ -42,12 +42,31 @@ public extension IOPresenterable {
     func showAlert(
         _ message: String,
         title: String? = nil,
-        buttonTitles: [IOLocalizationType] = [IOLocalizationType.commonOk],
+        buttonTitles: [IOLocalizationType] = [.commonOk],
         handler: IOAlertModifierResultHandler?
     ) {
         self.navigationState.wrappedValue.alertData = IOAlertData(
             title: title ?? "",
             message: message,
+            buttons: buttonTitles,
+            handler: { [weak self] index in
+                handler?(index)
+                self?.navigationState.wrappedValue.showAlert.send(false)
+            }
+        )
+        
+        self.navigationState.wrappedValue.showAlert.send(true)
+    }
+    
+    func showAlert(
+        _ type: IOLocalizationType,
+        title: String? = nil,
+        buttonTitles: [IOLocalizationType] = [.commonOk],
+        handler: IOAlertModifierResultHandler?
+    ) {
+        self.navigationState.wrappedValue.alertData = IOAlertData(
+            title: title ?? "",
+            message: type.localized,
             buttons: buttonTitles,
             handler: { [weak self] index in
                 handler?(index)

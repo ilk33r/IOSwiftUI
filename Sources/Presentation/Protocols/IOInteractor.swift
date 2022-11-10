@@ -55,7 +55,7 @@ public extension IOInteractor {
     func showAlert(
         _ message: String,
         title: String? = nil,
-        buttonTitles: [IOLocalizationType] = [IOLocalizationType.commonOk],
+        buttonTitles: [IOLocalizationType] = [.commonOk],
         handler: IOAlertModifierResultHandler?
     ) {
         presenter?.showAlert(

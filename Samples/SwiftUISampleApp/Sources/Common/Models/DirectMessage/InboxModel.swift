@@ -26,7 +26,7 @@ public struct InboxModel: BaseModel {
     @IOJsonProperty(key: "profilePicturePublicID")
     public var profilePicturePublicID: String?
     
-    @IOJsonProperty(key: "updateDate", transformer: IOModelDateTimeTransformer(dateFormat: IOModelDateTimeTransformer.iso8601DateFormat))
+    @IOJsonProperty(key: "updateDate", transformer: IOModelDateTimeTransformer.iso8601())
     public var updateDate: Date?
     
     @IOJsonProperty(key: "unreadMessageCount")
