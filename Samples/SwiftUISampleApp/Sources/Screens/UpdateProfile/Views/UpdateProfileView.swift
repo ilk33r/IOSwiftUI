@@ -120,11 +120,12 @@ public struct UpdateProfileView: IOController {
             UpdateProfileNavigationWireframe(navigationState: navigationState)
         }
         .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
-        .popover(isPresented: $showLocationSelection, content: {
+        .popover(isPresented: $showLocationSelection) {
             IORouterUtilities.route(
                 ProfileRouters.self,
                 .userLocation(
                     entity: UserLocationEntity(
+                        isEditable: true,
                         isPresented: $showLocationSelection,
                         locationName: $formLocationName,
                         locationLatitude: $formLocationLatitude,
@@ -132,7 +133,7 @@ public struct UpdateProfileView: IOController {
                     )
                 )
             )
-        })
+        }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment

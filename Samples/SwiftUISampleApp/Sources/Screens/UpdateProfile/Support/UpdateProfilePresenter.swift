@@ -24,8 +24,8 @@ final public class UpdateProfilePresenter: IOPresenterable {
     
     // MARK: - Publishers
     
-    @Published var uiModel: UpdateProfileUIModel!
-    @Published var navigateToBack: Bool!
+    @Published private(set) var uiModel: UpdateProfileUIModel!
+    @Published private(set) var navigateToBack: Bool!
     
     // MARK: - Privates
     

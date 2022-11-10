@@ -27,6 +27,7 @@ final public class UserLocationPresenter: IOPresenterable {
     
     // MARK: - Publishers
     
+    @Published private(set) var addPin: Bool!
     @Published private(set) var userLocation: CLLocation?
     
     // MARK: - Privates
@@ -36,12 +37,22 @@ final public class UserLocationPresenter: IOPresenterable {
     // MARK: - Initialization Methods
     
     public init() {
+        self.addPin = false
         self.location = IOLocation()
     }
     
     // MARK: - Presenter
     
     func loadUserLocation() {
+        if !interactor.entity.isEditable {
+            self.userLocation = CLLocation(
+                latitude: self.interactor.entity.locationLatitude.wrappedValue ?? 0,
+                longitude: self.interactor.entity.locationLongitude.wrappedValue ?? 0
+            )
+            self.addPin = true
+            return
+        }
+        
         self.location.authorizeWhenInUse { [weak self] authorizationStatus, errorMessage, settingsURL in
             if authorizationStatus == .authorizedAlways || authorizationStatus == .authorizedWhenInUse {
                 self?.requestLocation()

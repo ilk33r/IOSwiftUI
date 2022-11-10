@@ -31,6 +31,7 @@ final public class ProfilePresenter: IOPresenterable {
     @Published private(set) var chatEntity: ChatEntity?
     @Published private(set) var images: [String]!
     @Published private(set) var profileUIModel: ProfileUIModel?
+    @Published private(set) var userLocationEntity: UserLocationEntity?
     
     // MARK: - Privates
     
@@ -71,6 +72,20 @@ final public class ProfilePresenter: IOPresenterable {
     func navigate(toMemberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
         guard let inbox = inbox else { return }
         self.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox, messages: messages, pagination: pagination)
+    }
+    
+    func navigateToLocation(isPresented: Binding<Bool>) {
+        guard let locationName = self.member?.locationName else { return }
+        guard let locationLatitude = self.member?.locationLatitude else { return }
+        guard let locationLongitude = self.member?.locationLongitude else { return }
+        
+        self.userLocationEntity = UserLocationEntity(
+            isEditable: false,
+            isPresented: isPresented,
+            locationName: Binding.constant(locationName),
+            locationLatitude: Binding.constant(locationLatitude),
+            locationLongitude: Binding.constant(locationLongitude)
+        )
     }
     
     func navigateToSettings() {

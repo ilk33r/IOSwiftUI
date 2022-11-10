@@ -20,6 +20,7 @@ struct ProfileHeaderView: View {
         case follow
         case unfollow
         case message
+        case location
     }
     
     typealias ClickHandler = (_ buttonType: ButtonTypes) -> Void
@@ -41,10 +42,13 @@ struct ProfileHeaderView: View {
                 .font(type: .regular(36))
                 .padding(.top, 16)
                 .padding(.bottom, 4)
-            Text(uiModel?.locationName ?? "")
-                .font(type: .black(13))
-                .padding(.top, 0)
-                .padding(.bottom, 0)
+            Button(uiModel?.locationName ?? "") {
+                clickHandler?(.location)
+            }
+            .font(type: .black(13))
+            .foregroundColor(.black)
+            .padding(.top, 0)
+            .padding(.bottom, 0)
             if uiModel?.isOwnProfile ?? false {
                 PrimaryButton(.profileButtonFriends)
                     .setClick {

@@ -36,8 +36,8 @@ public struct UserLocationView: IOController {
             latitude: 0,
             longitude: 0
         ),
-        latitudinalMeters: 500,
-        longitudinalMeters: 500
+        latitudinalMeters: 750,
+        longitudinalMeters: 750
     )
     
     @State private var tracking: MapUserTrackingMode = .follow
@@ -84,14 +84,17 @@ public struct UserLocationView: IOController {
                             .font(type: .systemSemibold(17))
                             .multilineTextAlignment(.center)
                             .padding(.leading, 64)
+                            .padding(.trailing, presenter.interactor.entity.isEditable ? 0 : 64)
                             .frame(minWidth: 0, maxWidth: .infinity)
-                        IOButton(.commonSave)
-                            .setClick {
-                                presenter.saveUserLocation(annotations: annotations)
-                            }
-                            .font(type: .regular(16))
-                            .foregroundColor(.colorTabEnd)
-                            .frame(width: 64)
+                        if presenter.interactor.entity.isEditable {
+                            IOButton(.commonSave)
+                                .setClick {
+                                    presenter.saveUserLocation(annotations: annotations)
+                                }
+                                .font(type: .regular(16))
+                                .foregroundColor(.colorTabEnd)
+                                .frame(width: 64)
+                        }
                     }
                 }
             }
@@ -126,6 +129,15 @@ public struct UserLocationView: IOController {
         .onReceive(navigationState.showAlert) { newValue in
             showAlert = newValue
         }
+        .onReceive(presenter.$addPin) { addPin in
+            if addPin ?? false {
+                annotations = [
+                    UserLocationMapPinUIModel(
+                        coordinate: presenter.userLocation!.coordinate
+                    )
+                ]
+            }
+        }
     }
     
     // MARK: - Initialization Methods
@@ -138,6 +150,10 @@ public struct UserLocationView: IOController {
     // MARK: - Helper Methods
     
     private func updatePinLocation(at point: CGPoint, for mapSize: CGSize) {
+        if !presenter.interactor.entity.isEditable {
+            return
+        }
+        
         let lat = region.center.latitude
         let lon = region.center.longitude
         
@@ -163,6 +179,7 @@ struct UserLocationView_Previews: PreviewProvider {
     static var previews: some View {
         UserLocationView(
             entity: UserLocationEntity(
+                isEditable: true,
                 isPresented: Binding.constant(false),
                 locationName: Binding.constant(""),
                 locationLatitude: Binding.constant(0),

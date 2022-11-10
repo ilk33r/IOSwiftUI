@@ -27,6 +27,7 @@ public struct ProfileView: IOController {
     
     @State private var headerSize: CGSize = .zero
     @State private var navigationBarHidden = false
+    @State private var presentUserLocation = false
     @State private var scrollContentSize: CGSize = .zero
     @State private var scrollOffset: CGFloat = 0
     @State private var tapIndex: Int = -1
@@ -46,11 +47,14 @@ public struct ProfileView: IOController {
                     ZStack(alignment: .top) {
                         ProfileHeaderView(uiModel: presenter.profileUIModel) { buttonType in
                             switch buttonType {
+                            case .settings:
+                                presenter.navigateToSettings()
+                                
                             case .message:
                                 presenter.createInbox()
                                 
-                            case .settings:
-                                presenter.navigateToSettings()
+                            case .location:
+                                presenter.navigateToLocation(isPresented: $presentUserLocation)
                                 
                             default:
                                 break
@@ -110,10 +114,23 @@ public struct ProfileView: IOController {
             navigationState.chatEntity = chatEntity
             navigationState.navigateToChat = true
         }
+        .onReceive(presenter.$userLocationEntity) { userLocationEntity in
+            if userLocationEntity != nil {
+                presentUserLocation = true
+            }
+        }
         .navigationBarHidden(navigationBarHidden)
         .navigationBarTitle("", displayMode: .inline)
         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
             IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
+        }
+        .popover(isPresented: $presentUserLocation) {
+            IORouterUtilities.route(
+                ProfileRouters.self,
+                .userLocation(
+                    entity: presenter.userLocationEntity
+                )
+            )
         }
         .onAppear {
             if !isPreviewMode {
