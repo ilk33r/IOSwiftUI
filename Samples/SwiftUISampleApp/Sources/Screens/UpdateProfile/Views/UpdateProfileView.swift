@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 6.11.2022.
 //
 
+import Combine
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
@@ -18,6 +19,10 @@ public struct UpdateProfileView: IOController {
     // MARK: - Generics
     
     public typealias Presenter = UpdateProfilePresenter
+    
+    // MARK: - DI
+    
+    @IOInstance private var validator: IOValidator
     
     // MARK: - Properties
     
@@ -33,10 +38,12 @@ public struct UpdateProfileView: IOController {
     @State private var formNameText = ""
     @State private var formSurnameText = ""
     @State private var formBirthDate: Date?
-    @State private var formPhone = ""
+    @State private var formPhoneText = ""
     @State private var formLocationName = ""
     @State private var formLocationLatitude: Double?
     @State private var formLocationLongitude: Double?
+    
+    @Environment(\.presentationMode) private var presentationMode
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
@@ -61,15 +68,36 @@ public struct UpdateProfileView: IOController {
                                 FloatingTextField(.updateProfileFormEmail, text: $formEmailText)
                                     .disabled(true)
                                 FloatingTextField(.updateProfileFormName, text: $formNameText)
+                                    .registerValidator(to: validator, rule: IOValidationRequiredRule(errorMessage: .validationRequiredMessage))
                                 FloatingTextField(.updateProfileFormSurname, text: $formSurnameText)
+                                    .registerValidator(to: validator, rule: IOValidationRequiredRule(errorMessage: .validationRequiredMessage))
                                 FloatingDatePicker(.updateProfileFormBirthdate, date: $formBirthDate)
-                                FloatingTextField(.updateProfileFormPhone, text: $formPhone)
+                                    .registerValidator(to: validator, rule: IOValidationRequiredRule(errorMessage: .validationRequiredMessage))
+                                FloatingTextField(.updateProfileFormPhone, text: $formPhoneText)
                                     .keyboardType(.numberPad)
+                                    .registerValidator(to: validator, rule: IOValidationMinLengthRule(errorMessage: .validationRequiredMessage, length: 19))
                                 FloatingTextField(.updateProfileFormLocation, text: $formLocationName)
                                     .disabled(true)
                                     .setClick {
                                         showLocationSelection = true
                                     }
+                                PrimaryButton(.commonNextUppercased)
+                                    .setClick({
+                                        if validator.validate().isEmpty {
+                                            presenter.interactor.updateMember(
+                                                userName: formUserNameText,
+                                                birthDate: formBirthDate,
+                                                email: formEmailText,
+                                                name: formNameText,
+                                                surname: formSurnameText,
+                                                locationName: formLocationName,
+                                                locationLatitude: formLocationLatitude,
+                                                locationLongitude: formLocationLongitude,
+                                                phoneNumber: formPhoneText.trimLetters()
+                                            )
+                                        }
+                                    })
+                                    .padding(.top, 16)
                             }
                             .padding(.horizontal, 16.0)
                             .padding(.vertical, 8.0)
@@ -116,17 +144,23 @@ public struct UpdateProfileView: IOController {
             guard let output else { return }
             
             formUserNameText = output.userName
+            formEmailText = output.email
             formNameText = output.name
             formSurnameText = output.surname
             formBirthDate = output.birthDate
-            formPhone = output.phone.applyPattern(pattern: phoneNumberPattern)
+            formPhoneText = output.phone.applyPattern(pattern: phoneNumberPattern)
             formLocationName = output.locationName
             formLocationLatitude = output.locationLatitude
             formLocationLongitude = output.locationLongitude
         }
-        .onChange(of: formPhone) { newValue in
+        .onReceive(presenter.$navigateToBack) { output in
+            if output ?? false {
+                presentationMode.wrappedValue.dismiss()
+            }
+        }
+        .onChange(of: formPhoneText) { newValue in
             let plainNumber = newValue.trimLetters()
-            formPhone = plainNumber.applyPattern(pattern: phoneNumberPattern)
+            formPhoneText = plainNumber.applyPattern(pattern: phoneNumberPattern)
         }
     }
     

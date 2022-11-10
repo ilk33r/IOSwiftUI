@@ -40,7 +40,9 @@ final public class SettingsPresenter: IOPresenterable {
     func navigate(menu: SettingsMenuItemUIModel) {
         switch menu.type {
         case .updateProfile:
-            self.navigationState.wrappedValue.updateProfileEntity = UpdateProfileEntity(member: self.interactor.entity.member)
+            self.navigationState.wrappedValue.updateProfileEntity = UpdateProfileEntity(
+                member: self.interactor.entity.member
+            )
             self.navigationState.wrappedValue.navigateToUpdateProfile = true
             
         default:

@@ -9,24 +9,26 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 
 enum UpdateProfileService {
 
+    case updateMember(request: RegisterMemberRequestModel)
 }
 
 extension UpdateProfileService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
-        default:
-            return .get
+        case .updateMember:
+            return .patch
         }
     }
     
     var path: String {
         switch self {
-        default:
-            return ""
+        case .updateMember:
+            return "MemberUpdate/UpdateMember"
         }
     }
     
@@ -46,8 +48,8 @@ extension UpdateProfileService: IOServiceType {
     
     var body: Data? {
         switch self {
-        default:
-            return nil
+        case .updateMember(let request):
+            return handleRequest(request)
         }
     }
     

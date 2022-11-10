@@ -17,5 +17,6 @@ extension IOLocalizationType {
     static let updateProfileFormPhone = IOLocalizationType(rawValue: "updateProfile.form.phone")
     static let updateProfileFormSurname = IOLocalizationType(rawValue: "updateProfile.form.surname")
     static let updateProfileFormUserName = IOLocalizationType(rawValue: "updateProfile.form.userName")
+    static let updateProfileSuccessMessage = IOLocalizationType(rawValue: "updateProfile.successMessage")
     static let updateProfileTitle = IOLocalizationType(rawValue: "updateProfile.title")
 }

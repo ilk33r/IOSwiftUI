@@ -25,12 +25,14 @@ final public class UpdateProfilePresenter: IOPresenterable {
     // MARK: - Publishers
     
     @Published var uiModel: UpdateProfileUIModel!
+    @Published var navigateToBack: Bool!
     
     // MARK: - Privates
     
     // MARK: - Initialization Methods
     
     public init() {
+        self.navigateToBack = false
     }
     
     // MARK: - Presenter
@@ -57,5 +59,11 @@ final public class UpdateProfilePresenter: IOPresenterable {
     func showTabBar() {
         self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
         NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+    }
+    
+    func updateSuccess() {
+        self.showAlert(.updateProfileSuccessMessage) { [weak self] _ in
+            self?.navigateToBack = true
+        }
     }
 }

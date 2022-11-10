@@ -23,6 +23,9 @@
 "location.serviceDisabledMessage" = "Location services disabled. Would you like to turn on location services?";
 "location.serviceRestrictedMessage" = "Location services are restricted. Would you like to turn on location services?";
 
+// MARK: - Validation
+"validation.requiredMessage" = "This field is required.";
+
 // MARK: -  Splash
 "splash.button.logIn.uppercased" = "LOG IN";
 "splash.button.register.uppercased" = "REGISTER";
@@ -75,6 +78,7 @@
 "updateProfile.form.phone" = "Phone";
 "updateProfile.form.surname" = "Surname";
 "updateProfile.form.userName" = "User Name";
+"updateProfile.successMessage" = "Your profile has been updated.";
 "updateProfile.title" = "Update Profile";
 
 // MARK: - User Location

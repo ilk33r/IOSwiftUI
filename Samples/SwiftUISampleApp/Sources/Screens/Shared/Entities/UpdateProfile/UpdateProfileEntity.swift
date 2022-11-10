@@ -8,12 +8,15 @@
 import Foundation
 import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
+import SwiftUI
 
 public struct UpdateProfileEntity: IOEntity {
     
     public var member: MemberModel
     
-    public init(member: MemberModel) {
+    public init(
+        member: MemberModel
+    ) {
         self.member = member
     }
 }
