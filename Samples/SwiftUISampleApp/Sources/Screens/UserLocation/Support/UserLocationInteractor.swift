@@ -31,6 +31,8 @@ public struct UserLocationInteractor: IOInteractor {
     // MARK: - Interactor
     
     func geocodeLocation(userLocation: CLLocation) {
+        showIndicator()
+        
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(userLocation) { placemarks, error in
             if let error {
@@ -62,6 +64,7 @@ public struct UserLocationInteractor: IOInteractor {
                     locationName += countryName
                 }
                 
+                hideIndicator()
                 presenter?.update(location: userLocation, locationName: locationName)
             }
         }

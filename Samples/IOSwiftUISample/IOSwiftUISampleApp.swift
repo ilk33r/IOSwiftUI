@@ -22,9 +22,11 @@ struct IOSwiftUISampleApp: App {
     @IOInject private var httpClient: IOHTTPClientImpl
     @IOInject private var localization: IOLocalizationImpl
     
+    @UIApplicationDelegateAdaptor private var appDelegate: IOSwiftUISampleAppDelegate
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
     
-    let splashView = IORouterUtilities.route(PreLoginRouters.self, .splash(entity: nil))
+    private let splashView = IORouterUtilities.route(PreLoginRouters.self, .splash(entity: nil))
+    private let indicatorPresenter: IOIndicatorPresenter
     
     var body: some Scene {
         WindowGroup {
@@ -38,16 +40,28 @@ struct IOSwiftUISampleApp: App {
                         .setEnvironment(appEnvironment)
                         .transition(.opacity)
                 }
-                
-                if appEnvironment.showLoading {
-                    IndicatorView()
-                        .transition(.opacity)
-                }
+            }
+        }
+//        WindowGroup(id: "indicatorWindow") {
+//            IndicatorView()
+//                .transition(.opacity)
+//        }
+//        .handlesExternalEvents(matching: ["indicatorWindow"])
+        .onChange(of: appEnvironment.showLoading) { newValue in
+            if newValue {
+                indicatorPresenter.show()
+            } else {
+                indicatorPresenter.dismiss()
             }
         }
     }
     
     init() {
+        self.indicatorPresenter = IOIndicatorPresenterImpl {
+            IndicatorView()
+                .transition(.opacity)
+        }
+        
         IOFontType.registerFontsIfNecessary(Bundle.resources)
         IOLocalizationImpl.shared.setLocalizationBundle(bundleName: "SwiftUISampleApp_SwiftUISampleAppResources")
         IOLocalizationImpl.shared.changeLanguage(type: configuration.defaultLocale)
