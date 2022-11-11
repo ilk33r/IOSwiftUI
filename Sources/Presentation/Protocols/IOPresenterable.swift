@@ -43,7 +43,7 @@ public extension IOPresenterable {
         _ message: String,
         title: String? = nil,
         buttonTitles: [IOLocalizationType] = [.commonOk],
-        handler: IOAlertModifierResultHandler?
+        handler: IOAlertResultHandler?
     ) {
         self.navigationState.wrappedValue.alertData = IOAlertData(
             title: title ?? "",
@@ -62,7 +62,7 @@ public extension IOPresenterable {
         _ type: IOLocalizationType,
         title: String? = nil,
         buttonTitles: [IOLocalizationType] = [.commonOk],
-        handler: IOAlertModifierResultHandler?
+        handler: IOAlertResultHandler?
     ) {
         self.navigationState.wrappedValue.alertData = IOAlertData(
             title: title ?? "",

@@ -8,29 +8,11 @@
 import SwiftUI
 import IOSwiftUIInfrastructure
 
-public struct IOAlertData {
-    
-    let title: String
-    let message: String
-    let buttons: [IOLocalizationType]
-    let handler: IOAlertModifierResultHandler?
-    
-    public init(title: String, message: String, buttons: [IOLocalizationType], handler: IOAlertModifierResultHandler?) {
-        self.title = title
-        self.message = message
-        self.buttons = buttons
-        self.handler = handler
-    }
-}
-
-public typealias IOAlertModifierHandler = () -> IOAlertData
-public typealias IOAlertModifierResultHandler = (_ index: Int) -> Void
-
 public extension View {
     
     func alertView(
         isPresented: Binding<Bool>,
-        handler: @escaping IOAlertModifierHandler
+        handler: @escaping IOAlertHandler
     ) -> some View {
         modifier(IOAlertModifier(isPresented: isPresented, handler: handler))
     }
@@ -39,11 +21,11 @@ public extension View {
 struct IOAlertModifier: ViewModifier {
     
     private let isPresented: Binding<Bool>
-    private let handler: IOAlertModifierHandler
+    private let handler: IOAlertHandler
     
     init(
         isPresented: Binding<Bool>,
-        handler: @escaping IOAlertModifierHandler
+        handler: @escaping IOAlertHandler
     ) {
         self.isPresented = isPresented
         self.handler = handler
@@ -59,13 +41,13 @@ struct IOAlertModifier: ViewModifier {
                         title: Text(alertContent.title),
                         message: Text(alertContent.message),
                         primaryButton: .default(
-                            Text(alertContent.buttons[0].localized),
+                            Text(alertContent.buttons[0]),
                             action: {
                                 alertContent.handler?(0)
                             }
                         ),
                         secondaryButton: .destructive(
-                            Text(alertContent.buttons[1].localized),
+                            Text(alertContent.buttons[1]),
                             action: {
                                 alertContent.handler?(1)
                             }
@@ -76,7 +58,7 @@ struct IOAlertModifier: ViewModifier {
                         title: Text(alertContent.title),
                         message: Text(alertContent.message),
                         dismissButton: .default(
-                            Text(alertContent.buttons[0].localized),
+                            Text(alertContent.buttons[0]),
                             action: {
                                 alertContent.handler?(0)
                             }

@@ -29,7 +29,7 @@ public extension IOInteractor {
         _ message: String?,
         type: IOHTTPError.ErrorType,
         response: BaseResponseModel?,
-        handler: IOAlertModifierResultHandler?
+        handler: IOAlertResultHandler?
     ) {
         let message = message ?? IOLocalizationType.networkCommonError.localized
         showAlert(message, handler: handler)

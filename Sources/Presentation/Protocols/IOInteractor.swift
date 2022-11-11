@@ -56,7 +56,7 @@ public extension IOInteractor {
         _ message: String,
         title: String? = nil,
         buttonTitles: [IOLocalizationType] = [.commonOk],
-        handler: IOAlertModifierResultHandler?
+        handler: IOAlertResultHandler?
     ) {
         presenter?.showAlert(
             message,
