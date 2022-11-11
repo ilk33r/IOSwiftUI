@@ -42,13 +42,14 @@ struct ProfileHeaderView: View {
                 .font(type: .regular(36))
                 .padding(.top, 16)
                 .padding(.bottom, 4)
-            Button(uiModel?.locationName ?? "") {
+            Button(uiModel?.locationName ?? "Location") {
                 clickHandler?(.location)
             }
             .font(type: .black(13))
             .foregroundColor(.black)
             .padding(.top, 0)
             .padding(.bottom, 0)
+            .frame(minHeight: 18)
             if uiModel?.isOwnProfile ?? false {
                 PrimaryButton(.profileButtonFriends)
                     .setClick {
