@@ -56,6 +56,19 @@ final public class SettingsPresenter: IOPresenterable {
         case .updateProfilePicture:
             self.actionSheetData = ActionSheetData()
             
+        case .removeProfilePicture:
+            self.showAlert(
+                IOLocalizationType.settingsPromptDeleteProfilePicture.localized,
+                buttonTitles: [
+                    .commonYes,
+                    .commonNo
+                ]
+            ) { [weak self] index in
+                if index == 0 {
+                    self?.interactor.deleteProfilePicture()
+                }
+            }
+            
         default:
             break
         }

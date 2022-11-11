@@ -89,6 +89,18 @@ public struct SettingsInteractor: IOInteractor {
     
     func deleteProfilePicture() {
         showIndicator()
+        
+        service.request(.deleteProfilePicture, responseType: GenericResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(_):
+                showAlert(IOLocalizationType.settingsSuccessDeleteProfilePicture.localized, handler: nil)
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
     }
     
     func deleteAndUploadProfilePicture(image: UIImage) {
@@ -117,7 +129,7 @@ public struct SettingsInteractor: IOInteractor {
             
             switch result {
             case .success(_):
-                showAlert(IOLocalizationType.settingsSuccessProfilePicture.localized, handler: nil)
+                showAlert(IOLocalizationType.settingsSuccessUpdateProfilePicture.localized, handler: nil)
                 
             case .error(message: let message, type: let type, response: let response):
                 handleServiceError(message, type: type, response: response, handler: nil)
