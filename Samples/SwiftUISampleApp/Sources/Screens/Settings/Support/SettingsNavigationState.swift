@@ -20,6 +20,8 @@ final public class SettingsNavigationState: IONavigationState {
     public var alertData: IOAlertData!
     public var showAlert = CurrentValueSubject<Bool, Never>(false)
     
+    @Published public var navigateToCamera = false
+    @Published public var navigateToPhotoLibrary = false
     @Published public var navigateToUpdateProfile = false
     
     var updateProfileEntity: UpdateProfileEntity!

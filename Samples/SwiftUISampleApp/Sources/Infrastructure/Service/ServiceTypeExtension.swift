@@ -19,6 +19,10 @@ public extension IOServiceType {
         return _handleRequest(model)
     }
     
+    func handleMultipartRequest(_ data: [IOServiceMultipartFormData], boundary: String) -> Data? {
+        return _handleMultipartRequest(data, boundary: boundary)
+    }
+    
     func handleResponse<TModel: Codable>(
         type: TModel.Type,
         result: IOHTTPResult?

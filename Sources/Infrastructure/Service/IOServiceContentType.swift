@@ -7,13 +7,29 @@
 
 import Foundation
 
-public enum IOServiceContentType: String {
+public struct IOServiceContentType: RawRepresentable, Equatable, Hashable {
     
-    case applicationJSON = "application/json"
-    case applicationPDF = "application/pdf"
-    case imagePNG = "image/png"
-    case imageJPEG = "image/jpeg"
-    case multipartFormData = "multipart/form-data"
-    case textPlain = "text/plain"
-    case textCSV = "text/csv"
+    public typealias RawValue = String
+    
+    public static let applicationJSON = IOServiceContentType(rawValue: "application/json")
+    public static let applicationPDF = IOServiceContentType(rawValue: "application/pdf")
+    public static let imagePNG = IOServiceContentType(rawValue: "image/png")
+    public static let imageJPEG = IOServiceContentType(rawValue: "image/jpeg")
+    public static let textPlain = IOServiceContentType(rawValue: "text/plain")
+    public static let textCSV = IOServiceContentType(rawValue: "text/csv")
+    
+    public var rawValue: String
+    
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(rawValue)
+    }
+    
+    public static func multipartFormData(boundary: String) -> IOServiceContentType {
+        // boundary = UUID().uuidString
+        return IOServiceContentType(rawValue: "multipart/form-data; boundary=\(boundary)")
+    }
 }

@@ -26,6 +26,8 @@ public struct SettingsView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
+    @State private var showUpdateProfilePictureSheet = false
+    
     // MARK: - Body
     
     public var body: some View {
@@ -60,8 +62,49 @@ public struct SettingsView: IOController {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
                 presenter.navigationState = _navigationState
-                presenter.interactor.loadMenu()
             }
+            
+            presenter.interactor.loadMenu()
+        }
+        .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
+            IOImagePickerView(
+                sourceType: .camera,
+                allowEditing: true
+            ) { image in
+                presenter.interactor.deleteAndUploadProfilePicture(image: image)
+            }
+        }
+        .fullScreenCover(isPresented: $navigationState.navigateToPhotoLibrary) {
+            IOImagePickerView(
+                sourceType: .photoLibrary,
+                allowEditing: true
+            ) { _ in
+                
+            }
+        }
+        .actionSheet(item: $presenter.actionSheetData) { _ in
+            ActionSheet(
+                title: Text(type: .settingsCameraActionsTitle),
+                buttons: [
+                    .default(
+                        Text(type: .settingsCameraActionsTakePhoto),
+                        action: {
+                            navigationState.navigateToCamera = true
+                        }
+                    ),
+                    .default(
+                        Text(type: .settingsCameraActionsChoosePhoto),
+                        action: {
+                            navigationState.navigateToPhotoLibrary = true
+                        }
+                    ),
+                    .destructive(
+                        Text(type: .commonCancel),
+                        action: {
+                        }
+                    )
+                ]
+            )
         }
     }
     

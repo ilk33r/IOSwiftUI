@@ -61,6 +61,9 @@
 "discover.title" = "Discover";
 
 // MARK: - Settings
+"settings.camera.actions.choosePhoto" = "Pick from gallery";
+"settings.camera.actions.takePhoto" = "Take a photo";
+"settings.camera.actions.title" = "Create";
 "settings.menu.changePassword" = "Change password";
 "settings.menu.logout" = "Log out";
 "settings.menu.privacyPolicy" = "Privacy policy";
@@ -68,6 +71,7 @@
 "settings.menu.termOfUse" = "Term of use";
 "settings.menu.updateProfilePicture" = "Update profile picture";
 "settings.menu.updateProfile" = "Update profile";
+"settings.success.profilePicture" = "Your profile picture has been updated.";
 "settings.title" = "Settings";
 
 // MARK: - Update Profile

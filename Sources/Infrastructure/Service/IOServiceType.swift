@@ -52,6 +52,26 @@ public extension IOServiceType {
         return nil
     }
     
+    func _handleMultipartRequest(_ formDatas: [IOServiceMultipartFormData], boundary: String) -> Data {
+        var requestData = Data()
+        
+        for data in formDatas {
+            requestData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+            
+            var disposition = "Content-Disposition: form-data; name=\"\(data.formName)\""
+            if let fileName = data.fileName {
+                disposition += "; filename=\"\(fileName)\""
+            }
+            
+            requestData.append("\(disposition)\r\n".data(using: .utf8)!)
+            requestData.append("Content-Type: \(data.contentType.rawValue)\r\n\r\n".data(using: .utf8)!)
+            requestData.append(data.content)
+        }
+        
+        requestData.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        return requestData
+    }
+    
     func _handleRequest<TModel: Codable>(_ model: TModel) -> Data? {
         do {
             return try mapper.toJsonData(model)

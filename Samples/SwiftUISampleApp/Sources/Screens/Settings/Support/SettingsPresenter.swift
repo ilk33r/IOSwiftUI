@@ -15,6 +15,13 @@ import SwiftUISampleAppScreensShared
 
 final public class SettingsPresenter: IOPresenterable {
     
+    // MARK: - Defs
+    
+    struct ActionSheetData: Identifiable {
+        
+        let id = UUID()
+    }
+    
     // MARK: - Presentable
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
@@ -25,6 +32,7 @@ final public class SettingsPresenter: IOPresenterable {
     
     // MARK: - Publishers
     
+    @Published var actionSheetData: ActionSheetData?
     @Published private(set) var menu: [SettingsMenuItemUIModel]
     
     // MARK: - Privates
@@ -44,6 +52,9 @@ final public class SettingsPresenter: IOPresenterable {
                 member: self.interactor.entity.member
             )
             self.navigationState.wrappedValue.navigateToUpdateProfile = true
+            
+        case .updateProfilePicture:
+            self.actionSheetData = ActionSheetData()
             
         default:
             break

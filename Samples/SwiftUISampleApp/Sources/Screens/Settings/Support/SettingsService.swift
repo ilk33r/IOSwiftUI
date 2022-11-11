@@ -12,13 +12,17 @@ import IOSwiftUIPresentation
 
 enum SettingsService {
 
-    case uploadProfilePicture(name: String, type: String, image: Data)
+    case deleteProfilePicture
+    case uploadProfilePicture(image: Data, boundary: String = UUID().uuidString)
 }
 
 extension SettingsService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
+        case .deleteProfilePicture:
+            return .delete
+            
         case .uploadProfilePicture:
             return .put
         }
@@ -26,6 +30,9 @@ extension SettingsService: IOServiceType {
     
     var requestContentType: IOServiceContentType {
         switch self {
+        case .uploadProfilePicture(_, let boundary):
+            return .multipartFormData(boundary: boundary)
+            
         default:
             return .applicationJSON
         }
@@ -33,6 +40,9 @@ extension SettingsService: IOServiceType {
     
     var path: String {
         switch self {
+        case .deleteProfilePicture:
+            return "MemberImages/DeleteProfilePicture"
+            
         case .uploadProfilePicture:
             return "MemberImages/UploadProfilePicture"
         }
@@ -54,6 +64,11 @@ extension SettingsService: IOServiceType {
     
     var body: Data? {
         switch self {
+        case .uploadProfilePicture(image: let image, boundary: let boundary):
+            let fileName = UUID().uuidString + ".png"
+            let formData = IOServiceMultipartFormData(formName: "file", contentType: .imagePNG, content: image, fileName: fileName)
+            return handleMultipartRequest([formData], boundary: boundary)
+            
         default:
             return nil
         }
