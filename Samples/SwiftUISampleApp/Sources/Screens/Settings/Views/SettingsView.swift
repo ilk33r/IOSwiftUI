@@ -77,8 +77,8 @@ public struct SettingsView: IOController {
             IOImagePickerView(
                 sourceType: .photoLibrary,
                 allowEditing: true
-            ) { _ in
-                
+            ) { image in
+                presenter.interactor.deleteAndUploadProfilePicture(image: image)
             }
         }
         .actionSheet(item: $presenter.actionSheetData) { _ in
