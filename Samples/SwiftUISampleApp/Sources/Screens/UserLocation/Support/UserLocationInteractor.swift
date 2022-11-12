@@ -36,7 +36,9 @@ public struct UserLocationInteractor: IOInteractor {
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(userLocation) { placemarks, error in
             if let error {
-                showAlert(error.localizedDescription, handler: nil)
+                showAlert {
+                    IOAlertData(title: nil, message: error.localizedDescription, buttons: [.commonOk], handler: nil)
+                }
                 return
             }
             

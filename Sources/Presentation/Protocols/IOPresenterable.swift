@@ -39,41 +39,16 @@ public extension IOPresenterable {
     
     // MARK: - Alert
     
-    func showAlert(
-        _ message: String,
-        title: String? = nil,
-        buttonTitles: [IOLocalizationType] = [.commonOk],
-        handler: IOAlertResultHandler?
-    ) {
-        self.navigationState.wrappedValue.alertData = IOAlertData(
-            title: title ?? "",
-            message: message,
-            buttons: buttonTitles,
+    func showAlert(handler: () -> IOAlertData) {
+        let alertData = handler()
+        self.environment.wrappedValue.alertData = IOAlertData(
+            title: alertData.title,
+            message: alertData.message,
+            buttons: alertData.buttons,
             handler: { [weak self] index in
-                handler?(index)
-                self?.navigationState.wrappedValue.showAlert.send(false)
+                self?.environment.wrappedValue.alertData = nil
+                alertData.handler?(index)
             }
         )
-        
-        self.navigationState.wrappedValue.showAlert.send(true)
-    }
-    
-    func showAlert(
-        _ type: IOLocalizationType,
-        title: String? = nil,
-        buttonTitles: [IOLocalizationType] = [.commonOk],
-        handler: IOAlertResultHandler?
-    ) {
-        self.navigationState.wrappedValue.alertData = IOAlertData(
-            title: title ?? "",
-            message: type.localized,
-            buttons: buttonTitles,
-            handler: { [weak self] index in
-                handler?(index)
-                self?.navigationState.wrappedValue.showAlert.send(false)
-            }
-        )
-        
-        self.navigationState.wrappedValue.showAlert.send(true)
     }
 }

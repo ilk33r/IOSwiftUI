@@ -16,9 +16,6 @@ final public class DiscoverNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    public var alertData: IOAlertData!
-    public var showAlert = CurrentValueSubject<Bool, Never>(false)
-    
     @Published public var navigateToProfile = false
     
     public var userName: String?

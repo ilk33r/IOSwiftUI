@@ -52,17 +52,7 @@ public extension IOInteractor {
     
     // MARK: - Alert
     
-    func showAlert(
-        _ message: String,
-        title: String? = nil,
-        buttonTitles: [IOLocalizationType] = [.commonOk],
-        handler: IOAlertResultHandler?
-    ) {
-        presenter?.showAlert(
-            message,
-            title: title,
-            buttonTitles: buttonTitles,
-            handler: handler
-        )
+    func showAlert(handler: () -> IOAlertData) {
+        presenter?.showAlert(handler: handler)
     }
 }

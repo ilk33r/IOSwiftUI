@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 25.09.2022.
 //
 
+import Combine
 import Foundation
 
 final public class IOAppEnvironmentObject: IOAppEnvironment {
@@ -13,9 +14,14 @@ final public class IOAppEnvironmentObject: IOAppEnvironment {
     
     @Published public var showLoading = false
     
+    public var alertData: IOAlertData? {
+        willSet {
+            self.objectWillChange.send()
+        }
+    }
+    
     // MARK: - Initialization Methods
     
     public init() {
-        
     }
 }

@@ -25,7 +25,10 @@ struct IOSwiftUISampleApp: App {
     @UIApplicationDelegateAdaptor private var appDelegate: IOSwiftUISampleAppDelegate
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
     
+    @State private var alertData: IOAlertData?
+    
     private let splashView = IORouterUtilities.route(PreLoginRouters.self, .splash(entity: nil))
+    private let alertPresenter: IOAlertPresenter
     private let indicatorPresenter: IOIndicatorPresenter
     
     var body: some Scene {
@@ -42,16 +45,18 @@ struct IOSwiftUISampleApp: App {
                 }
             }
         }
-//        WindowGroup(id: "indicatorWindow") {
-//            IndicatorView()
-//                .transition(.opacity)
-//        }
-//        .handlesExternalEvents(matching: ["indicatorWindow"])
         .onChange(of: appEnvironment.showLoading) { newValue in
             if newValue {
                 indicatorPresenter.show()
             } else {
                 indicatorPresenter.dismiss()
+            }
+        }
+        .onChange(of: appEnvironment.alertData) { newValue in
+            if let newValue {
+                alertPresenter.show {
+                    newValue
+                }
             }
         }
     }
@@ -61,6 +66,8 @@ struct IOSwiftUISampleApp: App {
             IndicatorView()
                 .transition(.opacity)
         }
+        
+        self.alertPresenter = IOAlertPresenterImpl()
         
         IOFontType.registerFontsIfNecessary(Bundle.resources)
         IOLocalizationImpl.shared.setLocalizationBundle(bundleName: "SwiftUISampleApp_SwiftUISampleAppResources")

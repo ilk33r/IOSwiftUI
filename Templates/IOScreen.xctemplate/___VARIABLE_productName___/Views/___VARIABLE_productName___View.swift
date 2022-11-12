@@ -28,7 +28,6 @@ public struct ___VARIABLE_productName___View: IOController {
             .controllerWireframe {
                 ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
             }
-            .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
             .onAppear {
                 if !isPreviewMode {
                     presenter.environment = _appEnvironment

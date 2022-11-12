@@ -17,9 +17,6 @@ final public class ChatInboxNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    public var alertData: IOAlertData!
-    public var showAlert = CurrentValueSubject<Bool, Never>(false)
-    
     @Published public var navigateToChat = false
     
     var chatEntity: ChatEntity!

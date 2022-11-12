@@ -11,14 +11,14 @@ import IOSwiftUIInfrastructure
 public typealias IOAlertHandler = () -> IOAlertData
 public typealias IOAlertResultHandler = (_ index: Int) -> Void
 
-public struct IOAlertData {
+public struct IOAlertData: Equatable {
     
-    public let title: String
+    public let title: String?
     public let message: String
     public let buttons: [String]
     public let handler: IOAlertResultHandler?
     
-    public init(title: String, message: String, buttons: [String], handler: IOAlertResultHandler?) {
+    public init(title: String?, message: String, buttons: [String], handler: IOAlertResultHandler?) {
         self.title = title
         self.message = message
         self.buttons = buttons
@@ -53,17 +53,21 @@ public struct IOAlertData {
         self.handler = handler
     }
     
-    public init(title: String, message: IOLocalizationType, buttons: [IOLocalizationType], handler: IOAlertResultHandler?) {
+    public init(title: String?, message: IOLocalizationType, buttons: [IOLocalizationType], handler: IOAlertResultHandler?) {
         self.title = title
         self.message = message.localized
         self.buttons = buttons.map({ $0.localized })
         self.handler = handler
     }
     
-    public init(title: String, message: String, buttons: [IOLocalizationType], handler: IOAlertResultHandler?) {
+    public init(title: String?, message: String, buttons: [IOLocalizationType], handler: IOAlertResultHandler?) {
         self.title = title
         self.message = message
         self.buttons = buttons.map({ $0.localized })
         self.handler = handler
+    }
+    
+    public static func == (lhs: IOAlertData, rhs: IOAlertData) -> Bool {
+        return false
     }
 }

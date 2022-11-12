@@ -32,6 +32,8 @@ public extension IOInteractor {
         handler: IOAlertResultHandler?
     ) {
         let message = message ?? IOLocalizationType.networkCommonError.localized
-        showAlert(message, handler: handler)
+        showAlert {
+            IOAlertData(title: nil, message: message, buttons: [.commonOk], handler: handler)
+        }
     }
 }

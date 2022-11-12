@@ -16,9 +16,6 @@ final public class SplashNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    public var alertData: IOAlertData!
-    public var showAlert = CurrentValueSubject<Bool, Never>(false)
-    
     @Published public var navigateToLogin = false
     @Published public var navigateToRegister = false
 }

@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+public protocol IOAlertPresenter {
+    
+    func show(handler: @escaping IOAlertHandler)
+    func dismiss()
+}

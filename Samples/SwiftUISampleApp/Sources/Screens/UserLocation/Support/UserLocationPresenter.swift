@@ -67,7 +67,9 @@ final public class UserLocationPresenter: IOPresenterable {
     
     func saveUserLocation(annotations: [UserLocationMapPinUIModel]) {
         guard let annotation = annotations.first else {
-            self.showAlert(.userLocationErrorSelectLocation, handler: nil)
+            self.showAlert {
+                IOAlertData(title: nil, message: .userLocationErrorSelectLocation, buttons: [.commonOk], handler: nil)
+            }
             return
         }
         
@@ -93,14 +95,17 @@ final public class UserLocationPresenter: IOPresenterable {
     }
     
     private func navigateToSettings(message: IOLocalizationType, settingsURL: URL?) {
-        self.showAlert(
-            message.localized,
-            buttonTitles: [.commonCancel, .commonOk],
-            handler: { index in
-                if index == 1, let settingsURL {
-                    UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+        self.showAlert {
+            IOAlertData(
+                title: nil,
+                message: message,
+                buttons: [.commonCancel, .commonOk],
+                handler: { index in
+                    if index == 1, let settingsURL {
+                        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }

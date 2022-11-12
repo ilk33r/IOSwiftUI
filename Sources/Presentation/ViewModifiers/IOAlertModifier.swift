@@ -38,7 +38,7 @@ struct IOAlertModifier: ViewModifier {
                 
                 if alertContent.buttons.count > 1 {
                     return Alert(
-                        title: Text(alertContent.title),
+                        title: Text(alertContent.title ?? ""),
                         message: Text(alertContent.message),
                         primaryButton: .default(
                             Text(alertContent.buttons[0]),
@@ -55,7 +55,7 @@ struct IOAlertModifier: ViewModifier {
                     )
                 } else {
                     return Alert(
-                        title: Text(alertContent.title),
+                        title: Text(alertContent.title ?? ""),
                         message: Text(alertContent.message),
                         dismissButton: .default(
                             Text(alertContent.buttons[0]),

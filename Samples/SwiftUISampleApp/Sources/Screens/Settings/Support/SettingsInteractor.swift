@@ -95,7 +95,9 @@ public struct SettingsInteractor: IOInteractor {
             
             switch result {
             case .success(_):
-                showAlert(IOLocalizationType.settingsSuccessDeleteProfilePicture.localized, handler: nil)
+                showAlert {
+                    IOAlertData(title: nil, message: .settingsSuccessDeleteProfilePicture, buttons: [.commonOk], handler: nil)
+                }
                 
             case .error(message: let message, type: let type, response: let response):
                 handleServiceError(message, type: type, response: response, handler: nil)
@@ -129,7 +131,9 @@ public struct SettingsInteractor: IOInteractor {
             
             switch result {
             case .success(_):
-                showAlert(IOLocalizationType.settingsSuccessUpdateProfilePicture.localized, handler: nil)
+                showAlert {
+                    IOAlertData(title: nil, message: .settingsSuccessUpdateProfilePicture, buttons: [.commonOk], handler: nil)
+                }
                 
             case .error(message: let message, type: let type, response: let response):
                 handleServiceError(message, type: type, response: response, handler: nil)

@@ -18,9 +18,6 @@ final public class ProfileNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    public var alertData: IOAlertData!
-    public var showAlert = CurrentValueSubject<Bool, Never>(false)
-    
     @Published public var navigateToChat = false
     @Published public var navigateToGallery = false
     @Published public var navigateToMessage = false

@@ -11,8 +11,5 @@ final public class ___VARIABLE_productName___NavigationState: IONavigationState 
     
     // MARK: - Properties
     
-    public var alertData: IOAlertData!
-    public var showAlert = CurrentValueSubject<Bool, Never>(false)
-    
 //    @Published public var navigateToPage = false
 }

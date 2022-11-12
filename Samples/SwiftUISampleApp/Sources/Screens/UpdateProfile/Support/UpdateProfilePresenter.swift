@@ -62,8 +62,10 @@ final public class UpdateProfilePresenter: IOPresenterable {
     }
     
     func updateSuccess() {
-        self.showAlert(.updateProfileSuccessMessage) { [weak self] _ in
-            self?.navigateToBack = true
+        self.showAlert { [weak self] in
+            IOAlertData(title: nil, message: .updateProfileSuccessMessage, buttons: [.commonOk]) { [weak self] _ in
+                self?.navigateToBack = true
+            }
         }
     }
 }

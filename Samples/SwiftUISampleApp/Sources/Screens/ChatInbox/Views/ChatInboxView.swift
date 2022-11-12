@@ -57,7 +57,6 @@ public struct ChatInboxView: IOController {
         .navigationWireframe {
             ChatInboxNavigationWireframe(navigationState: navigationState)
         }
-        .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
         .onReceive(presenter.$inboxes) { _ in
             if isRefreshing {
                 isRefreshing = false

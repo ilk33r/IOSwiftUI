@@ -16,9 +16,6 @@ final public class HomeNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    public var alertData: IOAlertData!
-    public var showAlert = CurrentValueSubject<Bool, Never>(false)
-    
     @Published public var navigateToCamera = false
     @Published public var navigateToPhotoLibrary = false
 }

@@ -57,7 +57,6 @@ public struct DiscoverView: IOController {
         .navigationWireframe {
             DiscoverNavigationWireframe(navigationState: navigationState)
         }
-        .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment

@@ -11,6 +11,4 @@ import SwiftUI
 
 public protocol IONavigationState: ObservableObject {
     
-    var alertData: IOAlertData! { get set }
-    var showAlert: CurrentValueSubject<Bool, Never> { get set }
 }

@@ -105,7 +105,6 @@ public struct ProfileView: IOController {
         .navigationWireframe(isHidden: true) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
-        .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
         .onReceive(presenter.$chatEntity) { chatEntity in
             if chatEntity == nil {
                 return

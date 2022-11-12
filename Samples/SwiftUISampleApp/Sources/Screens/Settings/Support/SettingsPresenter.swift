@@ -57,15 +57,15 @@ final public class SettingsPresenter: IOPresenterable {
             self.actionSheetData = ActionSheetData()
             
         case .removeProfilePicture:
-            self.showAlert(
-                IOLocalizationType.settingsPromptDeleteProfilePicture.localized,
-                buttonTitles: [
-                    .commonYes,
-                    .commonNo
-                ]
-            ) { [weak self] index in
-                if index == 0 {
-                    self?.interactor.deleteProfilePicture()
+            self.showAlert { [weak self] in
+                IOAlertData(
+                    title: nil,
+                    message: .settingsPromptDeleteProfilePicture,
+                    buttons: [.commonYes, .commonNo]
+                ) { [weak self] index in
+                    if index == 0 {
+                        self?.interactor.deleteProfilePicture()
+                    }
                 }
             }
             
