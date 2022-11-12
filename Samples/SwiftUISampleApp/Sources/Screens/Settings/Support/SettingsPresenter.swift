@@ -69,6 +69,9 @@ final public class SettingsPresenter: IOPresenterable {
                 }
             }
             
+        case .changePassword:
+            self.navigationState.wrappedValue.navigateToChangePassword = true
+            
         default:
             break
         }

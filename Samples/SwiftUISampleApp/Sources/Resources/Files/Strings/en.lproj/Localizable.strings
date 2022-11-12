@@ -92,3 +92,11 @@
 // MARK: - User Location
 "userLocation.error.selectLocation" = "Please select a location.";
 "userLocation.selectLocation.title" = "Select Location";
+
+// MARK: - Change Password
+"changePassword.form.confirmPassword" = "Confirm Password";
+"changePassword.form.currentPassword" = "Current Password";
+"changePassword.form.newPassword" = "New Password";
+"changePassword.success.message" = "Your password has been changed.";
+"changePassword.title" = "Change Password";
+"changePassword.validation.passwordDoNotMatch" = "Passwords do not match.";

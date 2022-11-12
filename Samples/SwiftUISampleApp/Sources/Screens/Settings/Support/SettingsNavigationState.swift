@@ -18,6 +18,7 @@ final public class SettingsNavigationState: IONavigationState {
     // MARK: - Properties
     
     @Published public var navigateToCamera = false
+    @Published public var navigateToChangePassword = false
     @Published public var navigateToPhotoLibrary = false
     @Published public var navigateToUpdateProfile = false
     
