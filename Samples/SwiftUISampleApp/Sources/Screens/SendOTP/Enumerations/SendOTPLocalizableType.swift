@@ -9,5 +9,7 @@ import Foundation
 import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
-    
+ 
+    static let sendOTPHeaderDescription = IOLocalizationType(rawValue: "sendOTP.header.description")
+    static let sendOTPTitle = IOLocalizationType(rawValue: "sendOTP.title")
 }

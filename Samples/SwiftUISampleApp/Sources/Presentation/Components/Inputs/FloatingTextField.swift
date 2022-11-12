@@ -25,10 +25,11 @@ public struct FloatingTextField: View, IOValidatable {
     @State private var isEditing = false
     
     private let localizationType: IOLocalizationType
+    private let capitalization: UITextAutocapitalizationType
+    private let disableAutocorrection: Bool
+    private let keyboardType: UIKeyboardType
     
-    private var capitalization: UITextAutocapitalizationType
-    private var disableAutocorrection: Bool
-    private var keyboardType: UIKeyboardType
+    // MARK: - Body
     
     public var body: some View {
         VStack(alignment: .leading) {
@@ -49,6 +50,7 @@ public struct FloatingTextField: View, IOValidatable {
             .backgroundColor(Color.white)
             .activePlaceholderPadding(EdgeInsets(top: 0, leading: 12, bottom: 52, trailing: 0))
             .placeholderPadding(EdgeInsets(top: 0, leading: 17, bottom: 0, trailing: 0))
+            .font(type: .regular(14))
             .padding(.top, 8)
             .frame(height: 60)
             Text(validationObservedObject.errorMessage)
@@ -58,6 +60,8 @@ public struct FloatingTextField: View, IOValidatable {
                 .hidden(isHidden: $validationObservedObject.isValidated)
         }
     }
+    
+    // MARK: - Initialization Methods
     
     public init(
         _ l: IOLocalizationType,
@@ -86,6 +90,8 @@ public struct FloatingTextField: View, IOValidatable {
         self.disableAutocorrection = disableAutocorrection
         self.capitalization = capitalization
     }
+    
+    // MARK: - Modifiers
     
     public func capitalization(_ type: UITextAutocapitalizationType) -> FloatingTextField {
         return FloatingTextField(

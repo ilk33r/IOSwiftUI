@@ -18,17 +18,16 @@ public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
     @State private var isEditing = false
     
     private let localizationType: IOLocalizationType
-    
-    private var backgroundColor: Color
-    private var capitalization: UITextAutocapitalizationType
-    private var disableAutocorrection: Bool
-    private var fontType: IOFontType
-    private var foregroundColor: Color
-    private var keyboardType: UIKeyboardType
-    private var placeholderColor: Color
-    private var placeholderPaddingActive: EdgeInsets
-    private var placeholderPaddingDefault: EdgeInsets
-    private var textFieldOverlay: TextFieldOverlay
+    private let backgroundColor: Color
+    private let capitalization: UITextAutocapitalizationType
+    private let disableAutocorrection: Bool
+    private let fontType: IOFontType
+    private let foregroundColor: Color
+    private let keyboardType: UIKeyboardType
+    private let placeholderColor: Color
+    private let placeholderPaddingActive: EdgeInsets
+    private let placeholderPaddingDefault: EdgeInsets
+    private let textFieldOverlay: TextFieldOverlay
     
     private var placeholderPadding: EdgeInsets {
         if shouldPlaceHolderMove {

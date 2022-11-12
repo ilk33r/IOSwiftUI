@@ -100,3 +100,7 @@
 "changePassword.success.message" = "Your password has been changed.";
 "changePassword.title" = "Change Password";
 "changePassword.validation.passwordDoNotMatch" = "Passwords do not match.";
+
+// MARK: - Change Password
+"sendOTP.header.description" = "Enter the 6-digit passcode we sent to %@.";
+"sendOTP.title" = "Verify One Time Password";
