@@ -19,7 +19,7 @@ public extension IOFontType {
         }
         
         let fonts = bundle.paths(forResourcesOfType: "ttf", inDirectory: nil)
-        for fontPath in fonts {
+        fonts.forEach { fontPath in
             let fontUrl = URL(fileURLWithPath: fontPath)
             Self.registerFont(from: fontUrl)
         }

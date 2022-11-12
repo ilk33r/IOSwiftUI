@@ -55,17 +55,17 @@ public extension IOServiceType {
     func _handleMultipartRequest(_ formDatas: [IOServiceMultipartFormData], boundary: String) -> Data {
         var requestData = Data()
         
-        for data in formDatas {
+        formDatas.forEach { multipartData in
             requestData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
             
-            var disposition = "Content-Disposition: form-data; name=\"\(data.formName)\""
-            if let fileName = data.fileName {
+            var disposition = "Content-Disposition: form-data; name=\"\(multipartData.formName)\""
+            if let fileName = multipartData.fileName {
                 disposition += "; filename=\"\(fileName)\""
             }
             
             requestData.append("\(disposition)\r\n".data(using: .utf8)!)
-            requestData.append("Content-Type: \(data.contentType.rawValue)\r\n\r\n".data(using: .utf8)!)
-            requestData.append(data.content)
+            requestData.append("Content-Type: \(multipartData.contentType.rawValue)\r\n\r\n".data(using: .utf8)!)
+            requestData.append(multipartData.content)
         }
         
         requestData.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)

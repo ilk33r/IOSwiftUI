@@ -11,6 +11,8 @@ import IOSwiftUIInfrastructure
 
 public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
     
+    // MARK: - Privates
+    
     @Binding private var isEditingBinder: Bool
     @Binding private var text: String
     @State private var isEditing = false
@@ -39,6 +41,8 @@ public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
     private var shouldPlaceHolderMove: Bool {
         isEditing || !text.isEmpty
     }
+    
+    // MARK: - Body
     
     public var body: some View {
         ZStack(alignment: .leading) {
@@ -69,6 +73,8 @@ public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
                 .animation(.linear(duration: 0.15), value: isEditing)
         }
     }
+    
+    // MARK: - Initialization Methods
     
     public init(
         _ l: IOLocalizationType,
@@ -120,6 +126,8 @@ public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
         self.disableAutocorrection = disableAutocorrection
         self.capitalization = capitalization
     }
+    
+    // MARK: - Modifiers
     
     public func activePlaceholderPadding(_ padding: EdgeInsets) -> IOSecureFloatingTextField<TextFieldOverlay> {
         return IOSecureFloatingTextField(

@@ -70,7 +70,7 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     open func setupViewControllers(identifiables: [IOIdentifiableView]) {
         var viewsControllers = [UIHostingController<AnyView>]()
         
-        for identifiable in identifiables {
+        identifiables.forEach { identifiable in
             let hostingController = UIHostingController(rootView: identifiable.view)
             viewsControllers.append(hostingController)
         }
