@@ -83,6 +83,9 @@ let package = Package(
         .target(name: "SwiftUISampleAppScreensChangePassword",
                 dependencies: ["SwiftUISampleAppScreensShared"],
                 path: "Sources/Screens/ChangePassword"),
+        .target(name: "SwiftUISampleAppScreensSendOTP",
+                dependencies: ["SwiftUISampleAppScreensShared"],
+                path: "Sources/Screens/SendOTP"),
         .target(name: "SwiftUISampleAppScreensUserLocation",
                 dependencies: [.product(name: "IOSwiftUISupportLocation", package: "IOSwiftUI"),
                                "SwiftUISampleAppScreensShared"],
@@ -106,6 +109,7 @@ let package = Package(
                                "SwiftUISampleAppScreensSettings",
                                "SwiftUISampleAppScreensUpdateProfile",
                                "SwiftUISampleAppScreensChangePassword",
+                               "SwiftUISampleAppScreensSendOTP",
                                "SwiftUISampleAppScreensUserLocation"],
                 path: "Sources/Router",
                 plugins: [ .plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI") ]),
@@ -128,6 +132,7 @@ let package = Package(
                            "SwiftUISampleAppScreensSettings",
                            "SwiftUISampleAppScreensUpdateProfile",
                            "SwiftUISampleAppScreensChangePassword",
+                           "SwiftUISampleAppScreensSendOTP",
                            "SwiftUISampleAppScreensUserLocation",
                            "SwiftUISampleAppRouter"])
     ]
