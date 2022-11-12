@@ -31,6 +31,7 @@ public struct UpdateProfileView: IOController {
     @ObservedObject public var presenter: UpdateProfilePresenter
     @StateObject public var navigationState = UpdateProfileNavigationState()
     
+    @State private var sendOTP = false
     @State private var showLocationSelection = false
     
     @State private var formUserNameText = ""
@@ -84,17 +85,18 @@ public struct UpdateProfileView: IOController {
                                 PrimaryButton(.commonNextUppercased)
                                     .setClick({
                                         if validator.validate().isEmpty {
-                                            presenter.interactor.updateMember(
-                                                userName: formUserNameText,
-                                                birthDate: formBirthDate,
-                                                email: formEmailText,
-                                                name: formNameText,
-                                                surname: formSurnameText,
-                                                locationName: formLocationName,
-                                                locationLatitude: formLocationLatitude,
-                                                locationLongitude: formLocationLongitude,
-                                                phoneNumber: formPhoneText.trimLetters()
-                                            )
+                                            sendOTP = true
+//                                            presenter.interactor.updateMember(
+//                                                userName: formUserNameText,
+//                                                birthDate: formBirthDate,
+//                                                email: formEmailText,
+//                                                name: formNameText,
+//                                                surname: formSurnameText,
+//                                                locationName: formLocationName,
+//                                                locationLatitude: formLocationLatitude,
+//                                                locationLongitude: formLocationLongitude,
+//                                                phoneNumber: formPhoneText.trimLetters()
+//                                            )
                                         }
                                     })
                                     .padding(.top, 16)
@@ -130,6 +132,14 @@ public struct UpdateProfileView: IOController {
                         locationLatitude: $formLocationLatitude,
                         locationLongitude: $formLocationLongitude
                     )
+                )
+            )
+        }
+        .popover(isPresented: $sendOTP) {
+            IORouterUtilities.route(
+                OTPRouters.self,
+                .sendOTP(
+                    entity: SendOTPEntity()
                 )
             )
         }

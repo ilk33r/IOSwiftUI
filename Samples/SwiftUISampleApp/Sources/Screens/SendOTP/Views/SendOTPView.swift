@@ -30,6 +30,7 @@ public struct SendOTPView: IOController {
     @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
     
     @State private var formOTPText = ""
+    @State private var progressIsActive = false
     
     // MARK: - Body
     
@@ -42,7 +43,8 @@ public struct SendOTPView: IOController {
                         VStack(alignment: .leading) {
                             Text(type: .sendOTPHeaderDescription.format("+905335433836"))
                                 .font(type: .regular(16))
-                                .padding(.horizontal, 24)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 16)
                                 .padding(.top, 16)
                                 .padding(.bottom, 24)
                                 .frame(width: proxy.size.width - 32, alignment: .center)
@@ -55,6 +57,18 @@ public struct SendOTPView: IOController {
                                         length: 6
                                     )
                                 )
+                            
+                            ZStack(alignment: .center) {
+                                RoundedProgressView(
+                                    secondsLeft: 90,
+                                    isActive: $progressIsActive
+                                ) {
+                                    
+                                }
+                                .frame(width: 80, height: 80)
+                                .padding(.vertical, 24)
+                            }
+                            .frame(maxWidth: .infinity)
                             
                             PrimaryButton(.commonNextUppercased)
                                 .setClick({
@@ -100,6 +114,10 @@ public struct SendOTPView: IOController {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
                 presenter.navigationState = _navigationState
+            }
+            
+            DispatchQueue.main.async {
+                progressIsActive = true
             }
         }
     }
