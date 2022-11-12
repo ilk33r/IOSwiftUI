@@ -14,6 +14,10 @@ public struct IOValidatableTextField: View, IOValidatable {
     
     public var validationText: String? { text }
     
+    // MARK: - Identifiable
+    
+    public var id = UUID().uuidString
+    
     // MARK: - Privates
     
     private let localizationType: IOLocalizationType
@@ -55,6 +59,10 @@ public struct IOValidatableTextField: View, IOValidatable {
     
     public func observedObject() -> IOValidatorObservedObject {
         return validationObservedObject
+    }
+    
+    public static func == (lhs: IOValidatableTextField, rhs: IOValidatableTextField) -> Bool {
+        return lhs == rhs
     }
 }
 

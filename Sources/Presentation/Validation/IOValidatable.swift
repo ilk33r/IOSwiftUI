@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol IOValidatable {
+public protocol IOValidatable: Identifiable<String> {
     
     var validationText: String? { get }
     

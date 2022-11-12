@@ -22,6 +22,10 @@ public struct FloatingDatePicker: View, IOValidatable {
         return nil
     }
     
+    // MARK: - Identifiable
+    
+    public var id = UUID().uuidString
+    
     // MARK: - Privates
     
     private let dateFormatter: DateFormatter

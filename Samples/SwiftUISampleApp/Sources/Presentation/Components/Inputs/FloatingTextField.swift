@@ -12,7 +12,12 @@ import SwiftUISampleAppResources
 
 public struct FloatingTextField: View, IOValidatable {
     
+    // MARK: - Identifiable
+    
+    public var id = UUID().uuidString
     public var validationText: String? { text }
+    
+    // MARK: - Privates
     
     @Binding private var isEditingBinder: Bool
     @Binding private var text: String

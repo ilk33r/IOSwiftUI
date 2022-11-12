@@ -14,7 +14,7 @@ open class IOValidator: IOObject {
     
     public struct ValidationObject {
         let rule: IOValidationRule
-        let validatable: IOValidatable
+        let validatable: any IOValidatable
     }
     
     // MARK: - Privates
@@ -29,7 +29,7 @@ open class IOValidator: IOObject {
     
     // MARK: - Validation Methods
     
-    open func register(rule: IOValidationRule, validatable: IOValidatable) {
+    open func register(rule: IOValidationRule, validatable: any IOValidatable) {
         self.registeredRules.append(ValidationObject(rule: rule, validatable: validatable))
     }
     
@@ -45,13 +45,19 @@ open class IOValidator: IOObject {
     
     open func validate() -> [IOValidationRule] {
         var unvalidatedRules = [IOValidationRule]()
+        var unvalidatedValidatables = [any IOValidatable]()
         
         self.registeredRules.forEach { it in
+            if unvalidatedValidatables.first(where: { $0.id == it.validatable.id }) != nil {
+                return
+            }
+            
             if it.rule.validate(value: it.validatable.validationText) {
                 it.validatable.observedObject().success()
             } else {
                 it.validatable.observedObject().error(it.rule.errorMessage)
                 unvalidatedRules.append(it.rule)
+                unvalidatedValidatables.append(it.validatable)
             }
         }
         
