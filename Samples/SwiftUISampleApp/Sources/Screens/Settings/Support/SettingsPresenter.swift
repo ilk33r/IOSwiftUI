@@ -91,9 +91,26 @@ final public class SettingsPresenter: IOPresenterable {
             )
             self.navigationState.wrappedValue.navigateToWeb = true
             
-        default:
-            break
+        case .logout:
+            self.showAlert { [weak self] in
+                IOAlertData(
+                    title: nil,
+                    message: .settingsPromptLogout,
+                    buttons: [
+                        .commonYes,
+                        .commonNo
+                    ]
+                ) { [weak self] index in
+                    if index == 0 {
+                        self?.interactor.logout()
+                    }
+                }
+            }
         }
+    }
+    
+    func navigateSplash() {
+        self.environment.wrappedValue.isLoggedIn = false
     }
     
     func update(menu: [SettingsMenuItemUIModel]) {

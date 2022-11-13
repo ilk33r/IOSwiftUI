@@ -22,6 +22,7 @@ public struct SettingsInteractor: IOInteractor {
     
     // MARK: - Privates
     
+    @IOInject private var httpClient: IOHTTPClientImpl
     @IOInstance private var service: IOServiceProviderImpl<SettingsService>
     
     // MARK: - Initialization Methods
@@ -124,6 +125,19 @@ public struct SettingsInteractor: IOInteractor {
             }
         }
     }
+    
+    func logout() {
+        localStorage.remove(type: .userToken)
+        
+        if var defaultHTTPHeaders = httpClient.defaultHTTPHeaders {
+            defaultHTTPHeaders.removeValue(forKey: "X-IO-AUTHORIZATION-TOKEN")
+            httpClient.setDefaultHTTPHeaders(headers: defaultHTTPHeaders)
+        }
+        
+        presenter?.navigateSplash()
+    }
+    
+    // MARK: - Helper Methods
     
     private func uploadProfilePicture(image: UIImage) {
         service.request(.uploadProfilePicture(image: image.pngData()!), responseType: ImageCreateResponseModel.self) { result in

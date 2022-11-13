@@ -21,6 +21,7 @@ extension IOLocalizationType {
     static let settingsMenuUpdateProfilePicture = IOLocalizationType(rawValue: "settings.menu.updateProfilePicture")
     static let settingsMenuUpdateProfile = IOLocalizationType(rawValue: "settings.menu.updateProfile")
     static let settingsPromptDeleteProfilePicture = IOLocalizationType(rawValue: "settings.prompt.deleteProfilePicture")
+    static let settingsPromptLogout = IOLocalizationType(rawValue: "settings.prompt.logout")
     static let settingsSuccessDeleteProfilePicture = IOLocalizationType(rawValue: "settings.success.deleteProfilePicture")
     static let settingsSuccessUpdateProfilePicture = IOLocalizationType(rawValue: "settings.success.updateProfilePicture")
     static let settingsTitle = IOLocalizationType(rawValue: "settings.title")
