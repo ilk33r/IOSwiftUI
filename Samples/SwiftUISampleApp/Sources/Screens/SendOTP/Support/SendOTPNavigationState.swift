@@ -16,8 +16,5 @@ final public class SendOTPNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    public var alertData: IOAlertData!
-    public var showAlert = CurrentValueSubject<Bool, Never>(false)
-    
 //    @Published public var navigateToPage = false
 }

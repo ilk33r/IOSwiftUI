@@ -102,5 +102,6 @@
 "changePassword.validation.passwordDoNotMatch" = "Passwords do not match.";
 
 // MARK: - Change Password
-"sendOTP.header.description" = "Enter the 6-digit passcode we sent to %@.";
+"sendOTP.error.timeoutMessage" = "Your passcode time is expired. Please try again.";
+"sendOTP.header.description" = "Enter the 6-digit passcode we sent to +%@.";
 "sendOTP.title" = "Verify One Time Password";

@@ -27,7 +27,7 @@ public struct SendOTPView: IOController {
     @ObservedObject public var presenter: SendOTPPresenter
     @StateObject public var navigationState = SendOTPNavigationState()
     
-    @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     @State private var formOTPText = ""
     @State private var progressIsActive = false
@@ -41,7 +41,7 @@ public struct SendOTPView: IOController {
                     IOFormGroup(.commonDone, handler: {
                     }, content: {
                         VStack(alignment: .leading) {
-                            Text(type: .sendOTPHeaderDescription.format("+905335433836"))
+                            Text(type: .sendOTPHeaderDescription.format(presenter.uiModel?.phoneNumber ?? ""))
                                 .font(type: .regular(16))
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 16)
@@ -60,10 +60,10 @@ public struct SendOTPView: IOController {
                             
                             ZStack(alignment: .center) {
                                 RoundedProgressView(
-                                    secondsLeft: 90,
+                                    secondsLeft: presenter.uiModel?.otpTimeout ?? 90,
                                     isActive: $progressIsActive
                                 ) {
-                                    
+                                    presenter.updateOTPTimeout()
                                 }
                                 .frame(width: 80, height: 80)
                                 .padding(.vertical, 24)
@@ -73,17 +73,17 @@ public struct SendOTPView: IOController {
                             PrimaryButton(.commonNextUppercased)
                                 .setClick({
                                     if validator.validate().isEmpty {
-//                                            presenter.interactor.updateMember(
-//                                                userName: formUserNameText,
-//                                                birthDate: formBirthDate,
-//                                                email: formEmailText,
-//                                                name: formNameText,
-//                                                surname: formSurnameText,
-//                                                locationName: formLocationName,
-//                                                locationLatitude: formLocationLatitude,
-//                                                locationLongitude: formLocationLongitude,
-//                                                phoneNumber: formPhoneText.trimLetters()
-//                                            )
+                                        //                                            presenter.interactor.updateMember(
+                                        //                                                userName: formUserNameText,
+                                        //                                                birthDate: formBirthDate,
+                                        //                                                email: formEmailText,
+                                        //                                                name: formNameText,
+                                        //                                                surname: formSurnameText,
+                                        //                                                locationName: formLocationName,
+                                        //                                                locationLatitude: formLocationLatitude,
+                                        //                                                locationLongitude: formLocationLongitude,
+                                        //                                                phoneNumber: formPhoneText.trimLetters()
+                                        //                                            )
                                     } else {
                                         formOTPText = ""
                                     }
@@ -109,14 +109,15 @@ public struct SendOTPView: IOController {
         .navigationWireframe {
             SendOTPNavigationWireframe(navigationState: navigationState)
         }
-        .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
                 presenter.navigationState = _navigationState
+                presenter.interactor.otpSend()
             }
-            
-            DispatchQueue.main.async {
+        }
+        .onReceive(presenter.$uiModel) { newValue in
+            if newValue != nil {
                 progressIsActive = true
             }
         }
@@ -130,7 +131,22 @@ public struct SendOTPView: IOController {
 }
 
 struct SendOTPView_Previews: PreviewProvider {
+    
+    struct SendOTPViewDemo: View {
+        
+        @State private var isPresented = false
+        
+        var body: some View {
+            SendOTPView(
+                entity: SendOTPEntity(
+                    isPresented: $isPresented,
+                    phoneNumber: "905335433836"
+                )
+            )
+        }
+    }
+    
     static var previews: some View {
-        SendOTPView(entity: SendOTPEntity())
+        SendOTPViewDemo()
     }
 }

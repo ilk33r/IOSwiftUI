@@ -103,7 +103,6 @@ public struct ChangePasswordView: IOController {
         .controllerWireframe {
             ChangePasswordNavigationWireframe(navigationState: navigationState)
         }
-        .alertView(isPresented: $navigationState.showAlert.value) { navigationState.alertData }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment

@@ -106,6 +106,7 @@ public struct IORoundedProgressView: View {
             if secondsLeft > 0 {
                 updateTimer()
             } else {
+                isActive.wrappedValue = false
                 onFinish?()
             }
         }

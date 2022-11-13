@@ -123,7 +123,7 @@ public struct ProfileView: IOController {
         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
             IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
         }
-        .popover(isPresented: $presentUserLocation) {
+        .sheet(isPresented: $presentUserLocation) {
             IORouterUtilities.route(
                 ProfileRouters.self,
                 .userLocation(

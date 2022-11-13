@@ -16,5 +16,5 @@ final public class ChatNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-//    @Published public var navigateToPage: Bool = false
+//    @Published private(set) var navigateToPage: Bool = false
 }

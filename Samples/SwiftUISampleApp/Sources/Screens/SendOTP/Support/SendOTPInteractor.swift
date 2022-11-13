@@ -9,6 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
 public struct SendOTPInteractor: IOInteractor {
@@ -28,4 +29,23 @@ public struct SendOTPInteractor: IOInteractor {
     }
     
     // MARK: - Interactor
+    
+    func otpSend() {
+        showIndicator()
+        
+        let request = SendOTPRequestModel(phoneNumber: entity.phoneNumber ?? "")
+        service.request(.otpSend(request: request), responseType: SendOTPResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(response: let response):
+                presenter?.update(otpTimeout: response.otpTimeout ?? 90)
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response) { _ in
+                    entity.isPresented.wrappedValue = false
+                }
+            }
+        }
+    }
 }

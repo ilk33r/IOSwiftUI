@@ -31,7 +31,7 @@ public struct UpdateProfileView: IOController {
     @ObservedObject public var presenter: UpdateProfilePresenter
     @StateObject public var navigationState = UpdateProfileNavigationState()
     
-    @State private var sendOTP = false
+    @State private var showSendOTP = false
     @State private var showLocationSelection = false
     
     @State private var formUserNameText = ""
@@ -85,7 +85,7 @@ public struct UpdateProfileView: IOController {
                                 PrimaryButton(.commonNextUppercased)
                                     .setClick({
                                         if validator.validate().isEmpty {
-                                            sendOTP = true
+                                            showSendOTP = true
 //                                            presenter.interactor.updateMember(
 //                                                userName: formUserNameText,
 //                                                birthDate: formBirthDate,
@@ -121,7 +121,7 @@ public struct UpdateProfileView: IOController {
         .controllerWireframe {
             UpdateProfileNavigationWireframe(navigationState: navigationState)
         }
-        .popover(isPresented: $showLocationSelection) {
+        .sheet(isPresented: $showLocationSelection) {
             IORouterUtilities.route(
                 ProfileRouters.self,
                 .userLocation(
@@ -135,14 +135,14 @@ public struct UpdateProfileView: IOController {
                 )
             )
         }
-        .popover(isPresented: $sendOTP) {
-            IORouterUtilities.route(
-                OTPRouters.self,
-                .sendOTP(
-                    entity: SendOTPEntity()
-                )
-            )
-        }
+        .sheet(
+            isPresented: $showSendOTP,
+            onDismiss: {
+                navigationState.sendOTPDismissed()
+            }, content: {
+                navigationState.createSendOTPView(showSendOTP: $showSendOTP, phoneNumber: formPhoneText.trimLetters())
+            }
+        )
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment

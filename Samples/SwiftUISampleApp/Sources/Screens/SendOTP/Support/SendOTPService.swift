@@ -9,17 +9,19 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 
 enum SendOTPService {
 
+    case otpSend(request: SendOTPRequestModel)
 }
 
 extension SendOTPService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
-        default:
-            return .get
+        case .otpSend:
+            return .post
         }
     }
     
@@ -32,8 +34,8 @@ extension SendOTPService: IOServiceType {
     
     var path: String {
         switch self {
-        default:
-            return ""
+        case .otpSend:
+            return "OTP/Send"
         }
     }
     
@@ -53,12 +55,12 @@ extension SendOTPService: IOServiceType {
     
     var body: Data? {
         switch self {
-        default:
-            return nil
+        case .otpSend(request: let request):
+            return handleRequest(request)
         }
     }
     
     func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
-        return _handleResponse(type: responseType, result: result)
+        return handleResponse(type: responseType, result: result)
     }
 }

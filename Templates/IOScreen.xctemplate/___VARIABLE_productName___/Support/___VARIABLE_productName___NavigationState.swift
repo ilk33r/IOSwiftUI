@@ -11,5 +11,5 @@ final public class ___VARIABLE_productName___NavigationState: IONavigationState 
     
     // MARK: - Properties
     
-//    @Published public var navigateToPage = false
+//    @Published private(set) var navigateToPage = false
 }
