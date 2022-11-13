@@ -31,6 +31,7 @@ public struct UpdateProfileView: IOController {
     @ObservedObject public var presenter: UpdateProfilePresenter
     @StateObject public var navigationState = UpdateProfileNavigationState()
     
+    @State private var isOTPValidated = false
     @State private var showSendOTP = false
     @State private var showLocationSelection = false
     
@@ -86,17 +87,6 @@ public struct UpdateProfileView: IOController {
                                     .setClick({
                                         if validator.validate().isEmpty {
                                             showSendOTP = true
-//                                            presenter.interactor.updateMember(
-//                                                userName: formUserNameText,
-//                                                birthDate: formBirthDate,
-//                                                email: formEmailText,
-//                                                name: formNameText,
-//                                                surname: formSurnameText,
-//                                                locationName: formLocationName,
-//                                                locationLatitude: formLocationLatitude,
-//                                                locationLongitude: formLocationLongitude,
-//                                                phoneNumber: formPhoneText.trimLetters()
-//                                            )
                                         }
                                     })
                                     .padding(.top, 16)
@@ -140,7 +130,11 @@ public struct UpdateProfileView: IOController {
             onDismiss: {
                 navigationState.sendOTPDismissed()
             }, content: {
-                navigationState.createSendOTPView(showSendOTP: $showSendOTP, phoneNumber: formPhoneText.trimLetters())
+                navigationState.createSendOTPView(
+                    showSendOTP: $showSendOTP,
+                    isOTPValidated: $isOTPValidated,
+                    phoneNumber: formPhoneText.trimLetters()
+                )
             }
         )
         .onAppear {
@@ -171,6 +165,21 @@ public struct UpdateProfileView: IOController {
         .onChange(of: formPhoneText) { newValue in
             let plainNumber = newValue.trimLetters()
             formPhoneText = plainNumber.applyPattern(pattern: phoneNumberPattern)
+        }
+        .onChange(of: isOTPValidated) { newValue in
+            if newValue {
+                presenter.interactor.updateMember(
+                    userName: formUserNameText,
+                    birthDate: formBirthDate,
+                    email: formEmailText,
+                    name: formNameText,
+                    surname: formSurnameText,
+                    locationName: formLocationName,
+                    locationLatitude: formLocationLatitude,
+                    locationLongitude: formLocationLongitude,
+                    phoneNumber: formPhoneText.trimLetters()
+                )
+            }
         }
     }
     

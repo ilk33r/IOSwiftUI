@@ -48,4 +48,22 @@ public struct SendOTPInteractor: IOInteractor {
             }
         }
     }
+    
+    func otpVerify(otp: String) {
+        showIndicator()
+        
+        let request = VerifyOTPRequestModel(phoneNumber: entity.phoneNumber ?? "", otp: otp)
+        service.request(.otpVerify(request: request), responseType: GenericResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(_):
+                entity.isOTPValidated.wrappedValue = true
+                entity.isPresented.wrappedValue = false
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
 }

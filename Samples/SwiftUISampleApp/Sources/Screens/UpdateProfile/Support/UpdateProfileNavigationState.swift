@@ -25,7 +25,7 @@ final public class UpdateProfileNavigationState: IONavigationState {
     
     // MARK: - Helper Methods
     
-    func createSendOTPView(showSendOTP: Binding<Bool>, phoneNumber: String) -> IORouterView {
+    func createSendOTPView(showSendOTP: Binding<Bool>, isOTPValidated: Binding<Bool>, phoneNumber: String) -> IORouterView {
         if let sendOTPView = self.sendOTPView {
             return sendOTPView
         }
@@ -35,6 +35,7 @@ final public class UpdateProfileNavigationState: IONavigationState {
             .sendOTP(
                 entity: SendOTPEntity(
                     isPresented: showSendOTP,
+                    isOTPValidated: isOTPValidated,
                     phoneNumber: phoneNumber
                 )
             )

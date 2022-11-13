@@ -73,17 +73,7 @@ public struct SendOTPView: IOController {
                             PrimaryButton(.commonNextUppercased)
                                 .setClick({
                                     if validator.validate().isEmpty {
-                                        //                                            presenter.interactor.updateMember(
-                                        //                                                userName: formUserNameText,
-                                        //                                                birthDate: formBirthDate,
-                                        //                                                email: formEmailText,
-                                        //                                                name: formNameText,
-                                        //                                                surname: formSurnameText,
-                                        //                                                locationName: formLocationName,
-                                        //                                                locationLatitude: formLocationLatitude,
-                                        //                                                locationLongitude: formLocationLongitude,
-                                        //                                                phoneNumber: formPhoneText.trimLetters()
-                                        //                                            )
+                                        presenter.interactor.otpVerify(otp: formOTPText)
                                     } else {
                                         formOTPText = ""
                                     }
@@ -135,11 +125,13 @@ struct SendOTPView_Previews: PreviewProvider {
     struct SendOTPViewDemo: View {
         
         @State private var isPresented = false
+        @State private var isOTPValidated = false
         
         var body: some View {
             SendOTPView(
                 entity: SendOTPEntity(
                     isPresented: $isPresented,
+                    isOTPValidated: $isOTPValidated,
                     phoneNumber: "905335433836"
                 )
             )

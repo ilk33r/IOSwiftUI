@@ -14,13 +14,14 @@ import SwiftUISampleAppCommon
 enum SendOTPService {
 
     case otpSend(request: SendOTPRequestModel)
+    case otpVerify(request: VerifyOTPRequestModel)
 }
 
 extension SendOTPService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
-        case .otpSend:
+        default:
             return .post
         }
     }
@@ -36,6 +37,9 @@ extension SendOTPService: IOServiceType {
         switch self {
         case .otpSend:
             return "OTP/Send"
+            
+        case .otpVerify:
+            return "OTP/Verify"
         }
     }
     
@@ -56,6 +60,9 @@ extension SendOTPService: IOServiceType {
     var body: Data? {
         switch self {
         case .otpSend(request: let request):
+            return handleRequest(request)
+            
+        case .otpVerify(request: let request):
             return handleRequest(request)
         }
     }
