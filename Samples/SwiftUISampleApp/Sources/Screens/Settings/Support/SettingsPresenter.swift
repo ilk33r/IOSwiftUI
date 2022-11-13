@@ -75,6 +75,22 @@ final public class SettingsPresenter: IOPresenterable {
             )
             self.navigationState.wrappedValue.navigateToChangePassword = true
             
+        case .privacyPolicy:
+            self.navigationState.wrappedValue.webEntity = WebEntity(
+                pageName: "PrivacyPolicy",
+                pageTitle: menu.localizableKey,
+                titleIcon: menu.iconName
+            )
+            self.navigationState.wrappedValue.navigateToWeb = true
+            
+        case .termsAndConditions:
+            self.navigationState.wrappedValue.webEntity = WebEntity(
+                pageName: "TermsAndConditions",
+                pageTitle: menu.localizableKey,
+                titleIcon: menu.iconName
+            )
+            self.navigationState.wrappedValue.navigateToWeb = true
+            
         default:
             break
         }

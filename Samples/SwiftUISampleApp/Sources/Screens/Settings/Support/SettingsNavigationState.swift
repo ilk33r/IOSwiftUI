@@ -21,7 +21,9 @@ final public class SettingsNavigationState: IONavigationState {
     @Published public var navigateToChangePassword = false
     @Published public var navigateToPhotoLibrary = false
     @Published public var navigateToUpdateProfile = false
+    @Published public var navigateToWeb = false
     
     var changePasswordEntity: ChangePasswordEntity!
     var updateProfileEntity: UpdateProfileEntity!
+    var webEntity: WebEntity!
 }

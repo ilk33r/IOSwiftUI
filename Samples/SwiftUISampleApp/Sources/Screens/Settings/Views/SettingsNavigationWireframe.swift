@@ -27,6 +27,9 @@ struct SettingsNavigationWireframe: IONavigationLinkView {
         NavigationLink(destination: route(ProfileRouters.self, .changePassword(entity: navigationState.changePasswordEntity)), isActive: $navigationState.navigateToChangePassword) {
             EmptyView()
         }
+        NavigationLink(destination: route(ProfileRouters.self, .web(entity: navigationState.webEntity)), isActive: $navigationState.navigateToWeb) {
+            EmptyView()
+        }
     }
     
     // MARK: - Initialization Methods

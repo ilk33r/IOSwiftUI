@@ -66,14 +66,14 @@ public struct SettingsInteractor: IOInteractor {
             SettingsMenuItemUIModel(
                 iconName: "doc.text",
                 localizableKey: .settingsMenuPrivacyPolicy,
-                type: .web
+                type: .privacyPolicy
             )
         )
         settingMenu.append(
             SettingsMenuItemUIModel(
                 iconName: "doc.richtext",
                 localizableKey: .settingsMenuTermOfUse,
-                type: .web
+                type: .termsAndConditions
             )
         )
         settingMenu.append(
