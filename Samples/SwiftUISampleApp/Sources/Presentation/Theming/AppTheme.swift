@@ -17,6 +17,7 @@ public struct AppTheme {
     public static func applyTheme() {
         applyNavigationBarTheme()
         apllyTabBarTheme()
+        applyTabControlTheme()
     }
     
     // MARK: - Toolbars
@@ -70,5 +71,18 @@ public struct AppTheme {
         if #available(iOS 15.0, *) {
             navigationBarAppearance.compactScrollEdgeAppearance = appearance
         }
+    }
+    
+    private static func applyTabControlTheme() {
+        let tabControlButton = IOTabControlButton.appearance()
+
+        tabControlButton.setTitleColor(Color.colorPlaceholder.convertUI(), for: .normal)
+        tabControlButton.setTitleColor(Color.black.convertUI(), for: .highlighted)
+        tabControlButton.normalFont = UIFont(name: "Roboto-Regular", size: 16)
+        tabControlButton.highligtedFont = UIFont(name: "Roboto-Medium", size: 16)
+        
+        let headerViewAppearance = IOTabControlHeaderView.appearance()
+        headerViewAppearance.lineColor = Color.colorTabEnd.convertUI()
+        headerViewAppearance.lineHeight = NSNumber(value: 2)
     }
 }

@@ -47,6 +47,9 @@ public struct ProfileView: IOController {
                     ZStack(alignment: .top) {
                         ProfileHeaderView(uiModel: presenter.profileUIModel) { buttonType in
                             switch buttonType {
+                            case .friends:
+                                presenter.navigateToFriends()
+                                
                             case .settings:
                                 presenter.navigateToSettings()
                                 

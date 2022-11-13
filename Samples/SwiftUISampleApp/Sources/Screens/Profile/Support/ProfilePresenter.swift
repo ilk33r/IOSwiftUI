@@ -74,6 +74,11 @@ final public class ProfilePresenter: IOPresenterable {
         self.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox, messages: messages, pagination: pagination)
     }
     
+    func navigateToFriends() {
+        self.navigationState.wrappedValue.friendsEntity = FriendsEntity()
+        self.navigationState.wrappedValue.navigateToFriends = true
+    }
+    
     func navigateToLocation(isPresented: Binding<Bool>) {
         guard let locationName = self.member?.locationName else { return }
         guard let locationLatitude = self.member?.locationLatitude else { return }
