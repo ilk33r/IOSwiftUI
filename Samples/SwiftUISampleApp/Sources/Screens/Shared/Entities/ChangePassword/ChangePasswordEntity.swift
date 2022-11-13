@@ -10,6 +10,9 @@ import IOSwiftUIPresentation
 
 public struct ChangePasswordEntity: IOEntity {
     
-    public init() {
+    public let phoneNumber: String
+    
+    public init(phoneNumber: String) {
+        self.phoneNumber = phoneNumber
     }
 }

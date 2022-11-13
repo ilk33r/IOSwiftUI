@@ -30,6 +30,9 @@ public struct ChangePasswordView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     @Environment(\.presentationMode) private var presentationMode
     
+    @State private var showSendOTP = false
+    @State private var isOTPValidated = false
+    
     @State private var formCurrentPassword = ""
     @State private var formConfirmPassword = ""
     @State private var formNewPassword = ""
@@ -71,10 +74,7 @@ public struct ChangePasswordView: IOController {
                                 PrimaryButton(.commonNextUppercased)
                                     .setClick({
                                         if validator.validate().isEmpty {
-                                            presenter.interactor.changePassword(
-                                                oldPassword: formCurrentPassword,
-                                                newPassword: formNewPassword
-                                            )
+                                            showSendOTP = true
                                         }
                                     })
                                     .padding(.top, 16)
@@ -103,6 +103,18 @@ public struct ChangePasswordView: IOController {
         .controllerWireframe {
             ChangePasswordNavigationWireframe(navigationState: navigationState)
         }
+        .sheet(
+            isPresented: $showSendOTP,
+            onDismiss: {
+                navigationState.sendOTPDismissed()
+            }, content: {
+                navigationState.createSendOTPView(
+                    showSendOTP: $showSendOTP,
+                    isOTPValidated: $isOTPValidated,
+                    phoneNumber: presenter.interactor.entity.phoneNumber
+                )
+            }
+        )
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
@@ -112,6 +124,14 @@ public struct ChangePasswordView: IOController {
         .onReceive(presenter.$navigateToBack) { output in
             if output ?? false {
                 presentationMode.wrappedValue.dismiss()
+            }
+        }
+        .onChange(of: isOTPValidated) { newValue in
+            if newValue {
+                presenter.interactor.changePassword(
+                    oldPassword: formCurrentPassword,
+                    newPassword: formNewPassword
+                )
             }
         }
     }
@@ -125,6 +145,10 @@ public struct ChangePasswordView: IOController {
 
 struct ChangePasswordView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangePasswordView(entity: ChangePasswordEntity())
+        ChangePasswordView(
+            entity: ChangePasswordEntity(
+                phoneNumber: "905335433836"
+            )
+        )
     }
 }

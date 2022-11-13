@@ -70,6 +70,9 @@ final public class SettingsPresenter: IOPresenterable {
             }
             
         case .changePassword:
+            self.navigationState.wrappedValue.changePasswordEntity = ChangePasswordEntity(
+                phoneNumber: self.interactor.entity.member.phoneNumber ?? ""
+            )
             self.navigationState.wrappedValue.navigateToChangePassword = true
             
         default:
