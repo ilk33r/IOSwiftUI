@@ -42,6 +42,10 @@ public struct ChatInboxView: IOController {
                             uiModel: inbox,
                             clickHandler: { index in
                                 presenter.getMessages(index: index)
+                            },
+                            deleteHandler: { _ in
+                                #warning("Implement this.")
+                                IOLogger.debug("Delete")
                             }
                         )
                     }

@@ -56,6 +56,7 @@
 
 // MARK: -  Chat
 "chat.button.send" = "Send";
+"chat.inbox.button.delete" = "Delete";
 "chat.inbox.title" = "Chats";
 "chat.input.placeholder" = "Message...";
 
