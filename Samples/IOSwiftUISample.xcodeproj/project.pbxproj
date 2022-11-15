@@ -171,6 +171,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F7FEE59628B0F1C9005D6633 /* Build configuration list for PBXNativeTarget "IOSwiftUISample" */;
 			buildPhases = (
+				F72608622922CD9F009C545C /* [IO] Prepare Settings Bundle */,
 				F7FEE58428B0F1C9005D6633 /* Sources */,
 				F7FEE58528B0F1C9005D6633 /* Frameworks */,
 				F7FEE58628B0F1C9005D6633 /* Resources */,
@@ -240,6 +241,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		F72608622922CD9F009C545C /* [IO] Prepare Settings Bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[IO] Prepare Settings Bundle";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT_PATH=\"${SOURCE_ROOT}/../Plugins/IOPrepareSettingsBundle/IOPrepareSettingsBundle.sh\"\nPLIST_PATH=\"${SOURCE_ROOT}/IOSwiftUISample/Resources/Settings.bundle/Root.plist\"\n\nif [[ \"${CONFIGURATION}\" == \"Release\" ]]; then\n    \"${SCRIPT_PATH}\" Release \"${PLIST_PATH}\"\nelse\n    \"${SCRIPT_PATH}\" Debug \"${PLIST_PATH}\" \nfi\n";
+		};
 		F7FEE59B28B0F249005D6633 /* [IO] Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
