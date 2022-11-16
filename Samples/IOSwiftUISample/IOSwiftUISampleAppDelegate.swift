@@ -9,11 +9,21 @@ import Foundation
 import UIKit
 import IOSwiftUIInfrastructure
 
+#if DEBUG
+import IOSwiftUIScreensHTTPDebugger
+#endif
+
 final class IOSwiftUISampleAppDelegate: NSObject, UIApplicationDelegate {
     
     // MARK: - DI
     
     @IOInject private var appleSettings: IOAppleSettingImpl
+    
+    // MARK: - Privates
+    
+    #if DEBUG
+    private var debuggerPresenter: HTTPDebuggerPresenter?
+    #endif
     
     // MARK: - Delegate
     
@@ -42,8 +52,14 @@ final class IOSwiftUISampleAppDelegate: NSObject, UIApplicationDelegate {
     
     #if DEBUG
     private func settingValueChanged() {
-        if self.appleSettings.bool(for: .debugHTTPMenuToggle) {
-            IOLogger.debug("Ok")
+        if self.appleSettings.bool(for: .debugHTTPMenuToggle) && self.debuggerPresenter == nil {
+            self.debuggerPresenter = HTTPDebuggerPresenter()
+            self.debuggerPresenter?.show()
+        }
+        
+        if !self.appleSettings.bool(for: .debugHTTPMenuToggle) {
+            self.debuggerPresenter?.dismiss()
+            self.debuggerPresenter = nil
         }
     }
     #endif

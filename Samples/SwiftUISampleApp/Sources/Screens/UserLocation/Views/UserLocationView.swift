@@ -80,7 +80,7 @@ public struct UserLocationView: IOController {
                 .navigationBar {
                     HStack {
                         Text(type: .userLocationSelectLocationTitle)
-                            .font(type: .systemSemibold(17))
+                            .font(type: .medium(17))
                             .multilineTextAlignment(.center)
                             .padding(.leading, 64)
                             .padding(.trailing, presenter.interactor.entity.isEditable ? 0 : 64)

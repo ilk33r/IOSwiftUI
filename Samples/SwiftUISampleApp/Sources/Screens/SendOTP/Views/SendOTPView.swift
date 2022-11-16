@@ -89,7 +89,7 @@ public struct SendOTPView: IOController {
             .navigationBar {
                 HStack {
                     Text(type: .sendOTPTitle)
-                        .font(type: .systemSemibold(17))
+                        .font(type: .medium(17))
                 }
             }
             Color.white

@@ -71,6 +71,10 @@ let package = Package(
         
         // MARK: - Screens
         
+        .target(name: "IOSwiftUIScreensHTTPDebugger",
+                dependencies: ["IOSwiftUIScreensShared"],
+                path: "Sources/Screens/HTTPDebugger"),
+        
         // MARK: - Application
         
         // This target auto generate AppRouter.swift file from Screens folder
@@ -85,6 +89,7 @@ let package = Package(
             dependencies: ["IOSwiftUICommon",
                            "IOSwiftUIInfrastructure",
                            "IOSwiftUIPresentation",
+                           "IOSwiftUIScreensHTTPDebugger",
                            "IOSwiftUIRouter"]),
         .testTarget(
             name: "IOSwiftUITests",

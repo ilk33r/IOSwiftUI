@@ -29,12 +29,35 @@ final public class IOHTTPLogger: IOSingleton {
     
     #if DEBUG
     public struct NetworkHistory {
-        public var path: String
-        public var requestHeaders: String
-        public var requestBody: String
-        public var responseHeaders: String
-        public var responseBody: String
-        public var responseStatusCode: Int
+        
+        public let icon: String
+        public let methodType: String
+        public let path: String
+        public let requestHeaders: String
+        public let requestBody: String
+        public let responseHeaders: String
+        public let responseBody: String
+        public let responseStatusCode: Int
+        
+        public init(
+            icon: String,
+            methodType: String,
+            path: String,
+            requestHeaders: String,
+            requestBody: String,
+            responseHeaders: String,
+            responseBody: String,
+            responseStatusCode: Int
+        ) {
+            self.icon = icon
+            self.methodType = methodType
+            self.path = path
+            self.requestHeaders = requestHeaders
+            self.requestBody = requestBody
+            self.responseHeaders = responseHeaders
+            self.responseBody = responseBody
+            self.responseStatusCode = responseStatusCode
+        }
     }
     
     public private(set) var networkHistory: [NetworkHistory]!
@@ -111,13 +134,17 @@ final public class IOHTTPLogger: IOSingleton {
             self.thread.runOnBackgroundThread {
                 IOLogger.debug(responseLog)
             }
-
-            let path = String(
-                format: "%@ %@",
-                self.failureIcon,
-                urlResponse.url?.absoluteString ?? ""
+            
+            let networkHistoryItem = NetworkHistory(
+                icon: self.failureIcon,
+                methodType: urlRequest.httpMethod ?? "",
+                path: urlResponse.url?.absoluteString ?? "",
+                requestHeaders: requestHeaders,
+                requestBody: requestBody ?? "",
+                responseHeaders: responseHeaders,
+                responseBody: responseBody,
+                responseStatusCode: urlResponse.statusCode
             )
-            let networkHistoryItem = NetworkHistory(path: path, requestHeaders: requestHeaders, requestBody: requestBody ?? "", responseHeaders: responseHeaders, responseBody: responseBody, responseStatusCode: urlResponse.statusCode)
             self.networkHistory.append(networkHistoryItem)
         } else {
             var responseBody: String
@@ -150,12 +177,16 @@ final public class IOHTTPLogger: IOSingleton {
                 IOLogger.debug(separatorString)
             }
             
-            let path = String(
-                format: "%@ %@",
-                self.successIcon,
-                urlResponse.url?.absoluteString ?? ""
+            let networkHistoryItem = NetworkHistory(
+                icon: self.successIcon,
+                methodType: urlRequest.httpMethod ?? "",
+                path: urlResponse.url?.absoluteString ?? "",
+                requestHeaders: requestHeaders,
+                requestBody: requestBody ?? "",
+                responseHeaders: responseHeaders,
+                responseBody: responseBody,
+                responseStatusCode: urlResponse.statusCode
             )
-            let networkHistoryItem = NetworkHistory(path: path, requestHeaders: requestHeaders, requestBody: requestBody ?? "", responseHeaders: responseHeaders, responseBody: responseBody, responseStatusCode: urlResponse.statusCode)
             self.networkHistory.append(networkHistoryItem)
         }
         

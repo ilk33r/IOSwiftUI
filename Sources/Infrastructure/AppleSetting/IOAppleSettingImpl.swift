@@ -85,7 +85,7 @@ final public class IOAppleSettingImpl: IOAppleSetting, IOSingleton {
     
     @objc dynamic private func settingValueChanged(_ sender: Notification!) {
         self.listeners.forEach { [weak self] _, value in
-            self?.thread.runOnMainThread { [weak self] in
+            self?.thread.runOnMainThread {
                 value?()
             }
         }

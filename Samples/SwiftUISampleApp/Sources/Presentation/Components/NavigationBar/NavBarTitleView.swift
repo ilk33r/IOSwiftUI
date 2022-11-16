@@ -24,7 +24,7 @@ public struct NavBarTitleView: View {
                 .padding(.trailing, 4)
                 .padding(.leading, -8)
             Text(type: localizationType)
-                .font(type: .systemSemibold(17))
+                .font(type: .medium(17))
         }
     }
     
