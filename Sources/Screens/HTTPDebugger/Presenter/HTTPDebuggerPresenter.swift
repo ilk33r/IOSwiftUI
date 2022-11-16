@@ -5,7 +5,6 @@
 //  Created by Adnan ilker Ozcan on 16.11.2022.
 //
 
-#if DEBUG
 import Foundation
 import UIKit
 import SwiftUI
@@ -75,4 +74,3 @@ final public class HTTPDebuggerPresenter {
         self.hostingController?.present(activityViewController, animated: true)
     }
 }
-#endif

@@ -5,8 +5,6 @@
 //  Created by Adnan ilker Ozcan on 16.11.2022.
 //
 
-#if DEBUG
-
 import SwiftUI
 import IOSwiftUIInfrastructure
 
@@ -80,4 +78,3 @@ struct HTTPDebuggerCellView_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
-#endif

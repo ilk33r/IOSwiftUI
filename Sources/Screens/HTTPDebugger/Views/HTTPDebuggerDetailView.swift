@@ -5,8 +5,6 @@
 //  Created by Adnan ilker Ozcan on 16.11.2022.
 //
 
-#if DEBUG
-
 import SwiftUI
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
@@ -215,5 +213,3 @@ struct HTTPDebuggerDetailView: View {
         )
     }
 }
-
-#endif

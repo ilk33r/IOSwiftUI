@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUICommon
 
 final public class IOHTTPLogger: IOSingleton {
     
@@ -14,11 +15,9 @@ final public class IOHTTPLogger: IOSingleton {
     
     // MARK: - Constants
     
-    #if DEBUG
     private let seperatorLength = 32
     private let failureIcon = "\u{0000274C}"
     private let successIcon = "\u{00002705}"
-    #endif
     
     // MARK: - DI
     
@@ -27,7 +26,6 @@ final public class IOHTTPLogger: IOSingleton {
     
     // MARK: - Defs
     
-    #if DEBUG
     public struct NetworkHistory {
         
         public let icon: String
@@ -61,27 +59,27 @@ final public class IOHTTPLogger: IOSingleton {
     }
     
     public private(set) var networkHistory: [NetworkHistory]!
-    #endif
     
     // MARK: - Privates
     
-    #if DEBUG
+    private var logLevel: IOLogLevels!
     private var requestBodies: [Int: String]
-    #endif
     
     // MARK: - Initialization Methods
     
     public init() {
-        #if DEBUG
         self.requestBodies = [:]
         self.networkHistory = []
-        #endif
+        self.logLevel = IOLogLevels(rawValue: self.configuration.configForType(type: .loggingLogLevel)) ?? .error
     }
     
     // MARK: - Logger Methods
     
     func requestDidStart(task: URLSessionTask) {
-        #if DEBUG
+        guard logLevel == .verbose || logLevel == .info || logLevel == .debug else {
+            return
+        }
+        
         guard let urlRequest = task.originalRequest else { return }
         
         let body: String
@@ -92,11 +90,13 @@ final public class IOHTTPLogger: IOSingleton {
         }
         
         self.requestBodies[task.taskIdentifier] = body
-        #endif
     }
     
     func requestDidFinish(task: URLSessionTask?, responseObject: Any?, error: NSError?) {
-        #if DEBUG
+        guard logLevel == .verbose || logLevel == .info || logLevel == .debug else {
+            return
+        }
+        
         guard let sessionTask = task else { return }
         guard let urlRequest = sessionTask.originalRequest else { return }
         guard let urlResponse = sessionTask.response as? HTTPURLResponse else { return }
@@ -192,12 +192,10 @@ final public class IOHTTPLogger: IOSingleton {
         
         // Remove request from dictionary
         self.requestBodies.removeValue(forKey: sessionTask.taskIdentifier)
-        #endif
     }
     
     // MARK: - Helper Methods
     
-    #if DEBUG
     private func jsonStringFromObject(object: Any) -> String {
         if let dataObject = object as? Data {
             return String(data: dataObject, encoding: .utf8) ?? ""
@@ -220,5 +218,4 @@ final public class IOHTTPLogger: IOSingleton {
         let separator = String(repeating: "-", count: self.seperatorLength)
         return String(format: "\n%@\n", separator)
     }
-    #endif
 }
