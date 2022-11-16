@@ -12,9 +12,14 @@ import IOSwiftUIInfrastructure
 
 struct HTTPDebuggerCellView: View {
     
+    // MARK: - Defs
+    
+    typealias Handler = (_ history: IOHTTPLogger.NetworkHistory) -> Void
+    
     // MARK: - Privates
     
     private let history: IOHTTPLogger.NetworkHistory
+    private let tapHandler: Handler?
     
     // MARK: - Body
     
@@ -39,12 +44,19 @@ struct HTTPDebuggerCellView: View {
                 .padding(.top, 1)
         }
         .padding(.top, 16)
+        .onTapGesture {
+            tapHandler?(history)
+        }
     }
     
     // MARK: - Initialization Methods
     
-    init(history: IOHTTPLogger.NetworkHistory) {
+    init(
+        history: IOHTTPLogger.NetworkHistory,
+        handler: Handler?
+    ) {
         self.history = history
+        self.tapHandler = handler
     }
 }
 
@@ -61,7 +73,9 @@ struct HTTPDebuggerCellView_Previews: PreviewProvider {
                 responseHeaders: "",
                 responseBody: "",
                 responseStatusCode: 200
-            )
+            ), handler: { _ in
+                
+            }
         )
         .previewLayout(.sizeThatFits)
     }

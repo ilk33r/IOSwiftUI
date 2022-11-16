@@ -29,8 +29,9 @@ struct HTTPDebuggerView: View {
     
     @IOInject private var httpLogger: IOHTTPLogger
     
+    @State private var detailHistory: IOHTTPLogger.NetworkHistory?
+    @State private var navigateToDetail = false
     @State private var networkHistory: [History] = []
-    @State private var tabCurrentPage = 0
     
     // MARK: - Body
     
@@ -42,7 +43,10 @@ struct HTTPDebuggerView: View {
                         ZStack(alignment: .leading) {
                             List {
                                 ForEach(networkHistory) { item in
-                                    HTTPDebuggerCellView(history: item.history)
+                                    HTTPDebuggerCellView(history: item.history) { history in
+                                        detailHistory = history
+                                        navigateToDetail = true
+                                    }
                                 }
                             }
                             .listStyle(.plain)
@@ -73,6 +77,12 @@ struct HTTPDebuggerView: View {
                         let loggerHistory = httpLogger.networkHistory.reversed()
                         networkHistory = loggerHistory.map { History(history: $0) }
                     }
+                }
+                
+                NavigationLink(isActive: $navigateToDetail) {
+                    HTTPDebuggerDetailView(networkHistory: detailHistory)
+                } label: {
+                    EmptyView()
                 }
             }
             .navigationViewStyle(.stack)
