@@ -7,7 +7,9 @@
 
 import Foundation
 import UIKit
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
+import IOSwiftUIPresentation
 
 #if DEBUG
 import IOSwiftUIScreensHTTPDebugger
@@ -22,6 +24,7 @@ final class IOSwiftUISampleAppDelegate: NSObject, UIApplicationDelegate {
     // MARK: - Privates
     
     #if DEBUG
+    private var alertPresenter: IOAlertPresenterImpl?
     private var debuggerPresenter: HTTPDebuggerPresenter?
     #endif
     
@@ -44,6 +47,8 @@ final class IOSwiftUISampleAppDelegate: NSObject, UIApplicationDelegate {
     
     private func configureApplication() {
         #if DEBUG
+        self.alertPresenter = IOAlertPresenterImpl()
+        
         self.appleSettings.addListener { [weak self] in
             self?.settingValueChanged()
         }
@@ -61,6 +66,15 @@ final class IOSwiftUISampleAppDelegate: NSObject, UIApplicationDelegate {
             self.debuggerPresenter?.dismiss()
             self.debuggerPresenter = nil
         }
+        
+        if self.appleSettings.bool(for: .debugRecordHTTPCalls) {
+            self.recordHTTPCalls()
+        }
+    }
+    
+    private func recordHTTPCalls() {
+        let networkSerializer = IONetworkHistorySerializer()
+        let archiveData = networkSerializer.archive()
     }
     #endif
 }

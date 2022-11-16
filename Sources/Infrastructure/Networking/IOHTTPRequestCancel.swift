@@ -12,7 +12,7 @@ internal struct IOHTTPRequestCancel: IOCancellable {
     
     private var sessionTask: URLSessionTask?
     
-    init(sessionTask: URLSessionTask) {
+    init(sessionTask: URLSessionTask?) {
         self.sessionTask = sessionTask
     }
     
