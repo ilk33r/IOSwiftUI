@@ -2,146 +2,40 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>StringsTable</key>
-	<string>Root</string>
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>debug.settings</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>debug.settings.httpMenuToggle</string>
-			<key>Key</key>
-			<string>debug_http_menu_toggle</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>debug.settings.recordHTTPCalls</string>
-			<key>Key</key>
-			<string>debug_record_http_calls</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>debug.settings.simulateHTTPClient</string>
-			<key>Key</key>
-			<string>debug_simulate_http_clients</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTitleValueSpecifier</string>
-			<key>Title</key>
-			<string>debug.settings.httpResponseTime</string>
-			<key>DefaultValue</key>
-			<string> </string>
-			<key>Key</key>
-			<string>debug_simulation_http_response_time_title</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSSliderSpecifier</string>
-			<key>Key</key>
-			<string>debug_simulation_http_response_time</string>
-			<key>DefaultValue</key>
-			<integer>2</integer>
-			<key>MinimumValue</key>
-			<integer>1</integer>
-			<key>MaximumValue</key>
-			<integer>10</integer>
-			<key>MinimumValueImage</key>
-			<string></string>
-			<key>MaximumValueImage</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Title</key>
-			<string>debug.settings.apiURL</string>
-			<key>Key</key>
-			<string>debug_api_url</string>
-			<key>DefaultValue</key>
-			<string>ENV Default</string>
-			<key>Titles</key>
-			<array>
-				<string>ENV Default</string>
-				<string>IP</string>
-				<string>Localhost</string>
-			</array>
-			<key>Values</key>
-			<array>
-				<string>-</string>
-				<string>192.168.1.6:5176</string>
-				<string>localhost:45176</string>
-			</array>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>debug.settings.default.userName</string>
-			<key>Key</key>
-			<string>debug_default_user_name</string>
-			<key>DefaultValue</key>
-			<string></string>
-			<key>IsSecure</key>
-			<false/>
-			<key>KeyboardType</key>
-			<string>EmailAddress</string>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>debug.settings.default.password</string>
-			<key>Key</key>
-			<string>debug_default_password</string>
-			<key>DefaultValue</key>
-			<string></string>
-			<key>IsSecure</key>
-			<false/>
-			<key>KeyboardType</key>
-			<string>Alphabet</string>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-		</dict>
-		<dict>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>IO  Swift UI</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSTitleValueSpecifier</string>
+			<key>File</key>
+			<string>Debug</string>
 			<key>Title</key>
-			<string>Version</string>
+			<string>debug.settings</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>IO  Swift UI</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
 			<key>DefaultValue</key>
-			<string>1.0.0</string>
+			<string>1.0.0 (1)</string>
 			<key>Key</key>
 			<string>io_version_version</string>
+			<key>Title</key>
+			<string>Version</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
 		</dict>
 	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
 </dict>
 </plist>

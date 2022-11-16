@@ -60,10 +60,6 @@ public struct IOValidatableTextField: View, IOValidatable {
     public func observedObject() -> IOValidatorObservedObject {
         return validationObservedObject
     }
-    
-    public static func == (lhs: IOValidatableTextField, rhs: IOValidatableTextField) -> Bool {
-        return lhs == rhs
-    }
 }
 
 struct IOValidatableTextField_Previews: PreviewProvider {
