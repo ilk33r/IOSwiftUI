@@ -17,19 +17,23 @@ import IOSwiftUIRouter
 @main
 struct IOSwiftUISampleApp: App {
     
+    // MARK: - DI
+    
     @IOInject private var configuration: IOConfigurationImpl
     @IOInject private var fileCache: IOFileCacheImpl
     @IOInject private var httpClient: IOHTTPClientImpl
     @IOInject private var localization: IOLocalizationImpl
     
+    // MARK: - Privates
+    
     @UIApplicationDelegateAdaptor private var appDelegate: IOSwiftUISampleAppDelegate
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
-    
-    @State private var alertData: IOAlertData?
     
     private let splashView = IORouterUtilities.route(PreLoginRouters.self, .splash(entity: nil))
     private let alertPresenter: IOAlertPresenter
     private let indicatorPresenter: IOIndicatorPresenter
+    
+    // MARK: - Body
     
     var body: some Scene {
         WindowGroup {
@@ -60,6 +64,8 @@ struct IOSwiftUISampleApp: App {
             }
         }
     }
+    
+    // MARK: - Initialization Methods
     
     init() {
         self.indicatorPresenter = IOIndicatorPresenterImpl {
