@@ -258,7 +258,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SCRIPT_PATH=\"${SOURCE_ROOT}/../Plugins/IOPrepareSettingsBundle/IOPrepareSettingsBundle.sh\"\nPLIST_PATH=\"${SOURCE_ROOT}/IOSwiftUISample/Resources/Settings.bundle/Root.plist\"\n\nif [[ \"${CONFIGURATION}\" == \"Release\" ]]; then\n    \"${SCRIPT_PATH}\" Release \"${PLIST_PATH}\"\nelse\n    \"${SCRIPT_PATH}\" Debug \"${PLIST_PATH}\" \nfi\n";
+			shellScript = "SCRIPT_PATH=\"${SOURCE_ROOT}/../Plugins/IOPrepareSettingsBundle/IOPrepareSettingsBundle.sh\"\nPLIST_PATH=\"${SOURCE_ROOT}/IOSwiftUISample/Resources/Settings.bundle\"\n\nif [[ \"${CONFIGURATION}\" == \"Release\" ]]; then\n    \"${SCRIPT_PATH}\" Release \"${PLIST_PATH}\"\nelse\n    \"${SCRIPT_PATH}\" Debug \"${PLIST_PATH}\" \nfi\n";
 		};
 		F7FEE59B28B0F249005D6633 /* [IO] Lint */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -11,7 +11,8 @@ echo "${2}"
 
 PLIST_BUDDY="/usr/libexec/PlistBuddy"
 ENVIRONMENT_NAME="${1}"
-SETTINGS_PLIST_FILE="${2}"
+SETTINGS_PLIST_FILE="${2}/Root.plist"
+DEBUG_SETTINGS_FILE="${2}/Debug.plist"
 APP_VERSION="${MARKETING_VERSION} (${CURRENT_PROJECT_VERSION})"
 
 PLIST_LINES=$(${PLIST_BUDDY} ${SETTINGS_PLIST_FILE} -c "Print :PreferenceSpecifiers" | tr -d ' ')
@@ -64,7 +65,6 @@ do
     ((CURRENT_ARR_INDEX=CURRENT_ARR_INDEX+1))
 done
 
-
-
-
-
+if [[ "${ENVIRONMENT_NAME}" == "Release" ]]; then
+    rm -rf "${DEBUG_SETTINGS_FILE}"
+fi
