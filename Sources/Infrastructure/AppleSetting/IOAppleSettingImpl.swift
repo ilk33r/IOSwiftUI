@@ -51,6 +51,10 @@ final public class IOAppleSettingImpl: IOAppleSetting, IOSingleton {
         return self.userDefaults.bool(forKey: type.rawValue)
     }
     
+    public func float(for type: IOAppleSettingType) -> Float {
+        return self.userDefaults.float(forKey: type.rawValue)
+    }
+    
     public func string(for type: IOAppleSettingType) -> String? {
         return self.userDefaults.string(forKey: type.rawValue)
     }
@@ -59,6 +63,11 @@ final public class IOAppleSettingImpl: IOAppleSetting, IOSingleton {
     
     public func set(_ bool: Bool, for type: IOAppleSettingType) {
         self.userDefaults.set(bool, forKey: type.rawValue)
+        self.userDefaults.synchronize()
+    }
+    
+    public func set(_ float: Float, for type: IOAppleSettingType) {
+        self.userDefaults.set(float, forKey: type.rawValue)
         self.userDefaults.synchronize()
     }
     

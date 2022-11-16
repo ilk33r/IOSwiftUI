@@ -18,11 +18,13 @@ public protocol IOAppleSetting {
     // MARK: - Getters
     
     func bool(for type: IOAppleSettingType) -> Bool
+    func float(for type: IOAppleSettingType) -> Float
     func string(for type: IOAppleSettingType) -> String?
     
     // MARK: - Setters
     
     func set(_ bool: Bool, for type: IOAppleSettingType)
+    func set(_ float: Float, for type: IOAppleSettingType)
     func set(_ string: String?, for type: IOAppleSettingType)
     
     // MARK: - Listeners
