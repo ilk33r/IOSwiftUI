@@ -13,7 +13,7 @@ public struct IOAppleSettingType: RawRepresentable, Equatable, Hashable {
     
     public static let debugHTTPMenuToggle = IOAppleSettingType(rawValue: "debug_http_menu_toggle")
     public static let debugRecordHTTPCalls = IOAppleSettingType(rawValue: "debug_record_http_calls")
-    public static let debugSimulateHTTPClients = IOAppleSettingType(rawValue: "debug_simulate_http_clients")
+    public static let debugSimulateHTTPClient = IOAppleSettingType(rawValue: "debug_simulate_http_client")
     public static let debugSimulationHTTPResponseTime = IOAppleSettingType(rawValue: "debug_simulation_http_response_time")
     public static let debugAPIURL = IOAppleSettingType(rawValue: "debug_api_url")
     public static let debugDefaultUserName = IOAppleSettingType(rawValue: "debug_default_user_name")

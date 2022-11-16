@@ -24,6 +24,8 @@ final class IOSwiftUISampleAppDelegate: NSObject, UIApplicationDelegate {
     // MARK: - Privates
     
     #if DEBUG
+    @IOInject private var simulationHTTPClient: IOHTTPClientSimulationImpl
+    
     private var alertPresenter: IOAlertPresenterImpl?
     private var debuggerPresenter: HTTPDebuggerPresenter?
     #endif
@@ -52,6 +54,16 @@ final class IOSwiftUISampleAppDelegate: NSObject, UIApplicationDelegate {
         self.appleSettings.addListener { [weak self] in
             self?.settingValueChanged()
         }
+        
+        if self.appleSettings.bool(for: .debugSimulateHTTPClient) {
+            do {
+                try self.simulationHTTPClient.loadArchive()
+            } catch let error {
+                self.alertPresenter?.show {
+                    IOAlertData(title: nil, message: error.localizedDescription, buttons: ["Ok"], handler: nil)
+                }
+            }
+        }
         #endif
     }
     
@@ -75,6 +87,20 @@ final class IOSwiftUISampleAppDelegate: NSObject, UIApplicationDelegate {
     private func recordHTTPCalls() {
         let networkSerializer = IONetworkHistorySerializer()
         let archiveData = networkSerializer.archive()
+        
+        do {
+            try self.simulationHTTPClient.saveArchive(archiveData)
+            
+            self.alertPresenter?.show {
+                IOAlertData(title: nil, message: "HTTP history has been recorded successfully.", buttons: ["Ok"], handler: nil)
+            }
+        } catch let error {
+            self.alertPresenter?.show {
+                IOAlertData(title: nil, message: error.localizedDescription, buttons: ["Ok"], handler: nil)
+            }
+        }
+        
+        self.appleSettings.set(false, for: .debugRecordHTTPCalls)
     }
     #endif
 }
