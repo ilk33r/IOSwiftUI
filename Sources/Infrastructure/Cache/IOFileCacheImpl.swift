@@ -52,6 +52,15 @@ public struct IOFileCacheImpl: IOFileCache, IOSingleton {
     
     // MARK: - Removers
     
+    public func removeFile(fromCache name: String) throws {
+        let fileManager = FileManager.default
+        let fileURL = try cacheFileURL(fromCache: name, cacheDirectory: fileManager.cacheDirectory)
+        
+        if fileManager.fileExists(atPath: fileURL.path) {
+            try fileManager.removeItem(at: fileURL)
+        }
+    }
+    
     public func removeFiles(beforeDate date: Date) {
         let fileManager = FileManager.default
         let cacheFolder = URL(fileURLWithPath: fileManager.cacheDirectory)

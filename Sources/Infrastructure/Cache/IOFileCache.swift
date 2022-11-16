@@ -20,5 +20,6 @@ public protocol IOFileCache {
     
     // MARK: - Removers
     
+    func removeFile(fromCache name: String) throws
     func removeFiles(beforeDate date: Date)
 }
