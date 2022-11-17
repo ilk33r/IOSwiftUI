@@ -19,7 +19,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     @IOInject private var appState: IOAppState
     @IOInject private var configuration: IOConfiguration
     @IOInject private var httpLogger: IOHTTPLogger
-    @IOInstance private var thread: IOThreadImpl
+    @IOInject private var thread: IOThread
     
     // MARK: - Publics
     

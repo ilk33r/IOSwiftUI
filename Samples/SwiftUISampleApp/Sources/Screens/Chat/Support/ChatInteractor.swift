@@ -21,8 +21,8 @@ public struct ChatInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var chatMessageService: IOServiceProviderImpl<ChatMessageService>
-    @IOInstance private var service: IOServiceProviderImpl<ChatService>
+    private var chatMessageService = IOServiceProviderImpl<ChatMessageService>()
+    private var service = IOServiceProviderImpl<ChatService>()
     
     // MARK: - Initialization Methods
     

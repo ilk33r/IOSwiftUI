@@ -21,7 +21,7 @@ public struct SendOTPInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<SendOTPService>
+    private var service = IOServiceProviderImpl<SendOTPService>()
     
     // MARK: - Initialization Methods
     

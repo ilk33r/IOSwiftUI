@@ -27,7 +27,7 @@ final public class DiscoverPresenter: IOPresenterable {
     
     // MARK: - DI
     
-    @IOInstance private var thread: IOThreadImpl
+    @IOInject private var thread: IOThread
     
     // MARK: - Publisher
     

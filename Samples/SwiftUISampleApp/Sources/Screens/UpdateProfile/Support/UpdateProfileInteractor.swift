@@ -22,7 +22,7 @@ public struct UpdateProfileInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<UpdateProfileService>
+    private var service = IOServiceProviderImpl<UpdateProfileService>()
     
     // MARK: - Initialization Methods
     

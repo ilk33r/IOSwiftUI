@@ -16,11 +16,11 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
     // MARK: - DI
     
     @IOInject public var appleSettings: IOAppleSetting
+    @IOInject public var alertPresenter: IOAlertPresenter
     @IOInject public var httpClient: IOHTTPClient
     
     // MARK: - Privates
     
-    private var alertPresenter: IOAlertPresenterImpl?
     private var debuggerPresenter: HTTPDebuggerPresenter?
     
     // MARK: - Delegate
@@ -56,6 +56,10 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
     }
     
     open func configureDI(container: IODIContainer) {
+        container.register(class: IOThread.self, impl: IOThreadImpl.self)
+        container.register(class: IOValidator.self, impl: IOValidatorImpl.self)
+        container.register(class: IOAlertPresenter.self, impl: IOAlertPresenterImpl.self)
+        
         container.register(singleton: IOAppleSetting.self, impl: IOAppleSettingImpl.self)
         container.register(singleton: IOAppState.self, impl: IOAppStateImpl.self)
         container.register(singleton: IOConfiguration.self, impl: IOConfigurationImpl.self)
@@ -73,8 +77,6 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
     // MARK: - Debuggers
     
     open func configureDebugger() {
-        self.alertPresenter = IOAlertPresenterImpl()
-        
         self.appleSettings.addListener { [weak self] in
             self?.settingValueChanged()
         }
@@ -86,7 +88,7 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
             do {
                 try simulationHTTPClient.loadArchive()
             } catch let error {
-                self.alertPresenter?.show {
+                self.alertPresenter.show {
                     IOAlertData(title: nil, message: error.localizedDescription, buttons: ["Ok"], handler: nil)
                 }
             }
@@ -117,11 +119,11 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
             let simulationHTTPClient = self.httpClient as? IOHTTPClientSimulationImpl
             try simulationHTTPClient?.saveArchive(archiveData)
             
-            self.alertPresenter?.show {
+            self.alertPresenter.show {
                 IOAlertData(title: nil, message: "HTTP history has been recorded successfully.", buttons: ["Ok"], handler: nil)
             }
         } catch let error {
-            self.alertPresenter?.show {
+            self.alertPresenter.show {
                 IOAlertData(title: nil, message: error.localizedDescription, buttons: ["Ok"], handler: nil)
             }
         }

@@ -20,7 +20,7 @@ public struct FriendsInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<FriendsService>
+    private var service = IOServiceProviderImpl<FriendsService>()
     
     // MARK: - Initialization Methods
     

@@ -17,7 +17,7 @@ final public class IOAppleSettingImpl: IOAppleSetting, IOSingleton {
     
     // MARK: - DI
     
-    @IOInstance private var thread: IOThreadImpl
+    @IOInject private var thread: IOThread
     
     // MARK: - Privates
     

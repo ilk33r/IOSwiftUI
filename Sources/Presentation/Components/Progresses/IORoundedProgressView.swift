@@ -17,7 +17,7 @@ public struct IORoundedProgressView: View {
     
     // MARK: - DI
     
-    @IOInstance private var thread: IOThreadImpl
+    @IOInject private var thread: IOThread
     
     // MARK: - Privates
     

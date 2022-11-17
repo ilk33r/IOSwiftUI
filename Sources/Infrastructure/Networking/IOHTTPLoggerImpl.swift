@@ -22,7 +22,7 @@ final public class IOHTTPLoggerImpl: IOHTTPLogger, IOSingleton {
     // MARK: - DI
     
     @IOInject private var configuration: IOConfiguration
-    @IOInstance private var thread: IOThreadImpl
+    @IOInject private var thread: IOThread
     
     // MARK: - Publics
     

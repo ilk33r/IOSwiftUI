@@ -18,8 +18,7 @@ final public class IOHTTPClientSimulationImpl: IOHTTPClient, IOSingleton {
     @IOInject private var appleSettings: IOAppleSetting
     @IOInject private var configuration: IOConfiguration
     @IOInject private var fileCache: IOFileCache
-    
-    @IOInstance private var thread: IOThreadImpl
+    @IOInject private var thread: IOThread
     
     // MARK: - Publics
     

@@ -21,7 +21,7 @@ public struct DiscoverInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<DiscoverService>
+    private var service = IOServiceProviderImpl<DiscoverService>()
     
     // MARK: - Initialization Methods
     

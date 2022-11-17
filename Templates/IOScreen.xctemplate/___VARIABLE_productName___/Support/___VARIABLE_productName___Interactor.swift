@@ -14,7 +14,7 @@ public struct ___VARIABLE_productName___Interactor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<___VARIABLE_productName___Service>
+    private var service = IOServiceProviderImpl<___VARIABLE_productName___Service>()
     
     // MARK: - Initialization Methods
     

@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import IOSwiftUIInfrastructure
 
-public protocol IOAlertPresenter {
+public protocol IOAlertPresenter: IOObject {
     
     func show(handler: @escaping IOAlertHandler)
     func dismiss()

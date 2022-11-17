@@ -21,7 +21,8 @@ public extension Image {
 struct ImagePublicIDModifier: ViewModifier {
     
     @IOInject private var fileCache: IOFileCache
-    @IOInstance private var baseService: IOServiceProviderImpl<BaseService>
+    
+    private var baseService = IOServiceProviderImpl<BaseService>()
     
     @State private var imageData: Data?
     @State private var imageLoadCancellable: IOCancellable?

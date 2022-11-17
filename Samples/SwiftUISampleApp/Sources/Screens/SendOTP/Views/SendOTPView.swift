@@ -20,7 +20,7 @@ public struct SendOTPView: IOController {
     
     // MARK: - DI
     
-    @IOInstance private var validator: IOValidator
+    @IOInject private var validator: IOValidator
     
     // MARK: - Properties
     

@@ -21,7 +21,7 @@ public struct UserLocationInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<UserLocationService>
+    private var service = IOServiceProviderImpl<UserLocationService>()
     
     // MARK: - Initialization Methods
     

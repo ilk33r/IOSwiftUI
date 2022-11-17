@@ -31,7 +31,7 @@ public struct ChatView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    @IOInstance private var thread: IOThreadImpl
+    @IOInject private var thread: IOThread
     
     public var body: some View {
         GeometryReader { proxy in

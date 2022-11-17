@@ -7,11 +7,11 @@
 
 import Foundation
 
-@propertyWrapper public struct IOInject<Value> {
+@propertyWrapper final public class IOInject<Value> {
     
     public var wrappedValue: Value {
         if _resolvedObject == nil {
-            return container.resolve(Value.self)
+            _resolvedObject = container.resolve(Value.self)
         }
         
         return _resolvedObject

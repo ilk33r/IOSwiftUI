@@ -21,7 +21,7 @@ public struct ChangePasswordInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<ChangePasswordService>
+    private var service = IOServiceProviderImpl<ChangePasswordService>()
     
     // MARK: - Initialization Methods
     

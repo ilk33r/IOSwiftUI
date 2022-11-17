@@ -29,7 +29,7 @@ public struct SplashInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<SplashService>
+    private var service = IOServiceProviderImpl<SplashService>()
     
     // MARK: - Initialization Methods
     

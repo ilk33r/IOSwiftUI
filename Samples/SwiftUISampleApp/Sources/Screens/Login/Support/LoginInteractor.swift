@@ -25,7 +25,7 @@ public struct LoginInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<LoginService>
+    private var service = IOServiceProviderImpl<LoginService>()
     
     // MARK: - Initialization Methods
     

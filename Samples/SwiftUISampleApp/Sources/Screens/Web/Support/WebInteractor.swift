@@ -20,7 +20,7 @@ public struct WebInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var service: IOServiceProviderImpl<WebService>
+    private var service = IOServiceProviderImpl<WebService>()
     
     // MARK: - Initialization Methods
     

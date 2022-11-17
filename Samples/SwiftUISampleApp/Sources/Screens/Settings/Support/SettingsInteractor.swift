@@ -23,7 +23,8 @@ public struct SettingsInteractor: IOInteractor {
     // MARK: - Privates
     
     @IOInject private var httpClient: IOHTTPClient
-    @IOInstance private var service: IOServiceProviderImpl<SettingsService>
+    
+    private var service = IOServiceProviderImpl<SettingsService>()
     
     // MARK: - Initialization Methods
     

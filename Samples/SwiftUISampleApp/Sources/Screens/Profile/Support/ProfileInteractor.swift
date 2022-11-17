@@ -22,9 +22,9 @@ public struct ProfileInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    @IOInstance private var baseService: IOServiceProviderImpl<BaseService>
-    @IOInstance private var chatMessageService: IOServiceProviderImpl<ChatMessageService>
-    @IOInstance private var service: IOServiceProviderImpl<ProfileService>
+    private var baseService = IOServiceProviderImpl<BaseService>()
+    private var chatMessageService = IOServiceProviderImpl<ChatMessageService>()
+    private var service = IOServiceProviderImpl<ProfileService>()
     
     // MARK: - Initialization Methods
     
