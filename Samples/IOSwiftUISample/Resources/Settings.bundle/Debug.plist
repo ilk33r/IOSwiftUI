@@ -60,7 +60,7 @@
 			<key>MaximumValueImage</key>
 			<string></string>
 			<key>MinimumValue</key>
-			<integer>1</integer>
+			<real>0.1</real>
 			<key>MinimumValueImage</key>
 			<string></string>
 			<key>Type</key>

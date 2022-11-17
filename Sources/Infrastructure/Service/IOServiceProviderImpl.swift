@@ -16,7 +16,17 @@ public struct IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
     
     // MARK: - DI
     
-    @IOInject private var httpClient: IOHTTPClientImpl
+    @IOInject private var appleSettings: IOAppleSettingImpl
+    @IOInject private var _httpClient: IOHTTPClientImpl
+    @IOInject private var _simulationHttpClient: IOHTTPClientSimulationImpl
+    
+    private var httpClient: IOHTTPClient {
+        if appleSettings.bool(for: .debugSimulateHTTPClient) {
+            return _simulationHttpClient
+        }
+        
+        return _httpClient
+    }
     
     // MARK: - Initialization Methods
     
