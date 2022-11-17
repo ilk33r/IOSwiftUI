@@ -12,11 +12,11 @@ struct HTTPDebuggerCellView: View {
     
     // MARK: - Defs
     
-    typealias Handler = (_ history: IOHTTPLogger.NetworkHistory) -> Void
+    typealias Handler = (_ history: IOHTTPNetworkHistory) -> Void
     
     // MARK: - Privates
     
-    private let history: IOHTTPLogger.NetworkHistory
+    private let history: IOHTTPNetworkHistory
     private let tapHandler: Handler?
     
     // MARK: - Body
@@ -50,7 +50,7 @@ struct HTTPDebuggerCellView: View {
     // MARK: - Initialization Methods
     
     init(
-        history: IOHTTPLogger.NetworkHistory,
+        history: IOHTTPNetworkHistory,
         handler: Handler?
     ) {
         self.history = history
@@ -62,7 +62,7 @@ struct HTTPDebuggerCellView_Previews: PreviewProvider {
     
     static var previews: some View {
         HTTPDebuggerCellView(
-            history: IOHTTPLogger.NetworkHistory(
+            history: IOHTTPNetworkHistory(
                 icon: "\u{00002705}",
                 methodType: "POST",
                 path: "Handshake/Index",

@@ -17,13 +17,6 @@ import IOSwiftUIRouter
 @main
 struct IOSwiftUISampleApp: App {
     
-    // MARK: - DI
-    
-    @IOInject private var configuration: IOConfigurationImpl
-    @IOInject private var fileCache: IOFileCacheImpl
-    @IOInject private var httpClient: IOHTTPClientImpl
-    @IOInject private var localization: IOLocalizationImpl
-    
     // MARK: - Privates
     
     @UIApplicationDelegateAdaptor private var appDelegate: IOSwiftUISampleAppDelegate
@@ -74,17 +67,5 @@ struct IOSwiftUISampleApp: App {
         }
         
         self.alertPresenter = IOAlertPresenterImpl()
-        
-        IOFontType.registerFontsIfNecessary(Bundle.resources)
-        IOLocalizationImpl.shared.setLocalizationBundle(bundleName: "SwiftUISampleApp_SwiftUISampleAppResources")
-        IOLocalizationImpl.shared.changeLanguage(type: configuration.defaultLocale)
-        AppTheme.applyTheme()
-        
-        httpClient.setDefaultHTTPHeaders(headers: [
-            "X-IO-AUTHORIZATION": configuration.configForType(type: .networkingAuthorizationHeader)
-        ])
-        
-        let cacheFileBeforeDate = Date()
-        fileCache.removeFiles(beforeDate: cacheFileBeforeDate.date(bySubtractingDays: 3)!)
     }
 }

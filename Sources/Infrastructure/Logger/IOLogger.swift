@@ -18,7 +18,7 @@ public struct IOLogger: IOSingleton {
     
     // MARK: - DI
     
-    @IOInject private var appState: IOAppStateImpl
+    @IOInject private var appState: IOAppState
     
     // MARK: - Privates
     

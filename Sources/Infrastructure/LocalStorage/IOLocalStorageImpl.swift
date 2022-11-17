@@ -15,7 +15,7 @@ public struct IOLocalStorageImpl: IOLocalStorage, IOSingleton {
     
     // MARK: - DI
     
-    @IOInject private var configuration: IOConfigurationImpl
+    @IOInject private var configuration: IOConfiguration
     
     // MARK: - Privates
     

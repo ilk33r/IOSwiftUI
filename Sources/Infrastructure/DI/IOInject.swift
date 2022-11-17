@@ -7,13 +7,20 @@
 
 import Foundation
 
-@propertyWrapper public struct IOInject<Value: IOSingleton> {
+@propertyWrapper public struct IOInject<Value> {
     
-    public var wrappedValue: Value
-
+    public var wrappedValue: Value {
+        if _resolvedObject == nil {
+            return container.resolve(Value.self)
+        }
+        
+        return _resolvedObject
+    }
+    
+    private var container: IODIContainer { IODIContainerImpl.shared }
+    private var _resolvedObject: Value!
+    
     public init() {
-        // swiftlint:disable force_cast
-        self.wrappedValue = Value.shared as! Value
-        // swiftlint:enable force_cast
+        _resolvedObject = container.resolveOptional(Value.self)
     }
 }

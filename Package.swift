@@ -84,13 +84,24 @@ let package = Package(
                 plugins: [ //.plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI")
                     ]),
         
+        // MARK: - App Delegate
+        
+        .target(name: "IOSwiftUIApplication",
+                dependencies: ["IOSwiftUIInfrastructure",
+                               "IOSwiftUIPresentation",
+                               "IOSwiftUIScreensHTTPDebugger"],
+                path: "Sources/Application"),
+        
+        // MARK: - Library
+        
         .target(
             name: "IOSwiftUI",
             dependencies: ["IOSwiftUICommon",
                            "IOSwiftUIInfrastructure",
                            "IOSwiftUIPresentation",
                            "IOSwiftUIScreensHTTPDebugger",
-                           "IOSwiftUIRouter"]),
+                           "IOSwiftUIRouter",
+                           "IOSwiftUIApplication"]),
         .testTarget(
             name: "IOSwiftUITests",
             dependencies: ["IOSwiftUI"]),

@@ -48,7 +48,7 @@ final public class IOLocation: NSObject {
     
     // MARK: - DI
     
-    @IOInject private var appState: IOAppStateImpl
+    @IOInject private var appState: IOAppState
     @IOInstance private var thread: IOThreadImpl
     
     // MARK: - Initialization Methods

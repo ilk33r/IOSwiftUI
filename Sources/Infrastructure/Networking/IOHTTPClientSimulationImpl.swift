@@ -15,9 +15,10 @@ final public class IOHTTPClientSimulationImpl: IOHTTPClient, IOSingleton {
     
     // MARK: - DI
     
-    @IOInject private var appleSettings: IOAppleSettingImpl
-    @IOInject private var configuration: IOConfigurationImpl
-    @IOInject private var fileCache: IOFileCacheImpl
+    @IOInject private var appleSettings: IOAppleSetting
+    @IOInject private var configuration: IOConfiguration
+    @IOInject private var fileCache: IOFileCache
+    
     @IOInstance private var thread: IOThreadImpl
     
     // MARK: - Publics
@@ -29,7 +30,7 @@ final public class IOHTTPClientSimulationImpl: IOHTTPClient, IOSingleton {
     private let networkHistoryFileName = "IO_RecordedNetworkHistory"
     
     private var baseURL: URL!
-    private var networkHistory: [IOHTTPLogger.NetworkHistory]
+    private var networkHistory: [IOHTTPNetworkHistory]
     private var responseTime: Int!
     
     // MARK: - Initialization Methods
@@ -119,7 +120,7 @@ final public class IOHTTPClientSimulationImpl: IOHTTPClient, IOSingleton {
     
     // MARK: - Helper Methods
     
-    private func sendNetworkResult(_ result: IOHTTPLogger.NetworkHistory, path: String, handler: Handler?) {
+    private func sendNetworkResult(_ result: IOHTTPNetworkHistory, path: String, handler: Handler?) {
         let responseHeaders: [String: String]
         
         if

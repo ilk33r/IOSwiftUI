@@ -13,11 +13,11 @@ struct HTTPDebuggerDetailView: View {
     
     // MARK: - DI
     
-    @IOInject private var appleSettings: IOAppleSettingImpl
+    @IOInject private var appleSettings: IOAppleSetting
     
     // MARK: - Privates
     
-    private let networkHistory: IOHTTPLogger.NetworkHistory?
+    private let networkHistory: IOHTTPNetworkHistory?
     
     @State private var tabCurrentPage = 0
     
@@ -155,7 +155,7 @@ struct HTTPDebuggerDetailView: View {
     
     // MARK: - Initialization Methods
     
-    init(networkHistory: IOHTTPLogger.NetworkHistory?) {
+    init(networkHistory: IOHTTPNetworkHistory?) {
         self.networkHistory = networkHistory
     }
     

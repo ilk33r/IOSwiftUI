@@ -89,7 +89,7 @@ public struct IONetworkHistorySerializer {
         return archivedData
     }
     
-    public func unarchive(data: Data) throws -> [IOHTTPLogger.NetworkHistory] {
+    public func unarchive(data: Data) throws -> [IOHTTPNetworkHistory] {
         let fileHeaderData = data.subdata(in: 0..<4)
         let fileHeaderString = String(data: fileHeaderData, encoding: .utf8)
         if fileHeaderString != fileHeaderSignature {
@@ -99,7 +99,7 @@ public struct IONetworkHistorySerializer {
         let headerSize = MemoryLayout<ArchiveHeader>.size
         
         var currentDataIndex = 4
-        var resultData = [IOHTTPLogger.NetworkHistory]()
+        var resultData = [IOHTTPNetworkHistory]()
         
         while currentDataIndex < data.count {
             let headerData = data.subdata(in: currentDataIndex..<(headerSize + currentDataIndex))
@@ -124,7 +124,7 @@ public struct IONetworkHistorySerializer {
             currentDataIndex += header.responseBodyLength
             
             let responseStatusCode = header.responseStatusCode
-            resultData.append(IOHTTPLogger.NetworkHistory(
+            resultData.append(IOHTTPNetworkHistory(
                 icon: "",
                 methodType: String(data: methodType, encoding: .utf8) ?? "",
                 path: String(data: path, encoding: .utf8) ?? "",

@@ -18,7 +18,7 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     // MARK: - Privates
     
-    @IOInject private var appState: IOAppStateImpl
+    @IOInject private var appState: IOAppState
     
     private(set) public var selectionHandler: SelectionHandler?
     private var tabBarType: UITabBar.Type

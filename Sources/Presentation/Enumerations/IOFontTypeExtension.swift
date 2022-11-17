@@ -11,7 +11,7 @@ import UIKit
 
 public extension IOFontType {
     
-    @IOInject private static var appState: IOAppStateImpl
+    @IOInject private static var appState: IOAppState
     
     static func registerFontsIfNecessary(_ bundle: Bundle) {
         if Self.appState.bool(forType: .fontsRegistered) ?? false {

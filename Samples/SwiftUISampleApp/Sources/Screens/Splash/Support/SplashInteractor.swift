@@ -25,7 +25,7 @@ public struct SplashInteractor: IOInteractor {
     
     // MARK: - DI
     
-    @IOInject private var httpClient: IOHTTPClientImpl
+    @IOInject private var httpClient: IOHTTPClient
     
     // MARK: - Privates
     

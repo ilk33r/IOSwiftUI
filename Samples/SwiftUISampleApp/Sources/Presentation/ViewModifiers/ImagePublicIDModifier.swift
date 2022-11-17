@@ -20,7 +20,7 @@ public extension Image {
 
 struct ImagePublicIDModifier: ViewModifier {
     
-    @IOInject private var fileCache: IOFileCacheImpl
+    @IOInject private var fileCache: IOFileCache
     @IOInstance private var baseService: IOServiceProviderImpl<BaseService>
     
     @State private var imageData: Data?

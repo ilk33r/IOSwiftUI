@@ -16,8 +16,8 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     
     // MARK: - DI
     
-    @IOInject private var appState: IOAppStateImpl
-    @IOInject private var configuration: IOConfigurationImpl
+    @IOInject private var appState: IOAppState
+    @IOInject private var configuration: IOConfiguration
     @IOInject private var httpLogger: IOHTTPLogger
     @IOInstance private var thread: IOThreadImpl
     

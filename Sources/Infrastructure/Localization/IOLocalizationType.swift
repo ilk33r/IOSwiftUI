@@ -15,7 +15,7 @@ public struct IOLocalizationType: RawRepresentable, Equatable {
     
     public var localized: String { localization.string(rawValue) }
     
-    @IOInject private var localization: IOLocalizationImpl
+    @IOInject private var localization: IOLocalization
     
     public init(rawValue: String) {
         self.rawValue = rawValue

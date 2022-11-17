@@ -17,18 +17,18 @@ struct HTTPDebuggerView: View {
         
         var id = UUID()
         
-        let history: IOHTTPLogger.NetworkHistory
+        let history: IOHTTPNetworkHistory
     }
     
     // MARK: - DI
     
-    @IOInject private var appleSettings: IOAppleSettingImpl
+    @IOInject private var appleSettings: IOAppleSetting
     
     // MARK: - Privates
     
     @IOInject private var httpLogger: IOHTTPLogger
     
-    @State private var detailHistory: IOHTTPLogger.NetworkHistory?
+    @State private var detailHistory: IOHTTPNetworkHistory?
     @State private var navigateToDetail = false
     @State private var networkHistory: [History] = []
     
