@@ -16,7 +16,7 @@ final public class IODIContainerImpl: IODIContainer, IOSingleton {
     
     // MARK: - Privates
     
-    private var instances: [String: any IOObject.Type]
+    private var instances: [String: InstanceBlock]
     private var singletons: [String: any IOSingleton.Type]
     
     // MARK: - Initialization Methods
@@ -28,12 +28,12 @@ final public class IODIContainerImpl: IODIContainer, IOSingleton {
     
     // MARK: - Registers
     
-    public func register(singleton type: Any, impl: any IOSingleton.Type) {
+    public func register<TType>(singleton type: TType.Type, impl: @escaping SingletonBlock) {
         let protocolName = String(describing: type)
-        self.singletons[protocolName] = impl
+        self.singletons[protocolName] = impl()
     }
     
-    public func register(class aClass: Any, impl: IOObject.Type) {
+    public func register<TType>(class aClass: TType.Type, impl: @escaping InstanceBlock) {
         let className = String(describing: aClass)
         self.instances[className] = impl
     }
@@ -57,7 +57,7 @@ final public class IODIContainerImpl: IODIContainer, IOSingleton {
         
         if
             let instanceType = self.instances[typeName],
-            let instance = instanceType.init() as? TType
+            let instance = instanceType() as? TType
         {
             return instance
         }

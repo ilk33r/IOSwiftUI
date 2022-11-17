@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUICommon
 
-public protocol IOThread: IOObject {
+public protocol IOThread {
     
     // MARK: - Defs
     

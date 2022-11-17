@@ -9,7 +9,7 @@ import Dispatch
 import Foundation
 import IOSwiftUICommon
 
-public protocol IOServiceProvider: IOObject {
+public protocol IOServiceProvider {
     
     associatedtype ServiceType: IOServiceType
     

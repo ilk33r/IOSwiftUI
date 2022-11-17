@@ -56,23 +56,23 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
     }
     
     open func configureDI(container: IODIContainer) {
-        container.register(class: IOThread.self, impl: IOThreadImpl.self)
-        container.register(class: IOValidator.self, impl: IOValidatorImpl.self)
-        container.register(class: IOAlertPresenter.self, impl: IOAlertPresenterImpl.self)
+        container.register(class: IOThread.self) { IOThreadImpl() }
+        container.register(class: IOValidator.self) { IOValidatorImpl() }
+        container.register(class: IOAlertPresenter.self) { IOAlertPresenterImpl() }
         
-        container.register(singleton: IOAppleSetting.self, impl: IOAppleSettingImpl.self)
-        container.register(singleton: IOAppState.self, impl: IOAppStateImpl.self)
-        container.register(singleton: IOConfiguration.self, impl: IOConfigurationImpl.self)
-        container.register(singleton: IOFileCache.self, impl: IOFileCacheImpl.self)
-        container.register(singleton: IOLocalization.self, impl: IOLocalizationImpl.self)
-        container.register(singleton: IOLocalStorage.self, impl: IOLocalStorageImpl.self)
-        container.register(singleton: IOMapper.self, impl: IOMapperImpl.self)
-        container.register(singleton: IOHTTPLogger.self, impl: IOHTTPLoggerImpl.self)
+        container.register(singleton: IOAppleSetting.self) { IOAppleSettingImpl.self }
+        container.register(singleton: IOAppState.self) { IOAppStateImpl.self }
+        container.register(singleton: IOConfiguration.self) { IOConfigurationImpl.self }
+        container.register(singleton: IOFileCache.self) { IOFileCacheImpl.self }
+        container.register(singleton: IOLocalization.self) { IOLocalizationImpl.self }
+        container.register(singleton: IOLocalStorage.self) { IOLocalStorageImpl.self }
+        container.register(singleton: IOMapper.self) { IOMapperImpl.self }
+        container.register(singleton: IOHTTPLogger.self) { IOHTTPLoggerImpl.self }
         
         if self.appleSettings.bool(for: .debugSimulateHTTPClient) {
-            container.register(singleton: IOHTTPClient.self, impl: IOHTTPClientSimulationImpl.self)
+            container.register(singleton: IOHTTPClient.self) { IOHTTPClientSimulationImpl.self }
         } else {
-            container.register(singleton: IOHTTPClient.self, impl: IOHTTPClientImpl.self)
+            container.register(singleton: IOHTTPClient.self) { IOHTTPClientImpl.self }
         }
     }
     

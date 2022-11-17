@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIInfrastructure
 
-open class IOValidatorImpl: IOValidator, IOObject {
+open class IOValidatorImpl: IOValidator {
     
     // MARK: - Definitions
     
@@ -23,7 +23,7 @@ open class IOValidatorImpl: IOValidator, IOObject {
     
     // MARK: - Initialization Methods
     
-    required public init() {
+    public init() {
         self.registeredRules = []
     }
     

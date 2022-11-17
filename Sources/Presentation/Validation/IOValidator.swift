@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIInfrastructure
 
-public protocol IOValidator: IOObject {
+public protocol IOValidator {
     
     // MARK: - Validation Methods
     

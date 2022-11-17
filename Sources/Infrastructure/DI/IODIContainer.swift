@@ -9,10 +9,15 @@ import Foundation
 
 public protocol IODIContainer {
     
+    // MARK: - Defs
+    
+    typealias InstanceBlock = () -> Any
+    typealias SingletonBlock = () -> any IOSingleton.Type
+    
     // MARK: - Registers
     
-    func register(singleton type: Any, impl: any IOSingleton.Type)
-    func register(class aClass: Any, impl: IOObject.Type)
+    func register<TType>(singleton type: TType.Type, impl: @escaping SingletonBlock)
+    func register<TType>(class aClass: TType.Type, impl: @escaping InstanceBlock)
     
     // MARK: - Resolvers
     
