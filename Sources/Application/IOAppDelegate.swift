@@ -65,6 +65,8 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
         container.register(singleton: IOConfiguration.self, impl: IOConfigurationImpl.self)
         container.register(singleton: IOFileCache.self, impl: IOFileCacheImpl.self)
         container.register(singleton: IOLocalization.self, impl: IOLocalizationImpl.self)
+        container.register(singleton: IOLocalStorage.self, impl: IOLocalStorageImpl.self)
+        container.register(singleton: IOMapper.self, impl: IOMapperImpl.self)
         container.register(singleton: IOHTTPLogger.self, impl: IOHTTPLoggerImpl.self)
         
         if self.appleSettings.bool(for: .debugSimulateHTTPClient) {

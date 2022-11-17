@@ -18,4 +18,15 @@ public protocol IODIContainer {
     
     func resolve<TType>(_ type: TType.Type) -> TType!
     func resolveOptional<TType>(_ type: TType.Type) -> TType?
+    
+    // MARK: - Statics
+    
+    static func get<TType>(_ type: TType.Type) -> TType!
+}
+
+public extension IODIContainer {
+ 
+    static func get<TType>(_ type: TType.Type) -> TType! {
+        return IODIContainerImpl.shared.resolve(type)
+    }
 }

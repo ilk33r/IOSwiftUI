@@ -19,17 +19,18 @@ public struct IOLogger: IOSingleton {
     // MARK: - DI
     
     @IOInject private var appState: IOAppState
+    @IOInject private var configuration: IOConfiguration
     
     // MARK: - Privates
     
     private var logger: OSLog
-    private var logLevel: IOLogLevels
+    private var logLevel: IOLogLevels!
     
     // MARK: - Initialization Methods
     
     public init() {
         self.logger = OSLog.default
-        self.logLevel = IOLogLevels(rawValue: IOConfigurationImpl.shared.configForType(type: .loggingLogLevel)) ?? .error
+        self.logLevel = IOLogLevels(rawValue: self.configuration.configForType(type: .loggingLogLevel)) ?? .error
     }
     
     // MARK: - Logging Methods

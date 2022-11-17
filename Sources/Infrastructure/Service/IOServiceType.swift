@@ -22,7 +22,7 @@ public protocol IOServiceType {
 
 public extension IOServiceType {
     
-    var mapper: IOMapper { IOMapperImpl.shared }
+    var mapper: IOMapper { IODIContainerImpl.get(IOMapper.self) }
     
     func _handleQuery<TModel: Codable>(_ model: TModel) -> String? {
         do {

@@ -23,7 +23,6 @@ public protocol IOInteractor {
     var appState: IOAppState { get }
     var fileCache: IOFileCache { get }
     var configuration: IOConfiguration { get }
-    var localization: IOLocalization { get }
     var localStorage: IOLocalStorage { get }
     
     // MARK: - Initialization Methods
@@ -36,11 +35,10 @@ public extension IOInteractor {
     
     // MARK: - DI
     
-    var appState: IOAppState { IOAppStateImpl.shared }
-    var fileCache: IOFileCache { IOFileCacheImpl.shared }
-    var configuration: IOConfiguration { IOConfigurationImpl.shared }
-    var localization: IOLocalization { IOLocalizationImpl.shared }
-    var localStorage: IOLocalStorage { IOLocalStorageImpl.shared }
+    var appState: IOAppState { IODIContainerImpl.get(IOAppState.self) }
+    var fileCache: IOFileCache { IODIContainerImpl.get(IOFileCache.self) }
+    var configuration: IOConfiguration { IODIContainerImpl.get(IOConfiguration.self) }
+    var localStorage: IOLocalStorage { IODIContainerImpl.get(IOLocalStorage.self) }
     
     // MARK: - Initialization Methods
     
