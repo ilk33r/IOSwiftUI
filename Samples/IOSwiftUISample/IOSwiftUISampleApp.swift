@@ -20,12 +20,12 @@ struct IOSwiftUISampleApp: App {
     // MARK: - Privates
     
     @IOInject private var alertPresenter: IOAlertPresenter
+    @IOInject private var indicatorPresenter: IOIndicatorPresenter
     
     @UIApplicationDelegateAdaptor private var appDelegate: IOSwiftUISampleAppDelegate
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
     
     private let splashView = IORouterUtilities.route(PreLoginRouters.self, .splash(entity: nil))
-    private let indicatorPresenter: IOIndicatorPresenter
     
     // MARK: - Body
     
@@ -62,9 +62,5 @@ struct IOSwiftUISampleApp: App {
     // MARK: - Initialization Methods
     
     init() {
-        self.indicatorPresenter = IOIndicatorPresenterImpl {
-            IndicatorView()
-                .transition(.opacity)
-        }
     }
 }

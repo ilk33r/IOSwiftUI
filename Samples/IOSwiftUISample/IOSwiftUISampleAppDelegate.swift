@@ -40,6 +40,13 @@ final class IOSwiftUISampleAppDelegate: IOAppDelegate {
     override func configureDI(container: IODIContainer) {
         super.configureDI(container: container)
         
+        container.register(class: IOIndicatorPresenter.self) {
+            IOIndicatorPresenterImpl {
+                IndicatorView()
+                    .transition(.opacity)
+            }
+        }
+        
         IOFontType.registerFontsIfNecessary(Bundle.resources)
         AppTheme.applyTheme()
     }
