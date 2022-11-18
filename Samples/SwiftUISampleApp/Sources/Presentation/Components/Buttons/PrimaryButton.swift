@@ -35,13 +35,11 @@ public struct PrimaryButton: View, IOClickable {
     
     public init(_ l: IOLocalizationType) {
         self.localizationType = l
-        IOFontType.registerFontsIfNecessary(Bundle.resources)
     }
     
     private init(_ l: IOLocalizationType, handler: IOClickableHandler?) {
         self.localizationType = l
         self.handler = handler
-        IOFontType.registerFontsIfNecessary(Bundle.resources)
     }
     
     public func setClick(_ handler: IOClickableHandler?) -> PrimaryButton {
@@ -50,8 +48,10 @@ public struct PrimaryButton: View, IOClickable {
 }
 
 struct PrimaryButton_Previews: PreviewProvider {
+    
     static var previews: some View {
-        Group {
+        prepare()
+        return Group {
             PrimaryButton(.init(rawValue: "Primary Button"))
             PrimaryButton(.init(rawValue: "Primary Button"))
         }

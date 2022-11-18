@@ -45,8 +45,10 @@ public struct GalleryCellView: View {
 }
 
 struct GalleryCellView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        GalleryCellView(imagePublicId: "", type: .normal, width: 90)
+        prepare()
+        return GalleryCellView(imagePublicId: "", type: .normal, width: 90)
             .previewLayout(.sizeThatFits)
     }
 }

@@ -144,8 +144,10 @@ public struct ChangePasswordView: IOController {
 }
 
 struct ChangePasswordView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        ChangePasswordView(
+        prepare()
+        return ChangePasswordView(
             entity: ChangePasswordEntity(
                 phoneNumber: "905335433836"
             )

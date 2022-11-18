@@ -97,6 +97,7 @@ struct FloatingDatePicker_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        FloatingDatePickerDemo()
+        prepare()
+        return FloatingDatePickerDemo()
     }
 }

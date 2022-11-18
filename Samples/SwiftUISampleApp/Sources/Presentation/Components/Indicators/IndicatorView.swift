@@ -37,6 +37,7 @@ public struct IndicatorView: View {
 
 struct IndicatorView_Previews: PreviewProvider {
     static var previews: some View {
-        IndicatorView()
+        prepare()
+        return IndicatorView()
     }
 }

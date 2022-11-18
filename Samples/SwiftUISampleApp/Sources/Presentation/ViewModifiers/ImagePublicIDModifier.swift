@@ -35,8 +35,7 @@ struct ImagePublicIDModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         if
-            ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" &&
-                publicId.starts(with: "pw")
+            ProcessInfo.isPreviewMode && publicId.starts(with: "pw")
         {
             return AnyView(
                 Image(publicId)

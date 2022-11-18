@@ -96,31 +96,31 @@ public struct PhotoGalleryView: IOController {
 }
 
 struct PhotoGalleryView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        let galleryImages = [
-            "pwGallery0",
-            "pwGallery1",
-            "pwGallery2",
-            "pwGallery3",
-            "pwGallery4",
-            "pwGallery5",
-            "pwGallery0",
-            "pwGallery1",
-            "pwGallery2",
-            "pwGallery3",
-            "pwGallery4",
-            "pwGallery5",
-            "pwGallery0",
-            "pwGallery1",
-            "pwGallery2",
-            "pwGallery3",
-            "pwGallery4",
-            "pwGallery5"
-        ]
-        
-        PhotoGalleryView(
+        prepare()
+        return PhotoGalleryView(
             entity: PhotoGalleryEntity(
-                imagePublicIds: galleryImages,
+                imagePublicIds: [
+                    "pwGallery0",
+                    "pwGallery1",
+                    "pwGallery2",
+                    "pwGallery3",
+                    "pwGallery4",
+                    "pwGallery5",
+                    "pwGallery0",
+                    "pwGallery1",
+                    "pwGallery2",
+                    "pwGallery3",
+                    "pwGallery4",
+                    "pwGallery5",
+                    "pwGallery0",
+                    "pwGallery1",
+                    "pwGallery2",
+                    "pwGallery3",
+                    "pwGallery4",
+                    "pwGallery5"
+                ],
                 isPresented: Binding.constant(false),
                 selectedIndex: 0
             )

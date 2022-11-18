@@ -89,6 +89,7 @@ public struct SplashView: IOController {
 
 struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
-        SplashView(entity: SplashEntity())
+        prepare()
+        return SplashView(entity: SplashEntity())
     }
 }

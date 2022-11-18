@@ -118,6 +118,8 @@ public struct HomeView: IOController {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(entity: HomeEntity())
+        prepare()
+        return HomeView(entity: HomeEntity())
+            .environmentObject(SampleAppEnvironment())
     }
 }

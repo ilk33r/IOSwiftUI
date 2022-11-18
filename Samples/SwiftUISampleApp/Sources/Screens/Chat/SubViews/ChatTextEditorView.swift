@@ -121,7 +121,8 @@ struct ChatTextEditorView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        ChatTextEditorViewDemo()
+        prepare()
+        return ChatTextEditorViewDemo()
             .previewLayout(.sizeThatFits)
     }
 }

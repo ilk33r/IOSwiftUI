@@ -150,6 +150,7 @@ struct GalleryView_Previews: PreviewProvider {
     }
      
     static var previews: some View {
-        GalleryViewDemo()
+        prepare()
+        return GalleryViewDemo()
     }
 }

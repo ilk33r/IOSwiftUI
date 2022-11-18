@@ -62,7 +62,9 @@ struct ChatReceivedCellView: View {
 }
 
 struct ChatReceivedCellView_Previews: PreviewProvider {
+    
     static var previews: some View {
+        prepare()
         let uiModel = ChatItemUIModel(
             id: 0,
             imagePublicID: "pwProfilePicture",
@@ -72,7 +74,7 @@ struct ChatReceivedCellView_Previews: PreviewProvider {
             messageTime: "16 min ago"
         )
         
-        ChatReceivedCellView(uiModel: uiModel)
+        return ChatReceivedCellView(uiModel: uiModel)
             .previewLayout(.sizeThatFits)
     }
 }

@@ -11,7 +11,8 @@ import SwiftUI
 struct ChangePassword_Previews: PreviewProvider {
     
     static var previews: some View {
-        Text("ChangePassword_Previews")
+        prepare()
+        return Text("ChangePassword_Previews")
             .previewLayout(.fixed(width: 320, height: 70))
     }
 }

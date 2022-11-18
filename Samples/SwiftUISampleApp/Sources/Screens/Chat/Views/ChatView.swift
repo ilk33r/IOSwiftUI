@@ -167,8 +167,10 @@ public struct ChatView: IOController {
 }
 
 struct ChatView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        ChatView(
+        prepare()
+        return ChatView(
             entity: ChatEntity(
                 toMemberId: 0,
                 inbox: nil,

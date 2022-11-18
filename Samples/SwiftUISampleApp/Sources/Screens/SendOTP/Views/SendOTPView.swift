@@ -139,6 +139,7 @@ struct SendOTPView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        SendOTPViewDemo()
+        prepare()
+        return SendOTPViewDemo()
     }
 }

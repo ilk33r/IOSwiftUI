@@ -39,13 +39,11 @@ public struct SecondaryButton: View, IOClickable {
     
     public init(_ l: IOLocalizationType) {
         self.localizationType = l
-        IOFontType.registerFontsIfNecessary(Bundle.resources)
     }
     
     private init(_ l: IOLocalizationType, handler: IOClickableHandler?) {
         self.localizationType = l
         self.handler = handler
-        IOFontType.registerFontsIfNecessary(Bundle.resources)
     }
     
     public func setClick(_ handler: IOClickableHandler?) -> SecondaryButton {
@@ -54,7 +52,9 @@ public struct SecondaryButton: View, IOClickable {
 }
 
 struct SecondaryButton_Previews: PreviewProvider {
+    
     static var previews: some View {
-        SecondaryButton(.init(rawValue: "Secondary Button"))
+        prepare()
+        return SecondaryButton(.init(rawValue: "Secondary Button"))
     }
 }

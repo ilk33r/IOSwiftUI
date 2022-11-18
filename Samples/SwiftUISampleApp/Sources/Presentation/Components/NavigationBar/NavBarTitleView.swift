@@ -42,8 +42,10 @@ public struct NavBarTitleView: View {
 }
 
 struct NavBarTitleView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        NavBarTitleView(.init(rawValue: "Navigation Bar"), iconName: "bolt.fill")
+        prepare()
+        return NavBarTitleView(.init(rawValue: "Navigation Bar"), iconName: "bolt.fill")
             .previewLayout(.sizeThatFits)
     }
 }

@@ -118,6 +118,7 @@ struct ProfileHeaderView: View {
 struct ProfileHeaderView_Previews: PreviewProvider {
     
     static var previews: some View {
-        ProfileHeaderView(uiModel: nil, clickHandler: nil)
+        prepare()
+        return ProfileHeaderView(uiModel: nil, clickHandler: nil)
     }
 }
