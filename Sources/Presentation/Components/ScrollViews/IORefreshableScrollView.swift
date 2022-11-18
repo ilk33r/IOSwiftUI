@@ -19,6 +19,11 @@ public struct IORefreshableScrollView<Content>: View where Content: View {
     // MARK: - Constants
     
     private let defaultRefreshThreshold: CGFloat = 32
+    private let minRefreshDuration: Double = 4
+    
+    // MARK: - DI
+    
+    @IOInject private var thread: IOThread
     
     // MARK: - Privates
 
@@ -26,6 +31,7 @@ public struct IORefreshableScrollView<Content>: View where Content: View {
     @Binding private var isRefreshing: Bool
     @Binding private var scrollOffset: CGFloat
     @Namespace private var scrollSpace
+    @State private var animationStartInterval: Double = 0
     @State private var isAnimatingState = false
     @State private var offset: CGFloat = 0
     
@@ -63,16 +69,29 @@ public struct IORefreshableScrollView<Content>: View where Content: View {
                     isAnimatingState = true
                 }
                 
+                animationStartInterval = Date().timeIntervalSince1970
                 isRefreshing = true
             }
         }
         .onChange(of: isRefreshing) { newValue in
             if !newValue {
-                withAnimation(
-                    Animation
-                        .linear(duration: 0.25)
-                ) {
-                    isAnimatingState = false
+                let currentTimeInterval = Date().timeIntervalSince1970
+                let refreshingDuration = currentTimeInterval - animationStartInterval
+                let animationDelay: Double
+                
+                if refreshingDuration > minRefreshDuration {
+                    animationDelay = 0
+                } else {
+                    animationDelay = abs(minRefreshDuration - refreshingDuration)
+                }
+                
+                thread.runOnMainThread(afterMilliSecond: Int(animationDelay * 100)) {
+                    withAnimation(
+                        Animation
+                            .linear(duration: 0.25)
+                    ) {
+                        isAnimatingState = false
+                    }
                 }
             }
         }
