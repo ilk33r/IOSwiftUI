@@ -134,9 +134,15 @@ public struct ChatView: IOController {
         .onReceive(presenter.$navigatingMessageID) { navigatingMessageID in
             guard let navigatingMessageID else { return }
             
-            thread.runOnMainThread {
-                scrollViewProxy?.scrollTo(navigatingMessageID)
+            thread.runOnMainThread(afterMilliSecond: 250) {
                 presenter.isMessagesLoading = false
+                
+                withAnimation(
+                    Animation
+                        .easeOut
+                ) {
+                    scrollViewProxy?.scrollTo(navigatingMessageID)
+                }
             }
         }
         .onChange(of: scrollViewOffset) { newValue in
