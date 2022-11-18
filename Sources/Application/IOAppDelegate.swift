@@ -71,7 +71,9 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
             let simulationHTTPClient = self.httpClient as? IOHTTPClientSimulationImpl
         {
             do {
-                try simulationHTTPClient.loadArchive()
+                let networkSerializer = IONetworkHistorySerializer()
+                let archiveData = try networkSerializer.loadArchive()
+                simulationHTTPClient.loadArchive(networkHistory: archiveData)
             } catch let error {
                 self.alertPresenter.show {
                     IOAlertData(title: nil, message: error.localizedDescription, buttons: ["Ok"], handler: nil)
@@ -101,8 +103,7 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
         let archiveData = networkSerializer.archive()
         
         do {
-            let simulationHTTPClient = self.httpClient as? IOHTTPClientSimulationImpl
-            try simulationHTTPClient?.saveArchive(archiveData)
+            try networkSerializer.saveArchive(archiveData)
             
             self.alertPresenter.show {
                 IOAlertData(title: nil, message: "HTTP history has been recorded successfully.", buttons: ["Ok"], handler: nil)

@@ -11,6 +11,7 @@ public struct IONetworkHistorySerializer {
     
     // MARK: - DI
     
+    @IOInject private var fileCache: IOFileCache
     @IOInject private var httpLogger: IOHTTPLogger
     
     // MARK: - Defs
@@ -32,6 +33,7 @@ public struct IONetworkHistorySerializer {
     // MARK: - Privates
     
     private let fileHeaderSignature = "#!IO"
+    private let networkHistoryFileName = "IO_RecordedNetworkHistory"
     
     // MARK: - Initialization Methods
     
@@ -137,5 +139,17 @@ public struct IONetworkHistorySerializer {
         }
         
         return resultData
+    }
+    
+    // MARK: - Save or Load
+    
+    public func saveArchive(_ data: Data) throws {
+        try self.fileCache.removeFile(fromCache: self.networkHistoryFileName)
+        try self.fileCache.storeFile(toCache: self.networkHistoryFileName, fileData: data)
+    }
+    
+    public func loadArchive() throws -> [IOHTTPNetworkHistory] {
+        let archiveData = try fileCache.getFile(fromCache: self.networkHistoryFileName)
+        return try self.unarchive(data: archiveData)
     }
 }

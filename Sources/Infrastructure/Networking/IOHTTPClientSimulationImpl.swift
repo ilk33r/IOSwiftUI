@@ -17,7 +17,6 @@ final public class IOHTTPClientSimulationImpl: IOHTTPClient, IOSingleton {
     
     @IOInject private var appleSettings: IOAppleSetting
     @IOInject private var configuration: IOConfiguration
-    @IOInject private var fileCache: IOFileCache
     @IOInject private var thread: IOThread
     
     // MARK: - Publics
@@ -25,8 +24,6 @@ final public class IOHTTPClientSimulationImpl: IOHTTPClient, IOSingleton {
     public var defaultHTTPHeaders: [String: String]? { [:] }
     
     // MARK: - Privates
-    
-    private let networkHistoryFileName = "IO_RecordedNetworkHistory"
     
     private var baseURL: URL!
     private var networkHistory: [IOHTTPNetworkHistory]
@@ -77,7 +74,9 @@ final public class IOHTTPClientSimulationImpl: IOHTTPClient, IOSingleton {
                     statusCode: -1,
                     taskId: 0
                 )
-                handler?(result)
+                self?.thread.runOnMainThread {
+                    handler?(result)
+                }
                 return
             }
             
@@ -105,16 +104,8 @@ final public class IOHTTPClientSimulationImpl: IOHTTPClient, IOSingleton {
     
     // MARK: - Archiver Methods
     
-    public func saveArchive(_ data: Data) throws {
-        try self.fileCache.removeFile(fromCache: self.networkHistoryFileName)
-        try self.fileCache.storeFile(toCache: self.networkHistoryFileName, fileData: data)
-    }
-    
-    public func loadArchive() throws {
-        let archiveData = try fileCache.getFile(fromCache: self.networkHistoryFileName)
-        
-        let networkSerializer = IONetworkHistorySerializer()
-        self.networkHistory = try networkSerializer.unarchive(data: archiveData)
+    public func loadArchive(networkHistory: [IOHTTPNetworkHistory]) {
+        self.networkHistory = networkHistory
     }
     
     // MARK: - Helper Methods
