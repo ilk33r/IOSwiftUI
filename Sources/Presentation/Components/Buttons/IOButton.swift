@@ -66,8 +66,10 @@ public extension IOButton where Content == Never {
 }
 
 struct IOButton_Previews: PreviewProvider {
+    
     static var previews: some View {
-        Group {
+        prepare()
+        return Group {
             IOButton(.init(rawValue: "Button"))
         }
     }

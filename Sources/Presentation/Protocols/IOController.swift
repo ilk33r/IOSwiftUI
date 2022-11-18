@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import SwiftUI
 
@@ -29,7 +30,7 @@ public protocol IOController: View {
 public extension IOController {
     
     var isPreviewMode: Bool {
-        return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+        return ProcessInfo.isPreviewMode
     }
     
     init(presenter: Presenter) {

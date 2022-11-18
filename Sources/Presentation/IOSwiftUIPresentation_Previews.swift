@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct IOSwiftUIPresentation_Previews: PreviewProvider {
+    
     static var previews: some View {
-        Group {
+        prepare()
+        return Group {
             IOButton(.init(rawValue: "Primary Button"))
         }
     }

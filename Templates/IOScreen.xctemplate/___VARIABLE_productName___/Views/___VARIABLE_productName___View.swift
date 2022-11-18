@@ -44,7 +44,9 @@ public struct ___VARIABLE_productName___View: IOController {
 }
 
 struct ___VARIABLE_productName___View_Previews: PreviewProvider {
+    
     static var previews: some View {
-        ___VARIABLE_productName___View(entity: ___VARIABLE_productName___Entity())
+        prepare()
+        return ___VARIABLE_productName___View(entity: ___VARIABLE_productName___Entity())
     }
 }

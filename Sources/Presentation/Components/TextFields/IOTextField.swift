@@ -64,7 +64,8 @@ struct IOTextFieldd_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        Group {
+        prepare()
+        return Group {
             TextFieldDemo()
         }
         .previewLayout(.fixed(width: 320, height: 52))

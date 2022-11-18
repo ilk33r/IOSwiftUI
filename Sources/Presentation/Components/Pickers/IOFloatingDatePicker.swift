@@ -260,6 +260,7 @@ struct IODatePicker_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        IODatePickerDemo()
+        prepare()
+        return IODatePickerDemo()
     }
 }

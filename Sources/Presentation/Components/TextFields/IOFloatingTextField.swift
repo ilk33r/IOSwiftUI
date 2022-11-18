@@ -310,6 +310,7 @@ struct IOFloatingTextField_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        FloatingTextFieldDemo()
+        prepare()
+        return FloatingTextFieldDemo()
     }
 }

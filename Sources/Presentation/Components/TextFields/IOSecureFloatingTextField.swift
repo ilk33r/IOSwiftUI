@@ -315,6 +315,7 @@ struct IOSecureFloatingTextField_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        FloatingTextFieldDemo()
+        prepare()
+        return FloatingTextFieldDemo()
     }
 }
