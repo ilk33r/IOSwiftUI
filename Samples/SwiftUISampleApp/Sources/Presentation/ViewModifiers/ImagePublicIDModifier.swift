@@ -37,32 +37,34 @@ struct ImagePublicIDModifier: ViewModifier {
         if
             ProcessInfo.isPreviewMode && publicId.starts(with: "pw")
         {
-            return AnyView(
-                Image(publicId)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            )
-        }
-        
-        if let imageData {
-            return AnyView(
-                Image(fromData: imageData)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            )
-        }
-        
-        return AnyView(
-            Image(systemName: "scribble")
+            return Image(publicId)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .onAppear {
-                    imageLoadCancellable = loadImage()
                 }
                 .onDisappear {
-                    imageLoadCancellable?.cancel()
                 }
-        )
+        }
+        
+        if let imageData {
+            return Image(fromData: imageData)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .onAppear {
+                }
+                .onDisappear {
+                }
+        }
+        
+        return Image(systemName: "scribble")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .onAppear {
+                imageLoadCancellable = loadImage()
+            }
+            .onDisappear {
+                imageLoadCancellable?.cancel()
+            }
     }
     
     private func loadImage() -> IOCancellable? {

@@ -55,14 +55,25 @@ public struct IORefreshableScrollView<Content>: View where Content: View {
             }
         }
         .onChange(of: scrollOffset) { newValue in
-            if newValue < (defaultRefreshThreshold * -2) {
-                isAnimatingState = true
+            if newValue < (defaultRefreshThreshold * -1.5) {
+                withAnimation(
+                    Animation
+                        .linear(duration: 0.25)
+                ) {
+                    isAnimatingState = true
+                }
+                
                 isRefreshing = true
             }
         }
         .onChange(of: isRefreshing) { newValue in
             if !newValue {
-                isAnimatingState = false
+                withAnimation(
+                    Animation
+                        .linear(duration: 0.25)
+                ) {
+                    isAnimatingState = false
+                }
             }
         }
     }

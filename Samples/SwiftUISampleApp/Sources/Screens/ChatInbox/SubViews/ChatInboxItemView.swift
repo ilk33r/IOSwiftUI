@@ -50,35 +50,36 @@ struct ChatInboxItemView: View {
                 .padding(.leading, 16)
                 .padding(.trailing, 16)
                 .padding(.top, 16)
-                .padding(.bottom, 16)
+                .padding(.bottom, 8)
                 .zIndex(1)
                 .hidden(isHidden: $deleteButtonIsHidden)
                 HStack(alignment: .top) {
                     Image()
                         .from(publicId: uiModel.profilePicturePublicId)
-                        .frame(width: 64, height: 64)
+                        .frame(width: 64, height: 64, alignment: .top)
                         .clipShape(Circle())
                     VStack(alignment: .leading) {
                         Text(uiModel.nameSurname)
                             .font(type: .bold(13))
                             .foregroundColor(.black)
                         Text(uiModel.lastMessage)
-                            .lineLimit(3)
+                            .lineLimit(2)
                             .font(type: .regular(13))
                             .foregroundColor(.black)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .fixedSize(horizontal: false, vertical: true)
-                            .padding(.top, 2)
+                            .padding(.top, 1)
                     }
                     .padding(.leading, 16)
                     .padding(.trailing, 16)
-                    .padding(.top, 16)
-                    .padding(.bottom, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 8)
+                    .frame(height: 72, alignment: .top)
                 }
                 .padding(.leading, 16)
                 .padding(.trailing, 16)
                 .padding(.top, 16)
-                .padding(.bottom, 16)
+                .padding(.bottom, 8)
                 .background(Color.white)
                 .offset(x: offset.width, y: 0)
                 .gesture(
@@ -92,26 +93,46 @@ struct ChatInboxItemView: View {
                             if newOffset <= 0 && newOffset >= -buttonDeleteWidth {
                                 offset.width = newOffset
                             } else if newOffset <= 0 {
-                                offset.width = -buttonDeleteWidth
+                                withAnimation(
+                                    Animation
+                                        .interactiveSpring()
+                                ) {
+                                    offset.width = -buttonDeleteWidth
+                                }
                             } else {
-                                offset = .zero
-                                deleteButtonIsHidden = true
+                                withAnimation(
+                                    Animation
+                                        .interactiveSpring()
+                                ) {
+                                    offset = .zero
+                                    deleteButtonIsHidden = true
+                                }
                             }
                         }
                         .onEnded { _ in
                             if offset.width <= -buttonDeleteWidth {
                                 offset.width = -buttonDeleteWidth
                             } else if offset.width < (-buttonDeleteWidth) / 2 {
-                                offset.width = -buttonDeleteWidth
+                                withAnimation(
+                                    Animation
+                                        .interactiveSpring()
+                                ) {
+                                    offset.width = -buttonDeleteWidth
+                                }
                             } else {
-                                offset = .zero
-                                deleteButtonIsHidden = true
+                                withAnimation(
+                                    Animation
+                                        .interactiveSpring()
+                                ) {
+                                    offset = .zero
+                                    deleteButtonIsHidden = true
+                                }
                             }
                         }
                 )
-                .animation(.interactiveSpring())
                 .zIndex(2)
             }
+            .frame(height: 88)
             Rectangle()
                 .fill(Color.colorPassthrought)
                 .frame(height: 1)
@@ -134,7 +155,8 @@ struct ChatInboxItemView: View {
 
 struct ChatInboxItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatInboxItemView(
+        prepare()
+        return ChatInboxItemView(
             uiModel: ChatInboxUIModel(
                 index: 0,
                 profilePicturePublicId: "pwProfilePicture",
