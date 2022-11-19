@@ -16,6 +16,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     
     // MARK: - DI
     
+    @IOInject private var appleSettings: IOAppleSetting
     @IOInject private var appState: IOAppState
     @IOInject private var configuration: IOConfiguration
     @IOInject private var httpLogger: IOHTTPLogger
@@ -37,7 +38,13 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     
     public init() {
         self.appState.set(object: [Int: UIBackgroundTaskIdentifier](), forType: .httpClientBackgroundTasks)
-        self.baseURL = URL(string: self.configuration.configForType(type: .networkingApiUrl))!
+        
+        if let settingBaseURL = self.appleSettings.string(for: .debugAPIURL), settingBaseURL != "-" {
+            self.baseURL = URL(string: settingBaseURL)!
+        } else {
+            self.baseURL = URL(string: self.configuration.configForType(type: .networkingApiUrl))!
+        }
+        
         self.timeoutInterval = TimeInterval(self.configuration.configForType(type: .networkingApiTimeout)) ?? 0
         
         let sessionConfiguration = URLSessionConfiguration.ephemeral

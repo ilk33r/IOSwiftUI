@@ -19,6 +19,12 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
     @IOInject public var alertPresenter: IOAlertPresenter
     @IOInject public var httpClient: IOHTTPClient
     
+    // MARK: - Settings
+    
+    private var debugAPIURL: String?
+    private var debugSimulateHttpClient: Bool?
+    private var debugSimulationResponseTime: Float?
+    
     // MARK: - Privates
     
     private var debuggerPresenter: HTTPDebuggerPresenter?
@@ -80,6 +86,10 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
                 }
             }
         }
+        
+        self.debugAPIURL = self.appleSettings.string(for: .debugAPIURL)
+        self.debugSimulateHttpClient = self.appleSettings.bool(for: .debugSimulateHTTPClient)
+        self.debugSimulationResponseTime = self.appleSettings.float(for: .debugSimulationHTTPResponseTime)
     }
     
     open func settingValueChanged() {
@@ -95,6 +105,14 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
         
         if self.appleSettings.bool(for: .debugRecordHTTPCalls) {
             self.recordHTTPCalls()
+        }
+        
+        if self.debugAPIURL != self.appleSettings.string(for: .debugAPIURL) {
+            self.settingsRestartRequired()
+        } else if self.debugSimulateHttpClient != self.appleSettings.bool(for: .debugSimulateHTTPClient) {
+            self.settingsRestartRequired()
+        } else if self.debugSimulationResponseTime != self.appleSettings.float(for: .debugSimulationHTTPResponseTime) {
+            self.settingsRestartRequired()
         }
     }
     
@@ -115,5 +133,13 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
         }
         
         self.appleSettings.set(false, for: .debugRecordHTTPCalls)
+    }
+    
+    open func settingsRestartRequired() {
+        self.alertPresenter.show {
+            IOAlertData(title: nil, message: "Restart required for debug settings changed.", buttons: ["Ok"]) { _ in
+                exit(0)
+            }
+        }
     }
 }

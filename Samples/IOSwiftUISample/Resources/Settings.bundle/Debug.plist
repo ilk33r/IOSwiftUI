@@ -84,8 +84,8 @@
 			<key>Values</key>
 			<array>
 				<string>-</string>
-				<string>192.168.1.6:5176</string>
-				<string>localhost:45176</string>
+				<string>http://192.168.1.6:5176</string>
+				<string>http://localhost:5176</string>
 			</array>
 		</dict>
 		<dict>

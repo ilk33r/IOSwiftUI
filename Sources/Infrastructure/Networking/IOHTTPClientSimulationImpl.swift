@@ -33,8 +33,13 @@ final public class IOHTTPClientSimulationImpl: IOHTTPClient, IOSingleton {
     
     public init() {
         self.networkHistory = []
-        self.baseURL = URL(string: self.configuration.configForType(type: .networkingApiUrl))!
         self.responseTime = Int(self.appleSettings.float(for: .debugSimulationHTTPResponseTime) * 1000)
+        
+        if let settingBaseURL = self.appleSettings.string(for: .debugAPIURL), settingBaseURL != "-" {
+            self.baseURL = URL(string: settingBaseURL)!
+        } else {
+            self.baseURL = URL(string: self.configuration.configForType(type: .networkingApiUrl))!
+        }
     }
     
     // MARK: - Http Client Methods
