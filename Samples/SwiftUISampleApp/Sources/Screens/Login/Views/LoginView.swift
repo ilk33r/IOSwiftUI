@@ -19,6 +19,7 @@ public struct LoginView: IOController {
     
     // MARK: - DI
     
+    @IOInject private var appleSettings: IOAppleSetting
     @IOInject private var validator: IOValidator
     
     // MARK: - Properties
@@ -82,6 +83,8 @@ public struct LoginView: IOController {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
                 presenter.navigationState = _navigationState
+                emailText = appleSettings.string(for: .debugDefaultUserName) ?? ""
+                passwordText = appleSettings.string(for: .debugDefaultPassword) ?? ""
             }
         }
     }
