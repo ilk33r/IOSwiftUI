@@ -112,3 +112,6 @@
 "friends.tab.followers" = "%d Followers";
 "friends.tab.following" = "%d Following";
 "friends.title" = "Friends";
+
+// MARK: - Search
+"search.input.placeholder" = "Search user...";

@@ -25,6 +25,8 @@ public struct SearchView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
+    @State private var searchText = ""
+    
     // MARK: - Body
     
     public var body: some View {
@@ -35,7 +37,11 @@ public struct SearchView: IOController {
                     .ignoresSafeArea()
             }
             .navigationBar {
-                Text("Navbar")
+                SearchNavBar(
+                    text: $searchText
+                ) {
+                    IOLogger.debug("Editing end")
+                }
             }
         }
         .navigationWireframe {
