@@ -38,6 +38,12 @@ public struct HomeView: IOController {
                         .discover(entity: nil)
                     ).setEnvironment(appEnvironment).contentView
                 ),
+                IOIdentifiableView(
+                    anyView: IORouterUtilities.route(
+                        HomeRouters.self,
+                        .search(entity: nil)
+                    ).setEnvironment(appEnvironment).contentView
+                ),
                 IOIdentifiableView(view: HomeTabEmptyView()),
                 IOIdentifiableView(
                     anyView: IORouterUtilities.route(
@@ -54,7 +60,7 @@ public struct HomeView: IOController {
             ]
         }
         .onChange(of: selectedIndex) { newValue in
-            if newValue == 1 {
+            if newValue == 2 {
                 presenter.showActionSheet()
             }
         }
