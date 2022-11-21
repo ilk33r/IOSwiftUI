@@ -9,6 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
 public struct SearchInteractor: IOInteractor {
@@ -28,4 +29,23 @@ public struct SearchInteractor: IOInteractor {
     }
     
     // MARK: - Interactor
+    
+    func discoverAll(start: Int, count: Int) {
+        showIndicator()
+        
+        let request = PaginationRequestModel(
+            pagination: PaginationModel(start: start, count: count, total: 0)
+        )
+        service.request(.discoverAll(request: request), responseType: DiscoverImagesResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(response: let response):
+                IOLogger.debug("Ok")
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
 }

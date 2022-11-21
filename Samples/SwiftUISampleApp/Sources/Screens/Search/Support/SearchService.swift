@@ -9,18 +9,20 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 
 enum SearchService {
 
+    case discoverAll(request: PaginationRequestModel)
 }
 
 extension SearchService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
-        default:
-            return .get
+        case .discoverAll:
+            return .post
         }
     }
     
@@ -34,7 +36,7 @@ extension SearchService: IOServiceType {
     var path: String {
         switch self {
         default:
-            return ""
+            return "Discover/DiscoverAll"
         }
     }
     
@@ -54,8 +56,8 @@ extension SearchService: IOServiceType {
     
     var body: Data? {
         switch self {
-        default:
-            return nil
+        case .discoverAll(request: let request):
+            return handleRequest(request)
         }
     }
     
