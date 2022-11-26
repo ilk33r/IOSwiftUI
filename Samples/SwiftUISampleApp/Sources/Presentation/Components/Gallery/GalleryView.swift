@@ -43,6 +43,7 @@ public struct GalleryView: View {
                                 width: itemWidth
                             )
                             .onTapGesture {
+                                #warning("Improve this")
                                 tapIndex = it.index
                             }
                         }
@@ -55,6 +56,7 @@ public struct GalleryView: View {
                                 width: itemWidth
                             )
                             .onTapGesture {
+                                #warning("Improve this")
                                 tapIndex = it.index
                             }
                         }

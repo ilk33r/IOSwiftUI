@@ -42,7 +42,7 @@ struct HTTPDebuggerCellView: View {
                 .padding(.top, 1)
         }
         .padding(.top, 16)
-        .onTapGesture {
+        .setClick {
             tapHandler?(history)
         }
     }

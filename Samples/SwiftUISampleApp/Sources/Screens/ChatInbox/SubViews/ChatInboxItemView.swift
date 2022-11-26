@@ -137,7 +137,7 @@ struct ChatInboxItemView: View {
                 .fill(Color.colorPassthrought)
                 .frame(height: 1)
         }
-        .onTapGesture {
+        .setClick {
             clickHandler?(uiModel.index)
         }
     }

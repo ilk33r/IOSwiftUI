@@ -55,11 +55,12 @@ public struct SearchView: IOController {
                         ]
                     ) {
                         ForEach(presenter.images) { item in
-                            Image()
-                                .from(publicId: item.imagePublicId)
-                                .frame(width: itemSize, height: itemSize)
-                                .clipped()
-                                .allowsHitTesting(false)
+                            SearchCellView(
+                                imageWidth: itemSize,
+                                uiModel: item
+                            ) { userName in
+                                IOLogger.debug("Click \(userName)")
+                            }
                         }
                     }
                     .padding(.vertical, 24)
