@@ -35,23 +35,34 @@ public struct SearchView: IOController {
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                IORefreshableScrollView(
-                    backgroundColor: .white,
+                IOObservableScrollView(
                     contentSize: $contentSize,
-                    isRefreshing: $isRefreshing,
                     scrollOffset: $scrollOffset
                 ) { _ in
-                    LazyVStack {
-                        ForEach(presenter.images) { _ in // item in
-//                            DiscoverCellView(
-//                                uiModel: item,
-//                                width: proxy.size.width
-//                            ) { _ in // userName in
-////                                navigationState.userName = userName
-////                                navigationState.navigateToProfile = true
-//                            }
+                    Text(type: .searchResultTypeAll)
+                        .font(type: .black(13))
+                        .foregroundColor(.black)
+                        .padding(.top, 32)
+                        .frame(width: proxy.size.width - 32, alignment: .leading)
+                        .padding(.horizontal, 16)
+                    
+                    let itemSize = ((proxy.size.width - 32) / 3) - 8
+                    LazyVGrid(
+                        columns: [
+                            GridItem(.fixed(itemSize), spacing: 11),
+                            GridItem(.fixed(itemSize), spacing: 11),
+                            GridItem(.fixed(itemSize), spacing: 0)
+                        ]
+                    ) {
+                        ForEach(presenter.images) { item in
+                            Image()
+                                .from(publicId: item.imagePublicId)
+                                .frame(width: itemSize, height: itemSize)
+                                .clipped()
+                                .allowsHitTesting(false)
                         }
                     }
+                    .padding(.vertical, 24)
                 }
                 Color.white
                     .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)

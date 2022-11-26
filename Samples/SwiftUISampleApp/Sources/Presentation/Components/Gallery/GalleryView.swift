@@ -11,6 +11,8 @@ import IOSwiftUIPresentation
 
 public struct GalleryView: View {
     
+    // MARK: - Privates
+    
     private let leftGalleryData: [GalleryCellData]
     private let rightGalleryData: [GalleryCellData]
     
@@ -20,6 +22,9 @@ public struct GalleryView: View {
     @Binding private var tapIndex: Int
     @Binding private var viewSize: CGSize
     
+    // MARK: - Body
+    
+    #warning("Improve this")
     public var body: some View {
         GeometryReader { proxy in
             IOObservableScrollView(
@@ -63,6 +68,8 @@ public struct GalleryView: View {
             }
         }
     }
+    
+    // MARK: - Initialization Methods
     
     public init(
         insetTop: Binding<CGFloat>,

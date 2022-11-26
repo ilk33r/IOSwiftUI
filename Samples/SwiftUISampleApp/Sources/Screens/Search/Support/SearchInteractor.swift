@@ -41,7 +41,7 @@ public struct SearchInteractor: IOInteractor {
             
             switch result {
             case .success(response: let response):
-                IOLogger.debug("Ok")
+                presenter?.update(discoverResponse: response)
                 
             case .error(message: let message, type: let type, response: let response):
                 handleServiceError(message, type: type, response: response, handler: nil)

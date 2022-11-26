@@ -34,7 +34,7 @@ final public class SearchPresenter: IOPresenterable {
     
     // MARK: - Privates
     
-    private let numberOfImagesPerPage = 10
+    private let numberOfImagesPerPage = 30
     
     private var isImagesLoading: Bool!
     private var imagesStart: Int
@@ -84,17 +84,10 @@ final public class SearchPresenter: IOPresenterable {
         
         self.totalImageCount = response?.pagination?.total ?? 0
         
-        let relativeDate = Date()
-        let dateFormatter = RelativeDateTimeFormatter()
-        dateFormatter.dateTimeStyle = .numeric
-        
         let mappedImages = response?.images?.map({
             SearchUIModel(
                 imagePublicId: $0.publicId ?? "",
-                userName: $0.userName ?? "",
-                userNameAndSurname: $0.userNameAndSurname ?? "",
-                userAvatarPublicId: $0.userProfilePicturePublicId ?? "",
-                messageTime: dateFormatter.localizedString(for: $0.createDate ?? Date(), relativeTo: relativeDate)
+                userName: $0.userName ?? ""
             )
         })
         
