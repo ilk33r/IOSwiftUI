@@ -55,20 +55,8 @@ public struct ChatView: IOController {
                                 ForEach(presenter.chatMessages) { item in
                                     if item.isSend {
                                         ChatSendCellView(uiModel: item)
-                                            .onAppear {
-                                                presenter.appearedMessages.append(item.id)
-                                            }
-                                            .onDisappear {
-                                                presenter.appearedMessages.removeAll(where: { $0 == item.id })
-                                            }
                                     } else {
                                         ChatReceivedCellView(uiModel: item)
-                                            .onAppear {
-                                                presenter.appearedMessages.append(item.id)
-                                            }
-                                            .onDisappear {
-                                                presenter.appearedMessages.removeAll(where: { $0 == item.id })
-                                            }
                                     }
                                 }
                             }
@@ -141,7 +129,7 @@ public struct ChatView: IOController {
                     Animation
                         .easeOut
                 ) {
-                    scrollViewProxy?.scrollTo(navigatingMessageID)
+                    scrollViewProxy?.scrollTo(navigatingMessageID, anchor: .top)
                 }
             }
         }

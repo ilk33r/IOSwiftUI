@@ -26,7 +26,6 @@ final public class ChatPresenter: IOPresenterable {
     // MARK: - Publics
     
     var isMessagesLoading: Bool
-    var appearedMessages: [Int]
     var scrollToLastMessage: Bool
     
     // MARK: - Publishers
@@ -43,7 +42,6 @@ final public class ChatPresenter: IOPresenterable {
     // MARK: - Initialization Methods
     
     public init() {
-        self.appearedMessages = []
         self.isMessagesLoading = false
         self.scrollToLastMessage = true
         self.chatMessages = []
@@ -118,19 +116,20 @@ final public class ChatPresenter: IOPresenterable {
         guard let previousMessagesResponse else { return }
         
         let navigatingMessageID: Int
-        if
-            let lastMessageID = self.appearedMessages.max(),
-            let lastMessageIndex = self.chatMessages.firstIndex(where: { $0.id == lastMessageID }) {
-            navigatingMessageID = self.chatMessages[lastMessageIndex].id
+        if let firstMessageID = previousMessagesResponse.messages?.last?.messageID {
+            navigatingMessageID = firstMessageID
         } else {
-            navigatingMessageID = self.chatMessages.last?.id ?? 0
+            navigatingMessageID = -1
         }
         
         self.pagination = previousMessagesResponse.pagination
         
         if let messages = previousMessagesResponse.messages, !messages.isEmpty {
             self.updateMessages(messages: messages)
-            self.navigatingMessageID = navigatingMessageID
+            
+            if navigatingMessageID >= 0 {
+                self.navigatingMessageID = navigatingMessageID
+            }
         }
     }
     
