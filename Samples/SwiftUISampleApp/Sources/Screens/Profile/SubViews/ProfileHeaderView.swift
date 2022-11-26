@@ -101,7 +101,7 @@ struct ProfileHeaderView: View {
         self.uiModel = uiModel
         self.clickHandler = clickHandler
         
-        if let profilePicturePublicId = uiModel?.profilePicturePublicId {
+        if let profilePicturePublicId = uiModel?.profilePicturePublicId, !profilePicturePublicId.isEmpty {
             let profilePictureImage = Image()
                 .from(publicId: profilePicturePublicId)
             self.profilePictureImage = AnyView(profilePictureImage)

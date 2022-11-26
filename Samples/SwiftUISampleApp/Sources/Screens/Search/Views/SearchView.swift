@@ -59,7 +59,8 @@ public struct SearchView: IOController {
                                 imageWidth: itemSize,
                                 uiModel: item
                             ) { userName in
-                                IOLogger.debug("Click \(userName)")
+                                navigationState.userName = userName
+                                navigationState.navigateToProfile = true
                             }
                         }
                     }
@@ -86,6 +87,9 @@ public struct SearchView: IOController {
                 presenter.navigationState = _navigationState
                 presenter.loadImages(showIndicator: true)
             }
+            
+            navigationState.userName = nil
+            navigationState.navigateToProfile = false
         }
         .onChange(of: isRefreshing) { _ in
             if isRefreshing {

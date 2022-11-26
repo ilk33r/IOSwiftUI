@@ -10,6 +10,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct SearchNavigationWireframe: IONavigationLinkView {
     
@@ -20,12 +21,13 @@ struct SearchNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        EmptyView()
-        /*
-        NavigationLink(destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)), isActive: $navigationState.navigateToPage) {
+        NavigationLink(
+            destination: route(HomeRouters.self, .profile(entity: ProfileEntity(userName: navigationState.userName))),
+            isActive: $navigationState.navigateToProfile
+        ) {
             EmptyView()
         }
-        */
+        .navigationBarTitle("", displayMode: .inline)
     }
     
     // MARK: - Initialization Methods
