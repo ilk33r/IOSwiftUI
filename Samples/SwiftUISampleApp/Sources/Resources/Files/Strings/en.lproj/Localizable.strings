@@ -46,6 +46,7 @@
 "home.camera.actions.choosePhoto" = "Pick from gallery";
 "home.camera.actions.takePhoto" = "Take a photo";
 "home.camera.actions.title" = "Create";
+"home.success.uploadImage" = "Your picture has been uploaded.";
 
 // MARK: -  Profile
 "profile.button.follow" = "FOLLOW %@";

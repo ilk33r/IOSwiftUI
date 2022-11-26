@@ -26,6 +26,7 @@ struct IOSwiftUISampleApp: App {
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
     
     private let splashView = IORouterUtilities.route(PreLoginRouters.self, .splash(entity: nil))
+    private let homeView = IORouterUtilities.route(HomeRouters.self, .home(entity: nil))
     
     // MARK: - Body
     
@@ -33,7 +34,7 @@ struct IOSwiftUISampleApp: App {
         WindowGroup {
             ZStack {
                 if appEnvironment.isLoggedIn {
-                    IORouterUtilities.route(HomeRouters.self, .home(entity: nil))
+                    homeView
                         .setEnvironment(appEnvironment)
                         .transition(.opacity)
                 } else {

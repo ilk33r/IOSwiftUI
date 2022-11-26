@@ -77,16 +77,16 @@ public struct HomeView: IOController {
             IOImagePickerView(
                 sourceType: .camera,
                 allowEditing: true
-            ) { _ in
-                
+            ) { image in
+                presenter.interactor.uploadImage(image: image)
             }
         }
         .fullScreenCover(isPresented: $navigationState.navigateToPhotoLibrary) {
             IOImagePickerView(
                 sourceType: .photoLibrary,
                 allowEditing: true
-            ) { _ in
-                
+            ) { image in
+                presenter.interactor.uploadImage(image: image)
             }
         }
         .actionSheet(item: $presenter.actionSheetData) { _ in
