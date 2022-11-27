@@ -31,14 +31,10 @@ public struct SearchInteractor: IOInteractor {
     // MARK: - Interactor
     
     func discoverAll(start: Int, count: Int) {
-        showIndicator()
-        
         let request = PaginationRequestModel(
             pagination: PaginationModel(start: start, count: count, total: 0)
         )
         service.request(.discoverAll(request: request), responseType: DiscoverImagesResponseModel.self) { result in
-            hideIndicator()
-            
             switch result {
             case .success(response: let response):
                 presenter?.update(discoverResponse: response)

@@ -29,6 +29,7 @@ public struct SearchView: IOController {
     @State private var isRefreshing = false
     @State private var searchText = ""
     @State private var scrollOffset: CGFloat = 0
+    @State private var screenHeight: CGFloat = 0
     
     // MARK: - Body
     
@@ -69,6 +70,11 @@ public struct SearchView: IOController {
                 Color.white
                     .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                     .ignoresSafeArea()
+                    .onAppear {
+                        let safeareaTop = proxy.safeAreaInsets.top
+                        let safeareaBottom = proxy.safeAreaInsets.bottom
+                        screenHeight = proxy.size.height + safeareaTop + safeareaBottom
+                    }
             }
             .navigationBar {
                 SearchNavBar(
@@ -94,6 +100,11 @@ public struct SearchView: IOController {
         .onChange(of: isRefreshing) { _ in
             if isRefreshing {
                 presenter.resetPaging()
+                presenter.loadImages(showIndicator: false)
+            }
+        }
+        .onChange(of: scrollOffset) { newValue in
+            if newValue + screenHeight >= contentSize.height {
                 presenter.loadImages(showIndicator: false)
             }
         }
