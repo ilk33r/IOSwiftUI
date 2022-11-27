@@ -122,15 +122,9 @@ public struct ChatView: IOController {
         .onReceive(presenter.$navigatingMessageID) { navigatingMessageID in
             guard let navigatingMessageID else { return }
             
-            thread.runOnMainThread(afterMilliSecond: 250) {
+            thread.runOnMainThread {
                 presenter.isMessagesLoading = false
-                
-                withAnimation(
-                    Animation
-                        .easeOut
-                ) {
-                    scrollViewProxy?.scrollTo(navigatingMessageID, anchor: .top)
-                }
+                scrollViewProxy?.scrollTo(navigatingMessageID, anchor: .top)
             }
         }
         .onChange(of: scrollViewOffset) { newValue in

@@ -41,12 +41,8 @@ public struct ChatInteractor: IOInteractor {
     }
     
     func loadMessages(pagination: PaginationModel) {
-        showIndicator()
-        
         let request = GetMessagesRequestModel(pagination: pagination, inboxID: entity.inbox.inboxID)
         chatMessageService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
-            hideIndicator()
-            
             switch result {
             case .success(response: let response):
                 presenter?.update(previousMessagesResponse: response)
