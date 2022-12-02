@@ -9,10 +9,15 @@ import Foundation
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 struct ChatReceivedCellView: View {
     
+    // MARK: - Privates
+    
     private var uiModel: ChatItemUIModel
+    
+    // MARK: - Body
     
     var body: some View {
         HStack(alignment: .top) {
@@ -39,8 +44,13 @@ struct ChatReceivedCellView: View {
         .padding(.top, 24)
         .padding(.leading, 16)
         .padding(.trailing, 16)
-        .frame(maxWidth: .infinity, alignment: .topLeading)
+        .frame(
+            maxWidth: .infinity,
+            alignment: .topLeading
+        )
     }
+    
+    // MARK: - Helper Methods
     
     private var profilePictureImage: AnyView {
         if let profilePicturePublicId = uiModel.imagePublicID, !profilePicturePublicId.isEmpty {
@@ -55,6 +65,8 @@ struct ChatReceivedCellView: View {
             return AnyView(profilePictureImage)
         }
     }
+    
+    // MARK: - Initialization Methods
     
     init(uiModel: ChatItemUIModel) {
         self.uiModel = uiModel

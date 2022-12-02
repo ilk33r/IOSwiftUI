@@ -9,5 +9,5 @@ import Foundation
 
 public struct ChatConstants {
     
-    public static let messageCountPerPage = 25
+    public static let messageCountPerPage = 15
 }

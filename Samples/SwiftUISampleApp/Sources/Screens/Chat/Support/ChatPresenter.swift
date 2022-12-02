@@ -23,26 +23,30 @@ final public class ChatPresenter: IOPresenterable {
     public var interactor: ChatInteractor!
     public var navigationState: StateObject<ChatNavigationState>!
     
+    // MARK: - DI
+    
+    @IOInject private var thread: IOThread
+    
     // MARK: - Publics
     
-    var isMessagesLoading: Bool
     var scrollToLastMessage: Bool
+    private(set) var messageCount: Int?
     
     // MARK: - Publishers
     
     @Published private(set) var chatMessages: [ChatItemUIModel]
     @Published private(set) var keyboardPublisher: AnyPublisher<Bool, Never>
-    @Published private(set) var navigatingMessageID: Int?
     @Published private(set) var userNameSurname: String
     
     // MARK: - Privates
     
+    private var isMessagesLoading: Bool
     private var pagination: PaginationModel!
     
     // MARK: - Initialization Methods
     
     public init() {
-        self.isMessagesLoading = false
+        self.isMessagesLoading = true
         self.scrollToLastMessage = true
         self.chatMessages = []
         self.userNameSurname = ""
@@ -114,22 +118,11 @@ final public class ChatPresenter: IOPresenterable {
     
     func update(previousMessagesResponse: GetMessagesResponseModel?) {
         guard let previousMessagesResponse else { return }
-        
-        let navigatingMessageID: Int
-        if let firstMessageID = previousMessagesResponse.messages?.last?.messageID {
-            navigatingMessageID = firstMessageID
-        } else {
-            navigatingMessageID = -1
-        }
-        
         self.pagination = previousMessagesResponse.pagination
+        self.messageCount = previousMessagesResponse.pagination?.count
         
         if let messages = previousMessagesResponse.messages, !messages.isEmpty {
             self.updateMessages(messages: messages)
-            
-            if navigatingMessageID >= 0 {
-                self.navigatingMessageID = navigatingMessageID
-            }
         }
     }
     
@@ -154,5 +147,9 @@ final public class ChatPresenter: IOPresenterable {
         }
         
         self.chatMessages.insert(contentsOf: mappedMessages, at: 0)
+        
+        self.thread.runOnMainThread(afterMilliSecond: 250) { [weak self] in
+            self?.isMessagesLoading = false
+        }
     }
 }

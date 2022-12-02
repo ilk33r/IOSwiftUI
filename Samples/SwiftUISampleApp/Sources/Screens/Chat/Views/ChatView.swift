@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 30.08.2022.
 //
 
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
@@ -23,8 +24,9 @@ public struct ChatView: IOController {
     @ObservedObject public var presenter: ChatPresenter
     @StateObject public var navigationState = ChatNavigationState()
     
-    @State private var isKoyboardVisible = false
+    @State private var isKeyboardVisible = false
     @State private var messageText: String = ""
+    @State private var previousMessageThreadCancellable: IOCancellable?
     @State private var scrollViewContentSize: CGSize = .zero
     @State private var scrollViewOffset: CGFloat = 0
     @State private var scrollViewProxy: ScrollViewProxy?
@@ -32,6 +34,8 @@ public struct ChatView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     @IOInject private var thread: IOThread
+    
+    // MARK: - Body
     
     public var body: some View {
         GeometryReader { proxy in
@@ -74,7 +78,7 @@ public struct ChatView: IOController {
                             sendMessage()
                         }
                     )
-                    .padding(.bottom, isKoyboardVisible ? 0 : -proxy.safeAreaInsets.bottom)
+                    .padding(.bottom, isKeyboardVisible ? 0 : -proxy.safeAreaInsets.bottom)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -87,7 +91,7 @@ public struct ChatView: IOController {
             }
         }
         .onReceive(presenter.keyboardPublisher, perform: { value in
-            isKoyboardVisible = value
+            isKeyboardVisible = value
             
             if value, let lastMessageID = presenter.chatMessages.last?.id {
                 thread.runOnMainThread(afterMilliSecond: 250) {
@@ -114,22 +118,30 @@ public struct ChatView: IOController {
                 guard let lastMessageID = chatMessages.last?.id else { return }
                 thread.runOnMainThread {
                     withAnimation {
-                        scrollViewProxy?.scrollTo(lastMessageID)
+                        scrollViewProxy?.scrollTo(lastMessageID, anchor: .bottom)
+                    }
+                }
+            } else if
+                let messageCount = presenter.messageCount,
+                messageCount > 1,
+                chatMessages.count > messageCount {
+                let scrollToMessageID = chatMessages[messageCount - 1].id
+                
+                thread.runOnMainThread(afterMilliSecond: 25) {
+                    withAnimation {
+                        scrollViewProxy?.scrollTo(scrollToMessageID, anchor: .top)
                     }
                 }
             }
         }
-        .onReceive(presenter.$navigatingMessageID) { navigatingMessageID in
-            guard let navigatingMessageID else { return }
-            
-            thread.runOnMainThread {
-                presenter.isMessagesLoading = false
-                scrollViewProxy?.scrollTo(navigatingMessageID, anchor: .top)
-            }
-        }
         .onChange(of: scrollViewOffset) { newValue in
+            IOLogger.debug("scrollViewOffset \(newValue)")
+            if previousMessageThreadCancellable != nil {
+                previousMessageThreadCancellable?.cancel()
+            }
+            
             if newValue <= 0 {
-                presenter.loadPreviousMessages()
+                loadPreviousMessages()
             }
         }
     }
@@ -150,6 +162,12 @@ public struct ChatView: IOController {
         presenter.interactor.sendMessage(message: messageText)
         thread.runOnMainThread {
             messageText = ""
+        }
+    }
+    
+    private func loadPreviousMessages() {
+        previousMessageThreadCancellable = thread.runOnMainThread(afterMilliSecond: 150) {
+            presenter.loadPreviousMessages()
         }
     }
 }
