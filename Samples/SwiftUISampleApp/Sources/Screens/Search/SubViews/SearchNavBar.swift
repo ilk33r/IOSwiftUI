@@ -6,12 +6,22 @@
 //
 
 import SwiftUI
+import IOSwiftUIInfrastructure
 
 struct SearchNavBar: View {
     
     // MARK: - Defs
     
     typealias EditingEndHandler = () -> Void
+    
+    private struct SizePreferenceKey: PreferenceKey {
+        
+        static var defaultValue = CGFloat.zero
+        
+        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+            defaultValue = value
+        }
+    }
     
     // MARK: - Privates
     
@@ -20,6 +30,7 @@ struct SearchNavBar: View {
     @Binding private var text: String
     
     @State private var isEditing = false
+    @State private var contentHeight: CGFloat = 0
     
     private var isPlaceholderHidden: Bool {
         isEditing || !text.isEmpty
@@ -47,7 +58,7 @@ struct SearchNavBar: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 0)
                         .stroke(Color.colorPlaceholder, lineWidth: 2)
-                        .frame(width: proxy.size.width - 4, height: proxy.size.height - 4)
+                        .frame(width: proxy.size.width - 4, height: abs(contentHeight - 4))
                 )
                 
                 if !isPlaceholderHidden {
@@ -55,7 +66,7 @@ struct SearchNavBar: View {
                         .font(type: .thin(14))
                         .foregroundColor(Color.colorPlaceholder)
                         .allowsHitTesting(false)
-                        .frame(height: proxy.size.height, alignment: .leading)
+                        .frame(height: contentHeight, alignment: .leading)
                         .padding(.top, 2)
                         .padding(.leading, 34)
                 }
@@ -64,10 +75,19 @@ struct SearchNavBar: View {
                     .resizable()
                     .foregroundColor(Color.colorPlaceholder)
                     .frame(width: 20, height: 20, alignment: .leading)
-                    .padding(.top, (proxy.size.height / 2) - 8)
+                    .padding(.top, (contentHeight / 2) - 8)
                     .padding(.leading, 8)
             }
+            .preference(
+                key: SizePreferenceKey.self,
+                value: proxy.size.height
+            )
             .frame(width: proxy.size.width, height: proxy.size.height)
+            .onPreferenceChange(SizePreferenceKey.self) { value in
+                if value > 15 {
+                    contentHeight = value
+                }
+            }
         }
     }
     
