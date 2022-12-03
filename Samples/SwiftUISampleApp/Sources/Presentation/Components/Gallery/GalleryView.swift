@@ -24,7 +24,6 @@ public struct GalleryView: View {
     
     // MARK: - Body
     
-    #warning("Improve this")
     public var body: some View {
         GeometryReader { proxy in
             IOObservableScrollView(
@@ -43,7 +42,6 @@ public struct GalleryView: View {
                                 width: itemWidth
                             )
                             .onTapGesture {
-                                #warning("Improve this")
                                 tapIndex = it.index
                             }
                         }
@@ -56,7 +54,6 @@ public struct GalleryView: View {
                                 width: itemWidth
                             )
                             .onTapGesture {
-                                #warning("Improve this")
                                 tapIndex = it.index
                             }
                         }
