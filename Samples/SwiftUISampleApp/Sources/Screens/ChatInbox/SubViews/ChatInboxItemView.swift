@@ -43,7 +43,7 @@ struct ChatInboxItemView: View {
                         .frame(maxWidth: .infinity)
                     }
                     .setClick {
-                        deleteHandler?(0)
+                        deleteHandler?(uiModel.index)
                     }
                     .frame(width: 72, height: 62)
                 }

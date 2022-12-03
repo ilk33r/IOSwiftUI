@@ -42,6 +42,23 @@ public struct ChatInboxInteractor: IOInteractor {
         return String(data: decryptedMessage, encoding: .utf8) ?? ""
     }
     
+    func deleteInbox(inboxID: Int) {
+        showIndicator()
+        
+        let request = DeleteInboxRequestModel(inboxID: inboxID)
+        service.request(.deleteInbox(request: request), responseType: GenericResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(_):
+                getInboxes(showIndicator: true)
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
+    
     func getInboxes(showIndicator: Bool) {
         if showIndicator {
             self.showIndicator()

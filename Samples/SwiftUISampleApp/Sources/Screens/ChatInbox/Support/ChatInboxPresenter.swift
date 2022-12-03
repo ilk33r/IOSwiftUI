@@ -38,6 +38,11 @@ final public class ChatInboxPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
+    func deleteInbox(index: Int) {
+        guard let inbox = self.inboxListModel?[index] else { return }
+        self.interactor.deleteInbox(inboxID: inbox.inboxID ?? 0)
+    }
+    
     func getMessages(index: Int) {
         guard let inbox = self.inboxListModel?[index] else { return }
         self.interactor.getMessages(inbox: inbox)
