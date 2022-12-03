@@ -26,6 +26,7 @@ public struct SearchView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     @State private var contentSize: CGSize = .zero
+    @State private var isKeyboardVisible = false
     @State private var isRefreshing = false
     @State private var searchText = ""
     @State private var scrollOffset: CGFloat = 0
@@ -61,12 +62,19 @@ public struct SearchView: IOController {
                                 uiModel: item
                             ) { userName in
                                 navigationState.userName = userName
+                                
+                                if isKeyboardVisible {
+                                    UIResponder.hideKeyboard()
+                                    return
+                                }
+                                
                                 navigationState.navigateToProfile = true
                             }
                         }
                     }
                     .padding(.vertical, 24)
                 }
+                .hideKeyboardOnTap()
                 Color.white
                     .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                     .ignoresSafeArea()
@@ -111,6 +119,13 @@ public struct SearchView: IOController {
         .onReceive(presenter.$isRefreshing) { newValue in
             if !(newValue ?? false) {
                 isRefreshing = false
+            }
+        }
+        .onReceive(presenter.keyboardPublisher) { output in
+            isKeyboardVisible = output
+            
+            if !output && navigationState.userName != nil {
+                navigationState.navigateToProfile = true
             }
         }
     }

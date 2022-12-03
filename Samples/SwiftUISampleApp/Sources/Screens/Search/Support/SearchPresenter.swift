@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 19.11.2022.
 //
 
+import Combine
 import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
@@ -31,6 +32,7 @@ final public class SearchPresenter: IOPresenterable {
     
     @Published private(set) var images: [SearchUIModel]!
     @Published private(set) var isRefreshing: Bool!
+    @Published private(set) var keyboardPublisher: AnyPublisher<Bool, Never>
     
     // MARK: - Privates
     
@@ -47,6 +49,19 @@ final public class SearchPresenter: IOPresenterable {
         self.isImagesLoading = false
         self.images = []
         self.isRefreshing = false
+        self.keyboardPublisher = Publishers
+            .Merge(
+                NotificationCenter
+                    .default
+                    .publisher(for: UIResponder.keyboardWillShowNotification)
+                    .map { _ in true },
+                NotificationCenter
+                    .default
+                    .publisher(for: UIResponder.keyboardDidHideNotification)
+                    .map { _ in false }
+            )
+            .debounce(for: .seconds(0.1), scheduler: RunLoop.main)
+            .eraseToAnyPublisher()
     }
     
     // MARK: - Presenter
