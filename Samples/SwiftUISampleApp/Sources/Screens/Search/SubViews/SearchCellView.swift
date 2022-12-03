@@ -56,7 +56,8 @@ struct SearchCellView: View {
 struct SearchCellView_Previews: PreviewProvider {
     
     static var previews: some View {
-        SearchCellView(
+        prepare()
+        return SearchCellView(
             imageWidth: 180,
             uiModel: SearchUIModel(
                 imagePublicId: "pwGallery4",

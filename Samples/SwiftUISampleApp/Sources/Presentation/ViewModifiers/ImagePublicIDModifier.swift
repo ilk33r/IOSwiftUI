@@ -18,26 +18,32 @@ public extension Image {
     }
 }
 
-struct ImagePublicIDModifier: ViewModifier {
+private struct ImagePublicIDModifier: ViewModifier {
     
     @IOInject private var fileCache: IOFileCache
     
     private var baseService = IOServiceProviderImpl<BaseService>()
     
-    @State private var imageData: Data?
+    @State private var image = Image(systemName: "scribble")
     @State private var imageLoadCancellable: IOCancellable?
+    @State private var isImageLoaded = false
     
     private let publicId: String
     
     init(publicId: String) {
         self.publicId = publicId
+        
+        if ProcessInfo.isPreviewMode && publicId.starts(with: "pw") {
+            image = Image(publicId)
+            isImageLoaded = true
+        } else {
+            loadCachedImage()
+        }
     }
     
     func body(content: Content) -> some View {
-        if
-            ProcessInfo.isPreviewMode && publicId.starts(with: "pw")
-        {
-            return Image(publicId)
+        if isImageLoaded {
+            return image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .onAppear {
@@ -46,17 +52,7 @@ struct ImagePublicIDModifier: ViewModifier {
                 }
         }
         
-        if let imageData {
-            return Image(fromData: imageData)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .onAppear {
-                }
-                .onDisappear {
-                }
-        }
-        
-        return Image(systemName: "scribble")
+        return image
             .resizable()
             .aspectRatio(contentMode: .fill)
             .onAppear {
@@ -67,13 +63,23 @@ struct ImagePublicIDModifier: ViewModifier {
             }
     }
     
-    private func loadImage() -> IOCancellable? {
+    @discardableResult
+    private func loadCachedImage() -> Bool {
         do {
             let cachedImage = try fileCache.getFile(fromCache: publicId)
-            imageData = cachedImage
-            return nil
+            image = Image(fromData: cachedImage)
+            isImageLoaded = true
+            return true
         } catch let error {
             IOLogger.debug(error.localizedDescription)
+        }
+        
+        return false
+    }
+    
+    private func loadImage() -> IOCancellable? {
+        if loadCachedImage() {
+            return nil
         }
         
         let request = ImageAssetRequestModel(publicId: publicId)
@@ -83,7 +89,8 @@ struct ImagePublicIDModifier: ViewModifier {
             case .success(response: let response):
                 do {
                     try fileCache.storeFile(toCache: publicId, fileData: response.imageData)
-                    imageData = response.imageData
+                    image = Image(fromData: response.imageData)
+                    isImageLoaded = true
                 } catch let error {
                     IOLogger.debug(error.localizedDescription)
                 }
