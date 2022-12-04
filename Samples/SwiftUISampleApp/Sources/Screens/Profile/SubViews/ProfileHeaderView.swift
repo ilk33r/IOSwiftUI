@@ -29,13 +29,12 @@ struct ProfileHeaderView: View {
     
     private let clickHandler: ClickHandler?
     private let uiModel: ProfileUIModel?
-    private let profilePictureImage: AnyView
     
     // MARK: - Body
     
     var body: some View {
         VStack {
-            profilePictureImage
+            ProvilePictureImageView(imagePublicID: uiModel?.profilePicturePublicId)
                 .frame(width: 128, height: 128)
                 .clipShape(Circle())
             Text(uiModel?.nameSurname ?? "")
@@ -100,18 +99,6 @@ struct ProfileHeaderView: View {
     ) {
         self.uiModel = uiModel
         self.clickHandler = clickHandler
-        
-        if let profilePicturePublicId = uiModel?.profilePicturePublicId, !profilePicturePublicId.isEmpty {
-            let profilePictureImage = Image()
-                .from(publicId: profilePicturePublicId)
-            self.profilePictureImage = AnyView(profilePictureImage)
-        } else {
-            let profilePictureImage = Image(systemName: "person.crop.circle")
-                .renderingMode(.template)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            self.profilePictureImage = AnyView(profilePictureImage)
-        }
     }
 }
 

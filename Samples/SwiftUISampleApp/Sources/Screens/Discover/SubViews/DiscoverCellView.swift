@@ -9,6 +9,7 @@ import SwiftUI
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppPresentation
 
 struct DiscoverCellView: View {
 
@@ -28,8 +29,7 @@ struct DiscoverCellView: View {
             
             HStack(alignment: .top) {
                 
-                Image()
-                    .from(publicId: uiModel.userAvatarPublicId)
+                ProvilePictureImageView(imagePublicID: uiModel.userAvatarPublicId)
                     .frame(width: 28, height: 28)
                     .contentShape(Rectangle())
                     .clipShape(Circle())

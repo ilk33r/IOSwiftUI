@@ -22,7 +22,7 @@ struct ChatReceivedCellView: View {
     var body: some View {
         HStack(alignment: .top) {
             VStack {
-                profilePictureImage
+                ProvilePictureImageView(imagePublicID: uiModel.imagePublicID)
                     .frame(width: 25, height: 25)
                     .clipShape(Circle())
                 Text(uiModel.messageTime)
@@ -48,22 +48,6 @@ struct ChatReceivedCellView: View {
             maxWidth: .infinity,
             alignment: .topLeading
         )
-    }
-    
-    // MARK: - Helper Methods
-    
-    private var profilePictureImage: AnyView {
-        if let profilePicturePublicId = uiModel.imagePublicID, !profilePicturePublicId.isEmpty {
-            let profilePictureImage = Image()
-                .from(publicId: profilePicturePublicId)
-            return AnyView(profilePictureImage)
-        } else {
-            let profilePictureImage = Image(systemName: "person.crop.circle")
-                .renderingMode(.template)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            return AnyView(profilePictureImage)
-        }
     }
     
     // MARK: - Initialization Methods

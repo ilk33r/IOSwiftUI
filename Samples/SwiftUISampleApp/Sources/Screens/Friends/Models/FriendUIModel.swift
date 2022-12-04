@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct FriendUIModel {
+struct FriendUIModel: Identifiable {
+    
+    var id = UUID()
     
     let userName: String
     let userNameAndSurname: String

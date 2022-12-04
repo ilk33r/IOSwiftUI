@@ -34,7 +34,7 @@ private struct ImagePublicIDModifier: ViewModifier {
         self.publicId = publicId
         
         if ProcessInfo.isPreviewMode && publicId.starts(with: "pw") {
-            image = Image(publicId)
+            image = Image(publicId, bundle: Bundle.main)
             isImageLoaded = true
         } else {
             loadCachedImage()

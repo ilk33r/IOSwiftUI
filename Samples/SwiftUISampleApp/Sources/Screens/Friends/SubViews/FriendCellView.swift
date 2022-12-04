@@ -9,19 +9,58 @@ import SwiftUI
 
 struct FriendCellView: View {
     
+    // MARK: - Defs
+    
+    typealias ClickHandler = (_ userName: String) -> Void
+    
     // MARK: - Privates
     
+    private let clickHandler: ClickHandler?
     private let uiModel: FriendUIModel
     
     // MARK: - Body
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack(alignment: .topLeading) {
+            HStack(alignment: .top) {
+                Image()
+                    .from(publicId: uiModel.profilePicturePublicId)
+                    .frame(width: 64, height: 64, alignment: .top)
+                    .clipShape(Circle())
+                VStack(alignment: .leading) {
+                    Text(uiModel.userName)
+                        .font(type: .bold(13))
+                        .foregroundColor(.black)
+                    Text(uiModel.userNameAndSurname)
+                        .font(type: .regular(11))
+                        .foregroundColor(.black)
+                        .padding(.top, 1)
+                }
+                .padding(.leading, 16)
+                .padding(.trailing, 16)
+                .padding(.top, 8)
+                .padding(.bottom, 8)
+                .frame(height: 72, alignment: .top)
+            }
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 8)
+            .background(Color.white)
+        }
+        .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
+        .setClick {
+            clickHandler?(uiModel.userName)
+        }
     }
     
     // MARK: - Initialization Methods
     
-    init(uiModel: FriendUIModel) {
+    init(
+        uiModel: FriendUIModel,
+        clickHandler: ClickHandler?
+    ) {
+        self.clickHandler = clickHandler
         self.uiModel = uiModel
     }
 }
@@ -37,8 +76,10 @@ struct FriendCellView_Previews: PreviewProvider {
                 locationLatitude: 0,
                 locationLongitude: 0,
                 profilePicturePublicId: "pwChatAvatar"
-            )
+            ),
+            clickHandler: { _ in
+            }
         )
-        .previewLayout(.fixed(width: 320, height: 90))
+        .previewLayout(.fixed(width: 320, height: 88))
     }
 }

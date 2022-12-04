@@ -8,6 +8,7 @@
 import SwiftUI
 import IOSwiftUICommon
 import IOSwiftUIPresentation
+import SwiftUISampleAppPresentation
 
 struct ChatInboxItemView: View {
     
@@ -54,8 +55,7 @@ struct ChatInboxItemView: View {
                 .zIndex(1)
                 .hidden(isHidden: $deleteButtonIsHidden)
                 HStack(alignment: .top) {
-                    Image()
-                        .from(publicId: uiModel.profilePicturePublicId)
+                    ProvilePictureImageView(imagePublicID: uiModel.profilePicturePublicId)
                         .frame(width: 64, height: 64, alignment: .top)
                         .clipShape(Circle())
                     VStack(alignment: .leading) {
