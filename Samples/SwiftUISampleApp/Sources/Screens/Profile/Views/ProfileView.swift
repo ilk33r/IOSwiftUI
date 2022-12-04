@@ -53,14 +53,17 @@ public struct ProfileView: IOController {
                             case .settings:
                                 presenter.navigateToSettings()
                                 
+                            case .follow:
+                                presenter.followMember()
+                                
+                            case .unfollow:
+                                presenter.unFollowMember()
+                                
                             case .message:
                                 presenter.createInbox()
                                 
                             case .location:
                                 presenter.navigateToLocation(isPresented: $presentUserLocation)
-                                
-                            default:
-                                break
                             }
                         }
                         .padding(.top, 24)

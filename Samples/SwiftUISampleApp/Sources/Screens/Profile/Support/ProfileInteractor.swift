@@ -50,6 +50,23 @@ public struct ProfileInteractor: IOInteractor {
         }
     }
     
+    func followMember(memberID: Int) {
+        showIndicator()
+        
+        let request = MemberFollowingRequestModel(memberID: memberID)
+        service.request(.follow(request: request), responseType: GenericResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(_):
+                getMember()
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
+    
     func getMember() {
         showIndicator()
         
@@ -76,6 +93,23 @@ public struct ProfileInteractor: IOInteractor {
             switch result {
             case .success(response: let response):
                 presenter?.update(imagesResponse: response)
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
+    
+    func unFollowMember(memberID: Int) {
+        showIndicator()
+        
+        let request = MemberFollowingRequestModel(memberID: memberID)
+        service.request(.unFollow(request: request), responseType: GenericResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(_):
+                getMember()
                 
             case .error(message: let message, type: let type, response: let response):
                 handleServiceError(message, type: type, response: response, handler: nil)

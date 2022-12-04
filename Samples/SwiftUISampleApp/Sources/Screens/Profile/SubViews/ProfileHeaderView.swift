@@ -42,7 +42,7 @@ struct ProfileHeaderView: View {
                 .font(type: .regular(36))
                 .padding(.top, 16)
                 .padding(.bottom, 4)
-            Button(uiModel?.locationName ?? "Location") {
+            Button(uiModel?.locationName ?? "") {
                 clickHandler?(.location)
             }
             .font(type: .black(13))
@@ -67,17 +67,17 @@ struct ProfileHeaderView: View {
                     .padding(.trailing, 16)
             } else {
                 if uiModel?.isFollowing ?? false {
-                    PrimaryButton(.profileButtonFollow.format(uiModel?.name ?? ""))
+                    PrimaryButton(.profileButtonUnfollow.format(uiModel?.name ?? ""))
                         .setClick {
-                            clickHandler?(.follow)
+                            clickHandler?(.unfollow)
                         }
                         .padding(.top, 16)
                         .padding(.leading, 16)
                         .padding(.trailing, 16)
                 } else {
-                    PrimaryButton(.profileButtonUnfollow.format(uiModel?.name ?? ""))
+                    PrimaryButton(.profileButtonFollow.format(uiModel?.name ?? ""))
                         .setClick {
-                            clickHandler?(.unfollow)
+                            clickHandler?(.follow)
                         }
                         .padding(.top, 16)
                         .padding(.leading, 16)

@@ -54,6 +54,10 @@ final public class ProfilePresenter: IOPresenterable {
         self.interactor.createInbox(memberID: self.member?.id ?? 0)
     }
     
+    func followMember() {
+        self.interactor.followMember(memberID: self.member?.id ?? 0)
+    }
+    
     func loadImages() {
         if self.isImagesLoading {
             return
@@ -102,6 +106,10 @@ final public class ProfilePresenter: IOPresenterable {
     
     func set(member: MemberModel?) {
         self.member = member
+    }
+    
+    func unFollowMember() {
+        self.interactor.unFollowMember(memberID: self.member?.id ?? 0)
     }
     
     func update(member: MemberModel?, isOwnProfile: Bool) {

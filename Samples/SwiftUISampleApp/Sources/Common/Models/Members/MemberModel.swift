@@ -44,7 +44,7 @@ public struct MemberModel: BaseModel {
     @IOJsonProperty(key: "phoneNumber")
     public var phoneNumber: String?
     
-    @IOJsonProperty(key: "IsFollowing", defaultValue: false)
+    @IOJsonProperty(key: "isFollowing", defaultValue: false)
     public var isFollowing: Bool!
     
     public init() {
