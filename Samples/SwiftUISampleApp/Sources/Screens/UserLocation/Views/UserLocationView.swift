@@ -79,7 +79,7 @@ public struct UserLocationView: IOController {
                 .highPriorityGesture(DragGesture(minimumDistance: 10))
                 .navigationBar {
                     HStack {
-                        Text(type: .userLocationSelectLocationTitle)
+                        Text(type: presenter.interactor.entity.isEditable ? .userLocationSelectLocationTitle : .userLocationCurrentTitle)
                             .font(type: .medium(17))
                             .multilineTextAlignment(.center)
                             .padding(.leading, 64)

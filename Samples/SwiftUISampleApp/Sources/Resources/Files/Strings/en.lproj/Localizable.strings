@@ -93,6 +93,7 @@
 "updateProfile.title" = "Update Profile";
 
 // MARK: - User Location
+"userLocation.current.title" = "Location";
 "userLocation.error.selectLocation" = "Please select a location.";
 "userLocation.selectLocation.title" = "Select Location";
 
