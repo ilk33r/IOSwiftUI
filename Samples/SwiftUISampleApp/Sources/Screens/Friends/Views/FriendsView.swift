@@ -63,12 +63,28 @@ public struct FriendsView: IOController {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
-                NavBarTitleView(
-                    .friendsTitle,
-                    iconName: "person.3.fill",
-                    width: 20,
-                    height: 14
-                )
+                HStack {
+                    HStack {
+                        Image(systemName: "person.3.fill")
+                            .resizable()
+                            .frame(width: 20, height: 14)
+                            .padding(.trailing, 4)
+                            .padding(.leading, -8)
+                        Text(type: .friendsTitle)
+                            .font(type: .medium(17))
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.leading, 32)
+                    .padding(.trailing, 32)
+                    .frame(width: proxy.size.width - 108)
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "map")
+                    }
+                    .foregroundColor(.black)
+                    .frame(width: 32)
+                }
             }
         }
         .controllerWireframe {
@@ -91,6 +107,7 @@ public struct FriendsView: IOController {
 
 struct FriendsView_Previews: PreviewProvider {
     static var previews: some View {
-        FriendsView(entity: FriendsEntity())
+        prepare()
+        return FriendsView(entity: FriendsEntity())
     }
 }
