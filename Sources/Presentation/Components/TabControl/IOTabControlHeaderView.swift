@@ -47,6 +47,7 @@ final public class IOTabControlHeaderView: UIView {
     
     private var buttons: [IOTabControlButton?]!
     private var clickHandler: ClickHandler?
+    private weak var stackView: IOStackView?
     
     // MARK: - Row Methods
     
@@ -61,12 +62,16 @@ final public class IOTabControlHeaderView: UIView {
         self.buttons = []
         self.clickHandler = handler
         
-        let stackView = IOStackView(containerView: self, constraints: [.top(0), .trailing(0), .leading(0), .bottom(-2)])
-        stackView.distribution = .fillEqually
-        stackView.axis = .horizontal
+        if self.stackView == nil {
+            let stackView = IOStackView(containerView: self, constraints: [.top(0), .trailing(0), .leading(0), .bottom(-2)])
+            stackView.distribution = .fillEqually
+            stackView.axis = .horizontal
+            self.stackView = stackView
+        }
         
+        self.stackView?.removeAllViews()
         for (index, buttonTitle) in titles.enumerated() {
-            stackView.addRow(type: IOTabControlButton.self) { [weak self] container in
+            self.stackView?.addRow(type: IOTabControlButton.self) { [weak self] container in
                 container?.contentView.setTitle(buttonTitle, for: .normal)
                 container?.contentView.setTitle(buttonTitle, for: .highlighted)
                 container?.contentView.tag = index

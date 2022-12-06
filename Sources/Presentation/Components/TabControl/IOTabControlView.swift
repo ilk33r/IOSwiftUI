@@ -24,6 +24,10 @@ public struct IOTabControlView<Content: View>: UIViewControllerRepresentable {
         func setPage(_ page: Int) {
             viewController?.setPage(page)
         }
+        
+        func update(tabTitles: [String]) {
+            viewController?.update(tabTitles: tabTitles)
+        }
     }
 
     // MARK: - Privates
@@ -74,6 +78,7 @@ public struct IOTabControlView<Content: View>: UIViewControllerRepresentable {
 
     public func updateUIViewController(_ viewController: IOTabControlViewController, context: Context) {
         context.coordinator.setPage(page)
+        context.coordinator.update(tabTitles: tabTitles)
         viewController.hostingController.rootView = viewForContent()
     }
     

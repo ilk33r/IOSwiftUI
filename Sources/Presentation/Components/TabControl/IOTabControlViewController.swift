@@ -94,6 +94,12 @@ final public class IOTabControlViewController: UIViewController {
             self.scrollView?.setContentOffset(CGPoint(x: newX, y: 0), animated: true)
         }
     }
+    
+    public func update(tabTitles: [String]) {
+        self.tabControlHeaderView?.configure(titles: tabTitles, handler: { [weak self] index in
+            self?.setPage(index + 1)
+        })
+    }
 }
 
 extension IOTabControlViewController: UIScrollViewDelegate {
