@@ -9,6 +9,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 import SwiftUISampleAppPresentation
 
@@ -36,24 +37,58 @@ public struct FriendsView: IOController {
                     page: $tabControlPage,
                     tabControlHeight: 52,
                     tabTitles: [
-                        .friendsTabFollowers,
-                        .friendsTabFollowing
+                        .friendsTabFollowers.format(presenter.followersCount),
+                        .friendsTabFollowing.format(presenter.followingsCount)
                     ]
                 ) {
-                    LazyHStack {
-                        Text("Page 1")
+                    HStack {
+                        ScrollView {
+                            VStack {
+                                ForEach(presenter.followers) { follower in
+                                    FriendCellView(
+                                        uiModel: follower
+                                    ) { userName in
+                                        presenter.navigate(toUser: userName)
+                                    }
+                                    .frame(
+                                        width: proxy.size.width,
+                                        height: 88
+                                    )
+                                }
+                            }
                             .frame(
-                                width: proxy.size.width,
-                                height: proxy.size.height - 52,
-                                alignment: .top
+                                width: proxy.size.width
                             )
+                        }
+                        .frame(
+                            width: proxy.size.width,
+                            height: proxy.size.height - 52,
+                            alignment: .top
+                        )
                         
-                        Text("Page 2")
+                        ScrollView {
+                            VStack {
+                                ForEach(presenter.followings) { follower in
+                                    FriendCellView(
+                                        uiModel: follower
+                                    ) { userName in
+                                        presenter.navigate(toUser: userName)
+                                    }
+                                    .frame(
+                                        width: proxy.size.width,
+                                        height: 88
+                                    )
+                                }
+                            }
                             .frame(
-                                width: proxy.size.width,
-                                height: proxy.size.height - 52,
-                                alignment: .top
+                                width: proxy.size.width
                             )
+                        }
+                        .frame(
+                            width: proxy.size.width,
+                            height: proxy.size.height - 52,
+                            alignment: .top
+                        )
                     }
                 }
                 
@@ -94,6 +129,7 @@ public struct FriendsView: IOController {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
                 presenter.navigationState = _navigationState
+                presenter.interactor.getFriends()
             }
         }
     }
@@ -108,6 +144,36 @@ public struct FriendsView: IOController {
 struct FriendsView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
-        return FriendsView(entity: FriendsEntity())
+        let friend0 = MemberFriendModel()
+        friend0.id = 0
+        friend0.userName = "ilker0"
+        friend0.userNameAndSurname = "İlker Özcan"
+        friend0.locationName = "Avcılar İstanbul"
+        
+        let friends = MemberFriendsResponseModel()
+        friends.followers = [
+            friend0,
+            friend0,
+            friend0,
+            friend0,
+            friend0,
+            friend0,
+            friend0
+        ]
+        friends.followings = [
+            friend0,
+            friend0,
+            friend0,
+            friend0,
+            friend0,
+            friend0,
+            friend0
+        ]
+        
+        return FriendsView(
+            entity: FriendsEntity(
+                friends: friends
+            )
+        )
     }
 }

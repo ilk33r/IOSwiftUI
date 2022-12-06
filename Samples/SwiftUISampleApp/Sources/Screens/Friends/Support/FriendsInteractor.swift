@@ -9,6 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
 public struct FriendsInteractor: IOInteractor {
@@ -28,4 +29,8 @@ public struct FriendsInteractor: IOInteractor {
     }
     
     // MARK: - Interactor
+    
+    func getFriends() {
+        presenter?.update(friendsResponse: entity.friends)
+    }
 }

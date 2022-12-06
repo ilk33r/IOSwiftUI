@@ -10,6 +10,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct FriendsNavigationWireframe: IONavigationLinkView {
     
@@ -20,12 +21,9 @@ struct FriendsNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        EmptyView()
-        /*
-        NavigationLink(destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)), isActive: $navigationState.navigateToPage) {
+        NavigationLink(destination: route(HomeRouters.self, .profile(entity: navigationState.profileEntity)), isActive: $navigationState.navigateToProfile) {
             EmptyView()
         }
-        */
     }
     
     // MARK: - Initialization Methods

@@ -48,7 +48,7 @@ public struct ProfileView: IOController {
                         ProfileHeaderView(uiModel: presenter.profileUIModel) { buttonType in
                             switch buttonType {
                             case .friends:
-                                presenter.navigateToFriends()
+                                presenter.interactor.getFriends()
                                 
                             case .settings:
                                 presenter.navigateToSettings()

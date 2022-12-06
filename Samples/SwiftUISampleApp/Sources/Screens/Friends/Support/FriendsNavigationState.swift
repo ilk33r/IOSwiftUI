@@ -11,10 +11,13 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 final public class FriendsNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-//    @Published public var navigateToPage = false
+    @Published public var navigateToProfile = false
+    
+    var profileEntity: ProfileEntity!
 }

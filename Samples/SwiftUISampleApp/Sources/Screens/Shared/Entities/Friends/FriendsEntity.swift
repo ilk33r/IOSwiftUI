@@ -7,9 +7,13 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 
 public struct FriendsEntity: IOEntity {
     
-    public init() {
+    public let friends: MemberFriendsResponseModel
+    
+    public init(friends: MemberFriendsResponseModel) {
+        self.friends = friends
     }
 }

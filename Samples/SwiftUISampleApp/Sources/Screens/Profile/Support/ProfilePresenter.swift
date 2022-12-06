@@ -73,13 +73,13 @@ final public class ProfilePresenter: IOPresenterable {
         }
     }
     
-    func navigate(toMemberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
+    func navigate(toMemberId memberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
         guard let inbox = inbox else { return }
-        self.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox, messages: messages, pagination: pagination)
+        self.chatEntity = ChatEntity(toMemberId: memberId, inbox: inbox, messages: messages, pagination: pagination)
     }
     
-    func navigateToFriends() {
-        self.navigationState.wrappedValue.friendsEntity = FriendsEntity()
+    func navigate(toFriends friends: MemberFriendsResponseModel) {
+        self.navigationState.wrappedValue.friendsEntity = FriendsEntity(friends: friends)
         self.navigationState.wrappedValue.navigateToFriends = true
     }
     

@@ -14,6 +14,7 @@ enum ProfileService {
     
     case createInbox(request: CreateInboxRequestModel)
     case follow(request: MemberFollowingRequestModel)
+    case getFriends
     case memberGet(request: MemberGetRequestModel)
     case memberGetImages(request: MemberImagesRequestModel)
     case unFollow(request: MemberFollowingRequestModel)
@@ -28,6 +29,9 @@ extension ProfileService: IOServiceType {
             
         case .follow:
             return .post
+            
+        case .getFriends:
+            return .get
             
         case .memberGetImages:
             return .post
@@ -54,6 +58,9 @@ extension ProfileService: IOServiceType {
             
         case .follow:
             return "MemberFollowing/Follow"
+        
+        case .getFriends:
+            return "MemberFollowing/GetFriends"
             
         case .memberGet:
             return "Member/Get"

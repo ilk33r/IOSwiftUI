@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUISampleAppPresentation
 
 struct FriendCellView: View {
     
@@ -23,8 +24,7 @@ struct FriendCellView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             HStack(alignment: .top) {
-                Image()
-                    .from(publicId: uiModel.profilePicturePublicId)
+                ProvilePictureImageView(imagePublicID: uiModel.profilePicturePublicId)
                     .frame(width: 64, height: 64, alignment: .top)
                     .clipShape(Circle())
                 VStack(alignment: .leading) {

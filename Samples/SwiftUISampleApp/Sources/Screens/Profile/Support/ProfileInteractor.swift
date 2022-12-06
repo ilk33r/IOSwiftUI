@@ -67,6 +67,22 @@ public struct ProfileInteractor: IOInteractor {
         }
     }
     
+    func getFriends() {
+        showIndicator()
+        
+        service.request(.getFriends, responseType: MemberFriendsResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(response: let response):
+                presenter?.navigate(toFriends: response)
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
+    
     func getMember() {
         showIndicator()
         
