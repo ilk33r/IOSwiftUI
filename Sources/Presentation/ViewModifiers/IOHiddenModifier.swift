@@ -9,6 +9,7 @@ import SwiftUI
 
 public extension View {
     
+    @ViewBuilder
     func hidden(
         isHidden: Binding<Bool>
     ) -> some View {

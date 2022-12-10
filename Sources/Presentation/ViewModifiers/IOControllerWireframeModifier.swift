@@ -9,6 +9,7 @@ import SwiftUI
 
 public extension View {
     
+    @ViewBuilder
     func controllerWireframe<Wireframe>(@ViewBuilder wireframeView: () -> Wireframe) -> some View where Wireframe: IONavigationLinkView {
         modifier(IOControllerWireframeModifier(wireframeView: wireframeView()))
     }

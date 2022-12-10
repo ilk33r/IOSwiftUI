@@ -9,6 +9,7 @@ import SwiftUI
 
 public extension View {
     
+    @ViewBuilder
     func navigationBar<NavigationBar>(@ViewBuilder navigationBar: @escaping () -> NavigationBar) -> some View where NavigationBar: View {
         modifier(IONavigationBarModifier(navigationBar: navigationBar))
     }

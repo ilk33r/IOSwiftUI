@@ -13,6 +13,7 @@ import SwiftUISampleAppInfrastructure
 
 public extension Image {
     
+    @ViewBuilder
     func from(publicId: String) -> some View {
         modifier(ImagePublicIDModifier(publicId: publicId))
     }

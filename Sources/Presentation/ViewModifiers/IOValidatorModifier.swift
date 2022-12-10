@@ -10,6 +10,7 @@ import SwiftUI
 
 public extension View where Self: IOValidatable {
     
+    @ViewBuilder
     func registerValidator(
         to validator: IOValidator,
         rule: IOValidationRule
@@ -17,6 +18,7 @@ public extension View where Self: IOValidatable {
         modifier(IOValidatorModifier(to: validator, rule: rule, validatable: self))
     }
     
+    @ViewBuilder
     func registerValidator(
         to validator: IOValidator,
         rules: [IOValidationRule]

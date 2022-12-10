@@ -9,6 +9,7 @@ import SwiftUI
 
 public extension View {
     
+    @ViewBuilder
     func navigationWireframe<Wireframe>(isHidden: Bool = false, @ViewBuilder wireframeView: @escaping () -> Wireframe) -> some View where Wireframe: IONavigationLinkView {
         modifier(IONavigationWireframeModifier(isHidden: isHidden, wireframeView: wireframeView))
     }

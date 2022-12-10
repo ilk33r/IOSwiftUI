@@ -10,6 +10,7 @@ import SwiftUI
 
 public extension View {
     
+    @ViewBuilder
     func setClick(_ handler: IOClickableHandler?) -> some View {
         modifier(IOClickableModifier(handler))
     }

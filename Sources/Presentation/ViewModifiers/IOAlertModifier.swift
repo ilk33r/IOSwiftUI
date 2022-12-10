@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 public extension View {
     
+    @ViewBuilder
     func alertView(
         isPresented: Binding<Bool>,
         handler: @escaping IOAlertHandler
