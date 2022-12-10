@@ -21,13 +21,22 @@ struct SettingsNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        NavigationLink(destination: route(ProfileRouters.self, .updateProfile(entity: navigationState.updateProfileEntity)), isActive: $navigationState.navigateToUpdateProfile) {
+        NavigationLink(
+            destination: route(ProfileRouters.self, .updateProfile(entity: navigationState.updateProfileEntity)),
+            isActive: $navigationState.navigateToUpdateProfile
+        ) {
             EmptyView()
         }
-        NavigationLink(destination: route(ProfileRouters.self, .changePassword(entity: navigationState.changePasswordEntity)), isActive: $navigationState.navigateToChangePassword) {
+        NavigationLink(
+            destination: route(ProfileRouters.self, .changePassword(entity: navigationState.changePasswordEntity)),
+            isActive: $navigationState.navigateToChangePassword
+        ) {
             EmptyView()
         }
-        NavigationLink(destination: route(ProfileRouters.self, .web(entity: navigationState.webEntity)), isActive: $navigationState.navigateToWeb) {
+        NavigationLink(
+            destination: route(ProfileRouters.self, .web(entity: navigationState.webEntity)),
+            isActive: $navigationState.navigateToWeb
+        ) {
             EmptyView()
         }
     }

@@ -27,14 +27,12 @@ public struct SplashNavigationWireframe: IONavigationLinkView {
             ) {
                 EmptyView()
             }
-            /*
             NavigationLink(
-                destination: RegisterView(),
+                destination: route(PreLoginRouters.self, .register(entity: nil)),
                 isActive: $navigationState.navigateToRegister
             ) {
                 EmptyView()
             }
-             */
         }
     }
 }

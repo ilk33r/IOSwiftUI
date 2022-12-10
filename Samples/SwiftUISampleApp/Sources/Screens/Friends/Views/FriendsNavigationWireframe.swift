@@ -21,7 +21,10 @@ struct FriendsNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        NavigationLink(destination: route(HomeRouters.self, .profile(entity: navigationState.profileEntity)), isActive: $navigationState.navigateToProfile) {
+        NavigationLink(
+            destination: route(HomeRouters.self, .profile(entity: navigationState.profileEntity)),
+            isActive: $navigationState.navigateToProfile
+        ) {
             EmptyView()
         }
     }

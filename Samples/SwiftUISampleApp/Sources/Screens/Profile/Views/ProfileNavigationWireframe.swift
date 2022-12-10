@@ -19,13 +19,22 @@ struct ProfileNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        NavigationLink(destination: route(HomeRouters.self, .chat(entity: navigationState.chatEntity)), isActive: $navigationState.navigateToChat) {
+        NavigationLink(
+            destination: route(HomeRouters.self, .chat(entity: navigationState.chatEntity)),
+            isActive: $navigationState.navigateToChat
+        ) {
             EmptyView()
         }
-        NavigationLink(destination: route(ProfileRouters.self, .settings(entity: navigationState.settingsEntity)), isActive: $navigationState.navigateToSettings) {
+        NavigationLink(
+            destination: route(ProfileRouters.self, .settings(entity: navigationState.settingsEntity)),
+            isActive: $navigationState.navigateToSettings
+        ) {
             EmptyView()
         }
-        NavigationLink(destination: route(ProfileRouters.self, .friends(entity: navigationState.friendsEntity)), isActive: $navigationState.navigateToFriends) {
+        NavigationLink(
+            destination: route(ProfileRouters.self, .friends(entity: navigationState.friendsEntity)),
+            isActive: $navigationState.navigateToFriends
+        ) {
             EmptyView()
         }
     }

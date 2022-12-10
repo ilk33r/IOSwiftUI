@@ -13,6 +13,7 @@ public enum PreLoginRouters: IORouterDefinition {
     
     case splash(entity: SplashEntity?)
     case login(entity: LoginEntity?)
+    case register(entity: RegisterEntity?)
     
     public var entity: IOEntity? {
         switch self {
@@ -20,6 +21,9 @@ public enum PreLoginRouters: IORouterDefinition {
             return entity
             
         case .login(entity: let entity):
+            return entity
+            
+        case .register(entity: let entity):
             return entity
         }
     }
@@ -31,6 +35,9 @@ public enum PreLoginRouters: IORouterDefinition {
             
         case .login:
             return "LoginView"
+            
+        case .register:
+            return "RegisterView"
         }
     }
 }

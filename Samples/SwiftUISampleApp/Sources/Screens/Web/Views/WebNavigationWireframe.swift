@@ -22,7 +22,10 @@ struct WebNavigationWireframe: IONavigationLinkView {
     var body: some View {
         EmptyView()
         /*
-        NavigationLink(destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)), isActive: $navigationState.navigateToPage) {
+        NavigationLink(
+            destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)),
+            isActive: $navigationState.navigateToPage
+        ) {
             EmptyView()
         }
         */
