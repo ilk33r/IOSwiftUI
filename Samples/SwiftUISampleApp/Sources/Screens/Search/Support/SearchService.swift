@@ -15,6 +15,7 @@ import SwiftUISampleAppPresentation
 enum SearchService {
 
     case discoverAll(request: PaginationRequestModel)
+    case discoverMember(request: DiscoverSearchMemberRequestModel)
 }
 
 extension SearchService: IOServiceType {
@@ -22,6 +23,9 @@ extension SearchService: IOServiceType {
     var methodType: IOHTTPRequestType {
         switch self {
         case .discoverAll:
+            return .post
+            
+        case .discoverMember:
             return .post
         }
     }
@@ -35,8 +39,11 @@ extension SearchService: IOServiceType {
     
     var path: String {
         switch self {
-        default:
+        case .discoverAll:
             return "Discover/DiscoverAll"
+            
+        case .discoverMember:
+            return "Discover/DiscoverMemberImages"
         }
     }
     
@@ -57,6 +64,9 @@ extension SearchService: IOServiceType {
     var body: Data? {
         switch self {
         case .discoverAll(request: let request):
+            return handleRequest(request)
+            
+        case .discoverMember(request: let request):
             return handleRequest(request)
         }
     }

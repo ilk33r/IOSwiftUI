@@ -44,4 +44,18 @@ public struct SearchInteractor: IOInteractor {
             }
         }
     }
+    
+    func discoverMember(userName: String, start: Int, count: Int) {
+        let pagination = PaginationModel(start: start, count: count, total: 0)
+        let request = DiscoverSearchMemberRequestModel(userName: userName, pagination: pagination)
+        service.request(.discoverMember(request: request), responseType: DiscoverImagesResponseModel.self) { result in
+            switch result {
+            case .success(response: let response):
+                presenter?.update(discoverResponse: response)
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
 }

@@ -89,7 +89,8 @@ public struct SearchView: IOController {
                 SearchNavBar(
                     text: $searchText
                 ) {
-                    IOLogger.debug("Editing end")
+                    searchText = searchText.trimNonAlphaNumericCharacters()
+                    presenter.searchUser(userName: searchText)
                 }
             }
         }
@@ -100,7 +101,7 @@ public struct SearchView: IOController {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
                 presenter.navigationState = _navigationState
-                presenter.loadImages(showIndicator: true)
+                presenter.loadImages()
             } else {
                 presenter.preparePreviewData()
             }
@@ -110,13 +111,14 @@ public struct SearchView: IOController {
         }
         .onChange(of: isRefreshing) { _ in
             if isRefreshing {
+                searchText = ""
                 presenter.resetPaging()
-                presenter.loadImages(showIndicator: false)
+                presenter.loadImages()
             }
         }
         .onChange(of: scrollOffset) { newValue in
             if newValue + screenHeight >= contentSize.height {
-                presenter.loadImages(showIndicator: false)
+                presenter.loadImages()
             }
         }
         .onReceive(presenter.$isRefreshing) { newValue in

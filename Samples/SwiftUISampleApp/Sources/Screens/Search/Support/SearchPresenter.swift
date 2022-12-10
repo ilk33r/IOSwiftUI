@@ -39,6 +39,7 @@ final public class SearchPresenter: IOPresenterable {
     private let numberOfImagesPerPage = 30
     
     private var isImagesLoading: Bool!
+    private var isSearchMode: Bool!
     private var imagesStart: Int
     private var totalImageCount: Int?
     
@@ -47,6 +48,7 @@ final public class SearchPresenter: IOPresenterable {
     public init() {
         self.imagesStart = 0
         self.isImagesLoading = false
+        self.isSearchMode = false
         self.images = []
         self.isRefreshing = false
         self.keyboardPublisher = Publishers
@@ -66,7 +68,11 @@ final public class SearchPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func loadImages(showIndicator: Bool) {
+    func loadImages() {
+        if self.isSearchMode {
+            return
+        }
+        
         if self.isImagesLoading {
             return
         }
@@ -84,10 +90,28 @@ final public class SearchPresenter: IOPresenterable {
     }
     
     func resetPaging() {
+        self.isSearchMode = false
         self.imagesStart = 0
         self.isImagesLoading = false
         self.totalImageCount = nil
         self.isRefreshing = true
+    }
+    
+    func searchUser(userName: String) {
+        if userName.isEmpty {
+            self.isSearchMode = false
+            self.resetPaging()
+            self.loadImages()
+            return
+        }
+        
+        self.isSearchMode = true
+        
+        var images = [SearchUIModel]()
+        images.append(contentsOf: self.generateDummyData())
+        self.images = images
+        
+        self.interactor.discoverMember(userName: userName, start: 0, count: 51)
     }
     
     func update(discoverResponse response: DiscoverImagesResponseModel?) {
