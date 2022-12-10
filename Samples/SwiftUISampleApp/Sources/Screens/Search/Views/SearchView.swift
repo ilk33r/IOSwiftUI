@@ -137,6 +137,7 @@ public struct SearchView: IOController {
     }
 }
 
+#if DEBUG
 struct SearchView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -144,3 +145,4 @@ struct SearchView_Previews: PreviewProvider {
         return SearchView(entity: SearchEntity())
     }
 }
+#endif

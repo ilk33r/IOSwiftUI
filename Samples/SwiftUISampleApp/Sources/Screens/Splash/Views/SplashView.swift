@@ -87,9 +87,11 @@ public struct SplashView: IOController {
     }
 }
 
+#if DEBUG
 struct SplashView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
         return SplashView(entity: SplashEntity())
     }
 }
+#endif

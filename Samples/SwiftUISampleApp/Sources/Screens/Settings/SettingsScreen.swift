@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+#if DEBUG
 struct Settings_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -15,3 +16,4 @@ struct Settings_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 320, height: 70))
     }
 }
+#endif

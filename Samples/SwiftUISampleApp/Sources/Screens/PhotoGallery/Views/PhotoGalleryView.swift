@@ -95,6 +95,7 @@ public struct PhotoGalleryView: IOController {
     }
 }
 
+#if DEBUG
 struct PhotoGalleryView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -127,3 +128,4 @@ struct PhotoGalleryView_Previews: PreviewProvider {
         )
     }
 }
+#endif

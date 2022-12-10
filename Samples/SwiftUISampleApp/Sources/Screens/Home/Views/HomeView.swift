@@ -122,6 +122,7 @@ public struct HomeView: IOController {
     }
 }
 
+#if DEBUG
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
@@ -129,3 +130,4 @@ struct HomeView_Previews: PreviewProvider {
             .environmentObject(SampleAppEnvironment())
     }
 }
+#endif

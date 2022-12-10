@@ -57,6 +57,7 @@ struct ChatSendCellView: View {
     }
 }
 
+#if DEBUG
 struct ChatSendCellView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
@@ -73,3 +74,4 @@ struct ChatSendCellView_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
     }
 }
+#endif

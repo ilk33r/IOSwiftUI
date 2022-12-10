@@ -134,6 +134,7 @@ public struct IOOTPTextField<TextFieldOverlay: View>: View {
     }
 }
 
+#if DEBUG
 struct IOOTPTextField_Previews: PreviewProvider {
     
     struct IOOTPTextFieldDemo: View {
@@ -161,3 +162,4 @@ struct IOOTPTextField_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 320, height: 52))
     }
 }
+#endif

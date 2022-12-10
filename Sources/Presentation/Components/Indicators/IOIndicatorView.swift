@@ -87,8 +87,10 @@ public struct IOIndicatorView: View {
     }
 }
 
+#if DEBUG
 struct IOIndicatorView_Previews: PreviewProvider {
     static var previews: some View {
         IOIndicatorView()
     }
 }
+#endif

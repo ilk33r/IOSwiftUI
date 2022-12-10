@@ -61,6 +61,7 @@ public struct OTPTextField: View, IOValidatable {
     }
 }
 
+#if DEBUG
 struct OTPTextField_Previews: PreviewProvider {
     
     struct OTPTextFieldDemo: View {
@@ -81,3 +82,4 @@ struct OTPTextField_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 320, height: 52))
     }
 }
+#endif

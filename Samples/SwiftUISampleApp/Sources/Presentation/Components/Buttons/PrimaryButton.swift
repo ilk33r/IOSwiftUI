@@ -47,6 +47,7 @@ public struct PrimaryButton: View, IOClickable {
     }
 }
 
+#if DEBUG
 struct PrimaryButton_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -57,3 +58,4 @@ struct PrimaryButton_Previews: PreviewProvider {
         }
     }
 }
+#endif

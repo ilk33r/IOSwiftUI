@@ -44,6 +44,7 @@ public struct GalleryCellView: View {
     }
 }
 
+#if DEBUG
 struct GalleryCellView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -52,3 +53,4 @@ struct GalleryCellView_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
     }
 }
+#endif

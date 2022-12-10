@@ -237,6 +237,7 @@ public struct IOFloatingDatePicker<PickerOverlay: View>: View {
     }
 }
 
+#if DEBUG
 struct IODatePicker_Previews: PreviewProvider {
     
     struct IODatePickerDemo: View {
@@ -264,3 +265,4 @@ struct IODatePicker_Previews: PreviewProvider {
         return IODatePickerDemo()
     }
 }
+#endif

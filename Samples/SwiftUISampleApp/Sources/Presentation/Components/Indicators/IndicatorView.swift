@@ -35,9 +35,11 @@ public struct IndicatorView: View {
     }
 }
 
+#if DEBUG
 struct IndicatorView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
         return IndicatorView()
     }
 }
+#endif

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+#if DEBUG
 struct SwiftUISampleAppPresentation_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -18,3 +19,4 @@ struct SwiftUISampleAppPresentation_Previews: PreviewProvider {
         }
     }
 }
+#endif

@@ -60,6 +60,7 @@ struct SettingMenuItemView: View {
     }
 }
 
+#if DEBUG
 struct SettingMenuItemView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
@@ -75,3 +76,4 @@ struct SettingMenuItemView_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+#endif

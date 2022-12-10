@@ -62,6 +62,7 @@ public struct IOValidatableTextField: View, IOValidatable {
     }
 }
 
+#if DEBUG
 struct IOValidatableTextField_Previews: PreviewProvider {
     
     struct TextFieldDemo: View {
@@ -82,3 +83,4 @@ struct IOValidatableTextField_Previews: PreviewProvider {
         .previewLayout(.fixed(width: 320, height: 70))
     }
 }
+#endif

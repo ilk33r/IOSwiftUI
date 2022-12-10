@@ -72,6 +72,7 @@ struct DiscoverCellView: View {
     }
 }
 
+#if DEBUG
 struct DiscoverCellView_Previews: PreviewProvider {
     
     struct DiscoverCellViewDemo: View {
@@ -97,3 +98,4 @@ struct DiscoverCellView_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
     }
 }
+#endif

@@ -38,6 +38,7 @@ public struct ProvilePictureImageView: View {
     }
 }
 
+#if DEBUG
 struct ProvilePictureImageView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -45,3 +46,4 @@ struct ProvilePictureImageView_Previews: PreviewProvider {
         return ProvilePictureImageView(imagePublicID: "pwChatAvatar")
     }
 }
+#endif

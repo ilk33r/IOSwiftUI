@@ -141,6 +141,7 @@ public struct FriendsView: IOController {
     }
 }
 
+#if DEBUG
 struct FriendsView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
@@ -177,3 +178,4 @@ struct FriendsView_Previews: PreviewProvider {
         )
     }
 }
+#endif

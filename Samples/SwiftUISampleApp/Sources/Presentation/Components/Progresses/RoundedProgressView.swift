@@ -45,6 +45,7 @@ public struct RoundedProgressView: View {
     }
 }
 
+#if DEBUG
 struct RoundedProgressView_Previews: PreviewProvider {
 
     struct RoundedProgressViewDemo: View {
@@ -68,3 +69,4 @@ struct RoundedProgressView_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 80, height: 80))
     }
 }
+#endif

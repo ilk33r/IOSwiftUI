@@ -102,6 +102,7 @@ struct SearchNavBar: View {
     }
 }
 
+#if DEBUG
 struct SearchNavBar_Previews: PreviewProvider {
     
     struct SearchNavBarDemo: View {
@@ -125,3 +126,4 @@ struct SearchNavBar_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 320, height: 44))
     }
 }
+#endif

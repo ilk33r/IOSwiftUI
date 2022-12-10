@@ -98,6 +98,7 @@ public struct DiscoverView: IOController {
     }
 }
 
+#if DEBUG
 struct DiscoverView_Previews: PreviewProvider {
     
     struct DiscoverViewDemo: View {
@@ -148,3 +149,4 @@ struct DiscoverView_Previews: PreviewProvider {
         return DiscoverViewDemo()
     }
 }
+#endif

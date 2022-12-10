@@ -293,6 +293,7 @@ public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
     }
 }
 
+#if DEBUG
 struct IOSecureFloatingTextField_Previews: PreviewProvider {
     
     struct FloatingTextFieldDemo: View {
@@ -319,3 +320,4 @@ struct IOSecureFloatingTextField_Previews: PreviewProvider {
         return FloatingTextFieldDemo()
     }
 }
+#endif

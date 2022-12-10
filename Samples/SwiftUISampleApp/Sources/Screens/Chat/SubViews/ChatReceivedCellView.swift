@@ -57,6 +57,7 @@ struct ChatReceivedCellView: View {
     }
 }
 
+#if DEBUG
 struct ChatReceivedCellView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -74,3 +75,4 @@ struct ChatReceivedCellView_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
     }
 }
+#endif

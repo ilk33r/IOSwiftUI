@@ -170,6 +170,7 @@ public struct UserLocationView: IOController {
     }
 }
 
+#if DEBUG
 struct UserLocationView_Previews: PreviewProvider {
     static var previews: some View {
         UserLocationView(
@@ -183,3 +184,4 @@ struct UserLocationView_Previews: PreviewProvider {
         )
     }
 }
+#endif

@@ -112,6 +112,7 @@ public struct GalleryView: View {
     }
 }
 
+#if DEBUG
 struct GalleryView_Previews: PreviewProvider {
     
     struct GalleryViewDemo: View {
@@ -160,3 +161,4 @@ struct GalleryView_Previews: PreviewProvider {
         return GalleryViewDemo()
     }
 }
+#endif

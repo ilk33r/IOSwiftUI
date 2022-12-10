@@ -153,6 +153,7 @@ struct ChatInboxItemView: View {
     }
 }
 
+#if DEBUG
 struct ChatInboxItemView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
@@ -169,3 +170,4 @@ struct ChatInboxItemView_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+#endif

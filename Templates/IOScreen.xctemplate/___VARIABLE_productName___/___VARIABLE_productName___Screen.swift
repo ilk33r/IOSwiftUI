@@ -3,6 +3,7 @@
 import Foundation
 import SwiftUI
 
+#if DEBUG
 struct ___VARIABLE_productName____Previews: PreviewProvider {
     
     static var previews: some View {
@@ -10,3 +11,4 @@ struct ___VARIABLE_productName____Previews: PreviewProvider {
             .previewLayout(.fixed(width: 320, height: 70))
     }
 }
+#endif

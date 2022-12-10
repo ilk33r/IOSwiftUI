@@ -113,6 +113,7 @@ public struct IORoundedProgressView: View {
     }
 }
 
+#if DEBUG
 struct IORoundedProgressView_Previews: PreviewProvider {
     
     struct IORoundedProgressViewDemo: View {
@@ -136,3 +137,4 @@ struct IORoundedProgressView_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 80, height: 80))
     }
 }
+#endif

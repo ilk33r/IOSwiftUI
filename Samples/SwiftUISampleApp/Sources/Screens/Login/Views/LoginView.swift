@@ -96,9 +96,11 @@ public struct LoginView: IOController {
     }
 }
 
+#if DEBUG
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
         return LoginView(entity: LoginEntity())
     }
 }
+#endif

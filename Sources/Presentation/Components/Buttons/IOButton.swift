@@ -65,6 +65,7 @@ public extension IOButton where Content == Never {
     }
 }
 
+#if DEBUG
 struct IOButton_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -74,3 +75,4 @@ struct IOButton_Previews: PreviewProvider {
         }
     }
 }
+#endif

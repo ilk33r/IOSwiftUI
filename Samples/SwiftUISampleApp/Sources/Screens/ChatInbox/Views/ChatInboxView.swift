@@ -86,8 +86,10 @@ public struct ChatInboxView: IOController {
     }
 }
 
+#if DEBUG
 struct ChatInboxView_Previews: PreviewProvider {
     static var previews: some View {
         ChatInboxView(entity: ChatInboxEntity())
     }
 }
+#endif

@@ -65,6 +65,7 @@ struct FriendCellView: View {
     }
 }
 
+#if DEBUG
 struct FriendCellView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
@@ -83,3 +84,4 @@ struct FriendCellView_Previews: PreviewProvider {
         .previewLayout(.fixed(width: 320, height: 88))
     }
 }
+#endif

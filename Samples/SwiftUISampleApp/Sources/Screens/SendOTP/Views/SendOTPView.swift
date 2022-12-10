@@ -120,6 +120,7 @@ public struct SendOTPView: IOController {
     }
 }
 
+#if DEBUG
 struct SendOTPView_Previews: PreviewProvider {
     
     struct SendOTPViewDemo: View {
@@ -143,3 +144,4 @@ struct SendOTPView_Previews: PreviewProvider {
         return SendOTPViewDemo()
     }
 }
+#endif

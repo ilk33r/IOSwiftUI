@@ -51,6 +51,7 @@ public struct SecondaryButton: View, IOClickable {
     }
 }
 
+#if DEBUG
 struct SecondaryButton_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -58,3 +59,4 @@ struct SecondaryButton_Previews: PreviewProvider {
         return SecondaryButton(.init(rawValue: "Secondary Button"))
     }
 }
+#endif

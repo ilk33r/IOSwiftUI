@@ -14,8 +14,10 @@ struct HomeTabEmptyView: View {
     }
 }
 
+#if DEBUG
 struct HomeTabEmptyView_Previews: PreviewProvider {
     static var previews: some View {
         HomeTabEmptyView()
     }
 }
+#endif

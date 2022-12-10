@@ -190,6 +190,7 @@ public struct UpdateProfileView: IOController {
     }
 }
 
+#if DEBUG
 struct UpdateProfileView_Previews: PreviewProvider {
     static var previews: some View {
         UpdateProfileView(
@@ -199,3 +200,4 @@ struct UpdateProfileView_Previews: PreviewProvider {
         )
     }
 }
+#endif

@@ -154,9 +154,11 @@ public struct ProfileView: IOController {
     }
 }
 
+#if DEBUG
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
         return ProfileView(entity: ProfileEntity(userName: nil))
     }
 }
+#endif

@@ -58,6 +58,7 @@ struct HTTPDebuggerCellView: View {
     }
 }
 
+#if DEBUG
 struct HTTPDebuggerCellView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -78,3 +79,4 @@ struct HTTPDebuggerCellView_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+#endif

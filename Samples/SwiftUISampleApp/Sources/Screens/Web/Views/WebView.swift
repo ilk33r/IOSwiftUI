@@ -65,6 +65,7 @@ public struct WebView: IOController {
     }
 }
 
+#if DEBUG
 struct WebView_Previews: PreviewProvider {
     static var previews: some View {
         WebView(
@@ -76,3 +77,4 @@ struct WebView_Previews: PreviewProvider {
         )
     }
 }
+#endif

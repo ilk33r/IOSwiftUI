@@ -115,6 +115,7 @@ public struct IORefreshableScrollView<Content>: View where Content: View {
     }
 }
 
+#if DEBUG
 struct IORefreshableScrollView_Previews: PreviewProvider {
     
     struct IORefreshableScrollViewDemo: View {
@@ -232,3 +233,4 @@ struct IORefreshableScrollView_Previews: PreviewProvider {
         IORefreshableScrollViewDemo()
     }
 }
+#endif

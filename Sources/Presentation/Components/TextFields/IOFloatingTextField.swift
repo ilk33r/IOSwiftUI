@@ -288,6 +288,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     }
 }
 
+#if DEBUG
 struct IOFloatingTextField_Previews: PreviewProvider {
     
     struct FloatingTextFieldDemo: View {
@@ -314,3 +315,4 @@ struct IOFloatingTextField_Previews: PreviewProvider {
         return FloatingTextFieldDemo()
     }
 }
+#endif

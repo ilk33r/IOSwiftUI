@@ -144,6 +144,7 @@ public struct FloatingTextField: View, IOValidatable {
     }
 }
 
+#if DEBUG
 struct FloatingTextField_Previews: PreviewProvider {
     
     struct FloatingTextFieldDemo: View {
@@ -164,3 +165,4 @@ struct FloatingTextField_Previews: PreviewProvider {
         return FloatingTextFieldDemo()
     }
 }
+#endif

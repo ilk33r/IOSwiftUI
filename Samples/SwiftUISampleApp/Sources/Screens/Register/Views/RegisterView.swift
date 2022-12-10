@@ -45,6 +45,7 @@ struct RegisterView: View {
     }
 }
 
+#if DEBUG
 struct RegisterView_Previews: PreviewProvider {
     
     struct RegisterViewDemo: View {
@@ -58,3 +59,4 @@ struct RegisterView_Previews: PreviewProvider {
         RegisterViewDemo()
     }
 }
+#endif

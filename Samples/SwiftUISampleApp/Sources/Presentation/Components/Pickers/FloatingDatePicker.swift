@@ -80,6 +80,7 @@ public struct FloatingDatePicker: View, IOValidatable {
     }
 }
 
+#if DEBUG
 struct FloatingDatePicker_Previews: PreviewProvider {
     
     struct FloatingDatePickerDemo: View {
@@ -101,3 +102,4 @@ struct FloatingDatePicker_Previews: PreviewProvider {
         return FloatingDatePickerDemo()
     }
 }
+#endif

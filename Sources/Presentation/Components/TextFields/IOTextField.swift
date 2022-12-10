@@ -51,6 +51,7 @@ public struct IOTextField: View {
     }
 }
 
+#if DEBUG
 struct IOTextFieldd_Previews: PreviewProvider {
     
     struct TextFieldDemo: View {
@@ -71,3 +72,4 @@ struct IOTextFieldd_Previews: PreviewProvider {
         .previewLayout(.fixed(width: 320, height: 52))
     }
 }
+#endif

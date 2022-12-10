@@ -102,6 +102,7 @@ struct ProfileHeaderView: View {
     }
 }
 
+#if DEBUG
 struct ProfileHeaderView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -109,3 +110,4 @@ struct ProfileHeaderView_Previews: PreviewProvider {
         return ProfileHeaderView(uiModel: nil, clickHandler: nil)
     }
 }
+#endif

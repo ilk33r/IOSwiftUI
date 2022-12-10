@@ -41,6 +41,7 @@ public struct NavBarTitleView: View {
     }
 }
 
+#if DEBUG
 struct NavBarTitleView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -49,3 +50,4 @@ struct NavBarTitleView_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
     }
 }
+#endif

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if DEBUG
 struct IOSwiftUIPresentation_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -16,3 +17,4 @@ struct IOSwiftUIPresentation_Previews: PreviewProvider {
         }
     }
 }
+#endif

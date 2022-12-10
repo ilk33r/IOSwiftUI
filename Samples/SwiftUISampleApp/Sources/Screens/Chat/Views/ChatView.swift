@@ -172,6 +172,7 @@ public struct ChatView: IOController {
     }
 }
 
+#if DEBUG
 struct ChatView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -186,3 +187,4 @@ struct ChatView_Previews: PreviewProvider {
         )
     }
 }
+#endif

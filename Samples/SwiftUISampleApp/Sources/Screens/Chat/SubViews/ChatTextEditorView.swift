@@ -105,6 +105,7 @@ struct ChatTextEditorView: View {
     }
 }
 
+#if DEBUG
 struct ChatTextEditorView_Previews: PreviewProvider {
     
     struct ChatTextEditorViewDemo: View {
@@ -126,3 +127,4 @@ struct ChatTextEditorView_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
     }
 }
+#endif

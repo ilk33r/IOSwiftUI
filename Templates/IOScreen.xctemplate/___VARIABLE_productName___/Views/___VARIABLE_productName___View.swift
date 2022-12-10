@@ -43,6 +43,7 @@ public struct ___VARIABLE_productName___View: IOController {
     }
 }
 
+#if DEBUG
 struct ___VARIABLE_productName___View_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -50,3 +51,4 @@ struct ___VARIABLE_productName___View_Previews: PreviewProvider {
         return ___VARIABLE_productName___View(entity: ___VARIABLE_productName___Entity())
     }
 }
+#endif

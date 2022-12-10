@@ -53,6 +53,7 @@ struct SearchCellView: View {
     }
 }
 
+#if DEBUG
 struct SearchCellView_Previews: PreviewProvider {
     
     static var previews: some View {
@@ -69,3 +70,4 @@ struct SearchCellView_Previews: PreviewProvider {
         )
     }
 }
+#endif
