@@ -70,6 +70,7 @@ public struct SearchView: IOController {
                                 
                                 navigationState.navigateToProfile = true
                             }
+                            .shimmering(active: item.isDummy)
                         }
                     }
                     .padding(.vertical, 24)
@@ -100,6 +101,8 @@ public struct SearchView: IOController {
                 presenter.environment = _appEnvironment
                 presenter.navigationState = _navigationState
                 presenter.loadImages(showIndicator: true)
+            } else {
+                presenter.preparePreviewData()
             }
             
             navigationState.userName = nil

@@ -25,7 +25,7 @@ private struct ImagePublicIDModifier: ViewModifier {
     
     private var baseService = IOServiceProviderImpl<BaseService>()
     
-    @State private var image = Image(systemName: "scribble")
+    @State private var image = Image()
     @State private var imageLoadCancellable: IOCancellable?
     @State private var isImageLoaded = false
     
@@ -42,26 +42,23 @@ private struct ImagePublicIDModifier: ViewModifier {
         }
     }
     
+    @ViewBuilder
     func body(content: Content) -> some View {
         if isImageLoaded {
-            return image
+            image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
+        } else {
+            Rectangle()
+                .background(Color.colorImage)
+                .shimmering(active: true)
                 .onAppear {
+                    imageLoadCancellable = loadImage()
                 }
                 .onDisappear {
+                    imageLoadCancellable?.cancel()
                 }
         }
-        
-        return image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .onAppear {
-                imageLoadCancellable = loadImage()
-            }
-            .onDisappear {
-                imageLoadCancellable?.cancel()
-            }
     }
     
     @discardableResult

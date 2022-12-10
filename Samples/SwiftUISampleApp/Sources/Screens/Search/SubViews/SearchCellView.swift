@@ -62,7 +62,8 @@ struct SearchCellView_Previews: PreviewProvider {
             imageWidth: 180,
             uiModel: SearchUIModel(
                 imagePublicId: "pwGallery4",
-                userName: "ilker"
+                userName: "ilker",
+                isDummy: false
             ),
             handler: { _ in
                 

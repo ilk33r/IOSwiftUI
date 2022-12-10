@@ -76,9 +76,7 @@ final public class SearchPresenter: IOPresenterable {
             self.isImagesLoading = true
             self.interactor.discoverAll(start: self.imagesStart, count: self.numberOfImagesPerPage)
         } else if totalImageCount == nil {
-            if !self.isRefreshing {
-                self.showIndicator()
-            }
+            self.images.append(contentsOf: self.generateDummyData())
             
             self.isImagesLoading = true
             self.interactor.discoverAll(start: self.imagesStart, count: self.numberOfImagesPerPage)
@@ -93,23 +91,22 @@ final public class SearchPresenter: IOPresenterable {
     }
     
     func update(discoverResponse response: DiscoverImagesResponseModel?) {
-        if !self.isRefreshing {
-            self.hideIndicator()
-        }
-        
         self.totalImageCount = response?.pagination?.total ?? 0
         
         let mappedImages = response?.images?.map({
             SearchUIModel(
                 imagePublicId: $0.publicId ?? "",
-                userName: $0.userName ?? ""
+                userName: $0.userName ?? "",
+                isDummy: false
             )
         })
         
         if self.isRefreshing {
             self.images = mappedImages ?? []
         } else {
-            self.images.append(contentsOf: mappedImages ?? [])
+            var images = self.images.filter { !$0.isDummy }
+            images.append(contentsOf: mappedImages ?? [])
+            self.images = images
         }
         
         self.isImagesLoading = false
@@ -118,4 +115,32 @@ final public class SearchPresenter: IOPresenterable {
             self?.isRefreshing = false
         }
     }
+    
+    // MARK: - Helper Methods
+    
+    private func generateDummyData() -> [SearchUIModel] {
+        var dummyData = [SearchUIModel]()
+        
+        for _ in 0..<21 {
+            dummyData.append(SearchUIModel(imagePublicId: "", userName: "", isDummy: true))
+        }
+        
+        return dummyData
+    }
 }
+
+#if DEBUG
+extension SearchPresenter {
+    
+    func preparePreviewData() {
+        self.images = [
+            SearchUIModel(imagePublicId: "pwGallery0", userName: "User0", isDummy: true),
+            SearchUIModel(imagePublicId: "pwGallery1", userName: "User1", isDummy: true),
+            SearchUIModel(imagePublicId: "pwGallery2", userName: "User2", isDummy: true),
+            SearchUIModel(imagePublicId: "pwGallery3", userName: "User3", isDummy: true),
+            SearchUIModel(imagePublicId: "pwGallery4", userName: "User4", isDummy: true),
+            SearchUIModel(imagePublicId: "pwGallery5", userName: "User5", isDummy: true)
+        ]
+    }
+}
+#endif
