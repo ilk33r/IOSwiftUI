@@ -15,19 +15,18 @@ public struct ProvilePictureImageView: View {
     
     // MARK: - Body
     
+    @ViewBuilder
     public var body: some View {
         if
             let profilePicturePublicId = imagePublicID,
             !profilePicturePublicId.isEmpty {
-            let profilePictureImage = Image()
+            Image()
                 .from(publicId: profilePicturePublicId)
-            return AnyView(profilePictureImage)
         } else {
-            let profilePictureImage = Image(systemName: "person.crop.circle")
+            Image(systemName: "person.crop.circle")
                 .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-            return AnyView(profilePictureImage)
         }
     }
     
