@@ -1,62 +1,60 @@
-//
+// 
 //  RegisterView.swift
 //  
 //
-//  Created by Adnan ilker Ozcan on 21.08.2022.
+//  Created by Adnan ilker Ozcan on 10.12.2022.
 //
 
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
-import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
-struct RegisterView: View {
+public struct RegisterView: IOController {
     
-    @State private var emailText: String = ""
-    @State private var passwordText: String = ""
+    // MARK: - Generics
     
-    var body: some View {
-        IOFormGroup(.commonDone, handler: {
-            
-        }, content: {
-            VStack(alignment: .leading) {
-                Text(type: .registerTitle)
-                    .foregroundColor(.black)
-                    .font(type: .regular(36))
-                    .multilineTextAlignment(.leading)
-                FloatingTextField(
-                    .registerInputEmailAddress,
-                    text: $emailText
-                )
-                .keyboardType(.emailAddress)
-                .padding(.top, 32)
-                FloatingTextField(
-                    .registerInputCreatePassword,
-                    text: $passwordText
-                )
-                .padding(.top, 16)
-                PrimaryButton(.commonNextUppercased)
-                    .padding(.top, 16)
-                Spacer()
+    public typealias Presenter = RegisterPresenter
+    
+    // MARK: - Properties
+    
+    @ObservedObject public var presenter: RegisterPresenter
+    @StateObject public var navigationState = RegisterNavigationState()
+    
+    @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
+    
+    // MARK: - Body
+    
+    public var body: some View {
+        Text("Register")
+//            .navigationWireframe {
+//                RegisterNavigationWireframe(navigationState: navigationState)
+//            }
+            .controllerWireframe {
+                RegisterNavigationWireframe(navigationState: navigationState)
             }
-            .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
-        })
+            .onAppear {
+                if !isPreviewMode {
+                    presenter.environment = _appEnvironment
+                    presenter.navigationState = _navigationState
+                }
+            }
+    }
+    
+    // MARK: - Initialization Methods
+    
+    public init(presenter: Presenter) {
+        self.presenter = presenter
     }
 }
 
 #if DEBUG
 struct RegisterView_Previews: PreviewProvider {
     
-    struct RegisterViewDemo: View {
-        
-        var body: some View {
-            RegisterView()
-        }
-    }
-    
     static var previews: some View {
-        RegisterViewDemo()
+        prepare()
+        return RegisterView(entity: RegisterEntity())
     }
 }
 #endif

@@ -1,8 +1,8 @@
-//
+// 
 //  RegisterLocalizableType.swift
 //  
 //
-//  Created by Adnan ilker Ozcan on 21.08.2022.
+//  Created by Adnan ilker Ozcan on 10.12.2022.
 //
 
 import Foundation
