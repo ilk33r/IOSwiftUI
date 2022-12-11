@@ -83,6 +83,9 @@ public struct RegisterUserNameView: IOController {
                 presenter.navigationState = _navigationState
             }
         }
+        .onChange(of: userNameText) { newValue in
+            userNameText = newValue.trimNonAlphaNumericCharacters()
+        }
     }
     
     // MARK: - Initialization Methods

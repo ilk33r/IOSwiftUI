@@ -38,6 +38,11 @@
 "login.input.error.password" = "Password must be at least 8 characters.";
 "login.input.password" = "Password";
 "login.title" = "Login";
+"register.form.birthDate" = "Birthdate";
+"register.form.location" = "Location";
+"register.form.name" = "Name";
+"register.form.phone" = "Phone";
+"register.form.surname" = "Surname";
 "register.input.emailAddress" = "Email address";
 "register.input.error.email" = "Invalid email address.";
 "register.input.error.passwordLength" = "Password must be at least 8 characters.";
@@ -47,6 +52,7 @@
 "register.input.passwordReEnter" = "Password (Re-enter)";
 "register.input.userName" = "User name";
 "register.title" = "Register";
+"register.title.profile" = "Create Profile";
 
 // MARK: -  Home
 "home.camera.actions.choosePhoto" = "Pick from gallery";

@@ -10,6 +10,11 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let registerFormBirthDate = IOLocalizationType(rawValue: "register.form.birthDate")
+    static let registerFormLocation = IOLocalizationType(rawValue: "register.form.location")
+    static let registerFormName = IOLocalizationType(rawValue: "register.form.name")
+    static let registerFormPhone = IOLocalizationType(rawValue: "register.form.phone")
+    static let registerFormSurname = IOLocalizationType(rawValue: "register.form.surname")
     static let registerInputEmailAddress = IOLocalizationType(rawValue: "register.input.emailAddress")
     static let registerInputErrorEmail = IOLocalizationType(rawValue: "register.input.error.email")
     static let registerInputErrorUserName = IOLocalizationType(rawValue: "register.input.error.userName")
@@ -19,4 +24,5 @@ extension IOLocalizationType {
     static let registerInputPasswordReEnter = IOLocalizationType(rawValue: "register.input.passwordReEnter")
     static let registerInputUserName = IOLocalizationType(rawValue: "register.input.userName")
     static let registerTitle = IOLocalizationType(rawValue: "register.title")
+    static let registerTitleProfile = IOLocalizationType(rawValue: "register.title.profile")
 }

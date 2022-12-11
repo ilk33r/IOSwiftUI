@@ -133,6 +133,9 @@ public struct SearchView: IOController {
                 navigationState.navigateToProfile = true
             }
         }
+        .onChange(of: searchText) { newValue in
+            searchText = newValue.trimNonAlphaNumericCharacters()
+        }
     }
     
     // MARK: - Initialization Methods

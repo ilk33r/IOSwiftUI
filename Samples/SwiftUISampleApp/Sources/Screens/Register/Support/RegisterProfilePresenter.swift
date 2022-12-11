@@ -24,12 +24,22 @@ final public class RegisterProfilePresenter: IOPresenterable {
     
     // MARK: - Publishers
     
+    @Published private(set) var userEmail: String
+    @Published private(set) var userName: String
+    
     // MARK: - Privates
     
     // MARK: - Initialization Methods
     
     public init() {
+        self.userEmail = ""
+        self.userName = ""
     }
     
     // MARK: - Presenter
+    
+    func prepare() {
+        self.userEmail = self.interactor.entity.email
+        self.userName = self.interactor.entity.userName
+    }
 }
