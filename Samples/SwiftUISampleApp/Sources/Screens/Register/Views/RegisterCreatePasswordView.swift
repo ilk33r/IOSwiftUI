@@ -18,6 +18,10 @@ public struct RegisterCreatePasswordView: IOController {
     
     public typealias Presenter = RegisterCreatePasswordPresenter
     
+    // MARK: - DI
+    
+    @IOInject private var validator: IOValidator
+    
     // MARK: - Properties
     
     @ObservedObject public var presenter: RegisterCreatePasswordPresenter
@@ -25,13 +29,40 @@ public struct RegisterCreatePasswordView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
+    @State private var password = ""
+    
     // MARK: - Body
     
     public var body: some View {
-        Text("RegisterCreatePassword")
-//      .navigationWireframe {
-//          RegisterCreatePasswordNavigationWireframe(navigationState: navigationState)
-//      }
+        IOFormGroup(.commonDone) {
+            
+        } content: {
+            VStack(alignment: .leading) {
+                Text(type: .registerTitle)
+                    .foregroundColor(.black)
+                    .font(type: .regular(36))
+                    .multilineTextAlignment(.leading)
+                SecureFloatingTextField(presenter.interactor.entity.validate ? .registerInputPasswordReEnter : .registerInputPassword, text: $password)
+                    .disableCorrection(true)
+                    .capitalization(.none)
+                    .registerValidator(
+                        to: validator,
+                        rule: IOValidationMinLengthRule(
+                            errorMessage: .registerInputErrorPasswordLength,
+                            length: 8
+                        )
+                    )
+                PrimaryButton(.commonNextUppercased)
+                    .setClick({
+                        if validator.validate().isEmpty {
+                            presenter.validatePassword(password: password)
+                        }
+                    })
+                    .padding(.top, 16)
+                Spacer()
+            }
+            .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+        }
         .navigationBar {
             EmptyView()
         }

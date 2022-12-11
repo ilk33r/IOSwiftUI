@@ -10,6 +10,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct RegisterCreatePasswordNavigationWireframe: IONavigationLinkView {
     
@@ -21,14 +22,12 @@ struct RegisterCreatePasswordNavigationWireframe: IONavigationLinkView {
     
     var body: some View {
         EmptyView()
-        /*
         NavigationLink(
-            destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)),
-            isActive: $navigationState.navigateToPage
+            destination: route(RegisterRouters.self, .createPassword(entity: navigationState.createPasswordEntity)),
+            isActive: $navigationState.navigateToCreatePassword
         ) {
             EmptyView()
         }
-        */
     }
     
     // MARK: - Initialization Methods
