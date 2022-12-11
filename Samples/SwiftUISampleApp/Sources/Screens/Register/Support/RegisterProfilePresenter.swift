@@ -47,9 +47,23 @@ final public class RegisterProfilePresenter: IOPresenterable {
     
     // MARK: - Presenter
     
+    func navigateToHome() {
+        self.environment.wrappedValue.isLoggedIn = true
+    }
+    
     func prepare() {
         self.userEmail = self.interactor.entity.email
         self.userName = self.interactor.entity.userName
+    }
+    
+    func registerCompleted() {
+        if let profilePictureImage = self.profilePictureImage {
+            self.interactor.uploadProfilePicture(image: profilePictureImage)
+            return
+        }
+        
+        self.hideIndicator()
+        self.navigateToHome()
     }
     
     func showActionSheet() {

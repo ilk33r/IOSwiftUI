@@ -15,6 +15,9 @@ enum RegisterService {
 
     case checkMember(request: CheckMemberRequestModel)
     case checkMemberUserName(request: CheckMemberUserNameRequestModel)
+    case register(request: RegisterMemberRequestModel)
+    case authenticate(request: AuthenticateRequestModel)
+    case uploadProfilePicture(image: Data, boundary: String = UUID().uuidString)
 }
 
 extension RegisterService: IOServiceType {
@@ -26,11 +29,23 @@ extension RegisterService: IOServiceType {
             
         case .checkMemberUserName:
             return .post
+            
+        case .register:
+            return .put
+            
+        case .authenticate:
+            return .post
+            
+        case .uploadProfilePicture:
+            return .put
         }
     }
     
     var requestContentType: IOServiceContentType {
         switch self {
+        case .uploadProfilePicture(_, let boundary):
+            return .multipartFormData(boundary: boundary)
+            
         default:
             return .applicationJSON
         }
@@ -43,6 +58,15 @@ extension RegisterService: IOServiceType {
             
         case .checkMemberUserName:
             return "MemberRegister/CheckMemberUserName"
+            
+        case .register:
+            return "MemberRegister/Register"
+            
+        case .authenticate:
+            return "MemberLogin/Authenticate"
+            
+        case .uploadProfilePicture:
+            return "MemberImages/UploadProfilePicture"
         }
     }
     
@@ -67,6 +91,17 @@ extension RegisterService: IOServiceType {
             
         case .checkMemberUserName(request: let request):
             return handleRequest(request)
+            
+        case .register(request: let request):
+            return handleRequest(request)
+            
+        case .authenticate(request: let request):
+            return handleRequest(request)
+            
+        case .uploadProfilePicture(image: let image, boundary: let boundary):
+            let fileName = UUID().uuidString + ".png"
+            let formData = IOServiceMultipartFormData(formName: "file", contentType: .imagePNG, content: image, fileName: fileName)
+            return handleMultipartRequest([formData], boundary: boundary)
         }
     }
     

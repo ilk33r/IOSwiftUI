@@ -56,7 +56,7 @@ public struct UpdateProfileInteractor: IOInteractor {
             locationLongitude: locationLongitude,
             phoneNumber: phoneNumber,
             deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "",
-            deviceManifacturer: UIDevice.current.systemName ,
+            deviceManifacturer: UIDevice.current.systemName,
             deviceModel: UIDevice.current.model
         )
         

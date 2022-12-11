@@ -221,7 +221,15 @@ public struct RegisterProfileView: IOController {
         }
         .onChange(of: isOTPValidated) { newValue in
             if newValue {
-                
+                presenter.interactor.createProfile(
+                    birthDate: formBirthDate,
+                    name: formNameText,
+                    surname: formSurnameText,
+                    locationName: formLocationName,
+                    locationLatitude: formLocationLatitude,
+                    locationLongitude: formLocationLongitude,
+                    phoneNumber: formPhoneText.trimLetters()
+                )
             }
         }
         .onReceive(presenter.$userEmail) { output in

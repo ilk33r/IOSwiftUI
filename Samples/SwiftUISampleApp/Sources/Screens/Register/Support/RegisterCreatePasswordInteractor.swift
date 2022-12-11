@@ -34,6 +34,6 @@ public struct RegisterCreatePasswordInteractor: IOInteractor {
         guard let aesKey = appState.object(forType: .aesKey) as? Data else { return }
         
         guard let encryptedPassword = IOAESUtilities.encrypt(string: password, keyData: aesKey, ivData: aesIV) else { return }
-        presenter?.navigateToProfile(hashedPassword: password)
+        presenter?.navigateToProfile(hashedPassword: encryptedPassword.base64EncodedString())
     }
 }

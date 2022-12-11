@@ -30,7 +30,7 @@ public struct RegisterUserNameView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     #if DEBUG
-    @State private var userNameText = "ilker3"
+    @State private var userNameText = "ilker4"
     #else
     @State private var userNameText = ""
     #endif
@@ -100,7 +100,7 @@ struct RegisterUserNameView_Previews: PreviewProvider {
     
     static var previews: some View {
         prepare()
-        return RegisterUserNameView(entity: RegisterUserNameEntity(email: "ilker3@ilker.com"))
+        return RegisterUserNameView(entity: RegisterUserNameEntity(email: ""))
     }
 }
 #endif

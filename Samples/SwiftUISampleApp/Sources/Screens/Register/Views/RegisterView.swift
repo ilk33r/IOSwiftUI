@@ -31,7 +31,7 @@ public struct RegisterView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     #if DEBUG
-    @State private var emailText = "ilker3@ilker.com"
+    @State private var emailText = "ilker4@ilker.com"
     #else
     @State private var emailText = ""
     #endif
