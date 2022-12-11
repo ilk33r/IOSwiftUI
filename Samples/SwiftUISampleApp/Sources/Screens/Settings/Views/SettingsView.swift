@@ -117,7 +117,8 @@ public struct SettingsView: IOController {
 #if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(
+        prepare()
+        return SettingsView(
             entity: SettingsEntity(
                 member: MemberModel()
             )

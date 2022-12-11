@@ -45,6 +45,8 @@ public struct RegisterProfileView: IOController {
     @State private var formLocationLatitude: Double?
     @State private var formLocationLongitude: Double?
     
+    @State private var profilePictureImageView = Image(systemName: "person.crop.circle")
+    
     // MARK: - Body
     
     public var body: some View {
@@ -54,6 +56,17 @@ public struct RegisterProfileView: IOController {
                     IOFormGroup(.commonDone, handler: {
                     }, content: {
                         VStack(alignment: .leading) {
+                            HStack {
+                                Spacer()
+                                profilePictureImageView
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 64, height: 64, alignment: .topLeading)
+                                    .clipShape(Circle())
+                                    .setClick {
+                                        presenter.showActionSheet()
+                                    }
+                            }
                             FloatingTextField(.registerInputUserName, text: $formUserNameText)
                                 .disabled(true)
                             FloatingTextField(.registerInputEmailAddress, text: $formEmailText)
@@ -155,6 +168,46 @@ public struct RegisterProfileView: IOController {
                 )
             }
         )
+        .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
+            IOImagePickerView(
+                sourceType: .camera,
+                allowEditing: true
+            ) { image in
+                presenter.updateProfilePicture(image: image)
+            }
+        }
+        .fullScreenCover(isPresented: $navigationState.navigateToPhotoLibrary) {
+            IOImagePickerView(
+                sourceType: .photoLibrary,
+                allowEditing: true
+            ) { image in
+                presenter.updateProfilePicture(image: image)
+            }
+        }
+        .actionSheet(item: $presenter.actionSheetData) { _ in
+            ActionSheet(
+                title: Text(type: .registerCameraActionsTitle),
+                buttons: [
+                    .default(
+                        Text(type: .registerCameraActionsTakePhoto),
+                        action: {
+                            navigationState.navigateToCamera = true
+                        }
+                    ),
+                    .default(
+                        Text(type: .registerCameraActionsChoosePhoto),
+                        action: {
+                            navigationState.navigateToPhotoLibrary = true
+                        }
+                    ),
+                    .destructive(
+                        Text(type: .commonCancel),
+                        action: {
+                        }
+                    )
+                ]
+            )
+        }
         .onAppear {
             if !isPreviewMode {
                 presenter.environment = _appEnvironment
@@ -166,15 +219,20 @@ public struct RegisterProfileView: IOController {
             let plainNumber = newValue.trimLetters()
             formPhoneText = plainNumber.applyPattern(pattern: phoneNumberPattern)
         }
+        .onChange(of: isOTPValidated) { newValue in
+            if newValue {
+                
+            }
+        }
         .onReceive(presenter.$userEmail) { output in
             formEmailText = output
         }
         .onReceive(presenter.$userName) { output in
             formUserNameText = output
         }
-        .onChange(of: isOTPValidated) { newValue in
-            if newValue {
-                
+        .onReceive(presenter.$profilePictureImage) { output in
+            if let uiImage = output {
+                profilePictureImageView = Image(uiImage: uiImage)
             }
         }
     }

@@ -10,6 +10,9 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let registerCameraActionsChoosePhoto = IOLocalizationType(rawValue: "register.camera.actions.choosePhoto")
+    static let registerCameraActionsTakePhoto = IOLocalizationType(rawValue: "register.camera.actions.takePhoto")
+    static let registerCameraActionsTitle = IOLocalizationType(rawValue: "register.camera.actions.title")
     static let registerFormBirthDate = IOLocalizationType(rawValue: "register.form.birthDate")
     static let registerFormLocation = IOLocalizationType(rawValue: "register.form.location")
     static let registerFormName = IOLocalizationType(rawValue: "register.form.name")

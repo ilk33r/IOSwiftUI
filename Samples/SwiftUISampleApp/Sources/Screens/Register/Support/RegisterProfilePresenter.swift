@@ -14,6 +14,13 @@ import SwiftUISampleAppPresentation
 
 final public class RegisterProfilePresenter: IOPresenterable {
     
+    // MARK: - Defs
+    
+    struct ActionSheetData: Identifiable {
+        
+        let id = UUID()
+    }
+    
     // MARK: - Presentable
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
@@ -24,6 +31,8 @@ final public class RegisterProfilePresenter: IOPresenterable {
     
     // MARK: - Publishers
     
+    @Published var actionSheetData: ActionSheetData?
+    @Published private(set) var profilePictureImage: UIImage?
     @Published private(set) var userEmail: String
     @Published private(set) var userName: String
     
@@ -41,5 +50,13 @@ final public class RegisterProfilePresenter: IOPresenterable {
     func prepare() {
         self.userEmail = self.interactor.entity.email
         self.userName = self.interactor.entity.userName
+    }
+    
+    func showActionSheet() {
+        self.actionSheetData = ActionSheetData()
+    }
+    
+    func updateProfilePicture(image: UIImage) {
+        self.profilePictureImage = image
     }
 }

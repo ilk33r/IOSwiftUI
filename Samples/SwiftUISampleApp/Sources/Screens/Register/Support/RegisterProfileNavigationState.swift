@@ -17,7 +17,8 @@ final public class RegisterProfileNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-//    @Published private(set) var navigateToPage = false
+    @Published var navigateToCamera = false
+    @Published var navigateToPhotoLibrary = false
     
     // MARK: - Privates
     

@@ -38,6 +38,9 @@
 "login.input.error.password" = "Password must be at least 8 characters.";
 "login.input.password" = "Password";
 "login.title" = "Login";
+"register.camera.actions.choosePhoto" = "Pick from gallery";
+"register.camera.actions.takePhoto" = "Take a photo";
+"register.camera.actions.title" = "Profile Picture";
 "register.form.birthDate" = "Birthdate";
 "register.form.location" = "Location";
 "register.form.name" = "Name";
