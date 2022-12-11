@@ -10,12 +10,14 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
+import SwiftUISampleAppPresentation
 
 final public class RegisterPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    public var environment: EnvironmentObject<IOAppEnvironmentObject>!
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: RegisterInteractor!
     public var navigationState: StateObject<RegisterNavigationState>!
     
@@ -31,4 +33,9 @@ final public class RegisterPresenter: IOPresenterable {
     }
     
     // MARK: - Presenter
+    
+    func navigateToUserName(email: String) {
+        self.navigationState.wrappedValue.userNameEntity = RegisterUserNameEntity(email: email)
+        self.navigationState.wrappedValue.navigateToUserName = true
+    }
 }

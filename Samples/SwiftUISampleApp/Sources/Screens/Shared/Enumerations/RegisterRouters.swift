@@ -1,0 +1,29 @@
+//
+//  RegisterRouters.swift
+//  
+//
+//  Created by Adnan ilker Ozcan on 11.12.2022.
+//
+
+import Foundation
+import IOSwiftUIPresentation
+import IOSwiftUIScreensShared
+
+public enum RegisterRouters: IORouterDefinition {
+    
+    case userName(entity: RegisterUserNameEntity?)
+    
+    public var entity: IOEntity? {
+        switch self {
+        case .userName(entity: let entity):
+            return entity
+        }
+    }
+    
+    public var viewName: String {
+        switch self {
+        case .userName:
+            return "RegisterUserNameView"
+        }
+    }
+}

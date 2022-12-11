@@ -10,7 +10,7 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
-    static let registerInputCreatePassword = IOLocalizationType(rawValue: "register.input.createPassword")
     static let registerInputEmailAddress = IOLocalizationType(rawValue: "register.input.emailAddress")
+    static let registerInputErrorEmail = IOLocalizationType(rawValue: "register.input.error.email")
     static let registerTitle = IOLocalizationType(rawValue: "register.title")
 }

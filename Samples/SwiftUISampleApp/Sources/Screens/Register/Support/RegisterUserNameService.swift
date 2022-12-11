@@ -1,27 +1,26 @@
 // 
-//  RegisterService.swift
+//  RegisterUserNameService.swift
 //  
 //
-//  Created by Adnan ilker Ozcan on 10.12.2022.
+//  Created by Adnan ilker Ozcan on 11.12.2022.
 //
 
 import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
-import SwiftUISampleAppCommon
+import SwiftUISampleAppPresentation
 
-enum RegisterService {
+enum RegisterUserNameService {
 
-    case checkMember(request: CheckMemberRequestModel)
 }
 
-extension RegisterService: IOServiceType {
+extension RegisterUserNameService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
-        case .checkMember:
-            return .post
+        default:
+            return .get
         }
     }
     
@@ -34,8 +33,8 @@ extension RegisterService: IOServiceType {
     
     var path: String {
         switch self {
-        case .checkMember:
-            return "MemberRegister/CheckMember"
+        default:
+            return ""
         }
     }
     
@@ -55,8 +54,8 @@ extension RegisterService: IOServiceType {
     
     var body: Data? {
         switch self {
-        case .checkMember(request: let request):
-            return handleRequest(request)
+        default:
+            return nil
         }
     }
     

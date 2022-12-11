@@ -9,6 +9,8 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppCommon
+import SwiftUISampleAppPresentation
 import SwiftUISampleAppScreensShared
 
 public struct RegisterView: IOController {
@@ -17,29 +19,61 @@ public struct RegisterView: IOController {
     
     public typealias Presenter = RegisterPresenter
     
+    // MARK: - DI
+    
+    @IOInject private var validator: IOValidator
+    
     // MARK: - Properties
     
     @ObservedObject public var presenter: RegisterPresenter
     @StateObject public var navigationState = RegisterNavigationState()
     
-    @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    
+    @State private var emailText = ""
     
     // MARK: - Body
     
     public var body: some View {
-        Text("Register")
-//            .navigationWireframe {
-//                RegisterNavigationWireframe(navigationState: navigationState)
-//            }
-            .controllerWireframe {
-                RegisterNavigationWireframe(navigationState: navigationState)
+        IOFormGroup(.commonDone) {
+        } content: {
+            VStack(alignment: .leading) {
+                Text(type: .registerTitle)
+                    .foregroundColor(.black)
+                    .font(type: .regular(36))
+                    .multilineTextAlignment(.leading)
+                FloatingTextField(
+                    .registerInputEmailAddress,
+                    text: $emailText
+                )
+                .disableCorrection(true)
+                .capitalization(.none)
+                .keyboardType(.emailAddress)
+                .registerValidator(
+                    to: validator,
+                    rule: IOValidationEmailRule(errorMessage: .registerInputErrorEmail)
+                )
+                .padding(.top, 32)
+                PrimaryButton(.commonNextUppercased)
+                    .setClick({
+                        if validator.validate().isEmpty {
+                            presenter.interactor.checkMember(email: emailText)
+                        }
+                    })
+                    .padding(.top, 16)
+                Spacer()
             }
-            .onAppear {
-                if !isPreviewMode {
-                    presenter.environment = _appEnvironment
-                    presenter.navigationState = _navigationState
-                }
+            .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+        }
+        .controllerWireframe {
+            RegisterNavigationWireframe(navigationState: navigationState)
+        }
+        .onAppear {
+            if !isPreviewMode {
+                presenter.environment = _appEnvironment
+                presenter.navigationState = _navigationState
             }
+        }
     }
     
     // MARK: - Initialization Methods

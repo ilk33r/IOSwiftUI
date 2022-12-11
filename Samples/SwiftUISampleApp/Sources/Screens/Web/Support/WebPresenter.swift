@@ -11,12 +11,13 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import WebKit
+import SwiftUISampleAppPresentation
 
 final public class WebPresenter: IOPresenterable {
     
     // MARK: - Presentable
     
-    public var environment: EnvironmentObject<IOAppEnvironmentObject>!
+    public var environment: EnvironmentObject<SampleAppEnvironment>!
     public var interactor: WebInteractor!
     public var navigationState: StateObject<WebNavigationState>!
     

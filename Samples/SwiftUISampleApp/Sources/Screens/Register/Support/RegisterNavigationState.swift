@@ -11,10 +11,13 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 final public class RegisterNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-//    @Published private(set) var navigateToPage = false
+    @Published var navigateToUserName = false
+    
+    var userNameEntity: RegisterUserNameEntity!
 }

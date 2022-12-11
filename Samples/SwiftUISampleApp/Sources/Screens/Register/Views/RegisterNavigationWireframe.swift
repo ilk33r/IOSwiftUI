@@ -10,6 +10,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct RegisterNavigationWireframe: IONavigationLinkView {
     
@@ -21,14 +22,12 @@ struct RegisterNavigationWireframe: IONavigationLinkView {
     
     var body: some View {
         EmptyView()
-        /*
         NavigationLink(
-            destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)),
-            isActive: $navigationState.navigateToPage
+            destination: route(RegisterRouters.self, .userName(entity: navigationState.userNameEntity)),
+            isActive: $navigationState.navigateToUserName
         ) {
             EmptyView()
         }
-        */
     }
     
     // MARK: - Initialization Methods

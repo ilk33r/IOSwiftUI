@@ -38,7 +38,7 @@
 "login.input.error.password" = "Password must be at least 8 characters.";
 "login.input.password" = "Password";
 "login.title" = "Login";
-"register.input.createPassword" = "Create password";
+"register.input.error.email" = "Invalid email address.";
 "register.input.emailAddress" = "Email address";
 "register.title" = "Register";
 

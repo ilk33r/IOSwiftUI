@@ -9,6 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
 public struct RegisterInteractor: IOInteractor {
@@ -28,4 +29,21 @@ public struct RegisterInteractor: IOInteractor {
     }
     
     // MARK: - Interactor
+    
+    func checkMember(email: String) {
+        showIndicator()
+        
+        let request = CheckMemberRequestModel(email: email)
+        service.request(.checkMember(request: request), responseType: GenericResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(_):
+                presenter?.navigateToUserName(email: email)
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
 }

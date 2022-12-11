@@ -24,7 +24,7 @@ public struct WebView: IOController {
     @ObservedObject public var presenter: WebPresenter
     @StateObject public var navigationState = WebNavigationState()
     
-    @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     // MARK: - Body
     
