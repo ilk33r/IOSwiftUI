@@ -16,7 +16,7 @@ public struct ___VARIABLE_productName___View: IOController {
     @ObservedObject public var presenter: ___VARIABLE_productName___Presenter
     @StateObject public var navigationState = ___VARIABLE_productName___NavigationState()
     
-    @EnvironmentObject private var appEnvironment: IOAppEnvironmentObject
+    @EnvironmentObject private var appEnvironment: TAppEnvironment
     
     // MARK: - Body
     
