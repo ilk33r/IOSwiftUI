@@ -12,10 +12,14 @@ import IOSwiftUIScreensShared
 public enum RegisterRouters: IORouterDefinition {
     
     case userName(entity: RegisterUserNameEntity?)
+    case createPassword(entity: RegisterCreatePasswordEntity?)
     
     public var entity: IOEntity? {
         switch self {
         case .userName(entity: let entity):
+            return entity
+            
+        case .createPassword(entity: let entity):
             return entity
         }
     }
@@ -24,6 +28,9 @@ public enum RegisterRouters: IORouterDefinition {
         switch self {
         case .userName:
             return "RegisterUserNameView"
+            
+        case .createPassword:
+            return "RegisterCreatePasswordView"
         }
     }
 }

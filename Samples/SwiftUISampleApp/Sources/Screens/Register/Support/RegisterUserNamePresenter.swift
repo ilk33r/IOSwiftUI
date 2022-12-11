@@ -11,6 +11,7 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 final public class RegisterUserNamePresenter: IOPresenterable {
     
@@ -37,6 +38,12 @@ final public class RegisterUserNamePresenter: IOPresenterable {
         email: String,
         userName: String
     ) {
-        
+        self.navigationState.wrappedValue.createPasswordEntity = RegisterCreatePasswordEntity(
+            email: email,
+            password: "",
+            userName: userName,
+            validate: false
+        )
+        self.navigationState.wrappedValue.navigateToCreatePassword = true
     }
 }

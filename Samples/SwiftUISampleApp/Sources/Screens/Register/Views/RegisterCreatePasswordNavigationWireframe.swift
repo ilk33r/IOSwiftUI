@@ -1,5 +1,5 @@
 // 
-//  RegisterUserNameNavigationWireframe.swift
+//  RegisterCreatePasswordNavigationWireframe.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 11.12.2022.
@@ -10,29 +10,30 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
-import SwiftUISampleAppScreensShared
 
-struct RegisterUserNameNavigationWireframe: IONavigationLinkView {
+struct RegisterCreatePasswordNavigationWireframe: IONavigationLinkView {
     
     // MARK: - States
     
-    @ObservedObject var navigationState: RegisterUserNameNavigationState
+    @ObservedObject var navigationState: RegisterCreatePasswordNavigationState
     
     // MARK: - Properties
     
     var body: some View {
         EmptyView()
+        /*
         NavigationLink(
-            destination: route(RegisterRouters.self, .createPassword(entity: navigationState.createPasswordEntity)),
-            isActive: $navigationState.navigateToCreatePassword
+            destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)),
+            isActive: $navigationState.navigateToPage
         ) {
             EmptyView()
         }
+        */
     }
     
     // MARK: - Initialization Methods
     
-    init(navigationState: RegisterUserNameNavigationState) {
+    init(navigationState: RegisterCreatePasswordNavigationState) {
         self.navigationState = navigationState
     }
 }

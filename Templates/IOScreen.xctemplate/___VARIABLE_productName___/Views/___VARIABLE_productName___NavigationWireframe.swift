@@ -18,7 +18,7 @@ struct ___VARIABLE_productName___NavigationWireframe: IONavigationLinkView {
         EmptyView()
         /*
         NavigationLink(
-            destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)),
+            destination: route(IORouter.self, .sample(entity: navigationState.sampleEntity)),
             isActive: $navigationState.navigateToPage
         ) {
             EmptyView()
