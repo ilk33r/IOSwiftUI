@@ -30,7 +30,11 @@ public struct RegisterView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
+    #if DEBUG
+    @State private var emailText = "ilker3@ilker.com"
+    #else
     @State private var emailText = ""
+    #endif
     
     // MARK: - Body
     
@@ -64,6 +68,9 @@ public struct RegisterView: IOController {
                 Spacer()
             }
             .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+        }
+        .navigationBar {
+            EmptyView()
         }
         .controllerWireframe {
             RegisterNavigationWireframe(navigationState: navigationState)
