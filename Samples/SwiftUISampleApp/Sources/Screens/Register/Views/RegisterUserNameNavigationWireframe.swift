@@ -21,7 +21,6 @@ struct RegisterUserNameNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        EmptyView()
         NavigationLink(
             destination: route(RegisterRouters.self, .createPassword(entity: navigationState.createPasswordEntity)),
             isActive: $navigationState.navigateToCreatePassword

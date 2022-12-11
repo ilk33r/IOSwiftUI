@@ -28,4 +28,12 @@ public struct RegisterCreatePasswordInteractor: IOInteractor {
     }
     
     // MARK: - Interactor
+    
+    func hashPassword(password: String) {
+        guard let aesIV = appState.object(forType: .aesIV) as? Data else { return }
+        guard let aesKey = appState.object(forType: .aesKey) as? Data else { return }
+        
+        guard let encryptedPassword = IOAESUtilities.encrypt(string: password, keyData: aesKey, ivData: aesIV) else { return }
+        presenter?.navigateToProfile(hashedPassword: password)
+    }
 }

@@ -35,17 +35,40 @@ final public class RegisterCreatePasswordPresenter: IOPresenterable {
     // MARK: - Presenter
     
     func validatePassword(password: String) {
-        if self.interactor.entity.validate {
+        if !self.interactor.entity.validate {
+            self.navigationState.wrappedValue.createPasswordEntity = RegisterCreatePasswordEntity(
+                email: self.interactor.entity.email,
+                password: password,
+                userName: self.interactor.entity.userName,
+                validate: true
+            )
+            
+            self.navigationState.wrappedValue.navigateToCreatePassword = true
             return
         }
         
-        self.navigationState.wrappedValue.createPasswordEntity = RegisterCreatePasswordEntity(
-            email: self.interactor.entity.email,
-            password: password,
-            userName: self.interactor.entity.userName,
-            validate: true
-        )
+        if self.interactor.entity.password != password {
+            self.showAlert {
+                IOAlertData(
+                    title: nil,
+                    message: .registerInputErrorPasswordMatch,
+                    buttons: [.commonOk],
+                    handler: nil
+                )
+            }
+            
+            return
+        }
         
-        self.navigationState.wrappedValue.navigateToCreatePassword = true
+        self.interactor.hashPassword(password: password)
+    }
+    
+    func navigateToProfile(hashedPassword: String) {
+        self.navigationState.wrappedValue.profileEntity = RegisterProfileEntity(
+            email: self.interactor.entity.email,
+            password: hashedPassword,
+            userName: self.interactor.entity.userName
+        )
+        self.navigationState.wrappedValue.navigateToProfile = true
     }
 }

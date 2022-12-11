@@ -14,6 +14,7 @@ extension IOLocalizationType {
     static let registerInputErrorEmail = IOLocalizationType(rawValue: "register.input.error.email")
     static let registerInputErrorUserName = IOLocalizationType(rawValue: "register.input.error.userName")
     static let registerInputErrorPasswordLength = IOLocalizationType(rawValue: "register.input.error.passwordLength")
+    static let registerInputErrorPasswordMatch = IOLocalizationType(rawValue: "register.input.error.passwordMatch")
     static let registerInputPassword = IOLocalizationType(rawValue: "register.input.password")
     static let registerInputPasswordReEnter = IOLocalizationType(rawValue: "register.input.passwordReEnter")
     static let registerInputUserName = IOLocalizationType(rawValue: "register.input.userName")

@@ -41,6 +41,7 @@
 "register.input.emailAddress" = "Email address";
 "register.input.error.email" = "Invalid email address.";
 "register.input.error.passwordLength" = "Password must be at least 8 characters.";
+"register.input.error.passwordMatch" = "Passwords don't match.";
 "register.input.error.userName" = "Invalid user name.";
 "register.input.password" = "Password";
 "register.input.passwordReEnter" = "Password (Re-enter)";

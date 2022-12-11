@@ -18,6 +18,8 @@ final public class RegisterCreatePasswordNavigationState: IONavigationState {
     // MARK: - Properties
     
     @Published var navigateToCreatePassword = false
+    @Published var navigateToProfile = false
     
     var createPasswordEntity: RegisterCreatePasswordEntity!
+    var profileEntity: RegisterProfileEntity!
 }

@@ -29,7 +29,11 @@ public struct RegisterCreatePasswordView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
+    #if DEBUG
+    @State private var password = "12345678"
+    #else
     @State private var password = ""
+    #endif
     
     // MARK: - Body
     
