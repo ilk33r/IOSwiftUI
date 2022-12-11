@@ -34,7 +34,7 @@ struct ProfileHeaderView: View {
     
     var body: some View {
         VStack {
-            ProvilePictureImageView(imagePublicID: uiModel?.profilePicturePublicId)
+            ProfilePictureImageView(imagePublicID: uiModel?.profilePicturePublicId)
                 .frame(width: 128, height: 128)
                 .clipShape(Circle())
             Text(uiModel?.nameSurname ?? "")

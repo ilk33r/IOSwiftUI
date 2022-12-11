@@ -22,7 +22,7 @@ struct ChatReceivedCellView: View {
     var body: some View {
         HStack(alignment: .top) {
             VStack {
-                ProvilePictureImageView(imagePublicID: uiModel.imagePublicID)
+                ProfilePictureImageView(imagePublicID: uiModel.imagePublicID)
                     .frame(width: 25, height: 25)
                     .clipShape(Circle())
                 Text(uiModel.messageTime)

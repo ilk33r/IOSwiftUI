@@ -1,5 +1,5 @@
 //
-//  ProvilePictureImageView.swift
+//  ProfilePictureImageView.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 4.12.2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct ProvilePictureImageView: View {
+public struct ProfilePictureImageView: View {
     
     // MARK: - Privates
     
@@ -42,7 +42,7 @@ struct ProvilePictureImageView_Previews: PreviewProvider {
     
     static var previews: some View {
         prepare()
-        return ProvilePictureImageView(imagePublicID: "pwChatAvatar")
+        return ProfilePictureImageView(imagePublicID: "pwChatAvatar")
     }
 }
 #endif

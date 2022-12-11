@@ -33,7 +33,7 @@ struct ChatSendCellView: View {
                 )
                 .padding(.leading, 16)
             VStack {
-                ProvilePictureImageView(imagePublicID: uiModel.imagePublicID)
+                ProfilePictureImageView(imagePublicID: uiModel.imagePublicID)
                     .frame(width: 25, height: 25)
                     .clipShape(Circle())
                 Text(uiModel.messageTime)

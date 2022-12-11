@@ -24,7 +24,7 @@ struct FriendCellView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             HStack(alignment: .top) {
-                ProvilePictureImageView(imagePublicID: uiModel.profilePicturePublicId)
+                ProfilePictureImageView(imagePublicID: uiModel.profilePicturePublicId)
                     .frame(width: 64, height: 64, alignment: .top)
                     .clipShape(Circle())
                 VStack(alignment: .leading) {

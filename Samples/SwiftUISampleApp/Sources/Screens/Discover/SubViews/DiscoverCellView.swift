@@ -29,7 +29,7 @@ struct DiscoverCellView: View {
             
             HStack(alignment: .top) {
                 
-                ProvilePictureImageView(imagePublicID: uiModel.userAvatarPublicId)
+                ProfilePictureImageView(imagePublicID: uiModel.userAvatarPublicId)
                     .frame(width: 28, height: 28)
                     .contentShape(Rectangle())
                     .clipShape(Circle())

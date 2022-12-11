@@ -55,7 +55,7 @@ struct ChatInboxItemView: View {
                 .zIndex(1)
                 .hidden(isHidden: $deleteButtonIsHidden)
                 HStack(alignment: .top) {
-                    ProvilePictureImageView(imagePublicID: uiModel.profilePicturePublicId)
+                    ProfilePictureImageView(imagePublicID: uiModel.profilePicturePublicId)
                         .frame(width: 64, height: 64, alignment: .top)
                         .clipShape(Circle())
                     VStack(alignment: .leading) {
