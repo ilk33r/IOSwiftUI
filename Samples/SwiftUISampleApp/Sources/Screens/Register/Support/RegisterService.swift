@@ -14,6 +14,7 @@ import SwiftUISampleAppCommon
 enum RegisterService {
 
     case checkMember(request: CheckMemberRequestModel)
+    case checkMemberUserName(request: CheckMemberUserNameRequestModel)
 }
 
 extension RegisterService: IOServiceType {
@@ -21,6 +22,9 @@ extension RegisterService: IOServiceType {
     var methodType: IOHTTPRequestType {
         switch self {
         case .checkMember:
+            return .post
+            
+        case .checkMemberUserName:
             return .post
         }
     }
@@ -36,6 +40,9 @@ extension RegisterService: IOServiceType {
         switch self {
         case .checkMember:
             return "MemberRegister/CheckMember"
+            
+        case .checkMemberUserName:
+            return "MemberRegister/CheckMemberUserName"
         }
     }
     
@@ -56,6 +63,9 @@ extension RegisterService: IOServiceType {
     var body: Data? {
         switch self {
         case .checkMember(request: let request):
+            return handleRequest(request)
+            
+        case .checkMemberUserName(request: let request):
             return handleRequest(request)
         }
     }

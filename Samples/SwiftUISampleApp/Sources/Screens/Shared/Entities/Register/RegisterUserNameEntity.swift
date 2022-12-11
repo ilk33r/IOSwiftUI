@@ -10,7 +10,7 @@ import IOSwiftUIPresentation
 
 public struct RegisterUserNameEntity: IOEntity {
     
-    let email: String
+    public let email: String
     
     public init(email: String) {
         self.email = email

@@ -32,4 +32,11 @@ final public class RegisterUserNamePresenter: IOPresenterable {
     }
     
     // MARK: - Presenter
+    
+    func navigateToCreatePassword(
+        email: String,
+        userName: String
+    ) {
+        
+    }
 }

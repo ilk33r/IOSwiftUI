@@ -63,7 +63,7 @@ public struct RegisterUserNameView: IOController {
                 PrimaryButton(.commonNextUppercased)
                     .setClick({
                         if validator.validate().isEmpty {
-//                            presenter.interactor.checkMember(email: emailText)
+                            presenter.interactor.checkUserName(userName: userNameText)
                         }
                     })
                     .padding(.top, 16)

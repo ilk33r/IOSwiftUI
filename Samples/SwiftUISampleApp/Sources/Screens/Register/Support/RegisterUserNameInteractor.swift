@@ -9,6 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 
 public struct RegisterUserNameInteractor: IOInteractor {
@@ -20,7 +21,7 @@ public struct RegisterUserNameInteractor: IOInteractor {
     
     // MARK: - Privates
     
-    private var service = IOServiceProviderImpl<RegisterUserNameService>()
+    private var service = IOServiceProviderImpl<RegisterService>()
     
     // MARK: - Initialization Methods
     
@@ -28,4 +29,24 @@ public struct RegisterUserNameInteractor: IOInteractor {
     }
     
     // MARK: - Interactor
+    
+    func checkUserName(userName: String) {
+        showIndicator()
+        
+        let request = CheckMemberUserNameRequestModel(userName: userName)
+        service.request(.checkMemberUserName(request: request), responseType: GenericResponseModel.self) { result in
+            hideIndicator()
+            
+            switch result {
+            case .success(_):
+                presenter?.navigateToCreatePassword(
+                    email: entity.email,
+                    userName: userName
+                )
+                
+            case .error(message: let message, type: let type, response: let response):
+                handleServiceError(message, type: type, response: response, handler: nil)
+            }
+        }
+    }
 }
