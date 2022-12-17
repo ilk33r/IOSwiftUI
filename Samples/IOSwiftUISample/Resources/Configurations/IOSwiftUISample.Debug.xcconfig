@@ -7,4 +7,4 @@
 
 #include "IOSwiftUISample/Resources/Configurations/IOSwiftUISample.Base.xcconfig"
 
-PRODUCT_BUNDLE_IDENTIFIER = com.ilkerozcan.IOSwiftUISample.debug
+PRODUCT_BUNDLE_IDENTIFIER = com.ilkerozcan.IOSwiftUISample.NFC.debug
