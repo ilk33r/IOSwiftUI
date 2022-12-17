@@ -14,6 +14,9 @@ let package = Package(
             name: "IOSwiftUI",
             targets: ["IOSwiftUI"]),
         .library(
+            name: "IOSwiftUISupportCamera",
+            targets: ["IOSwiftUISupportCamera"]),
+        .library(
             name: "IOSwiftUISupportLocation",
             targets: ["IOSwiftUISupportLocation"]),
         .plugin(name: "IOBuildConfigGeneratorPlugin",
@@ -65,6 +68,9 @@ let package = Package(
         
         // MARK: - Support
         
+        .target(name: "IOSwiftUISupportCamera",
+                dependencies: ["IOSwiftUIInfrastructure"],
+                path: "Sources/Support/Camera"),
         .target(name: "IOSwiftUISupportLocation",
                dependencies: ["IOSwiftUIInfrastructure"],
                path: "Sources/Support/Location"),

@@ -21,13 +21,21 @@ public struct ___VARIABLE_productName___View: IOController {
     // MARK: - Body
     
     public var body: some View {
-        Text("___VARIABLE_productName___")
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                    Text("___VARIABLE_productName___")
+                Color.white
+                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                    .ignoresSafeArea()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                EmptyView()
+            }
+        }
 //      .navigationWireframe {
 //          ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
 //      }
-        .navigationBar {
-            EmptyView()
-        }
         .controllerWireframe {
             ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
         }

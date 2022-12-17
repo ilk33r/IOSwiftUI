@@ -96,11 +96,16 @@ let package = Package(
                 dependencies: ["SwiftUISampleAppScreensShared"],
                 path: "Sources/Screens/Search"),
         .target(name: "SwiftUISampleAppScreensRegister",
-                dependencies: ["SwiftUISampleAppScreensShared"],
+                dependencies: [
+                    .product(name: "IOSwiftUISupportCamera", package: "IOSwiftUI"),
+                    "SwiftUISampleAppScreensShared"
+                ],
                 path: "Sources/Screens/Register"),
         .target(name: "SwiftUISampleAppScreensUserLocation",
-                dependencies: [.product(name: "IOSwiftUISupportLocation", package: "IOSwiftUI"),
-                               "SwiftUISampleAppScreensShared"],
+                dependencies: [
+                    .product(name: "IOSwiftUISupportLocation", package: "IOSwiftUI"),
+                    "SwiftUISampleAppScreensShared"
+                ],
                 path: "Sources/Screens/UserLocation"),
         
         // MARK: - Application

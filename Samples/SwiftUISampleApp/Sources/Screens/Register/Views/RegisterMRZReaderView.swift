@@ -11,6 +11,7 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppScreensShared
+import IOSwiftUISupportCamera
 
 public struct RegisterMRZReaderView: IOController {
     
@@ -28,12 +29,19 @@ public struct RegisterMRZReaderView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        Text("RegisterMRZReader")
-//      .navigationWireframe {
-//          RegisterMRZReaderNavigationWireframe(navigationState: navigationState)
-//      }
-        .navigationBar {
-            EmptyView()
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                IOCameraView()
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                    .ignoresSafeArea()
+                Color.white
+                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                    .ignoresSafeArea()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                EmptyView()
+            }
         }
         .controllerWireframe {
             RegisterMRZReaderNavigationWireframe(navigationState: navigationState)
