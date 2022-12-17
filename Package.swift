@@ -19,6 +19,9 @@ let package = Package(
         .library(
             name: "IOSwiftUISupportLocation",
             targets: ["IOSwiftUISupportLocation"]),
+        .library(
+            name: "IOSwiftUISupportVisionDetectText",
+            targets: ["IOSwiftUISupportVisionDetectText"]),
         .plugin(name: "IOBuildConfigGeneratorPlugin",
                 targets: ["IOBuildConfigGeneratorPlugin"]),
         .plugin(name: "IORouterGeneratorPlugin",
@@ -72,8 +75,16 @@ let package = Package(
                 dependencies: ["IOSwiftUIInfrastructure"],
                 path: "Sources/Support/Camera"),
         .target(name: "IOSwiftUISupportLocation",
-               dependencies: ["IOSwiftUIInfrastructure"],
-               path: "Sources/Support/Location"),
+                dependencies: [
+                    "IOSwiftUIInfrastructure"
+                ],
+                path: "Sources/Support/Location"),
+        .target(name: "IOSwiftUISupportVisionDetectText",
+                dependencies: [
+                    "IOSwiftUIInfrastructure",
+                    "IOSwiftUISupportCamera"
+                ],
+                path: "Sources/Support/VisionDetectText"),
         
         // MARK: - Screens
         

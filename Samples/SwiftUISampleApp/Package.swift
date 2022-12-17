@@ -97,7 +97,7 @@ let package = Package(
                 path: "Sources/Screens/Search"),
         .target(name: "SwiftUISampleAppScreensRegister",
                 dependencies: [
-                    .product(name: "IOSwiftUISupportCamera", package: "IOSwiftUI"),
+                    .product(name: "IOSwiftUISupportVisionDetectText", package: "IOSwiftUI"),
                     "SwiftUISampleAppScreensShared"
                 ],
                 path: "Sources/Screens/Register"),

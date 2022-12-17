@@ -11,7 +11,7 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppScreensShared
-import IOSwiftUISupportCamera
+import IOSwiftUISupportVisionDetectText
 
 public struct RegisterMRZReaderView: IOController {
     
@@ -30,15 +30,15 @@ public struct RegisterMRZReaderView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    @State private var cameraView: IOCameraUIView?
-    
     // MARK: - Body
     
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                IOCameraView { view in
-                    setupCamera(cameraView: view)
+                IOVisionDetectTextView { texts in
+                    presenter.parseMRZ(detectedTexts: texts)
+                } errorHandler: { error in
+                    presenter.update(cameraError: error)
                 }
                 .frame(width: proxy.size.width, height: proxy.size.height + proxy.safeAreaInsets.bottom + proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
@@ -66,27 +66,6 @@ public struct RegisterMRZReaderView: IOController {
     
     public init(presenter: Presenter) {
         self.presenter = presenter
-    }
-    
-    // MARK: - Helper Methods
-    
-    private func setupCamera(cameraView: IOCameraUIView?) {
-        cameraView?.setupCamera(.qr) { isReady, error in
-            if let error {
-                presenter.handleCameraError(error: error)
-                return
-            }
-            
-            if isReady {
-                cameraView?.setQROutput { data in
-                    IOLogger.verbose("data: \(data)")
-                }
-                
-                thread.runOnMainThread {
-                    self.cameraView = cameraView
-                }
-            }
-        }
     }
 }
 

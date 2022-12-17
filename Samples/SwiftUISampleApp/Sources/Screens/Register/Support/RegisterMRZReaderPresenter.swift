@@ -12,6 +12,7 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
 import IOSwiftUISupportCamera
+import IOSwiftUISupportVisionDetectText
 
 final public class RegisterMRZReaderPresenter: IOPresenterable {
     
@@ -27,15 +28,26 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
     
     // MARK: - Privates
     
+    private var mrzParsed: Bool
+    
     // MARK: - Initialization Methods
     
     public init() {
+        self.mrzParsed = false
     }
     
     // MARK: - Presenter
     
-    func handleCameraError(error: IOCameraError) {
-        switch error {
+    func parseMRZ(detectedTexts: [[String]]) {
+        if self.mrzParsed {
+            return
+        }
+        
+        self.interactor.parseMRZ(detectedTexts: detectedTexts)
+    }
+    
+    func update(cameraError: IOCameraError) {
+        switch cameraError {
         case .authorization(errorMessage: let errorMessage, settingsURL: let settingsURL):
             self.showAlert {
                 IOAlertData(
@@ -60,5 +72,10 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
                 IOAlertData(title: nil, message: .registerCameraDeviceNotFound, buttons: [.commonOk], handler: nil)
             }
         }
+    }
+    
+    func update(mrz: IOVisionIdentityMRZModel.ModelData) {
+        self.mrzParsed = true
+        IOLogger.verbose("MRZ \(mrz)")
     }
 }

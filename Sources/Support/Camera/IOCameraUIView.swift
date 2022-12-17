@@ -16,6 +16,7 @@ final public class IOCameraUIView: UIView {
     
     public typealias InitializationHandler = (_ isReady: Bool, _ error: IOCameraError?) -> Void
     public typealias QROutputHandler = (_ data: String) -> Void
+    public typealias StreamOutputHandler = (_ data: CMSampleBuffer) -> Void
     
     // MARK: - Constants
     
@@ -33,6 +34,7 @@ final public class IOCameraUIView: UIView {
     private var initializationHandler: InitializationHandler!
     private var orientation: IOCameraOrientation!
     private var qrOutputHandler: QROutputHandler?
+    private var streamOutputHandler: StreamOutputHandler?
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer! { (self.layer as! AVCaptureVideoPreviewLayer) }
     
     // MARK: - Overrides
@@ -127,6 +129,10 @@ final public class IOCameraUIView: UIView {
     public func setQROutput(handler: QROutputHandler?) {
         self.qrOutputHandler = handler
     }
+    
+    public func setStreamOutput(handler: StreamOutputHandler?) {
+        self.streamOutputHandler = handler
+    }
 }
 
 // MARK: - Capture Outputs
@@ -138,10 +144,9 @@ extension IOCameraUIView {
         if outputType == .qr {
             // Then return qr code output
             return self.qrCodeOutput()
+        } else if outputType == .stream {
+            return self.streamOutput()
         }
-//        else if (outputType == VPCameraOutputTypeStream) {
-//            return [self streamOutput];
-//        }
         
         return nil
     }
@@ -181,6 +186,22 @@ extension IOCameraUIView {
         
         // Set objetc type
         metadataOutput?.metadataObjectTypes = qrOutput
+    }
+    
+    private func streamOutput() -> AVCaptureVideoDataOutput {
+        // Create queue
+        if self.cameraOutputQueue == nil {
+            self.cameraOutputQueue = DispatchQueue(label: self.cameraOutputQueueName)
+        }
+        
+        // Create metadata output
+        let videoDataOutput = AVCaptureVideoDataOutput()
+        
+        // Setup delegate
+        videoDataOutput.setSampleBufferDelegate(self, queue: self.cameraOutputQueue!)
+        videoDataOutput.alwaysDiscardsLateVideoFrames = true
+        
+        return videoDataOutput
     }
 }
 
@@ -342,7 +363,7 @@ extension IOCameraUIView {
     }
 }
 
-// MARK: - Meta Data Output Delegate
+// MARK: - Output Delegate
 
 extension IOCameraUIView: AVCaptureMetadataOutputObjectsDelegate {
     
@@ -357,6 +378,20 @@ extension IOCameraUIView: AVCaptureMetadataOutputObjectsDelegate {
         // Call handler
         if self.captureSession?.isRunning ?? false {
             self.qrOutputHandler?(metadataObject.stringValue ?? "")
+        }
+    }
+}
+
+extension IOCameraUIView: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    public func captureOutput(
+        _ output: AVCaptureOutput,
+        didOutput sampleBuffer: CMSampleBuffer,
+        from connection: AVCaptureConnection
+    ) {
+        // Call handler
+        if self.captureSession?.isRunning ?? false {
+            self.streamOutputHandler?(sampleBuffer)
         }
     }
 }
