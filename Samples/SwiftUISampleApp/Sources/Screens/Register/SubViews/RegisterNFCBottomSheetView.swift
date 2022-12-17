@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUICommon
 import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppInfrastructure
@@ -14,6 +15,8 @@ import SwiftUISampleAppPresentation
 struct RegisterNFCBottomSheetView: View {
     
     // MARK: - Privates
+    
+    private let clickHandler: IOClickableHandler?
     
     // MARK: - Body
     
@@ -31,13 +34,17 @@ struct RegisterNFCBottomSheetView: View {
                 .lineLimit(0)
                 .padding(.top, 8)
             PrimaryButton(.commonNextUppercased)
+                .setClick {
+                    clickHandler?()
+                }
                 .padding(16)
         }
     }
     
     // MARK: - Initialization Methods
     
-    init() {
+    init(_ clickHandler: IOClickableHandler?) {
+        self.clickHandler = clickHandler
     }
 }
 
@@ -47,7 +54,8 @@ struct RegisterNFCBottomSheetView_Previews: PreviewProvider {
     struct RegisterNFCBottomSheetViewDemo: View {
         
         var body: some View {
-            RegisterNFCBottomSheetView()
+            RegisterNFCBottomSheetView {
+            }
         }
     }
     

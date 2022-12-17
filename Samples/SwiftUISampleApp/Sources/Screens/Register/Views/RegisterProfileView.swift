@@ -257,7 +257,10 @@ public struct RegisterProfileView: IOController {
     private func showNFCBottomSheet() {
         bottomSheetPresenter.show {
             IOBottomSheetView {
-                RegisterNFCBottomSheetView()
+                RegisterNFCBottomSheetView {
+                    bottomSheetPresenter.dismiss()
+                    navigationState.navigateToMRZReader = true
+                }
             }
         }
     }
