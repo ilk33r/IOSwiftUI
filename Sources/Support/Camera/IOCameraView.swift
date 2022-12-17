@@ -22,7 +22,7 @@ public struct IOCameraView: UIViewRepresentable {
 
     // MARK: - Initialization Methods
     
-    public init(configuration: Configuration? = nil) {
+    public init(configuration: Configuration?) {
         self.configuration = configuration
     }
 

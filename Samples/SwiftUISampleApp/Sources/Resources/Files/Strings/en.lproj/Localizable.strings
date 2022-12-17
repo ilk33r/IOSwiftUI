@@ -25,6 +25,10 @@
 "location.serviceDisabledMessage" = "Location services disabled. Would you like to turn on location services?";
 "location.serviceRestrictedMessage" = "Location services are restricted. Would you like to turn on location services?";
 
+// MARK: - Camera
+"camera.accessDeniedMessage" = "Camera access is denied. Would you like to turn on camera access?";
+"camera.accessRestrictedMessage" = "Camera access is restricted. Would you like to turn on camera access?";
+
 // MARK: - Validation
 "validation.requiredMessage" = "This field is required.";
 
@@ -41,6 +45,7 @@
 "register.camera.actions.choosePhoto" = "Pick from gallery";
 "register.camera.actions.takePhoto" = "Take a photo";
 "register.camera.actions.title" = "Profile Picture";
+"register.camera.deviceNotFound" = "Could not found a camera on your device.";
 "register.form.birthDate" = "Birthdate";
 "register.form.location" = "Location";
 "register.form.name" = "Name";

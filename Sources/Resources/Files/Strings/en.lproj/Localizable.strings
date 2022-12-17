@@ -19,6 +19,10 @@
 "location.serviceDisabledMessage" = "Location services disabled. Would you like to turn on location services?";
 "location.serviceRestrictedMessage" = "Location services are restricted. Would you like to turn on location services?";
 
+// MARK: - Camera
+"camera.accessDeniedMessage" = "Camera access is denied. Would you like to turn on camera access?";
+"camera.accessRestrictedMessage" = "Camera access is restricted. Would you like to turn on camera access?";
+
 // MARK: - Permissions
 "NSCameraUsageDescription" = "We need to access camera for adding a new photo.";
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "We need your location for display on your profile page.";

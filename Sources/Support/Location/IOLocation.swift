@@ -330,7 +330,7 @@ extension IOLocation {
         }
         
         // Redirect to location services
-        let preferenceUrlString = String(format: "%@root=%@", UIApplication.openSettingsURLString, pathWithBundleID)
+        let preferenceUrlString = String(format: "%@:root=%@", UIApplication.openSettingsURLString, pathWithBundleID)
         return URL(string: preferenceUrlString)
     }
     

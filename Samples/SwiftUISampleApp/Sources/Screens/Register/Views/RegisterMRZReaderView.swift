@@ -19,6 +19,10 @@ public struct RegisterMRZReaderView: IOController {
     
     public typealias Presenter = RegisterMRZReaderPresenter
     
+    // MARK: - DI
+    
+    @IOInject private var thread: IOThread
+    
     // MARK: - Properties
     
     @ObservedObject public var presenter: RegisterMRZReaderPresenter
@@ -26,14 +30,18 @@ public struct RegisterMRZReaderView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
+    @State private var cameraView: IOCameraUIView?
+    
     // MARK: - Body
     
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                IOCameraView()
-                    .frame(width: proxy.size.width, height: proxy.size.height)
-                    .ignoresSafeArea()
+                IOCameraView { view in
+                    setupCamera(cameraView: view)
+                }
+                .frame(width: proxy.size.width, height: proxy.size.height + proxy.safeAreaInsets.bottom + proxy.safeAreaInsets.top)
+                .ignoresSafeArea()
                 Color.white
                     .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                     .ignoresSafeArea()
@@ -58,6 +66,27 @@ public struct RegisterMRZReaderView: IOController {
     
     public init(presenter: Presenter) {
         self.presenter = presenter
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func setupCamera(cameraView: IOCameraUIView?) {
+        cameraView?.setupCamera(.qr) { isReady, error in
+            if let error {
+                presenter.handleCameraError(error: error)
+                return
+            }
+            
+            if isReady {
+                cameraView?.setQROutput { data in
+                    IOLogger.verbose("data: \(data)")
+                }
+                
+                thread.runOnMainThread {
+                    self.cameraView = cameraView
+                }
+            }
+        }
     }
 }
 

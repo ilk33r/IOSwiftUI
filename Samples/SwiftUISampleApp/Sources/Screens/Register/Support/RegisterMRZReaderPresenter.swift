@@ -11,6 +11,7 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import IOSwiftUISupportCamera
 
 final public class RegisterMRZReaderPresenter: IOPresenterable {
     
@@ -32,4 +33,32 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
     }
     
     // MARK: - Presenter
+    
+    func handleCameraError(error: IOCameraError) {
+        switch error {
+        case .authorization(errorMessage: let errorMessage, settingsURL: let settingsURL):
+            self.showAlert {
+                IOAlertData(
+                    title: nil,
+                    message: errorMessage,
+                    buttons: [.commonCancel, .commonOk],
+                    handler: { index in
+                        if index == 1, let settingsURL {
+                            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                        }
+                    }
+                )
+            }
+            
+        case .deviceError(errorMessage: let errorMessage):
+            self.showAlert {
+                IOAlertData(title: nil, message: errorMessage, buttons: [.commonOk], handler: nil)
+            }
+            
+        case .deviceNotFound:
+            self.showAlert {
+                IOAlertData(title: nil, message: .registerCameraDeviceNotFound, buttons: [.commonOk], handler: nil)
+            }
+        }
+    }
 }
