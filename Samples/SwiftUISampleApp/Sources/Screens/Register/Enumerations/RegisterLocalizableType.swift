@@ -26,6 +26,8 @@ extension IOLocalizationType {
     static let registerInputPassword = IOLocalizationType(rawValue: "register.input.password")
     static let registerInputPasswordReEnter = IOLocalizationType(rawValue: "register.input.passwordReEnter")
     static let registerInputUserName = IOLocalizationType(rawValue: "register.input.userName")
+    static let registerNfcInfo0 = IOLocalizationType(rawValue: "register.nfc.info.0")
+    static let registerNfcInfo1 = IOLocalizationType(rawValue: "register.nfc.info.1")
     static let registerTitle = IOLocalizationType(rawValue: "register.title")
     static let registerTitleProfile = IOLocalizationType(rawValue: "register.title.profile")
 }

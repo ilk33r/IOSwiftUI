@@ -54,6 +54,8 @@
 "register.input.password" = "Password";
 "register.input.passwordReEnter" = "Password (Re-enter)";
 "register.input.userName" = "User name";
+"register.nfc.info.0" = "Scan the back of your ID into the camera.";
+"register.nfc.info.1" = "Move your ID closer to the top of your phone.";
 "register.title" = "Register";
 "register.title.profile" = "Create Profile";
 

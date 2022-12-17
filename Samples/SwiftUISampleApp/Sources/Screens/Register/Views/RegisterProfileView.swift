@@ -21,6 +21,7 @@ public struct RegisterProfileView: IOController {
     // MARK: - DI
     
     @IOInject private var validator: IOValidator
+    @IOInject private var bottomSheetPresenter: IOBottomSheetPresenter
     
     // MARK: - Properties
     
@@ -130,7 +131,7 @@ public struct RegisterProfileView: IOController {
                     .padding(.trailing, 32)
                     .frame(width: proxy.size.width - 108)
                     Button {
-                        
+                        showNFCBottomSheet()
                     } label: {
                         Image(systemName: "wave.3.right")
                     }
@@ -249,6 +250,16 @@ public struct RegisterProfileView: IOController {
     
     public init(presenter: Presenter) {
         self.presenter = presenter
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func showNFCBottomSheet() {
+        bottomSheetPresenter.show {
+            IOBottomSheetView {
+                RegisterNFCBottomSheetView()
+            }
+        }
     }
 }
 
