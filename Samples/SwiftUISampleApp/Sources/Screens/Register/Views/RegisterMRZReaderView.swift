@@ -47,6 +47,12 @@ public struct RegisterMRZReaderView: IOController {
                 .frame(width: proxy.size.width, height: proxy.size.height + proxy.safeAreaInsets.bottom + proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
                 
+                IOVisionIdentityShape()
+                    .stroke(Color.colorPlaceholder)
+                    .padding(64)
+                    .frame(width: proxy.size.width, height: proxy.size.width * 1.4)
+                    .offset(y: proxy.safeAreaInsets.top)
+                
                 RegisterMRZFlashButton(
                     isFlashEnabled: $isFlashEnabled
                 )
