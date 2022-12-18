@@ -27,6 +27,9 @@ public struct IOVisionDetectTextView: View {
     private let errorHandler: ErrorHandler?
     private let visionText: IOVisionDetectText
     
+    @Binding private var isFlashEnabled: Bool
+    @Binding private var isRunning: Bool
+    
     @State private var cameraView: IOCameraUIView?
     
     // MARK: - Body
@@ -34,6 +37,16 @@ public struct IOVisionDetectTextView: View {
     public var body: some View {
         IOCameraView { view in
             setupCamera(cameraView: view)
+        }
+        .onChange(of: isRunning) { newValue in
+            if newValue {
+                cameraView?.startCamera()
+            } else {
+                cameraView?.stopCamera()
+            }
+        }
+        .onChange(of: isFlashEnabled) { newValue in
+            cameraView?.toggleTorch(isOn: newValue)
         }
         .onDisappear {
             cameraView?.stopCamera()
@@ -44,9 +57,13 @@ public struct IOVisionDetectTextView: View {
     // MARK: - Initialization Methods
     
     public init(
+        isRunning: Binding<Bool>,
+        isFlashEnabled: Binding<Bool>,
         detectionHandler: DetectionHandler?,
         errorHandler: ErrorHandler?
     ) {
+        self._isRunning = isRunning
+        self._isFlashEnabled = isFlashEnabled
         self.visionText = IOVisionDetectText { results in
             detectionHandler?(results)
         }
@@ -57,6 +74,14 @@ public struct IOVisionDetectTextView: View {
     // MARK: - Helper Methods
     
     private func setupCamera(cameraView: IOCameraUIView?) {
+        if self.cameraView != nil {
+            return
+        }
+        
+        if ProcessInfo.isPreviewMode {
+            return
+        }
+        
         cameraView?.setupCamera(.stream) { isReady, error in
             if let error {
                 errorHandler?(error)

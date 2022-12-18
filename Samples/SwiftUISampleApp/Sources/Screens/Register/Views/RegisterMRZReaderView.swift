@@ -30,18 +30,31 @@ public struct RegisterMRZReaderView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
+    @State private var isFlashEnabled = false
+    
     // MARK: - Body
     
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                IOVisionDetectTextView { texts in
+                IOVisionDetectTextView(
+                    isRunning: $presenter.isCameraRunning,
+                    isFlashEnabled: $isFlashEnabled) { texts in
                     presenter.parseMRZ(detectedTexts: texts)
                 } errorHandler: { error in
                     presenter.update(cameraError: error)
                 }
                 .frame(width: proxy.size.width, height: proxy.size.height + proxy.safeAreaInsets.bottom + proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
+                
+                RegisterMRZFlashButton(
+                    isFlashEnabled: $isFlashEnabled
+                )
+                .offset(
+                    x: (proxy.size.width / 2) - 56,
+                    y: proxy.size.height - 96
+                )
+                
                 Color.white
                     .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                     .ignoresSafeArea()

@@ -108,15 +108,15 @@ final public class IOCameraUIView: UIView {
             }
         }
     }
-
-    public func toggleTorch() {
+    
+    public func toggleTorch(isOn: Bool) {
         let captureDevice = self.captureDevice(for: .back)
         if captureDevice?.hasTorch ?? false {
             try? captureDevice?.lockForConfiguration()
             
-            if captureDevice?.torchMode == .off {
+            if captureDevice?.torchMode == .off && isOn {
                 captureDevice?.torchMode = .on
-            } else {
+            } else if captureDevice?.torchMode == .on && !isOn {
                 captureDevice?.torchMode = .off
             }
             

@@ -16,6 +16,10 @@ import IOSwiftUISupportVisionDetectText
 
 final public class RegisterMRZReaderPresenter: IOPresenterable {
     
+    // MARK: - DI
+    
+    @IOInject private var thread: IOThread
+    
     // MARK: - Presentable
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
@@ -26,6 +30,8 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
     
     // MARK: - Publishers
     
+    @Published var isCameraRunning: Bool
+    
     // MARK: - Privates
     
     private var mrzParsed: Bool
@@ -33,6 +39,7 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
     // MARK: - Initialization Methods
     
     public init() {
+        self.isCameraRunning = true
         self.mrzParsed = false
     }
     
@@ -76,6 +83,10 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
     
     func update(mrz: IOVisionIdentityMRZModel.ModelData) {
         self.mrzParsed = true
-        IOLogger.verbose("MRZ \(mrz)")
+        
+        self.thread.runOnMainThread { [weak self] in
+            self?.isCameraRunning = false
+            IOLogger.verbose("MRZ \(mrz)")
+        }
     }
 }
