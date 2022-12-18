@@ -67,7 +67,12 @@ public struct RegisterMRZReaderView: IOController {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
-                EmptyView()
+                NavBarTitleView(
+                    .registerTitleMRZ,
+                    iconName: "lanyardcard",
+                    width: 22,
+                    height: 30
+                )
             }
         }
         .controllerWireframe {

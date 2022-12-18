@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let registerButtonScan = IOLocalizationType(rawValue: "register.button.scan")
     static let registerCameraActionsChoosePhoto = IOLocalizationType(rawValue: "register.camera.actions.choosePhoto")
     static let registerCameraActionsTakePhoto = IOLocalizationType(rawValue: "register.camera.actions.takePhoto")
     static let registerCameraActionsTitle = IOLocalizationType(rawValue: "register.camera.actions.title")
@@ -30,5 +31,7 @@ extension IOLocalizationType {
     static let registerNfcInfo0 = IOLocalizationType(rawValue: "register.nfc.info.0")
     static let registerNfcInfo1 = IOLocalizationType(rawValue: "register.nfc.info.1")
     static let registerTitle = IOLocalizationType(rawValue: "register.title")
+    static let registerTitleMRZ = IOLocalizationType(rawValue: "register.title.mrz")
+    static let registerTitleNFC = IOLocalizationType(rawValue: "register.title.nfc")
     static let registerTitleProfile = IOLocalizationType(rawValue: "register.title.profile")
 }

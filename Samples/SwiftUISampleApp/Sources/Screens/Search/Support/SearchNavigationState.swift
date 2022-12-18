@@ -16,7 +16,7 @@ final public class SearchNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    @Published public var navigateToProfile = false
+    @Published var navigateToProfile = false
     
-    public var userName: String?
+    var userName: String?
 }

@@ -13,6 +13,7 @@ import SwiftUI
 import SwiftUISampleAppPresentation
 import IOSwiftUISupportCamera
 import IOSwiftUISupportVisionDetectText
+import SwiftUISampleAppScreensShared
 
 final public class RegisterMRZReaderPresenter: IOPresenterable {
     
@@ -86,7 +87,16 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
         
         self.thread.runOnMainThread { [weak self] in
             self?.isCameraRunning = false
-            IOLogger.verbose("MRZ \(mrz)")
+            
+            let entity = RegisterNFCReaderViewEntity(
+                birthDate: mrz.birthDate ?? "",
+                documentNumber: mrz.documentNumber ?? "",
+                expireDate: mrz.expireDate ?? "",
+                identityNumber: mrz.identityNumber ?? ""
+            )
+            
+            self?.navigationState.wrappedValue.nfcReaderEntity = entity
+            self?.navigationState.wrappedValue.navigateToNFCReader = true
         }
     }
 }

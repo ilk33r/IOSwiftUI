@@ -18,11 +18,11 @@ final public class ProfileNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    @Published public var navigateToChat = false
-    @Published public var navigateToFriends = false
-    @Published public var navigateToGallery = false
-    @Published public var navigateToMessage = false
-    @Published public var navigateToSettings = false
+    @Published var navigateToChat = false
+    @Published var navigateToFriends = false
+    @Published var navigateToGallery = false
+    @Published var navigateToMessage = false
+    @Published var navigateToSettings = false
     
     var chatEntity: ChatEntity!
     var friendsEntity: FriendsEntity!

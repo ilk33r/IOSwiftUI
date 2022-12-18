@@ -23,7 +23,7 @@ public struct ___VARIABLE_productName___View: IOController {
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                    Text("___VARIABLE_productName___")
+                Text("___VARIABLE_productName___")
                 Color.white
                     .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                     .ignoresSafeArea()

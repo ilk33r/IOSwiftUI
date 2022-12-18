@@ -11,10 +11,13 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 final public class RegisterMRZReaderNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-//    @Published private(set) var navigateToPage = false
+    @Published var navigateToNFCReader = false
+    
+    var nfcReaderEntity: RegisterNFCReaderViewEntity!
 }

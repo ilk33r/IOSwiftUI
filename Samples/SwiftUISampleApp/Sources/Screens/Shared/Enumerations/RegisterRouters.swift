@@ -14,6 +14,7 @@ public enum RegisterRouters: IORouterDefinition {
     case userName(entity: RegisterUserNameEntity?)
     case createPassword(entity: RegisterCreatePasswordEntity?)
     case mrzReader(entity: RegisterMRZReaderEntity?)
+    case nfcReader(entity: RegisterNFCReaderViewEntity?)
     case profile(entity: RegisterProfileEntity?)
     
     public var entity: IOEntity? {
@@ -25,6 +26,9 @@ public enum RegisterRouters: IORouterDefinition {
             return entity
             
         case .mrzReader(entity: let entity):
+            return entity
+        
+        case .nfcReader(entity: let entity):
             return entity
             
         case .profile(entity: let entity):
@@ -42,6 +46,9 @@ public enum RegisterRouters: IORouterDefinition {
             
         case .mrzReader:
             return "RegisterMRZReaderView"
+            
+        case .nfcReader:
+            return "RegisterNFCReaderViewView"
             
         case .profile:
             return "RegisterProfileView"

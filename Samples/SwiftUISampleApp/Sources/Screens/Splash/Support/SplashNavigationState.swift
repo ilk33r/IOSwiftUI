@@ -16,6 +16,6 @@ final public class SplashNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    @Published public var navigateToLogin = false
-    @Published public var navigateToRegister = false
+    @Published var navigateToLogin = false
+    @Published var navigateToRegister = false
 }

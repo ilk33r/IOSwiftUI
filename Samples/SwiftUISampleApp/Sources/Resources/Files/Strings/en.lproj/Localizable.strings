@@ -42,6 +42,7 @@
 "login.input.error.password" = "Password must be at least 8 characters.";
 "login.input.password" = "Password";
 "login.title" = "Login";
+"register.button.scan" = "Scan";
 "register.camera.actions.choosePhoto" = "Pick from gallery";
 "register.camera.actions.takePhoto" = "Take a photo";
 "register.camera.actions.title" = "Profile Picture";
@@ -62,6 +63,8 @@
 "register.nfc.info.0" = "Scan the back of your ID into the camera.";
 "register.nfc.info.1" = "Move your ID closer to the top of your phone.";
 "register.title" = "Register";
+"register.title.mrz" = "Scan ID";
+"register.title.nfc" = "Read ID";
 "register.title.profile" = "Create Profile";
 
 // MARK: -  Home

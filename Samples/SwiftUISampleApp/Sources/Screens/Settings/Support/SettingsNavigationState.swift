@@ -17,11 +17,11 @@ final public class SettingsNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    @Published public var navigateToCamera = false
-    @Published public var navigateToChangePassword = false
-    @Published public var navigateToPhotoLibrary = false
-    @Published public var navigateToUpdateProfile = false
-    @Published public var navigateToWeb = false
+    @Published var navigateToCamera = false
+    @Published var navigateToChangePassword = false
+    @Published var navigateToPhotoLibrary = false
+    @Published var navigateToUpdateProfile = false
+    @Published var navigateToWeb = false
     
     var changePasswordEntity: ChangePasswordEntity!
     var updateProfileEntity: UpdateProfileEntity!

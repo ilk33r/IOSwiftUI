@@ -17,7 +17,7 @@ final public class FriendsNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    @Published public var navigateToProfile = false
+    @Published var navigateToProfile = false
     
     var profileEntity: ProfileEntity!
 }
