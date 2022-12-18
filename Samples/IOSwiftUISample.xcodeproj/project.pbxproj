@@ -32,6 +32,7 @@
 /* Begin PBXFileReference section */
 		F73A7BD6291D5F8500D1D832 /* IOSwiftUISampleAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSwiftUISampleAppDelegate.swift; sourceTree = "<group>"; };
 		F73E29B428B18E39005C8A76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F750013D294F9FB4006D7DF7 /* IOSwiftUISampleDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IOSwiftUISampleDebug.entitlements; sourceTree = "<group>"; };
 		F758756F29192D2200C665D1 /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		F78D1A7D291A47FE00E6C38B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F7A69E7928F16633001EDC99 /* IOSwiftUISample.DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = IOSwiftUISample.DEV.xcconfig; sourceTree = "<group>"; };
@@ -105,6 +106,7 @@
 				F73A7BD6291D5F8500D1D832 /* IOSwiftUISampleAppDelegate.swift */,
 				F7FEE58F28B0F1C9005D6633 /* Assets.xcassets */,
 				F73E29B428B18E39005C8A76 /* Info.plist */,
+				F750013D294F9FB4006D7DF7 /* IOSwiftUISampleDebug.entitlements */,
 				F758756F29192D2200C665D1 /* Location.gpx */,
 				F7FEE59128B0F1C9005D6633 /* Preview Content */,
 				F7FEE59928B0F21E005D6633 /* Resources */,
@@ -549,6 +551,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F7FEE5B528B0F35C005D6633 /* IOSwiftUISample.Debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = IOSwiftUISample/IOSwiftUISampleDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;

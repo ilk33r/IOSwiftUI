@@ -21,12 +21,15 @@ struct RegisterMRZReaderNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
+        EmptyView()
+        /*
         NavigationLink(
             destination: route(RegisterRouters.self, .nfcReader(entity: navigationState.nfcReaderEntity)),
             isActive: $navigationState.navigateToNFCReader
         ) {
             EmptyView()
         }
+        */
     }
     
     // MARK: - Initialization Methods

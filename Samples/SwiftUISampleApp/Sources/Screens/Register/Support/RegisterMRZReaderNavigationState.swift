@@ -16,8 +16,4 @@ import SwiftUISampleAppScreensShared
 final public class RegisterMRZReaderNavigationState: IONavigationState {
     
     // MARK: - Properties
-    
-    @Published var navigateToNFCReader = false
-    
-    var nfcReaderEntity: RegisterNFCReaderViewEntity!
 }
