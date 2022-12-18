@@ -46,7 +46,7 @@ public struct IOAESUtilities {
         
         // Create algorithm size
         var dataMoved = 0
-        let algorithmSize = size(forAlgorithm: algorithm)
+        let algorithmSize = kCCBlockSizeAES128
         
         // Create decrypted data
         let cryptedDataCapacity = data.count + algorithmSize
@@ -75,23 +75,5 @@ public struct IOAESUtilities {
         }
         
         return nil
-    }
-    
-    private static func size(forAlgorithm algorithm: CCAlgorithm) -> Int {
-        // Create size value
-        var size = 0
-        
-        // Check algorithms
-        if algorithm == kCCAlgorithmAES128 || algorithm == kCCAlgorithmAES {
-            size = kCCBlockSizeAES128
-        } else if algorithm == kCCAlgorithmDES {
-            size = kCCBlockSizeDES
-        } else if algorithm == kCCAlgorithm3DES {
-            size = kCCBlockSize3DES
-        } else if algorithm == kCCAlgorithmCAST {
-            size = kCCBlockSizeCAST
-        }
-        
-        return size
     }
 }
