@@ -60,8 +60,15 @@
 "register.input.password" = "Password";
 "register.input.passwordReEnter" = "Password (Re-enter)";
 "register.input.userName" = "User name";
+"register.nfc.error.0" = "An unkown error occured please try again.";
+"register.nfc.error.1" = "NFC reading not available";
+"register.nfc.error.2" = "NFC Identity validation failed.";
+"register.nfc.error.3" = "NFC connection lost.";
+"register.nfc.error.4" = "Could not read the NFC data.";
 "register.nfc.info.0" = "Scan the back of your ID into the camera.";
 "register.nfc.info.1" = "Move your ID closer to the top of your phone.";
+"register.nfc.info.2" = "Hold and wait your ID until the reading process is complete.";
+"register.nfc.info.3" = "ID scan successful.";
 "register.title" = "Register";
 "register.title.mrz" = "Scan ID";
 "register.title.nfc" = "Read ID";

@@ -20,6 +20,9 @@ let package = Package(
             name: "IOSwiftUISupportLocation",
             targets: ["IOSwiftUISupportLocation"]),
         .library(
+            name: "IOSwiftUISupportNFC",
+            targets: ["IOSwiftUISupportNFC"]),
+        .library(
             name: "IOSwiftUISupportVisionDetectText",
             targets: ["IOSwiftUISupportVisionDetectText"]),
         .plugin(name: "IOBuildConfigGeneratorPlugin",
@@ -79,6 +82,11 @@ let package = Package(
                     "IOSwiftUIInfrastructure"
                 ],
                 path: "Sources/Support/Location"),
+        .target(name: "IOSwiftUISupportNFC",
+                dependencies: [
+                    "IOSwiftUIInfrastructure"
+                ],
+                path: "Sources/Support/NFC"),
         .target(name: "IOSwiftUISupportVisionDetectText",
                 dependencies: [
                     "IOSwiftUIInfrastructure",

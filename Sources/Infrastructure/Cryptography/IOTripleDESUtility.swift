@@ -23,12 +23,9 @@ public struct IOTripleDESUtility {
     // MARK: - Helper Methods
     
     private static func crypt(operation: CCOperation, key: Data, iv: Data, message: Data) -> Data? {
-        // Fix key
-        let fixedKey = key[0..<16]
-        
         // Convert key and iv to data
         let dataIn = NSMutableData(data: message)
-        let keyData = NSMutableData(data: fixedKey)
+        let keyData = NSMutableData(data: key)
         let ivData = NSMutableData(data: iv)
         
         // Create crypted data
