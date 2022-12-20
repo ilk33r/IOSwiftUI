@@ -44,8 +44,6 @@ public struct IONetworkHistorySerializer {
     
     public func archive() -> Data {
         let archives = httpLogger.networkHistory.map { it in
-            var data = Data()
-            
             let methodTypeData = it.methodType.data(using: .utf8)!
             let methodTypeLength = methodTypeData.count
             
@@ -63,7 +61,7 @@ public struct IONetworkHistorySerializer {
             
             let responseStatusCode = it.responseStatusCode
             
-            var archiveMeta = ArchiveHeader(
+            let archiveMeta = ArchiveHeader(
                 methodTypeLength: methodTypeLength,
                 pathLength: pathLength,
                 requestBodyLength: requestBodyLength,
@@ -72,16 +70,8 @@ public struct IONetworkHistorySerializer {
                 responseStatusCode: responseStatusCode
             )
             
-            let metadata = Data(bytes: &archiveMeta, count: MemoryLayout<ArchiveHeader>.size)
-            
-            data.append(metadata)
-            data.append(methodTypeData)
-            data.append(pathData)
-            data.append(requestBodyData)
-            data.append(responseHeadersData)
-            data.append(responseBodyData)
-
-            return data
+            let content = methodTypeData + pathData + requestBodyData + responseHeadersData + responseBodyData
+            return IOBinaryMapper.toBinary(header: archiveMeta, content: content)
         }
         
         var archivedData = Data()
@@ -98,16 +88,20 @@ public struct IONetworkHistorySerializer {
             throw Errors.invalidArchive
         }
         
-        let headerSize = MemoryLayout<ArchiveHeader>.size
-        
         var currentDataIndex = 4
         var resultData = [IOHTTPNetworkHistory]()
+        var currentContent = data.subdata(in: currentDataIndex..<data.count)
         
         while currentDataIndex < data.count {
-            let headerData = data.subdata(in: currentDataIndex..<(headerSize + currentDataIndex))
-            let header = headerData.withUnsafeBytes { buffer -> ArchiveHeader in
-                buffer.load(as: ArchiveHeader.self)
-            }
+            var headerSize = 0
+            
+            let header = IOBinaryMapper.fromBinary(
+                header: ArchiveHeader.self,
+                binaryData: currentContent,
+                content: &currentContent,
+                size: &headerSize
+            )
+            
             currentDataIndex += headerSize
             
             let methodType = data.subdata(in: currentDataIndex..<(header.methodTypeLength + currentDataIndex))
@@ -136,6 +130,8 @@ public struct IONetworkHistorySerializer {
                 responseBody: String(data: responseBody, encoding: .utf8) ?? "",
                 responseStatusCode: responseStatusCode
             ))
+            
+            currentContent = data.subdata(in: currentDataIndex..<data.count)
         }
         
         return resultData
