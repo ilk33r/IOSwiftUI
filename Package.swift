@@ -129,6 +129,9 @@ let package = Package(
                            "IOSwiftUIApplication"]),
         .testTarget(
             name: "IOSwiftUITests",
-            dependencies: ["IOSwiftUI"]),
+            dependencies: [
+                "IOSwiftUI",
+                "IOSwiftUISupportNFC"
+            ]),
     ]
 )

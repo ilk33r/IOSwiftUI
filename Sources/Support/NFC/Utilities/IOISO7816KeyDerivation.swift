@@ -24,10 +24,10 @@ final class IOISO7816KeyDerivation {
     // MARK: - Initialization Methods
     
     init(mrz: String) throws {
-        var encryptionKeyTypeBytes: [UInt8] = [0, 0, 0, 1]
-        var macKeyTypeBytes: [UInt8] = [0, 0, 0, 2]
-        self.encryptionKeyType = Data(bytes: &encryptionKeyTypeBytes, count: encryptionKeyTypeBytes.count)
-        self.macKeyType = Data(bytes: &macKeyTypeBytes, count: macKeyTypeBytes.count)
+        let encryptionKeyTypeBytes: [UInt8] = [0, 0, 0, 1]
+        let macKeyTypeBytes: [UInt8] = [0, 0, 0, 2]
+        self.encryptionKeyType = Data(encryptionKeyTypeBytes)
+        self.macKeyType = Data(macKeyTypeBytes)
         
         try self.createBasicAccessKeys(mrz: mrz)
     }
@@ -39,10 +39,9 @@ final class IOISO7816KeyDerivation {
         
         let rndIFD = self.generateRandom(size: 8)
         let kifd = self.generateRandom(size: 16)
-        let plainEIFD = rndIFD + rndICC + kifd
-        let tripleDESKey = self.keyEncryption! + self.keyEncryption![0..<8]
+        let plainEIFD = rndIFD + self.rndICC! + kifd
         
-        guard let eifd = IOTripleDESUtility.encrypt(key: tripleDESKey, iv: Data.nfcIV(), message: plainEIFD) else { return nil }
+        guard let eifd = IOTripleDESUtility.encrypt(key: self.keyEncryption!, iv: Data.nfcIV(), message: plainEIFD) else { return nil }
         let eifdWithPadding = eifd.nfcAddPadding()
         let mifd = eifdWithPadding.nfcMACKey(key: self.keyMac!)
         
@@ -52,6 +51,32 @@ final class IOISO7816KeyDerivation {
         return eifd + mifd
     }
     
+    func createSessionKeys(
+        authenticationData: Data,
+        encryptionKey: inout Data,
+        mac: inout Data,
+        ssc: inout Data
+    ) throws {
+        let plainAuthenticationData = authenticationData.subdata(in: 0..<32)
+        guard let response = IOTripleDESUtility.decrypt(key: self.keyEncryption!, iv: Data.nfcIV(), message: plainAuthenticationData) else { throw IONFCError.authentication }
+        
+        let responseKICC = response.subdata(in: 16..<32)
+        let kseed = self.xor(kifd: self.kifd!, kicc: responseKICC)
+        
+        let tempksenc = self.keyDerivation(kseed: kseed, type: self.encryptionKeyType)
+        let tempksmac = self.keyDerivation(kseed: kseed, type: self.macKeyType)
+        
+        let subRndIccStartIndex = self.rndICC!.count - 4
+        let subRndIcc = self.rndICC!.subdata(in: subRndIccStartIndex..<(subRndIccStartIndex + 4))
+        
+        let subRndIfdStartIndex = self.rndIFD!.count - 4
+        let subRndIfd = self.rndIFD!.subdata(in: subRndIfdStartIndex..<(subRndIfdStartIndex + 4))
+        
+        encryptionKey = tempksenc
+        mac = tempksmac
+        ssc = subRndIcc + subRndIfd
+    }
+    
     // MARK: - Helper Methods
     
     private func createBasicAccessKeys(mrz: String) throws {
@@ -59,7 +84,13 @@ final class IOISO7816KeyDerivation {
         guard let mrzHash = IOSHAUtilities.sha1(data: mrzData) else { throw IONFCError.keyDerivation }
         let seed = mrzHash.subdata(in: 0..<16)
         
-        self.keyEncryption = self.keyDerivation(kseed: seed, type: self.encryptionKeyType)
+        let keyEncryption = self.keyDerivation(kseed: seed, type: self.encryptionKeyType)
+        if keyEncryption.count == 16 {
+            self.keyEncryption = keyEncryption + keyEncryption.subdata(in: 0..<8)
+        } else {
+            self.keyEncryption = keyEncryption
+        }
+        
         self.keyMac = self.keyDerivation(kseed: seed, type: self.macKeyType)
     }
     
@@ -67,10 +98,10 @@ final class IOISO7816KeyDerivation {
         var bytes = [UInt8]()
         
         for _ in 0..<size {
-            bytes.append(UInt8.random(in: 0..<UInt8(UINT8_MAX)))
+            bytes.append(UInt8.random(in: 0...UInt8(UINT8_MAX)))
         }
         
-        return Data(bytes: &bytes, count: size)
+        return Data(bytes)
     }
     
     private func keyDerivation(kseed: Data, type: Data) -> Data {
@@ -99,7 +130,20 @@ final class IOISO7816KeyDerivation {
             bytes[i] = y + (parity % 2 == 0 ? 1 : 0)
         }
         
-        return Data(bytes: &bytes, count: bytes.count)
+        return Data(bytes)
     }
 
+    private func xor(kifd: Data, kicc: Data) -> Data {
+        let kifdBytes = kifd.bytes
+        let kiccBytes = kicc.bytes
+        
+        var kseed = [UInt8]()
+        
+        kifdBytes.enumerated().forEach { it in
+            let xorByte = it.element ^ kiccBytes[it.offset]
+            kseed.append(xorByte)
+        }
+        
+        return Data(kseed)
+    }
 }

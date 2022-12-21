@@ -17,10 +17,12 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
     
     // MARK: - Privates
     
+    private let maxTryCount = 3
     private let nfcReaderQueueName = "com.ioswiftui.support.nfc"
     
     private var dataGroups: [IONFCDataGroup]
     private var nfcReaderQueue: DispatchQueue
+    private var tryCount: Int
     
     private var currentStatus: IONFCReaderStatus!
     private var dataGroupHandler: DataGroupHandler?
@@ -28,6 +30,7 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
     private var finishHandler: FinishHandler?
     private var mrzData: String!
     private var nfcReaderSession: NFCTagReaderSession!
+    private var readedDataGroups: [IONFCDataGroup: Data]!
     private var statusHandler: StatusHandler?
     private var tagCommunication: IOISO7816TagCommunicationUtilities!
     
@@ -36,7 +39,12 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
     public init(dataGroups: [IONFCDataGroup]) {
         self.dataGroups = dataGroups
         self.nfcReaderQueue = DispatchQueue(label: self.nfcReaderQueueName)
+        self.tryCount = 0
         super.init()
+    }
+    
+    deinit {
+        self.nfcReaderSession = nil
     }
     
     // MARK: - Reader Methods
@@ -51,13 +59,16 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
         }
         
         self.mrzData = (data.describing as! String)
-        
-        self.nfcReaderSession = NFCTagReaderSession(pollingOption: .iso14443, delegate: self)
+        self.nfcReaderSession = NFCTagReaderSession(pollingOption: .iso14443, delegate: self, queue: self.nfcReaderQueue)
         self.nfcReaderSession.begin()
     }
     
     public func stopScanning() {
         self.nfcReaderSession.invalidate()
+        
+        self.thread.runOnMainThread(afterMilliSecond: 150) { [weak self] in
+            self?.nfcReaderSession = nil
+        }
     }
     
     // MARK: - Handlers
@@ -84,14 +95,12 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
 extension IOISO7816TagReader: NFCTagReaderSessionDelegate {
     
     public func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
-        self.update(status: .started)
+        self.thread.runOnMainThread { [weak self] in
+            self?.update(status: .started)
+        }
     }
     
     public func tagReaderSession(_ session: NFCTagReaderSession, didInvalidateWithError error: Error) {
-        if self.nfcReaderSession == nil {
-            return
-        }
-        
         // Check reading was finished
         if self.currentStatus == .finished || self.currentStatus == .error {
             return
@@ -100,8 +109,11 @@ extension IOISO7816TagReader: NFCTagReaderSessionDelegate {
         let nsError = error as NSError
         if nsError.code == NFCReaderError.Code.readerSessionInvalidationErrorUserCanceled.rawValue {
             self.thread.runOnMainThread { [weak self] in
-                self?.nfcReaderSession = nil
-                self?.finishHandler?()
+                self?.currentStatus = .error
+                self?.stopScanning()
+                self?.thread.runOnMainThread { [weak self] in
+                    self?.finishHandler?(false)
+                }
             }
             
             return
@@ -109,11 +121,20 @@ extension IOISO7816TagReader: NFCTagReaderSessionDelegate {
         
         if nsError.code == NFCReaderError.Code.readerSessionInvalidationErrorSessionTimeout.rawValue {
             self.thread.runOnMainThread { [weak self] in
-                self?.nfcReaderSession = nil
-                self?.finishHandler?()
+                self?.currentStatus = .error
+                self?.stopScanning()
+                self?.thread.runOnMainThread { [weak self] in
+                    self?.finishHandler?(false)
+                }
             }
             
             return
+        }
+        
+        self.currentStatus = .error
+        self.stopScanning()
+        self.thread.runOnMainThread { [weak self] in
+            self?.finishHandler?(false)
         }
     }
     
@@ -152,24 +173,45 @@ extension IOISO7816TagReader {
     private func authenticateNFCTag() {
         // Authenticate tag
         do {
-            try self.tagCommunication.authenticateTagWithMRZ(mrz: self.mrzData) { [weak self] data, error in
+            try self.tagCommunication.authenticateTagWithMRZ(mrz: self.mrzData) { [weak self] _, error in
                 if let error {
                     self?.update(error: error)
                     return
                 }
                 
-                IOLogger.verbose("NFCData \(data)")
-                
-                // Check status
-                //            if (isSuccess) {
-                //                [weakSelf readDGCOM];
-                //                return;
-                //            }
+                self?.tryCount = 0
+                self?.readDGCOM()
             }
+            
+            return
         } catch let error {
             if let error = error as? IONFCError {
                 self.update(error: error)
+                return
             }
+        }
+        
+        self.update(error: .authentication)
+    }
+    
+    private func readDGCOM() {
+        self.readedDataGroups = [:]
+        self.update(status: .reading)
+        
+        self.tagCommunication.readDataGroup(type: .com) { [weak self] response, error in
+            // Check reading is success
+            if let error {
+                if self?.tryCount ?? 0 < self?.maxTryCount ?? 0 {
+                    self?.tryCount += 1
+                    self?.readDGCOM()
+                } else {
+                    self?.update(error: error)
+                }
+                
+                return
+            }
+            
+            IOLogger.verbose("d \(response)")
         }
     }
 }
@@ -182,12 +224,25 @@ extension IOISO7816TagReader {
         self.currentStatus = .error
         
         if let statusMessage = self.errorHandler?(error) {
-            self.nfcReaderSession.invalidate(errorMessage: statusMessage.localized)
+            if self.nfcReaderSession != nil {
+                self.nfcReaderSession.invalidate(errorMessage: statusMessage.localized)
+            }
+            
+            self.thread.runOnMainThread(afterMilliSecond: 150) { [weak self] in
+                self?.nfcReaderSession = nil
+            }
+            
+            self.thread.runOnMainThread { [weak self] in
+                self?.finishHandler?(false)
+            }
         }
     }
     
     private func update(status: IONFCReaderStatus) {
-        if let statusMessage = self.statusHandler?(status) {
+        if
+            let statusMessage = self.statusHandler?(status),
+            self.nfcReaderSession != nil
+        {
             self.nfcReaderSession.alertMessage = statusMessage.localized
         }
         
