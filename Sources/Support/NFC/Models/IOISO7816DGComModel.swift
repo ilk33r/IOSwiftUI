@@ -18,13 +18,13 @@ public struct IOISO7816DGComModel {
     
     // MARK: - Defs
     
-    private struct Header {
+    private struct TagHeader {
         
         let prefix: UInt8
         let length: UInt8
     }
     
-    private struct Version {
+    private struct TagVersion {
         
         let tag1: UInt8
         let tag2: UInt8
@@ -38,7 +38,7 @@ public struct IOISO7816DGComModel {
         var parsedDataSize = 0
         
         let header = IOBinaryMapper.fromBinary(
-            header: Header.self,
+            header: TagHeader.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
@@ -49,7 +49,7 @@ public struct IOISO7816DGComModel {
         }
         
         let version1 = IOBinaryMapper.fromBinary(
-            header: Version.self,
+            header: TagVersion.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
@@ -64,7 +64,7 @@ public struct IOISO7816DGComModel {
         }
         
         let version2 = IOBinaryMapper.fromBinary(
-            header: Version.self,
+            header: TagVersion.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
@@ -79,7 +79,7 @@ public struct IOISO7816DGComModel {
         }
         
         let dataGroups = IOBinaryMapper.fromBinary(
-            header: Header.self,
+            header: TagHeader.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
