@@ -20,7 +20,7 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
     private let maxTryCount = 3
     private let nfcReaderQueueName = "com.ioswiftui.support.nfc"
     
-    private var dataGroups: [IONFCDataGroup]
+    private var dataGroups: [IONFCISO7816DataGroup]
     private var nfcReaderQueue: DispatchQueue
     private var tryCount: Int
     
@@ -30,14 +30,14 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
     private var finishHandler: FinishHandler?
     private var mrzData: String!
     private var nfcReaderSession: NFCTagReaderSession!
-    private var readedDataGroups: [IONFCDataGroup: Data]!
+    private var readedDataGroups: [IONFCISO7816DataGroup: Data]!
     private var statusHandler: StatusHandler?
     private var tagCommunication: IOISO7816TagCommunicationUtilities!
     
     // MARK: - Initialization Methods
     
-    public init(dataGroups: [IONFCDataGroup]) {
-        self.dataGroups = dataGroups
+    public init(dataGroups: [any IONFCDataGroup]) {
+        self.dataGroups = dataGroups as! [IONFCISO7816DataGroup]
         self.nfcReaderQueue = DispatchQueue(label: self.nfcReaderQueueName)
         self.tryCount = 0
         super.init()

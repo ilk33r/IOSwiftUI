@@ -43,7 +43,7 @@ final class IOISO7816TagCommunicationUtilities {
     }
     
     func readDataGroup(
-        type: IONFCDataGroup,
+        type: IONFCISO7816DataGroup,
         handler: @escaping CompleteHandler
     ) {
         let dataGroupFieldMap = type.fieldMaps()
