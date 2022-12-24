@@ -62,4 +62,21 @@ final class IOSwiftUINFCParserTests: XCTestCase {
         XCTAssertEqual(dg2Model.biometricDatas[0].header.formatType, "0008")
         XCTAssertNotNil(dg2Model.biometricDatas[0].image)
     }
+    
+    func testDG11Parser() throws {
+        let dg11Data = Data(fromHexString: "6B445C085F0E5F105F2B5F115F0E14C3965A4142433C3C41424344453CC4B04C4B45525F100B31323033343536373839305F2B0831393338303130315F110741C4B0C49E4243")
+        
+        let dg11Model = try IOISO7816DG11Model(data: dg11Data)
+        XCTAssertEqual(dg11Model.fullName, "ÖZABC<<ABCDE<İLKER")
+        XCTAssertEqual(dg11Model.personalNumber, "12034567890")
+        XCTAssertEqual(dg11Model.dateOfBirth, "19380101")
+        XCTAssertEqual(dg11Model.placeOfBirth, "AİĞBC")
+        XCTAssertEqual(dg11Model.address, "")
+        XCTAssertEqual(dg11Model.telephone, "")
+        XCTAssertEqual(dg11Model.profession, "")
+        XCTAssertEqual(dg11Model.title, "")
+        XCTAssertEqual(dg11Model.summary, "")
+        XCTAssertEqual(dg11Model.tdNumbers, "")
+        XCTAssertEqual(dg11Model.custody, "")
+    }
 }
