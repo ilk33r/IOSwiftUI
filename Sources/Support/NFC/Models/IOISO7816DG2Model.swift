@@ -8,25 +8,14 @@
 import Foundation
 import IOSwiftUIInfrastructure
 
-public struct IOISO7816DG2Model {
+public struct IOISO7816DG2Model: IONFCDataGroupModel {
     
     // MARK: - Properties
     
     public let numberOfBiometricInformation: Int
     public let biometricDatas: [IOISO7816DG2BiometryModel]
     
-    // MARK: - Defs
-    
-    private struct TagHeader {
-        
-        let tag1: UInt8
-        let tag2: UInt8
-    }
-    
-    private struct TagSizePrefix {
-        
-        let sizeLength: UInt8
-    }
+    public var groupType: any IONFCDataGroup { IONFCISO7816DataGroup.dg2 }
     
     // MARK: - Initialization Methods
     
@@ -35,83 +24,83 @@ public struct IOISO7816DG2Model {
         var parsedDataSize = 0
         
         let header = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
         )
         
-        if header.tag1 != 0x75 {
+        if header.prefix != 0x75 {
             throw IONFCParserError.invalidData
         }
         
-        if header.tag2 >= 0x82 {
+        if header.length >= 0x82 {
             parsedData = parsedData.subdata(in: 2..<parsedData.count)
         }
         
         let templateHeader = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
         )
         
-        if templateHeader.tag1 != 0x7F && templateHeader.tag1 != 0x61 {
+        if templateHeader.prefix != 0x7F && templateHeader.length != 0x61 {
             throw IONFCParserError.invalidData
         }
         
         let templateHeaderSize = IOBinaryMapper.fromBinary(
-            header: TagSizePrefix.self,
+            header: IONFCBinaryDataSizeModel.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
         )
         
-        if templateHeaderSize.sizeLength >= 0x82 {
+        if templateHeaderSize.size >= 0x82 {
             parsedData = parsedData.subdata(in: 2..<parsedData.count)
         }
         
         let biometricInformation = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
         )
         
-        if biometricInformation.tag1 != 0x02 {
+        if biometricInformation.prefix != 0x02 {
             throw IONFCParserError.invalidData
         }
         
         let biometricInformationSize = IOBinaryMapper.fromBinary(
-            header: TagSizePrefix.self,
+            header: IONFCBinaryDataSizeModel.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
         )
         
-        self.numberOfBiometricInformation = Int(biometricInformationSize.sizeLength)
+        self.numberOfBiometricInformation = Int(biometricInformationSize.size)
         
         var biometricDatas = [IOISO7816DG2BiometryModel]()
-        for _ in 0..<biometricInformationSize.sizeLength {
+        for _ in 0..<biometricInformationSize.size {
             let biometricInformationTemplate = IOBinaryMapper.fromBinary(
-                header: TagHeader.self,
+                header: IONFCBinary8Model.self,
                 binaryData: parsedData,
                 content: &parsedData,
                 size: &parsedDataSize
             )
             
-            if biometricInformationTemplate.tag1 != 0x7F && biometricInformationTemplate.tag1 != 0x60 {
+            if biometricInformationTemplate.prefix != 0x7F && biometricInformationTemplate.length != 0x60 {
                 throw IONFCParserError.invalidData
             }
             
             let biometricInformationTemplateSize = IOBinaryMapper.fromBinary(
-                header: TagSizePrefix.self,
+                header: IONFCBinaryDataSizeModel.self,
                 binaryData: parsedData,
                 content: &parsedData,
                 size: &parsedDataSize
             )
             
-            if biometricInformationTemplateSize.sizeLength >= 0x82 {
+            if biometricInformationTemplateSize.size >= 0x82 {
                 parsedData = parsedData.subdata(in: 2..<parsedData.count)
             }
             

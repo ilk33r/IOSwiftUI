@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIInfrastructure
 
-public struct IOISO7816DG11Model {
+public struct IOISO7816DG11Model: IONFCDataGroupModel {
     
     // MARK: - Properties
     
@@ -24,18 +24,7 @@ public struct IOISO7816DG11Model {
     public let tdNumbers: String
     public let custody: String
     
-    // MARK: - Defs
-    
-    private struct TagHeader {
-        
-        let tag1: UInt8
-        let tag2: UInt8
-    }
-    
-    private struct TagSizePrefix {
-        
-        let sizeLength: UInt8
-    }
+    public var groupType: any IONFCDataGroup { IONFCISO7816DataGroup.dg11 }
     
     // MARK: - Initialization Methods
     
@@ -44,35 +33,35 @@ public struct IOISO7816DG11Model {
         var parsedDataSize = 0
         
         let header = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
         )
         
-        if header.tag1 != 0x6B {
+        if header.prefix != 0x6B {
             throw IONFCParserError.invalidData
         }
         
-        if header.tag2 >= 0x82 {
+        if header.length >= 0x82 {
             parsedData = parsedData.subdata(in: 2..<parsedData.count)
         }
         
         let tagList = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
         )
         
-        if tagList.tag1 != 0x5C {
+        if tagList.prefix != 0x5C {
             throw IONFCParserError.invalidData
         }
         
-        var availableTags = [TagHeader]()
-        for _ in 0..<(tagList.tag2 / 2) {
+        var availableTags = [IONFCBinary8Model]()
+        for _ in 0..<(tagList.length / 2) {
             let tag = IOBinaryMapper.fromBinary(
-                header: TagHeader.self,
+                header: IONFCBinary8Model.self,
                 binaryData: parsedData,
                 content: &parsedData,
                 size: &parsedDataSize
@@ -94,50 +83,50 @@ public struct IOISO7816DG11Model {
         
         for tag in availableTags {
             let currentTag = IOBinaryMapper.fromBinary(
-                header: TagHeader.self,
+                header: IONFCBinary8Model.self,
                 binaryData: parsedData,
                 content: &parsedData,
                 size: &parsedDataSize
             )
             
-            if tag.tag1 != currentTag.tag1 || tag.tag2 != currentTag.tag2 {
+            if tag.prefix != currentTag.prefix || tag.length != currentTag.length {
                 throw IONFCParserError.invalidData
             }
             
             let currentTagSize = IOBinaryMapper.fromBinary(
-                header: TagSizePrefix.self,
+                header: IONFCBinaryDataSizeModel.self,
                 binaryData: parsedData,
                 content: &parsedData,
                 size: &parsedDataSize
             )
             
-            let currentTagContent = String(data: parsedData.subdata(in: 0..<Data.Index(currentTagSize.sizeLength)), encoding: .utf8)
+            let currentTagContent = String(data: parsedData.subdata(in: 0..<Data.Index(currentTagSize.size)), encoding: .utf8)
             
-            if tag.tag1 == 0x5F && tag.tag2 == 0x0E {
+            if tag.prefix == 0x5F && tag.length == 0x0E {
                 fullName = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x10 {
+            } else if tag.prefix == 0x5F && tag.length == 0x10 {
                 personalNumber = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x2B {
+            } else if tag.prefix == 0x5F && tag.length == 0x2B {
                 dateOfBirth = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x11 {
+            } else if tag.prefix == 0x5F && tag.length == 0x11 {
                 placeOfBirth = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x42 {
+            } else if tag.prefix == 0x5F && tag.length == 0x42 {
                 address = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x12 {
+            } else if tag.prefix == 0x5F && tag.length == 0x12 {
                 telephone = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x13 {
+            } else if tag.prefix == 0x5F && tag.length == 0x13 {
                 profession = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x14 {
+            } else if tag.prefix == 0x5F && tag.length == 0x14 {
                 title = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x15 {
+            } else if tag.prefix == 0x5F && tag.length == 0x15 {
                 summary = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x17 {
+            } else if tag.prefix == 0x5F && tag.length == 0x17 {
                 tdNumbers = currentTagContent ?? ""
-            } else if tag.tag1 == 0x5F && tag.tag2 == 0x18 {
+            } else if tag.prefix == 0x5F && tag.length == 0x18 {
                 custody = currentTagContent ?? ""
             }
             
-            parsedData = parsedData.subdata(in: Data.Index(currentTagSize.sizeLength)..<parsedData.count)
+            parsedData = parsedData.subdata(in: Data.Index(currentTagSize.size)..<parsedData.count)
         }
         
         self.fullName = fullName

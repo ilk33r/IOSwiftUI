@@ -22,14 +22,6 @@ public struct IOISO7816DG2BiometryHeaderModel {
     public let formatOwner: String
     public let formatType: String
     
-    // MARK: - Defs
-    
-    private struct TagHeader {
-        
-        let tag1: UInt8
-        let tag2: UInt8
-    }
-    
     // MARK: - Initialization Methods
     
     public init(
@@ -37,13 +29,13 @@ public struct IOISO7816DG2BiometryHeaderModel {
         parsedDataSize: inout Int
     ) throws {
         let biometricInformationHeader = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader.tag1 != 0xA1 {
+        if biometricInformationHeader.prefix != 0xA1 {
             throw IONFCParserError.invalidData
         }
         
@@ -59,111 +51,111 @@ public struct IOISO7816DG2BiometryHeaderModel {
         var parsedSubData = Data()
         
         let biometricInformationHeader0 = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedSubData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader0.tag1 == 0x80 {
-            headerVersion = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader0.tag2)).toHexString()
-            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader0.tag2)..<parsedSubData.count)
+        if biometricInformationHeader0.prefix == 0x80 {
+            headerVersion = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader0.length)).toHexString()
+            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader0.length)..<parsedSubData.count)
         }
         
         let biometricInformationHeader1 = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedSubData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader1.tag1 == 0x81 {
-            biometricType = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader1.tag2)).toHexString()
-            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader1.tag2)..<parsedSubData.count)
+        if biometricInformationHeader1.prefix == 0x81 {
+            biometricType = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader1.length)).toHexString()
+            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader1.length)..<parsedSubData.count)
         }
         
         let biometricInformationHeader2 = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedSubData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader2.tag1 == 0x82 {
-            biometricSubType = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader2.tag2)).toHexString()
-            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader2.tag2)..<parsedSubData.count)
+        if biometricInformationHeader2.prefix == 0x82 {
+            biometricSubType = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader2.length)).toHexString()
+            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader2.length)..<parsedSubData.count)
         }
         
         let biometricInformationHeader3 = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedSubData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader3.tag1 == 0x83 {
-            creationDate = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader3.tag2)).toHexString()
-            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader3.tag2)..<parsedSubData.count)
+        if biometricInformationHeader3.prefix == 0x83 {
+            creationDate = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader3.length)).toHexString()
+            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader3.length)..<parsedSubData.count)
         }
         
         let biometricInformationHeader4 = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedSubData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader4.tag1 == 0x84 {
-            creationDate2 = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader4.tag2)).toHexString()
-            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader4.tag2)..<parsedSubData.count)
+        if biometricInformationHeader4.prefix == 0x84 {
+            creationDate2 = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader4.length)).toHexString()
+            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader4.length)..<parsedSubData.count)
         }
         
         let biometricInformationHeader5 = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedSubData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader5.tag1 == 0x85 {
-            validityPeriod = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader5.tag2)).toHexString()
-            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader5.tag2)..<parsedSubData.count)
+        if biometricInformationHeader5.prefix == 0x85 {
+            validityPeriod = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader5.length)).toHexString()
+            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader5.length)..<parsedSubData.count)
         }
         
         let biometricInformationHeader6 = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedSubData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader6.tag1 == 0x86 {
-            creator = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader6.tag2)).toHexString()
-            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader6.tag2)..<parsedSubData.count)
+        if biometricInformationHeader6.prefix == 0x86 {
+            creator = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader6.length)).toHexString()
+            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader6.length)..<parsedSubData.count)
         }
     
         let biometricInformationHeader7 = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedSubData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader7.tag1 == 0x87 {
-            formatOwner = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader7.tag2)).toHexString()
-            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader7.tag2)..<parsedSubData.count)
+        if biometricInformationHeader7.prefix == 0x87 {
+            formatOwner = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader7.length)).toHexString()
+            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader7.length)..<parsedSubData.count)
         }
         
         let biometricInformationHeader8 = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedSubData,
             size: &parsedDataSize
         )
         
-        if biometricInformationHeader8.tag1 == 0x88 {
-            formatType = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader8.tag2)).toHexString()
-            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader8.tag2)..<parsedSubData.count)
+        if biometricInformationHeader8.prefix == 0x88 {
+            formatType = parsedSubData.subdata(in: 0..<Data.Index(biometricInformationHeader8.length)).toHexString()
+            parsedData = parsedSubData.subdata(in: Data.Index(biometricInformationHeader8.length)..<parsedSubData.count)
         }
         
         self.headerVersion = headerVersion

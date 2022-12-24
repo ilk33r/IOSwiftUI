@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIInfrastructure
 
-public struct IOISO7816DGComModel {
+public struct IOISO7816DGComModel: IONFCDataGroupModel {
     
     // MARK: - Properties
     
@@ -16,13 +16,9 @@ public struct IOISO7816DGComModel {
     public let unicodeVersion: String
     public let dataGroups: [IONFCISO7816DataGroup]
     
-    // MARK: - Defs
+    public var groupType: any IONFCDataGroup { IONFCISO7816DataGroup.com }
     
-    private struct TagHeader {
-        
-        let prefix: UInt8
-        let length: UInt8
-    }
+    // MARK: - Defs
     
     private struct TagVersion {
         
@@ -38,7 +34,7 @@ public struct IOISO7816DGComModel {
         var parsedDataSize = 0
         
         let header = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize
@@ -79,7 +75,7 @@ public struct IOISO7816DGComModel {
         }
         
         let dataGroups = IOBinaryMapper.fromBinary(
-            header: TagHeader.self,
+            header: IONFCBinary8Model.self,
             binaryData: parsedData,
             content: &parsedData,
             size: &parsedDataSize

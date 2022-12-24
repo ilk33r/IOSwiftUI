@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIInfrastructure
 
-public struct IOISO7816DG1Model {
+public struct IOISO7816DG1Model: IONFCDataGroupModel {
     
     // MARK: - Properties
     
@@ -25,6 +25,8 @@ public struct IOISO7816DG1Model {
     public let surname: String
     public let name: String
     public let mrzFullString: String
+    
+    public var groupType: any IONFCDataGroup { IONFCISO7816DataGroup.dg1 }
     
     // MARK: - Defs
     
