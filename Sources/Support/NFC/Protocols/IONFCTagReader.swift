@@ -12,7 +12,7 @@ public protocol IONFCTagReader {
     
     // MARK: - Defs
     
-    typealias DataGroupHandler = (_ dg: any IONFCDataGroup, _ data: Data?, _ error: IONFCError) -> Void
+    typealias DataGroupHandler = (_ dg: any IONFCDataGroup, _ data: Data?) -> Void
     typealias ErrorHandler = (_ error: IONFCError) -> IOLocalizationType
     typealias FinishHandler = (_ isSuccess: Bool) -> Void
     typealias StatusHandler = (_ status: IONFCReaderStatus) -> IOLocalizationType
