@@ -60,7 +60,7 @@ final class IOISO7816Encryption {
                 buffer.load(as: UInt16.self)
             }
             
-            len = Int(lenValue)
+            len = Int(lenValue.bigEndian)
             o = 3
             return
         }
@@ -112,6 +112,7 @@ final class IOISO7816Encryption {
         protectedAPDU.append(do8e)
         protectedAPDU.append(contentsOf: [0x00])
         
+        IOLogger.verbose("NFC: Encrypt")
         return NFCISO7816APDU(data: protectedAPDU)
     }
     
@@ -191,6 +192,7 @@ final class IOISO7816Encryption {
             responseData = Data()
         }
         
+        IOLogger.verbose("NFC: Decrypt")
         return IONFCTagResponseModel(sw1: sw1, sw2: sw2, data: responseData)
     }
     
@@ -216,7 +218,7 @@ final class IOISO7816Encryption {
         dataOfExpextedLength.append(contentsOf: Data(fromHexString: lengthBinaryString))
         
         if expectedLength == 256 || expectedLength == 65536 {
-            dataOfExpextedLength.append(contentsOf: [0x00])
+            dataOfExpextedLength = Data([0x00])
             
             if expectedLength > 256 {
                 dataOfExpextedLength.append(contentsOf: [0x00])

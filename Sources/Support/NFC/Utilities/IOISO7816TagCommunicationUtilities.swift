@@ -187,6 +187,11 @@ final class IOISO7816TagCommunicationUtilities {
         let offsetData = Data(fromHexString: offsetDataHex)
         let offsetDataBytes = offsetData.bytes
         
+        IOLogger.verbose("NFC: readAmount: \(readAmount)")
+        IOLogger.verbose("NFC: leftToRead: \(leftToRead)")
+        IOLogger.verbose("NFC: amountRead: \(amountRead)")
+        IOLogger.verbose("NFC: offsetDataHex: \(offsetDataHex)")
+        
         let command = NFCISO7816APDU(
             instructionClass: 0x00,
             instructionCode: 0xB0,
@@ -275,6 +280,8 @@ final class IOISO7816TagCommunicationUtilities {
                     IOLogger.error("NFC: End of file/record reached before reading Le bytes")
                 } else if response.sw1 == 0x6A && response.sw2 == 0x88 {
                     IOLogger.error("NFC: Referenced data not found")
+                } else if response.sw1 == 0x69 && response.sw2 == 0x87 {
+                    IOLogger.error("NFC: Expected secure messaging (SM) object missing")
                 } else {
                     IOLogger.error("NFC: Unkown")
                 }

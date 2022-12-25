@@ -225,6 +225,74 @@ final class IOSwiftUINFCAuthenticationTests: XCTestCase {
         XCTAssertEqual(protectedAPDU.toHexString(), "0cb000000d9701048e08883252b13e20d90100")
     }
     
+    func testEncrypt3() {
+        let apdu = NFCISO7816APDU(
+            instructionClass: 0x00,
+            instructionCode: 0xB0,
+            p1Parameter: 0x00,
+            p2Parameter: 0x04,
+            data: Data(),
+            expectedResponseLength: 256
+        )
+        
+        let headerBytes: [UInt8] = [0x0c, apdu.instructionCode, apdu.p1Parameter, apdu.p2Parameter]
+        let cmdHeader = Data(headerBytes).nfcAddPadding()
+        XCTAssertEqual(cmdHeader.toHexString(), "0cb0000480000000")
+        
+        let do87: Data!
+        let do97: Data!
+        
+        if apdu.data != nil {
+            if let do87Data = self.buildD087(apdu: apdu) {
+                do87 = do87Data
+            } else {
+                return
+            }
+        } else {
+            do87 = Data()
+        }
+        
+        if apdu.expectedResponseLength > 0 {
+            if let do97Data = self.buildD097(apdu: apdu) {
+                do97 = do97Data
+            } else {
+                return
+            }
+        } else {
+            do97 = Data()
+        }
+        
+        XCTAssertEqual(do87.toHexString(), "")
+        XCTAssertEqual(do97.toHexString(), "970100")
+        
+        // Update SSC
+        var ssc = Data(fromHexString: "cdb0f7dc0b32299b")
+        ssc = self.incSSC(ssc: ssc)
+        XCTAssertEqual(ssc.toHexString(), "cdb0f7dc0b32299c")
+        
+        let message = ssc + cmdHeader + do87 + do97
+        let messageWithPadding = message.nfcAddPadding()
+        XCTAssertEqual(messageWithPadding.toHexString(), "cdb0f7dc0b32299c0cb00004800000009701008000000000")
+        let mac = Data(fromHexString: "d5e3d3bc5d918657f834dcd698f2e6e0")
+        let cc = messageWithPadding.nfcMACKey(key: mac)
+        XCTAssertEqual(cc.toHexString(), "27efc4c2fc6d7e8d")
+        
+        let do8eHeader = IONFCBinary8Model(prefix: 0x8E, length: UInt8(cc.count))
+        let do8e = IOBinaryMapper.toBinary(header: do8eHeader, content: cc)
+        XCTAssertEqual(do8e.toHexString(), "8e0827efc4c2fc6d7e8d")
+        
+        var size = UInt8(do87.count + do97.count + do8e.count)
+        
+        var protectedAPDU = Data()
+        protectedAPDU.append(cmdHeader[0..<4])
+        protectedAPDU.append(Data(bytes: &size, count: MemoryLayout<UInt8>.size))
+        protectedAPDU.append(do87)
+        protectedAPDU.append(do97)
+        protectedAPDU.append(do8e)
+        protectedAPDU.append(contentsOf: [0x00])
+        XCTAssertEqual(protectedAPDU.toHexString(), "0cb000040d9701008e0827efc4c2fc6d7e8d00")
+    }
+    
     func testDecrypt1() {
         // Check for a SM error
         var do87 = Data()
@@ -477,7 +545,7 @@ final class IOSwiftUINFCAuthenticationTests: XCTestCase {
         dataOfExpextedLength.append(contentsOf: Data(fromHexString: lengthBinaryString))
         
         if expectedLength == 256 || expectedLength == 65536 {
-            dataOfExpextedLength.append(contentsOf: [0x00])
+            dataOfExpextedLength = Data([0x00])
             
             if expectedLength > 256 {
                 dataOfExpextedLength.append(contentsOf: [0x00])
