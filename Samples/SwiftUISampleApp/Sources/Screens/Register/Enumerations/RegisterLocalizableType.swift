@@ -33,6 +33,7 @@ extension IOLocalizationType {
     static let registerNFCError2 = IOLocalizationType(rawValue: "register.nfc.error.2")
     static let registerNFCError3 = IOLocalizationType(rawValue: "register.nfc.error.3")
     static let registerNFCError4 = IOLocalizationType(rawValue: "register.nfc.error.4")
+    static let registerNFCError5 = IOLocalizationType(rawValue: "register.nfc.error.5")
     static let registerNfcInfo0 = IOLocalizationType(rawValue: "register.nfc.info.0")
     static let registerNfcInfo1 = IOLocalizationType(rawValue: "register.nfc.info.1")
     static let registerNFCInfo2 = IOLocalizationType(rawValue: "register.nfc.info.2")

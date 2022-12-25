@@ -53,6 +53,7 @@ public struct FloatingDatePicker: View, IOValidatable {
             .backgroundColor(Color.white)
             .activePlaceholderPadding(EdgeInsets(top: 0, leading: 12, bottom: 52, trailing: 0))
             .placeholderPadding(EdgeInsets(top: 0, leading: 17, bottom: 0, trailing: 0))
+            .font(type: .regular(14))
             .padding(.top, 8)
             .frame(height: 60)
             Text(validationObservedObject.errorMessage)

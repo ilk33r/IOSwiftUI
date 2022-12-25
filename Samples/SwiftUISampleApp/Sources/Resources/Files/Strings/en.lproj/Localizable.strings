@@ -65,6 +65,7 @@
 "register.nfc.error.2" = "NFC Identity validation failed.";
 "register.nfc.error.3" = "NFC connection lost.";
 "register.nfc.error.4" = "Could not read the NFC data.";
+"register.nfc.error.5" = "ID card reading error. Please try again later.";
 "register.nfc.info.0" = "Scan the back of your ID into the camera.";
 "register.nfc.info.1" = "Move your ID closer to the top of your phone.";
 "register.nfc.info.2" = "Hold and wait your ID until the reading process is complete.";

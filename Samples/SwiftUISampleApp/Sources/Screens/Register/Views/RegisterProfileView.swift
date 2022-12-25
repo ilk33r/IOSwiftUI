@@ -239,6 +239,18 @@ public struct RegisterProfileView: IOController {
         .onReceive(presenter.$userName) { output in
             formUserNameText = output
         }
+        .onReceive(presenter.$name) { output in
+            formNameText = output
+        }
+        .onReceive(presenter.$surname) { output in
+            formSurnameText = output
+        }
+        .onReceive(presenter.$birthDate) { output in
+            formBirthDate = output
+        }
+        .onReceive(presenter.$locationName) { output in
+            formLocationName = output
+        }
         .onReceive(presenter.$profilePictureImage) { output in
             if let uiImage = output {
                 profilePictureImageView = Image(uiImage: uiImage)

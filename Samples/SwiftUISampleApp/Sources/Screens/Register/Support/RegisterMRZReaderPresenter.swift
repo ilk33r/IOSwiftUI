@@ -33,29 +33,44 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
     // MARK: - Publishers
     
     @Published var isCameraRunning: Bool
+    @Published var navigateToBack: Bool
+    @Published var showNFCErrorBottomSheet: Bool
     
     // MARK: - Privates
     
     private var mrzParsed: Bool
     private var tagReader: IOISO7816TagReader
+    private var readerData: IOISO7816ReaderData!
     
     // MARK: - Initialization Methods
     
     public init() {
         self.isCameraRunning = true
+        self.navigateToBack = false
+        self.showNFCErrorBottomSheet = false
         self.mrzParsed = false
-        self.tagReader = IOISO7816TagReader(dataGroups: [.dg1, .dg2, .dg11])
+        let dataGroups: [IONFCISO7816DataGroup] = [.dg1, .dg2, .dg11]
+        self.tagReader = IOISO7816TagReader(dataGroups: dataGroups)
         
-        self.tagReader.dataGroup { dg, data in
-            IOLogger.debug("dataGroup \(dg) \(data)")
+        self.tagReader.dataGroup { [weak self] dg, data in
+            guard let dg = dg as? IONFCISO7816DataGroup else { return }
+            guard let data else { return }
+            self?.thread.runOnBackgroundThread { [weak self] in
+                self?.interactor.parseNFCDG(dg: dg, data: data)
+            }
         }
         
         self.tagReader.error { [weak self] error in
             return self?.messageForNFCError(error: error) ?? .registerNFCError0
         }
         
-        self.tagReader.finish {
-            IOLogger.debug("NFC finished")
+        self.tagReader.finish { [weak self] isSuccess in
+            if !isSuccess {
+                self?.updateError()
+                return
+            }
+            
+            self?.navigateToBack = true
         }
         
         self.tagReader.status { status in
@@ -125,8 +140,19 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
                 validUntilDate: mrz.expireDate ?? ""
             )
             
+            self?.readerData = readerData
             self?.readIdentity(readerData: readerData)
         }
+    }
+    
+    func updateError() {
+        self.thread.runOnMainThread(afterMilliSecond: 3000) { [weak self] in
+            self?.showNFCErrorBottomSheet = true
+        }
+    }
+    
+    func rescanID() {
+        self.readIdentity(readerData: self.readerData)
     }
     
     // MARK: - Helper Methods
@@ -142,7 +168,11 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
                         title: nil,
                         message: message,
                         buttons: [.commonOk],
-                        handler: nil
+                        handler: { [weak self] _ in
+                            self?.thread.runOnMainThread(afterMilliSecond: 150) { [weak self] in
+                                self?.showNFCErrorBottomSheet = true
+                            }
+                        }
                     )
                 }
             }
