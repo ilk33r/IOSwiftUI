@@ -14,6 +14,9 @@ let package = Package(
             name: "IOSwiftUI",
             targets: ["IOSwiftUI"]),
         .library(
+            name: "IOSwiftUISupportBiometricAuthenticator",
+            targets: ["IOSwiftUISupportBiometricAuthenticator"]),
+        .library(
             name: "IOSwiftUISupportCamera",
             targets: ["IOSwiftUISupportCamera"]),
         .library(
@@ -74,6 +77,9 @@ let package = Package(
         
         // MARK: - Support
         
+        .target(name: "IOSwiftUISupportBiometricAuthenticator",
+                dependencies: ["IOSwiftUIInfrastructure"],
+                path: "Sources/Support/BiometricAuthenticator"),
         .target(name: "IOSwiftUISupportCamera",
                 dependencies: ["IOSwiftUIInfrastructure"],
                 path: "Sources/Support/Camera"),
@@ -127,6 +133,8 @@ let package = Package(
                            "IOSwiftUIScreensHTTPDebugger",
                            "IOSwiftUIRouter",
                            "IOSwiftUIApplication"]),
+        
+        // MARK: - Tests
         
         .testTarget(
             name: "IOSwiftUISupportNFCTests",

@@ -10,6 +10,8 @@ import Security
 
 public struct IORSAKeyUtilities {
     
+    // MARK: - Utilities
+    
     public static func generatePublicKey(exponent: String, modulus: String, tag: String) -> SecKey? {
         let exponentData = Data(fromHexString: exponent)
         let modulusData = Data(fromHexString: modulus)
