@@ -19,9 +19,12 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
     
     private let maxTryCount = 3
     private let nfcReaderQueueName = "com.ioswiftui.support.nfc"
+    private let initialProgress = "⚫️"
+    private let successProgress = "🟢"
     
     private var dataGroups: [IONFCISO7816DataGroup]
     private var nfcReaderQueue: DispatchQueue
+    private var readedDataGroupCount: Int
     private var tryCount: Int
     
     private var currentStatus: IONFCReaderStatus!
@@ -30,7 +33,6 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
     private var finishHandler: FinishHandler?
     private var mrzData: String!
     private var nfcReaderSession: NFCTagReaderSession!
-    private var readedDataGroups: [IONFCISO7816DataGroup: Data]!
     private var statusHandler: StatusHandler?
     private var tagCommunication: IOISO7816TagCommunicationUtilities!
     
@@ -40,6 +42,7 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
         self.dataGroups = dataGroups as! [IONFCISO7816DataGroup]
         self.nfcReaderQueue = DispatchQueue(label: self.nfcReaderQueueName)
         self.tryCount = 0
+        self.readedDataGroupCount = 0
         super.init()
     }
     
@@ -64,7 +67,9 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
     }
     
     public func stopScanning() {
-        self.nfcReaderSession.invalidate()
+        if self.nfcReaderSession != nil {
+            self.nfcReaderSession.invalidate()
+        }
         
         self.thread.runOnMainThread(afterMilliSecond: 150) { [weak self] in
             self?.nfcReaderSession = nil
@@ -195,8 +200,9 @@ extension IOISO7816TagReader {
     }
     
     private func readDGCOM() {
-        self.readedDataGroups = [:]
-        self.update(status: .reading)
+        self.thread.runOnMainThread { [weak self] in
+            self?.update(status: .reading)
+        }
         
         self.tagCommunication.readDataGroup(type: .com) { [weak self] response, error in
             // Check reading is success
@@ -211,7 +217,73 @@ extension IOISO7816TagReader {
                 return
             }
             
-            IOLogger.verbose("d \(response)")
+            guard let data = response?.data else {
+                self?.update(error: .tagResponse)
+                return
+            }
+            
+            self?.readedDataGroupCount = 0
+            do {
+                let dcomModel = try IOISO7816DGComModel(data: data)
+                var dataGroupToRead = [IONFCISO7816DataGroup]()
+                
+                self?.dataGroups.forEach { dataGroup in
+                    if let availableDataGroup = dcomModel.dataGroups.first(where: { $0 == dataGroup }) {
+                        dataGroupToRead.append(availableDataGroup)
+                    } else {
+                        self?.dataGroupHandler?(dataGroup, nil)
+                    }
+                }
+                
+                self?.dataGroups = dataGroupToRead
+                self?.readNextDataGroups()
+            } catch {
+                self?.update(error: .tagResponse)
+            }
+        }
+    }
+    
+    private func readNextDataGroups() {
+        // Update progress
+        self.update(progressMessageIndex: self.readedDataGroupCount)
+        
+        // Check reading was finished
+        if self.readedDataGroupCount >= self.dataGroups.count {
+            self.thread.runOnMainThread { [weak self] in
+                self?.update(status: .finished)
+                self?.finishHandler?(true)
+                self?.stopScanning()
+            }
+            return
+        }
+        
+        self.tryCount = 0
+        let groupType = self.dataGroups[self.readedDataGroupCount]
+        self.readDataGroup(type: groupType)
+    }
+    
+    private func readDataGroup(type: IONFCISO7816DataGroup) {
+        self.tagCommunication.readDataGroup(type: type) { [weak self] response, error in
+            // Check reading is success
+            if let error {
+                if self?.tryCount ?? 0 < self?.maxTryCount ?? 0 {
+                    self?.tryCount += 1
+                    self?.readDataGroup(type: type)
+                } else {
+                    self?.update(error: error)
+                }
+                
+                return
+            }
+            
+            guard let data = response?.data else {
+                self?.update(error: .tagResponse)
+                return
+            }
+            
+            self?.dataGroupHandler?(type, data)
+            self?.readedDataGroupCount += 1
+            self?.readNextDataGroups()
         }
     }
 }
@@ -236,6 +308,24 @@ extension IOISO7816TagReader {
                 self?.finishHandler?(false)
             }
         }
+    }
+    
+    private func update(progressMessageIndex: Int) {
+        var alertMessage = ""
+        
+        for i in 0..<self.dataGroups.count {
+            if i < progressMessageIndex {
+                alertMessage += self.successProgress
+            } else {
+                alertMessage += self.initialProgress
+            }
+            
+            if i < self.dataGroups.count - 1 {
+                alertMessage += " "
+            }
+        }
+        
+        self.nfcReaderSession.alertMessage = alertMessage
     }
     
     private func update(status: IONFCReaderStatus) {

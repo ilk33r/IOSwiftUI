@@ -127,11 +127,17 @@ let package = Package(
                            "IOSwiftUIScreensHTTPDebugger",
                            "IOSwiftUIRouter",
                            "IOSwiftUIApplication"]),
+        
+        .testTarget(
+            name: "IOSwiftUISupportNFCTests",
+            dependencies: [
+                    "IOSwiftUISupportNFC"
+            ]),
+        
         .testTarget(
             name: "IOSwiftUITests",
             dependencies: [
-                "IOSwiftUI",
-                "IOSwiftUISupportNFC"
+                "IOSwiftUI"
             ]),
     ]
 )

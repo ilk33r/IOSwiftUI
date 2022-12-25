@@ -12,8 +12,6 @@ import XCTest
 
 final class IOSwiftUINFCAuthenticationTests: XCTestCase {
     
-    private let mac = Data(fromHexString: "4926987cceb9e3c41f10eca26249abfb")
-    
     private var encryptionKeyType: Data!
     private var macKeyType: Data!
     
@@ -26,35 +24,74 @@ final class IOSwiftUINFCAuthenticationTests: XCTestCase {
         self.macKeyType = Data(macKeyTypeBytes)
     }
     
+    func testCreateAccessKey() {
+        let mrzHash = Data(fromHexString: "4ec0ade09a3680cff278c6e528b040d0e8a33ed6")
+        let seed = mrzHash.subdata(in: 0..<16)
+        XCTAssertEqual(seed.toHexString(), "4ec0ade09a3680cff278c6e528b040d0")
+        
+        var keyEncryption = self.keyDerivation(kseed: seed, type: self.encryptionKeyType)
+        XCTAssertEqual(keyEncryption.toHexString(), "c4d3ae70c42fd3a8580bfdad92d30746")
+        if keyEncryption.count == 16 {
+            keyEncryption = keyEncryption + keyEncryption.subdata(in: 0..<8)
+        }
+        XCTAssertEqual(keyEncryption.toHexString(), "c4d3ae70c42fd3a8580bfdad92d30746c4d3ae70c42fd3a8")
+        
+        let keyMac = self.keyDerivation(kseed: seed, type: self.macKeyType)
+        XCTAssertEqual(keyMac.toHexString(), "f789e0efdf45c49b7f62e62994e6c157")
+    }
+    
+    func testAuthenticationData() {
+        let rndICC = Data(fromHexString: "7799dde2cdb0f7dc")
+        
+        let rndIFD = Data(fromHexString: "8732da670b32298b")
+        let kifd = Data(fromHexString: "1a631f20f30415e0454f80b30c62c71e")
+        let plainEIFD = rndIFD + rndICC + kifd
+        XCTAssertEqual(plainEIFD.toHexString(), "8732da670b32298b7799dde2cdb0f7dc1a631f20f30415e0454f80b30c62c71e")
+        
+        let keyEncryption = Data(fromHexString: "c4d3ae70c42fd3a8580bfdad92d30746c4d3ae70c42fd3a8")
+        let eifd = IOTripleDESUtility.encrypt(key: keyEncryption, iv: Data.nfcIV(), message: plainEIFD)
+        XCTAssertNotNil(eifd)
+        XCTAssertEqual(eifd?.toHexString(), "bb927c212720a632e5f361a24f8ccc80a33441c68aa329bef0356b5a4e9fe26b")
+        
+        let eifdWithPadding = eifd!.nfcAddPadding()
+        XCTAssertEqual(eifdWithPadding.toHexString(), "bb927c212720a632e5f361a24f8ccc80a33441c68aa329bef0356b5a4e9fe26b8000000000000000")
+        let keyMac = Data(fromHexString: "f789e0efdf45c49b7f62e62994e6c157")
+        let mifd = eifdWithPadding.nfcMACKey(key: keyMac)
+        XCTAssertEqual(mifd.toHexString(), "b03a2ab8fcb15a63")
+
+        let authenticationData = eifd! + mifd
+        XCTAssertEqual(authenticationData.toHexString(), "bb927c212720a632e5f361a24f8ccc80a33441c68aa329bef0356b5a4e9fe26bb03a2ab8fcb15a63")
+    }
+    
     func testSessionKey() throws {
-        let plainAuthenticationData = Data(fromHexString: "dad1612cf1425e8522c0f1279828112325822b06dc603240f976eeb5c52e3dbd")
+        let plainAuthenticationData = Data(fromHexString: "86d3eb1988a453ba6bcf854e0f48bbfefa74c6d27e530c45964265d0d33f74d1")
         
         let keyEncryption = Data(fromHexString: "c4d3ae70c42fd3a8580bfdad92d30746c4d3ae70c42fd3a8")
         guard let response = IOTripleDESUtility.decrypt(key: keyEncryption, iv: Data.nfcIV(), message: plainAuthenticationData) else { throw IONFCError.authentication }
-        XCTAssertEqual(response.toHexString(), "6c5943a0b253d0532fdebd3e5c5613a8af2cab8e7fc0920ab2bda4f9448ce347")
+        XCTAssertEqual(response.toHexString(), "7799dde2cdb0f7dc8732da670b32298bc4728aa9470277ab2809ad0e369278f8")
         
         let responseKICC = response.subdata(in: 16..<32)
-        XCTAssertEqual(responseKICC.toHexString(), "af2cab8e7fc0920ab2bda4f9448ce347")
+        XCTAssertEqual(responseKICC.toHexString(), "c4728aa9470277ab2809ad0e369278f8")
         
-        let kifd = Data(fromHexString: "1dcadd44f0258db19a68a4b5397fa410")
+        let kifd = Data(fromHexString: "1a631f20f30415e0454f80b30c62c71e")
         let kseed = self.xor(kifd: kifd, kicc: responseKICC)
-        XCTAssertEqual(kseed.toHexString(), "b2e676ca8fe51fbb28d5004c7df34757")
+        XCTAssertEqual(kseed.toHexString(), "de119589b406624b6d462dbd3af0bfe6")
         
         let tempksenc = self.keyDerivation(kseed: kseed, type: self.encryptionKeyType)
-        XCTAssertEqual(tempksenc.toHexString(), "b340138ab9bcf1d334fbec5120fbe9cb")
+        XCTAssertEqual(tempksenc.toHexString(), "b3e067b9a892e0464f67a7c2ae628ff2")
         
         let tempksmac = self.keyDerivation(kseed: kseed, type: self.macKeyType)
-        XCTAssertEqual(tempksmac.toHexString(), "4926987cceb9e3c41f10eca26249abfb")
+        XCTAssertEqual(tempksmac.toHexString(), "d5e3d3bc5d918657f834dcd698f2e6e0")
         
-        let rndICC = Data(fromHexString: "6c5943a0b253d053")
+        let rndICC = Data(fromHexString: "7799dde2cdb0f7dc")
         let subRndIccStartIndex = rndICC.count - 4
         let subRndIcc = rndICC.subdata(in: subRndIccStartIndex..<(subRndIccStartIndex + 4))
-        XCTAssertEqual(subRndIcc.toHexString(), "b253d053")
+        XCTAssertEqual(subRndIcc.toHexString(), "cdb0f7dc")
         
-        let rndIFD = Data(fromHexString: "2fdebd3e5c5613a8")
+        let rndIFD = Data(fromHexString: "8732da670b32298b")
         let subRndIfdStartIndex = rndIFD.count - 4
         let subRndIfd = rndIFD.subdata(in: subRndIfdStartIndex..<(subRndIfdStartIndex + 4))
-        XCTAssertEqual(subRndIfd.toHexString(), "5c5613a8")
+        XCTAssertEqual(subRndIfd.toHexString(), "0b32298b")
     }
     
     func testEncrypt1() {
@@ -105,7 +142,8 @@ final class IOSwiftUINFCAuthenticationTests: XCTestCase {
         let message = ssc + cmdHeader + do87 + do97
         let messageWithPadding = message.nfcAddPadding()
         XCTAssertEqual(messageWithPadding.toHexString(), "b253d0535c5613a90ca4020c80000000870901b13c658fc73028c28000000000")
-        let cc = messageWithPadding.nfcMACKey(key: self.mac)
+        let mac = Data(fromHexString: "4926987cceb9e3c41f10eca26249abfb")
+        let cc = messageWithPadding.nfcMACKey(key: mac)
         XCTAssertEqual(cc.toHexString(), "d432a170da6e4957")
         
         let do8eHeader = IONFCBinary8Model(prefix: 0x8E, length: UInt8(cc.count))

@@ -17,10 +17,13 @@ final class IOISO7816TagCommunicationUtilities {
     
     // MARK: - Privates
     
+    private let maxDataLengthToRead = 256
+    
     private let nfcTag: NFCISO7816Tag
     
     private var encryption: IOISO7816Encryption?
     private var keyDerivation: IOISO7816KeyDerivation?
+    private var readedData: Data!
     
     // MARK: - Initialization Methods
     
@@ -63,7 +66,7 @@ final class IOISO7816TagCommunicationUtilities {
             }
             
             // Read first 4 bytes of header to see how big the data structure is
-            var data: [UInt8] = [ 0x00, 0xB0, 0x00, 0x00, 0x00, 0x00, 0x04 ]
+            let data: [UInt8] = [ 0x00, 0xB0, 0x00, 0x00, 0x00, 0x00, 0x04 ]
             let commandData = Data(data)
             let command = NFCISO7816APDU(data: commandData)!
             self?.send(command: command) { [weak self] response, error in
@@ -77,12 +80,15 @@ final class IOISO7816TagCommunicationUtilities {
                     return
                 }
                 
-                var lefttoRead = 0
+                var leftToRead = 0
                 var len = 0
                 var o = 0
-                self?.encryption?.asn1Length(data: data, len: &len, o: &o)
-                lefttoRead = len
+                self?.encryption?.asn1Length(data: data.subdata(in: 1..<4), len: &len, o: &o)
+                leftToRead = len
                 let offset = o + 1
+                self?.readedData = Data()
+                self?.readedData.append(data.subdata(in: 0..<offset))
+                self?.readBinaryData(leftToRead: leftToRead, amountRead: offset, handler: handler)
             }
         }
     }
@@ -167,6 +173,56 @@ final class IOISO7816TagCommunicationUtilities {
         }
     }
     
+    private func readBinaryData(
+        leftToRead: Int,
+        amountRead: Int,
+        handler: @escaping CompleteHandler
+    ) {
+        var readAmount = self.maxDataLengthToRead
+        if leftToRead < self.maxDataLengthToRead {
+            readAmount = leftToRead
+        }
+        
+        let offsetDataHex = String(format: "%04lx", amountRead)
+        let offsetData = Data(fromHexString: offsetDataHex)
+        let offsetDataBytes = offsetData.bytes
+        
+        let command = NFCISO7816APDU(
+            instructionClass: 0x00,
+            instructionCode: 0xB0,
+            p1Parameter: offsetDataBytes[0],
+            p2Parameter: offsetDataBytes[1],
+            data: Data(),
+            expectedResponseLength: readAmount
+        )
+        
+        self.send(command: command) { [weak self] response, error in
+            if let error {
+                handler(nil, error)
+                return
+            }
+            
+            guard let data = response?.data else {
+                handler(nil, .tagResponse)
+                return
+            }
+            
+            self?.readedData.append(data)
+            let remaining = leftToRead - data.count
+            
+            if remaining > 0 {
+                self?.readBinaryData(leftToRead: remaining, amountRead: (amountRead + data.count), handler: handler)
+                return
+            }
+            
+            IOLogger.verbose(String(format: "NFC - readBinaryData\n%@", self?.readedData.toHexString() ?? ""))
+            if let readedData = self?.readedData {
+                let response = IONFCTagResponseModel(sw1: 0x90, sw2: 0x00, data: readedData)
+                handler(response, nil)
+            }
+        }
+    }
+    
     private func send(command: NFCISO7816APDU, handler: @escaping CompleteHandler) {
         var toSend = command
         
@@ -213,6 +269,12 @@ final class IOISO7816TagCommunicationUtilities {
             } else {
                 if response.sw1 == 0x69 && response.sw2 == 0x88 {
                     IOLogger.error("NFC: Incorrect secure messaging (SM) data object")
+                } else if response.sw1 == 0x65 && response.sw2 == 0x81 {
+                    IOLogger.error("NFC: Memory failure")
+                } else if response.sw1 == 0x62 && response.sw2 == 0x82 {
+                    IOLogger.error("NFC: End of file/record reached before reading Le bytes")
+                } else if response.sw1 == 0x6A && response.sw2 == 0x88 {
+                    IOLogger.error("NFC: Referenced data not found")
                 } else {
                     IOLogger.error("NFC: Unkown")
                 }
