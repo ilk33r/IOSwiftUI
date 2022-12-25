@@ -79,4 +79,16 @@ final class IOSwiftUINFCParserTests: XCTestCase {
         XCTAssertEqual(dg11Model.tdNumbers, "")
         XCTAssertEqual(dg11Model.custody, "")
     }
+    
+    func testDG12Parser() throws {
+        let dg12Data = Data(fromHexString: "6c1f5c025f195f1918c4b0c387c4b0c59e4c4552c4b02042414b414e4c49c49e49")
+        
+        let dg12Model = try IOISO7816DG12Model(data: dg12Data)
+        XCTAssertEqual(dg12Model.issuingAuthority, "İÇİŞLERİ BAKANLIĞI")
+        XCTAssertEqual(dg12Model.dateOfIssue, "")
+        XCTAssertEqual(dg12Model.observations, "")
+        XCTAssertEqual(dg12Model.requirements, "")
+        XCTAssertEqual(dg12Model.dateAndTime, "")
+        XCTAssertEqual(dg12Model.serialNumber, "")
+    }
 }
