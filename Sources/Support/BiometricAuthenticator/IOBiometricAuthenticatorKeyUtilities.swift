@@ -8,6 +8,7 @@
 import Foundation
 import LocalAuthentication
 import Security
+import IOSwiftUIInfrastructure
 
 struct IOBiometricAuthenticatorKeyUtilities {
     
@@ -20,7 +21,7 @@ struct IOBiometricAuthenticatorKeyUtilities {
     
     static func create(forTag tag: String, context: LAContext) throws -> Data {
         // Delete old keys
-        try? self.delete(forTag: tag)
+        try? delete(forTag: tag)
         
         // Create key pair
         var privateKeyRef: SecKey!
@@ -36,12 +37,12 @@ struct IOBiometricAuthenticatorKeyUtilities {
         // Create a key attributes
         let attributes = [
             kSecAttrKeyType: kSecAttrKeyTypeEC,
-            kSecAttrKeySizeInBits: self.ecKeySize,
-            kSecAttrApplicationTag: self.reformTag(tag: tag),
+            kSecAttrKeySizeInBits: ecKeySize,
+            kSecAttrApplicationTag: reformTag(tag: tag),
             kSecClass: kSecClassKey,
             kSecAttrSynchronizable: kCFBooleanFalse as Any,
-            kSecPrivateKeyAttrs: kSecAttrIsPermanent,
-            kSecPublicKeyAttrs: kSecAttrIsPermanent,
+            kSecPrivateKeyAttrs: [kSecAttrIsPermanent: kCFBooleanTrue],
+            kSecPublicKeyAttrs: [kSecAttrIsPermanent: kCFBooleanTrue],
             kSecUseAuthenticationContext: context,
             kSecAttrAccessControl: accessControl as Any
         ] as NSDictionary
@@ -61,7 +62,7 @@ struct IOBiometricAuthenticatorKeyUtilities {
             throw IOBiometricAuthenticatorError.keyCreation
         }
         
-        let keyBytes = [UInt8](biometricPublicKey)
+        let keyBytes = biometricPublicKey.bytes
         return Data(keyBytes)
     }
     
@@ -69,8 +70,8 @@ struct IOBiometricAuthenticatorKeyUtilities {
         // Create a key attributes
         let attributes = [
             kSecAttrKeyType: kSecAttrKeyTypeEC,
-            kSecAttrKeySizeInBits: self.ecKeySize,
-            kSecAttrApplicationTag: self.reformTag(tag: tag),
+            kSecAttrKeySizeInBits: ecKeySize,
+            kSecAttrApplicationTag: reformTag(tag: tag),
             kSecClass: kSecClassKey,
             kSecAttrSynchronizable: kCFBooleanFalse as Any
         ] as NSDictionary
@@ -85,12 +86,37 @@ struct IOBiometricAuthenticatorKeyUtilities {
         }
     }
     
+    static func exists(forTag tag: String) throws {
+        // Create a key attributes
+        let attributes = [
+            kSecAttrKeyType: kSecAttrKeyTypeEC,
+            kSecAttrKeySizeInBits: ecKeySize,
+            kSecAttrApplicationTag: reformTag(tag: tag),
+            kSecClass: kSecClassKey,
+            kSecAttrSynchronizable: kCFBooleanFalse as Any,
+            kSecReturnRef: kCFBooleanFalse as Any,
+            kSecMatchLimit: kSecMatchLimitOne,
+            kSecAttrKeyClass: kSecAttrKeyClassPublic
+        ] as NSDictionary
+        
+        // Create a private key
+        var publicKeyRef: AnyObject!
+        
+        // Obtain keychain item
+        let status = SecItemCopyMatching(attributes, &publicKeyRef)
+        
+        // Check status
+        if status != noErr {
+            throw IOBiometricAuthenticatorError.keyNotFound
+        }
+    }
+    
     static func sign(_ data: Data, forTag tag: String) throws -> Data {
         // Create a key attributes
         let attributes = [
             kSecAttrKeyType: kSecAttrKeyTypeEC,
-            kSecAttrKeySizeInBits: self.ecKeySize,
-            kSecAttrApplicationTag: self.reformTag(tag: tag),
+            kSecAttrKeySizeInBits: ecKeySize,
+            kSecAttrApplicationTag: reformTag(tag: tag),
             kSecClass: kSecClassKey,
             kSecAttrSynchronizable: kCFBooleanFalse as Any,
             kSecReturnRef: kCFBooleanTrue as Any,
@@ -128,6 +154,6 @@ struct IOBiometricAuthenticatorKeyUtilities {
     // MARK: - Helper Methods
     
     private static func reformTag(tag: String) -> String {
-        return String(format: self.tagPrefix, tag)
+        return String(format: tagPrefix, tag)
     }
 }

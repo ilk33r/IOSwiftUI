@@ -48,12 +48,12 @@ let package = Package(
                 capability: .buildTool(),
                 dependencies: []),
         /*
-        // This target auto generate IOBuildConfig.swift file from using Configuration.json
-        .target(name: "IOSwiftUIConfigurations",
-                dependencies: [],
-                path: "Sources/Configuration",
-                plugins: [ //.plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI")
-                           "IOBuildConfigGeneratorPlugin"]),
+         // This target auto generate IOBuildConfig.swift file from using Configuration.json
+         .target(name: "IOSwiftUIConfigurations",
+         dependencies: [],
+         path: "Sources/Configuration",
+         plugins: [ //.plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI")
+         "IOBuildConfigGeneratorPlugin"]),
          */
         .target(name: "IOSwiftUIResources",
                 path: "Sources/Resources",
@@ -77,9 +77,9 @@ let package = Package(
         
         // MARK: - Support
         
-        .target(name: "IOSwiftUISupportBiometricAuthenticator",
-                dependencies: ["IOSwiftUIInfrastructure"],
-                path: "Sources/Support/BiometricAuthenticator"),
+            .target(name: "IOSwiftUISupportBiometricAuthenticator",
+                    dependencies: ["IOSwiftUIInfrastructure"],
+                    path: "Sources/Support/BiometricAuthenticator"),
         .target(name: "IOSwiftUISupportCamera",
                 dependencies: ["IOSwiftUIInfrastructure"],
                 path: "Sources/Support/Camera"),
@@ -102,50 +102,69 @@ let package = Package(
         
         // MARK: - Screens
         
-        .target(name: "IOSwiftUIScreensHTTPDebugger",
-                dependencies: ["IOSwiftUIScreensShared"],
-                path: "Sources/Screens/HTTPDebugger"),
+            .target(name: "IOSwiftUIScreensHTTPDebugger",
+                    dependencies: ["IOSwiftUIScreensShared"],
+                    path: "Sources/Screens/HTTPDebugger"),
         
         // MARK: - Application
         
         // This target auto generate AppRouter.swift file from Screens folder
-        .target(name: "IOSwiftUIRouter",
-                dependencies: ["IOSwiftUIScreensShared"],
-                path: "Sources/Router",
-                plugins: [ //.plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI")
-                    ]),
+            .target(name: "IOSwiftUIRouter",
+                    dependencies: ["IOSwiftUIScreensShared"],
+                    path: "Sources/Router",
+                    plugins: [ //.plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI")
+                             ]),
         
         // MARK: - App Delegate
         
-        .target(name: "IOSwiftUIApplication",
-                dependencies: ["IOSwiftUIInfrastructure",
-                               "IOSwiftUIPresentation",
-                               "IOSwiftUIScreensHTTPDebugger"],
-                path: "Sources/Application"),
+            .target(name: "IOSwiftUIApplication",
+                    dependencies: ["IOSwiftUIInfrastructure",
+                                   "IOSwiftUIPresentation",
+                                   "IOSwiftUIScreensHTTPDebugger"],
+                    path: "Sources/Application"),
         
         // MARK: - Library
         
-        .target(
-            name: "IOSwiftUI",
-            dependencies: ["IOSwiftUICommon",
-                           "IOSwiftUIInfrastructure",
-                           "IOSwiftUIPresentation",
-                           "IOSwiftUIScreensHTTPDebugger",
-                           "IOSwiftUIRouter",
-                           "IOSwiftUIApplication"]),
+            .target(
+                name: "IOSwiftUI",
+                dependencies: ["IOSwiftUICommon",
+                               "IOSwiftUIInfrastructure",
+                               "IOSwiftUIPresentation",
+                               "IOSwiftUIScreensHTTPDebugger",
+                               "IOSwiftUIRouter",
+                               "IOSwiftUIApplication"]),
         
         // MARK: - Tests
         
-        .testTarget(
-            name: "IOSwiftUISupportNFCTests",
-            dependencies: [
-                    "IOSwiftUISupportNFC"
-            ]),
+            .target(
+                name: "IOSwiftUICommonTests",
+                dependencies: [
+                    "IOSwiftUICommon",
+                    "IOSwiftUIInfrastructure"
+                ],
+                path: "Tests/CommonTests"
+            ),
+            .testTarget(
+                name: "IOSwiftUITestsSupportBiometricAuthenticatorTests",
+                dependencies: [
+                    "IOSwiftUICommonTests",
+                    "IOSwiftUISupportBiometricAuthenticator"
+                ],
+                path: "Tests/Support/BiometricAuthenticatorTests"),
         
-        .testTarget(
-            name: "IOSwiftUITests",
-            dependencies: [
-                "IOSwiftUI"
-            ]),
+            .testTarget(
+                name: "IOSwiftUISupportNFCTests",
+                dependencies: [
+                    "IOSwiftUICommonTests",
+                    "IOSwiftUISupportNFC"
+                ],
+                path: "Tests/Support/NFCTests"),
+        
+            .testTarget(
+                name: "IOSwiftUITests",
+                dependencies: [
+                    "IOSwiftUI",
+                    "IOSwiftUICommonTests"
+                ]),
     ]
 )
