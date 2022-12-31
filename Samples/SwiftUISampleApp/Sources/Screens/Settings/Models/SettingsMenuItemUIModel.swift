@@ -15,6 +15,7 @@ struct SettingsMenuItemUIModel: Identifiable {
         case updateProfilePicture
         case removeProfilePicture
         case changePassword
+        case biometricAuth
         case privacyPolicy
         case termsAndConditions
         case logout

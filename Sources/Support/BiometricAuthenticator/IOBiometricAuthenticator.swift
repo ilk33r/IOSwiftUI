@@ -15,10 +15,6 @@ public struct IOBiometricAuthenticator {
     
     public typealias OnCompleteHandler = (_ data: Data?, _ error: IOBiometricAuthenticatorError?) -> Void
     
-    // MARK: - DI
-    
-    @IOInject private var thread: IOThread
-    
     // MARK: - Privates
     
     private let authenticationContext: LAContext
@@ -32,7 +28,7 @@ public struct IOBiometricAuthenticator {
     
     // MARK: - Biometric Authenticator Methods
     
-    public func checkBiometricStatus() throws -> Bool {
+    public func checkBiometricStatus() throws {
         // Create an error
         var contextError: NSError?
         
@@ -64,23 +60,40 @@ public struct IOBiometricAuthenticator {
             if biometryExists {
                 // Log call
                 IOLogger.debug("Biometry Exists.")
-                
-                // Create key async
-                return true
+                return
             } else {
                 // Thrown an error
                 IOLogger.error("Device does not supported face id or touch id.")
-                throw IOBiometricAuthenticatorError.doesNotSupport(message: "DEVICE_DOES_NOT_SUPPORT_BIOMETRY")
+                throw IOBiometricAuthenticatorError.canNotEvaluate
             }
         }
         
         IOLogger.error("Can not evaluate local authentication policy.")
-        throw IOBiometricAuthenticatorError.doesNotSupport(message: "CAN_NOT_EVALUATE_AUTH_POLICY")
+        throw IOBiometricAuthenticatorError.canNotEvaluate
     }
     
     public func isPaired(forUser user: String) throws -> Bool {
-        try IOBiometricAuthenticatorKeyUtilities.exists(forTag: user)
+        do {
+            try IOBiometricAuthenticatorKeyUtilities.exists(forTag: user)
+        } catch let error {
+            guard let biometryError = error as? IOBiometricAuthenticatorError else {
+                throw error
+            }
+            
+            switch biometryError {
+            case .keyNotFound:
+                return false
+            
+            default:
+                throw biometryError
+            }
+        }
+        
         return true
+    }
+    
+    public func pairDevice(forUser user: String) throws -> Data {
+        return try IOBiometricAuthenticatorKeyUtilities.create(forTag: user, context: authenticationContext)
     }
     
     public func unlockBiometricAuthentication(

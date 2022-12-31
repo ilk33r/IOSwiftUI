@@ -12,6 +12,7 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppScreensShared
+import IOSwiftUISupportBiometricAuthenticator
 
 final public class SettingsPresenter: IOPresenterable {
     
@@ -75,6 +76,9 @@ final public class SettingsPresenter: IOPresenterable {
             )
             self.navigationState.wrappedValue.navigateToChangePassword = true
             
+        case .biometricAuth:
+            self.interactor.prepareBiometricAuthentication()
+            
         case .privacyPolicy:
             self.navigationState.wrappedValue.webEntity = WebEntity(
                 pageName: "PrivacyPolicy",
@@ -111,6 +115,54 @@ final public class SettingsPresenter: IOPresenterable {
     
     func navigateSplash() {
         self.environment.wrappedValue.isLoggedIn = false
+    }
+    
+    func updateBiometricPaired() {
+        showAlert {
+            IOAlertData(
+                title: nil,
+                message: .settingsSuccessBiometricPaired,
+                buttons: [.commonOk],
+                handler: nil
+            )
+        }
+    }
+    
+    func update(biometryError: IOBiometricAuthenticatorError) {
+        switch biometryError {
+        case .doesNotSupport(message: let message), .unlockError(message: let message):
+            showAlert {
+                IOAlertData(
+                    title: nil,
+                    message: message,
+                    buttons: [.commonOk],
+                    handler: nil
+                )
+            }
+            
+        case .canNotEvaluate:
+            showAlert {
+                IOAlertData(
+                    title: nil,
+                    message: .settingsErrorBiometricCanNotEvaluate,
+                    buttons: [.commonOk],
+                    handler: nil
+                )
+            }
+            
+        case .dataSign, .keyCreation, .keyNotFound, .userCancelled, .authFailed:
+            showAlert {
+                IOAlertData(
+                    title: nil,
+                    message: .networkCommonError,
+                    buttons: [.commonOk],
+                    handler: nil
+                )
+            }
+            
+        case .locked:
+            self.interactor.unlockBiometricAuthentication()
+        }
     }
     
     func update(menu: [SettingsMenuItemUIModel]) {

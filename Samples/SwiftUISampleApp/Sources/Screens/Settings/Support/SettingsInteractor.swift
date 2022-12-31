@@ -12,6 +12,7 @@ import IOSwiftUIPresentation
 import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 import UIKit
+import IOSwiftUISupportBiometricAuthenticator
 
 public struct SettingsInteractor: IOInteractor {
     
@@ -24,6 +25,7 @@ public struct SettingsInteractor: IOInteractor {
     
     @IOInject private var httpClient: IOHTTPClient
     
+    private var biometricAuthenticator = IOBiometricAuthenticator()
     private var service = IOServiceProviderImpl<SettingsService>()
     
     // MARK: - Initialization Methods
@@ -62,6 +64,13 @@ public struct SettingsInteractor: IOInteractor {
                 iconName: "lock.fill",
                 localizableKey: .settingsMenuChangePassword,
                 type: .changePassword
+            )
+        )
+        settingMenu.append(
+            SettingsMenuItemUIModel(
+                iconName: "faceid",
+                localizableKey: .settingsMenuSetupBiometricAuth,
+                type: .biometricAuth
             )
         )
         settingMenu.append(
@@ -138,7 +147,81 @@ public struct SettingsInteractor: IOInteractor {
         presenter?.navigateSplash()
     }
     
+    func prepareBiometricAuthentication() {
+        do {
+            try biometricAuthenticator.checkBiometricStatus()
+            
+            let isPaired = try biometricAuthenticator.isPaired(forUser: entity.member.userName ?? "")
+            if isPaired {
+                showAlert {
+                    IOAlertData(
+                        title: nil,
+                        message: .settingsErrorBiometricActivated,
+                        buttons: [.commonCancel, .settingsButtonReactivate]
+                    ) { index in
+                        if index == 1 {
+                            biometricPairDevice()
+                        }
+                    }
+                }
+                
+                return
+            }
+            
+            biometricPairDevice()
+        } catch let error {
+            guard let biometryError = error as? IOBiometricAuthenticatorError else { return }
+            presenter?.update(biometryError: biometryError)
+        }
+    }
+    
+    func unlockBiometricAuthentication() {
+        biometricAuthenticator.unlockBiometricAuthentication(
+            reason: .settingsErrorBiometricLockedOut
+        ) { _, error in
+            if let error {
+                presenter?.update(biometryError: error)
+                return
+            }
+            
+            prepareBiometricAuthentication()
+        }
+    }
+    
     // MARK: - Helper Methods
+    
+    private func biometricPairDevice() {
+        do {
+            let authenticationData = try biometricAuthenticator.pairDevice(forUser: entity.member.userName ?? "")
+            
+            guard let aesIV = appState.object(forType: .aesIV) as? Data else { return }
+            guard let aesKey = appState.object(forType: .aesKey) as? Data else { return }
+            
+            guard let encryptedAuthenticationData = IOAESUtilities.encrypt(
+                string: authenticationData.toHexString(),
+                keyData: aesKey,
+                ivData: aesIV
+            ) else { return }
+            
+            showIndicator()
+            let request = MemberPairFaceIDRequestModel(authenticationKey: encryptedAuthenticationData.base64EncodedString())
+            service.request(.pairFaceID(request: request), responseType: GenericResponseModel.self) { result in
+                hideIndicator()
+                
+                switch result {
+                case .success(_):
+                    presenter?.updateBiometricPaired()
+                    
+                case .error(message: let message, type: let type, response: let response):
+                    handleServiceError(message, type: type, response: response, handler: nil)
+                }
+            }
+            
+        } catch let error {
+            guard let biometryError = error as? IOBiometricAuthenticatorError else { return }
+            presenter?.update(biometryError: biometryError)
+        }
+    }
     
     private func uploadProfilePicture(image: UIImage) {
         service.request(.uploadProfilePicture(image: image.pngData()!), responseType: ImageCreateResponseModel.self) { result in

@@ -9,10 +9,12 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 
 enum SettingsService {
 
     case deleteProfilePicture
+    case pairFaceID(request: MemberPairFaceIDRequestModel)
     case uploadProfilePicture(image: Data, boundary: String = UUID().uuidString)
 }
 
@@ -22,6 +24,9 @@ extension SettingsService: IOServiceType {
         switch self {
         case .deleteProfilePicture:
             return .delete
+            
+        case .pairFaceID:
+            return .post
             
         case .uploadProfilePicture:
             return .put
@@ -42,6 +47,9 @@ extension SettingsService: IOServiceType {
         switch self {
         case .deleteProfilePicture:
             return "MemberImages/DeleteProfilePicture"
+            
+        case .pairFaceID:
+            return "MemberRegister/PairFaceID"
             
         case .uploadProfilePicture:
             return "MemberImages/UploadProfilePicture"
@@ -64,6 +72,9 @@ extension SettingsService: IOServiceType {
     
     var body: Data? {
         switch self {
+        case .pairFaceID(request: let request):
+            return handleRequest(request)
+            
         case .uploadProfilePicture(image: let image, boundary: let boundary):
             let fileName = UUID().uuidString + ".png"
             let formData = IOServiceMultipartFormData(formName: "file", contentType: .imagePNG, content: image, fileName: fileName)

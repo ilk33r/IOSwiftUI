@@ -7,10 +7,6 @@
 
 import Foundation
 
-public enum IOFileCacheError: Error {
-    case cacheNotExists
-}
-
 public protocol IOFileCache {
     
     // MARK: - Cache Methods

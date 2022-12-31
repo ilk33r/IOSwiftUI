@@ -14,6 +14,7 @@ public enum IOBiometricAuthenticatorError: Error {
     case keyNotFound
     case userCancelled
     case doesNotSupport(message: String)
+    case canNotEvaluate
     case locked
     case unlockError(message: String)
     case authFailed

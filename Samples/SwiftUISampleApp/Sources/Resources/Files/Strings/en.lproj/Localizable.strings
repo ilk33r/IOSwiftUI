@@ -98,18 +98,24 @@
 "discover.title" = "Discover";
 
 // MARK: - Settings
+"settings.button.reactivate" = "Re-activate";
 "settings.camera.actions.choosePhoto" = "Pick from gallery";
 "settings.camera.actions.takePhoto" = "Take a photo";
 "settings.camera.actions.title" = "Create";
+"settings.error.biometric.activated" = "Your biometric login is already activated.";
+"settings.error.biometric.canNotEvaluate" = "Your device does not support biometric login.";
+"settings.error.biometric.lockedOut" = "Biometric authentication locked out.";
 "settings.menu.changePassword" = "Change password";
 "settings.menu.logout" = "Log out";
 "settings.menu.privacyPolicy" = "Privacy policy";
 "settings.menu.removeProfilePicture" = "Remove profile picture";
+"settings.menu.setupBiometricAuth" = "Set up biometric authentication";
 "settings.menu.termOfUse" = "Term of use";
 "settings.menu.updateProfilePicture" = "Update profile picture";
 "settings.menu.updateProfile" = "Update profile";
 "settings.prompt.deleteProfilePicture" = "Are you sure want to delete your profile picture?";
 "settings.prompt.logout" = "Are you sure want to log out?";
+"settings.success.biometric.paired" = "Your biometric login is activated.";
 "settings.success.deleteProfilePicture" = "Your profile picture has been deleted.";
 "settings.success.updateProfilePicture" = "Your profile picture has been updated.";
 "settings.title" = "Settings";
