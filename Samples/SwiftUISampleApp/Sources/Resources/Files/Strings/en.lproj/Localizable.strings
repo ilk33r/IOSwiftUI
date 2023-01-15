@@ -37,7 +37,7 @@
 "splash.button.register.uppercased" = "REGISTER";
 
 // MARK: -  Register & Login
-"login.input.emailAddress" = "Email address";
+"login.input.emailAddress" = "User name / Email address";
 "login.input.error.email" = "Invalid email address.";
 "login.input.error.password" = "Password must be at least 8 characters.";
 "login.input.password" = "Password";
