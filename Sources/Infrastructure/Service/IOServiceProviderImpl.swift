@@ -40,6 +40,32 @@ public struct IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
         }
     }
     
+    @discardableResult
+    public func async<TModel: Codable>(_ type: TType, responseType: TModel.Type) async throws -> TModel? {
+        let response = try await withCheckedThrowingContinuation { contination in
+            _ = httpClient.request(
+                type: type.methodType,
+                path: type.path,
+                contentType: type.requestContentType.rawValue,
+                headers: type.headers,
+                query: type.query,
+                body: type.body
+            ) { result in
+                let handledResult = type.response(responseType: responseType, result: result)
+                
+                switch handledResult {
+                case .success(response: let response):
+                    contination.resume(returning: response)
+                    
+                case .error(message: let message, type: let type, response: let response):
+                    contination.resume(throwing: IOServiceProviderError.error(message: message, type: type, response: response))
+                }
+            }
+        }
+        
+        return response
+    }
+    
     // MARK: - HTTPGroup
     
     public func createHttpGroup(_ groupHandler: HTTPGroupHandler?, completeHandler: HTTPGroupCompleteHandler?) {
