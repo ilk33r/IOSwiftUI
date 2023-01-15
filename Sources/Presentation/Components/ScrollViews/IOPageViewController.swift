@@ -12,13 +12,20 @@ import SwiftUI
 
 final public class IOPageViewController: UIViewController {
     
+    // MARK: - Defs
+    
+    typealias PageChangeHandler = (_ page: Int) -> Void
+    
     // MARK: - Properties
     
     private(set) public var hostingController: UIHostingController<AnyView>!
     
     // MARK: - Privates
     
+    private var pageChangeHandler: PageChangeHandler?
+    
     private weak var scrollView: UIScrollView?
+    private weak var widthConstraint: NSLayoutConstraint?
     
     // MARK: - View Lifecycle
     
@@ -53,11 +60,17 @@ final public class IOPageViewController: UIViewController {
             constraints: IOConstraints.all
         )
         self.hostingController.view.addEqualHeight(scrollView.heightAnchor)
+        self.hostingController.view.backgroundColor = .clear
         self.hostingController.didMove(toParent: self)
         self.scrollView = scrollView
+        self.scrollView?.delegate = self
     }
     
     // MARK: - Helper Methods
+    
+    func setHandler(_ handler: PageChangeHandler?) {
+        self.pageChangeHandler = handler
+    }
     
     public func setPage(_ page: Int) {
         let itemWidth = self.scrollView?.bounds.size.width ?? 0
@@ -68,4 +81,20 @@ final public class IOPageViewController: UIViewController {
         }
     }
     
+    public func updateWidth(_ width: CGFloat) {
+        if self.widthConstraint == nil {
+            self.widthConstraint = self.hostingController.view.addWidth(width)
+        } else {
+            self.widthConstraint?.constant = width
+        }
+    }
+}
+
+extension IOPageViewController: UIScrollViewDelegate {
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let viewWidth = self.scrollView?.frame.size.width ?? 0
+        let pageNumberDouble = ceil(scrollView.contentOffset.x / viewWidth)
+        self.pageChangeHandler?(Int(pageNumberDouble))
+    }
 }

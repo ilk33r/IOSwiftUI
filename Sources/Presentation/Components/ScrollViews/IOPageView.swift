@@ -23,11 +23,19 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
         func setPage(_ page: Int) {
             viewController?.setPage(page)
         }
+        
+        func updateWidth(_ width: CGFloat) {
+            if width > 0 {
+                viewController?.updateWidth(width)
+            }
+        }
     }
 
     // MARK: - Privates
     
-    @Binding private var page: Int
+    @Binding private var initialPage: Int
+    @Binding private var currentPageListener: Int
+    @Binding private var rootViewWidth: CGFloat
     @State private var currentPage = 0
     
     private var content: () -> Content
@@ -35,10 +43,14 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
     // MARK: - Controller Representable
     
     public init(
-        page: Binding<Int>,
+        initialPage: Binding<Int>,
+        currentPage: Binding<Int>,
+        rootViewWidth: Binding<CGFloat> = Binding.constant(0),
         @ViewBuilder content: @escaping () -> Content
     ) {
-        self._page = page
+        self._initialPage = initialPage
+        self._currentPageListener = currentPage
+        self._rootViewWidth = rootViewWidth
         self.content = content
     }
 
@@ -46,12 +58,19 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
         let vc = IOPageViewController()
         vc.hostingController.rootView = viewForContent()
         context.coordinator.viewController = vc
+        
+        vc.setHandler { page in
+            self.currentPageListener = page
+        }
+        
         return vc
     }
 
     public func updateUIViewController(_ viewController: IOPageViewController, context: Context) {
-        context.coordinator.setPage(page)
+        context.coordinator.setPage(initialPage)
         viewController.hostingController.rootView = viewForContent()
+        
+        context.coordinator.updateWidth(rootViewWidth)
     }
     
     public func makeCoordinator() -> Coordinator {
@@ -62,7 +81,7 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
     
     private func viewForContent() -> AnyView {
         let view = content()
-            .onChange(of: page) { newValue in
+            .onChange(of: initialPage) { newValue in
                 currentPage = newValue
             }
         
