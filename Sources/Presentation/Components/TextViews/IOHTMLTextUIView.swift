@@ -12,6 +12,10 @@ import IOSwiftUIInfrastructure
 
 public class IOHTMLTextUIView: UITextView {
     
+    // MARK: - Defs
+    
+    public typealias LinkClickHandler = (_ link: URL) -> Void
+    
     // MARK: - Theming
     
     public var lineHeight: CGFloat? {
@@ -36,6 +40,21 @@ public class IOHTMLTextUIView: UITextView {
         didSet {
             self.applyStringAttributes()
         }
+    }
+    
+    // MARK: - Privates
+    
+    private var clickHandler: LinkClickHandler?
+    
+    // MARK: - Initialization Methods
+    
+    public init(_ clickHandler: LinkClickHandler?) {
+        super.init(frame: .zero, textContainer: nil)
+        self.clickHandler = clickHandler
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
     
     // MARK: - View Lifecycle
@@ -96,6 +115,7 @@ extension IOHTMLTextUIView: UITextViewDelegate {
     
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         IOLogger.debug("Text clicked: \(URL.absoluteString)")
+        self.clickHandler?(URL)
         return true
     }
 }

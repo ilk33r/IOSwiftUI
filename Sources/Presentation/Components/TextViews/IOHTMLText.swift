@@ -17,17 +17,25 @@ public struct IOHTMLText: UIViewRepresentable {
   
     // MARK: - Privates
     
+    @Binding private var link: URL?
+    
     private var isAnimating: Bool!
     private var configuration: Configuration?
 
     // MARK: - Initialization Methods
     
-    public init(configuration: Configuration? = nil) {
+    public init(
+        link: Binding<URL?> = Binding.constant(nil),
+        configuration: Configuration? = nil
+    ) {
+        self._link = link
         self.configuration = configuration
     }
 
     public func makeUIView(context: Context) -> IOHTMLTextUIView {
-        return IOHTMLTextUIView()
+        return IOHTMLTextUIView { link in
+            self.link = link
+        }
     }
     
     public func updateUIView(_ uiView: IOHTMLTextUIView, context: Context) {
