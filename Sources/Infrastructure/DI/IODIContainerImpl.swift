@@ -38,6 +38,17 @@ final public class IODIContainerImpl: IODIContainer, IOSingleton {
         self.instances[className] = impl
     }
     
+    public func unRegister<TType>(singleton type: TType.Type) {
+        let protocolName = String(describing: type)
+        self.singletons[protocolName]?._cleanup()
+        self.singletons.removeValue(forKey: protocolName)
+    }
+    
+    public func unRegister<TType>(class aClass: TType.Type) {
+        let className = String(describing: aClass)
+        self.instances.removeValue(forKey: className)
+    }
+    
     // MARK: - Resolvers
     
     public func resolve<TType>(_ type: TType.Type) -> TType! {
@@ -63,5 +74,13 @@ final public class IODIContainerImpl: IODIContainer, IOSingleton {
         }
         
         return nil
+    }
+    
+    // MARK: - Clears
+    
+    public func clearSingletons() {
+        self.singletons.forEach { _, item in
+            item._cleanup()
+        }
     }
 }

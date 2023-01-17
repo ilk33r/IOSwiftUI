@@ -26,4 +26,8 @@ public extension IOSingleton {
         
         return Self._sharedInstance
     }
+    
+    static func _cleanup() {
+        Self._sharedInstance = nil
+    }
 }

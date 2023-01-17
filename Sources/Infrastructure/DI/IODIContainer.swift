@@ -19,10 +19,17 @@ public protocol IODIContainer {
     func register<TType>(singleton type: TType.Type, impl: @escaping SingletonBlock)
     func register<TType>(class aClass: TType.Type, impl: @escaping InstanceBlock)
     
+    func unRegister<TType>(singleton type: TType.Type)
+    func unRegister<TType>(class aClass: TType.Type)
+    
     // MARK: - Resolvers
     
     func resolve<TType>(_ type: TType.Type) -> TType!
     func resolveOptional<TType>(_ type: TType.Type) -> TType?
+    
+    // MARK: - Clears
+    
+    func clearSingletons()
     
     // MARK: - Statics
     
