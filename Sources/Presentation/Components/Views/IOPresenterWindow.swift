@@ -8,5 +8,5 @@
 import Foundation
 import UIKit
 
-final class IOPresenterWindow: UIWindow {
+final public class IOPresenterWindow: UIWindow {
 }
