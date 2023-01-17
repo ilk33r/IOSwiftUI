@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct IOValidationExactRule: IOValidationRule {
 
+    public var id: String { "IOValidationExactRule" }
     public var errorMessage: String
     
     private var compare: Binding<String>

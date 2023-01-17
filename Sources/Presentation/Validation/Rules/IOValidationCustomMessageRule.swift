@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct IOValidationCustomMessageRule: IOValidationRule {
 
+    public var id: String { "IOValidationCustomMessageRule" }
     public var errorMessage: String {
         get {
             return errorMessageBinder

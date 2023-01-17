@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 public struct IOValidationMaxAmountRule: IOValidationRule {
 
+    public var id: String { "IOValidationMaxAmountRule" }
     public var errorMessage: String
     
     private var amount: Int

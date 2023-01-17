@@ -12,8 +12,8 @@ public protocol IOValidator {
     
     // MARK: - Validation Methods
     
-    func register(rule: IOValidationRule, validatable: any IOValidatable)
+    func register(rule: any IOValidationRule, validatable: any IOValidatable)
     func unRegisterAll()
     func unvalidate()
-    func validate() -> [IOValidationRule]
+    func validate() -> [any IOValidationRule]
 }

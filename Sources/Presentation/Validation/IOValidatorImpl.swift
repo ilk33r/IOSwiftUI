@@ -13,7 +13,7 @@ open class IOValidatorImpl: IOValidator {
     // MARK: - Definitions
     
     private struct ValidationObject {
-        let rule: IOValidationRule
+        let rule: any IOValidationRule
         let validatable: any IOValidatable
     }
     
@@ -29,7 +29,8 @@ open class IOValidatorImpl: IOValidator {
     
     // MARK: - Validation Methods
     
-    open func register(rule: IOValidationRule, validatable: any IOValidatable) {
+    open func register(rule: any IOValidationRule, validatable: any IOValidatable) {
+        self.unregisterIfNecessary(rule: rule, validatable: validatable)
         self.registeredRules.append(ValidationObject(rule: rule, validatable: validatable))
     }
     
@@ -43,8 +44,8 @@ open class IOValidatorImpl: IOValidator {
         }
     }
     
-    open func validate() -> [IOValidationRule] {
-        var unvalidatedRules = [IOValidationRule]()
+    open func validate() -> [any IOValidationRule] {
+        var unvalidatedRules = [any IOValidationRule]()
         var unvalidatedValidatables = [any IOValidatable]()
         
         self.registeredRules.forEach { it in
@@ -62,5 +63,14 @@ open class IOValidatorImpl: IOValidator {
         }
         
         return unvalidatedRules
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func unregisterIfNecessary(rule: any IOValidationRule, validatable: any IOValidatable) {
+        let ruleID = rule.id
+        let ruleNameID = validatable.id
+        
+        self.registeredRules.removeAll(where: { $0.rule.id == ruleID && $0.validatable.id == ruleNameID })
     }
 }

@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 public struct IOValidationAlphaNumericRule: IOValidationRule {
 
+    public var id: String { "IOValidationAlphaNumericRule" }
     public var errorMessage: String
     
     // MARK: - Initialization Methods

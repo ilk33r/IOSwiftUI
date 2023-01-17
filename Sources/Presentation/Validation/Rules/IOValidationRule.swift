@@ -8,7 +8,7 @@
 import Foundation
 import IOSwiftUIInfrastructure
 
-public protocol IOValidationRule {
+public protocol IOValidationRule: Identifiable<String> {
     
     // MARK: - Messages
     

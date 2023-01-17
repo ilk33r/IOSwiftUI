@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 public struct IOValidationMinAmountRule: IOValidationRule {
 
+    public var id: String { "IOValidationMinAmountRule" }
     public var errorMessage: String
     
     private var amount: Int

@@ -13,7 +13,7 @@ public extension View where Self: IOValidatable {
     @ViewBuilder
     func registerValidator(
         to validator: IOValidator,
-        rule: IOValidationRule
+        rule: any IOValidationRule
     ) -> some View {
         modifier(IOValidatorModifier(to: validator, rule: rule, validatable: self))
     }
@@ -21,7 +21,7 @@ public extension View where Self: IOValidatable {
     @ViewBuilder
     func registerValidator(
         to validator: IOValidator,
-        rules: [IOValidationRule]
+        rules: [any IOValidationRule]
     ) -> some View {
         modifier(IOValidatorModifier(to: validator, rules: rules, validatable: self))
     }
@@ -29,11 +29,11 @@ public extension View where Self: IOValidatable {
 
 struct IOValidatorModifier: ViewModifier {
     
-    init(to validator: IOValidator, rule: IOValidationRule, validatable: any IOValidatable) {
+    init(to validator: IOValidator, rule: any IOValidationRule, validatable: any IOValidatable) {
         validator.register(rule: rule, validatable: validatable)
     }
     
-    init(to validator: IOValidator, rules: [IOValidationRule], validatable: any IOValidatable) {
+    init(to validator: IOValidator, rules: [any IOValidationRule], validatable: any IOValidatable) {
         rules.forEach { rule in
             validator.register(rule: rule, validatable: validatable)
         }

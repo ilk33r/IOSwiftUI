@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 public struct IOValidationMaxLengthRule: IOValidationRule {
 
+    public var id: String { "IOValidationMaxLengthRule" }
     public var errorMessage: String
     
     private var length: Int

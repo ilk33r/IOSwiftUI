@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 public struct IOValidationExactLengthRule: IOValidationRule {
 
+    public var id: String { "IOValidationExactLengthRule" }
     public var errorMessage: String
     
     private var length: Int

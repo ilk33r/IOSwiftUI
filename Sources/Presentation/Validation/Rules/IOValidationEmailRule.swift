@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 public struct IOValidationEmailRule: IOValidationRule {
 
+    public var id: String { "IOValidationEmailRule" }
     public var errorMessage: String
     
     // MARK: - Initialization Methods

@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 public struct IOValidationMinLengthRule: IOValidationRule {
 
+    public var id: String { "IOValidationMinLengthRule" }
     public var errorMessage: String
     
     private var length: Int
