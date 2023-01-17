@@ -55,7 +55,7 @@ public struct LoginPasswordView: IOController {
                 PrimaryButton(.commonNextUppercased)
                     .setClick({
                         if validator.validate().isEmpty {
-                            presenter.interactor.login( password: passwordText)
+//                            presenter.interactor.login( password: passwordText)
                         }
                     })
                     .padding(.top, 16)

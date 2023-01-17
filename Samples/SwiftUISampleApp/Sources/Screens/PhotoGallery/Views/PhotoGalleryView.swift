@@ -25,11 +25,15 @@ public struct PhotoGalleryView: IOController {
     
     @Binding private var isPresented: Bool
     @State private var selectedPage = 0
+    @State private var currentPage = 0
     
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                IOPageView(page: $selectedPage) {
+                IOPageView(
+                    initialPage: $selectedPage,
+                    currentPage: $currentPage
+                ) {
                     LazyHStack(spacing: 0) {
                         ForEach(presenter.imagesUIModel) { image in
                             Image()

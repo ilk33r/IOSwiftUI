@@ -93,8 +93,12 @@ public class IOHTMLTextUIView: UITextView {
         }
         
         // Create an attributed string
-        let attributedString = NSMutableAttributedString(string: plainString,
-                                                         attributes: [ NSAttributedString.Key.paragraphStyle: paragraphStyle ])
+        let attributedString = NSMutableAttributedString(
+            string: plainString,
+            attributes: [
+                NSAttributedString.Key.paragraphStyle: paragraphStyle
+            ]
+        )
         attributedString.addAttribute(.foregroundColor, value: self.textColor ?? UIColor.black, range: NSRange(location: 0, length: plainString.count))
         
         // Loop throught attributes

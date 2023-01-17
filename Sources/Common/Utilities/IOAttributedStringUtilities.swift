@@ -43,11 +43,11 @@ public struct IOAttributedStringUtilities {
         
         // Match regex
         let regex = try? NSRegularExpression(pattern: regexPattern, options: .init(arrayLiteral: .caseInsensitive, .useUnixLineSeparators))
-        var searchedRange = NSRange(location: 0, length: htmlString.count)
-        var matches = regex?.matches(in: htmlString, range: searchedRange)
+        let searchedRange = NSRange(location: 0, length: htmlString.count)
+        let matches = regex?.matches(in: htmlString, range: searchedRange)
         
         // Check html tags found
-        if let matches, matches.count > 0 {
+        if let matches, !matches.isEmpty {
             // Loop throught tags
             for result in matches {
                 // Check tag is bold
@@ -115,7 +115,7 @@ public struct IOAttributedStringUtilities {
         // Check html tags found
         if
             let matches,
-            matches.count > 0,
+            !matches.isEmpty,
             let result = matches.first,
             result.numberOfRanges > 1
         {
