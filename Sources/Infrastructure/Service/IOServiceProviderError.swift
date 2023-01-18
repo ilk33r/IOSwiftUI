@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum IOServiceProviderError: Error {
+public enum IOServiceProviderError<TModel: Codable>: Error {
     
-    case error(message: String?, type: IOHTTPError.ErrorType, response: Any?)
+    case error(message: String?, type: IOHTTPError.ErrorType, response: TModel?)
 }
