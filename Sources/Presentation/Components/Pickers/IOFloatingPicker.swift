@@ -101,6 +101,8 @@ public struct IOFloatingPicker<PickerOverlay: View, Value>: View {
                 }
             }
             .onChange(of: items) { newValue in
+                popoverHidden = true
+                
                 if !newValue.isEmpty {
                     pickerItems = newValue.map { $0.displayName }
                     selectedValue = ""
