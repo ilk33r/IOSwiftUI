@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public struct IOPickerUIModel<Value>: Identifiable {
+public struct IOPickerUIModel<Value>: Hashable, Identifiable {
     
     // MARK: - Model
     
@@ -28,5 +28,15 @@ public struct IOPickerUIModel<Value>: Identifiable {
     ) {
         self.displayName = displayName
         self.value = value
+    }
+    
+    // MARK: - Protocols
+    
+    public static func == (lhs: IOPickerUIModel<Value>, rhs: IOPickerUIModel<Value>) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }

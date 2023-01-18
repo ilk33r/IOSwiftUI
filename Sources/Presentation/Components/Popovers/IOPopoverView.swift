@@ -12,11 +12,11 @@ public struct IOPopoverView<Content: View, PopoverContent: View>: View {
     
     // MARK: - Privates
     
-    @Binding private var show: Bool
-    
     private let content: () -> Content
     private let popoverContent: () -> PopoverContent
     private let size: CGSize?
+    
+    @Binding private var show: Bool
     
     // MARK: - Body
     
