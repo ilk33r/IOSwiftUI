@@ -29,11 +29,13 @@ final public class IODIContainerImpl: IODIContainer, IOSingleton {
     // MARK: - Registers
     
     public func register<TType>(singleton type: TType.Type, impl: @escaping SingletonBlock) {
+        self.unRegister(singleton: type)
         let protocolName = String(describing: type)
         self.singletons[protocolName] = impl()
     }
     
     public func register<TType>(class aClass: TType.Type, impl: @escaping InstanceBlock) {
+        self.unRegister(class: aClass)
         let className = String(describing: aClass)
         self.instances[className] = impl
     }
