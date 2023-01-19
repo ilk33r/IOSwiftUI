@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+	</dict>
 	<key>com.apple.developer.nfc.readersession.felica.systemcodes</key>
 	<array>
 		<string>12FC</string>
@@ -10,11 +17,5 @@
 	<array>
 		<string>A0000002471001</string>
 	</array>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>NFCReaderUsageDescription</key>
-	<string>We need NFC reader permission to perform document scanning.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>We need Face ID permission for biometric authentication.</string>
 </dict>
 </plist>

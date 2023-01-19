@@ -379,12 +379,13 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "We need NFC reader permission to perform document scanning.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access camera for adding a new photo.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need Face ID permission for biometric authentication.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location for display on your profile page.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location for display on your profile page.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "We need your location for display on your profile page.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -557,12 +558,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 3U8TGD2356;
 				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "We need NFC reader permission to perform document scanning.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access camera for adding a new photo.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need Face ID permission for biometric authentication.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location for display on your profile page.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location for display on your profile page.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "We need your location for display on your profile page.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -582,12 +584,13 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "We need NFC reader permission to perform document scanning.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access camera for adding a new photo.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need Face ID permission for biometric authentication.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location for display on your profile page.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location for display on your profile page.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "We need your location for display on your profile page.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

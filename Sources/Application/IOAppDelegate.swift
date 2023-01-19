@@ -31,7 +31,7 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
     
     // MARK: - Delegate
     
-    public func application(
+    open func application(
         _ application: UIApplication,
         willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
