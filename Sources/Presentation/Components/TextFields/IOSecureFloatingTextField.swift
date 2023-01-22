@@ -45,15 +45,7 @@ public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
     
     public var body: some View {
         ZStack(alignment: .leading) {
-            SecureField("", text: $text.onChange({ value in
-                if value != text {
-                    isEditing = true
-                    isEditingBinder = true
-                } else {
-                    isEditing = false
-                    isEditingBinder = false
-                }
-            }))
+            SecureField("", text: $text)
             .keyboardType(keyboardType)
             .disableAutocorrection(disableAutocorrection)
             .autocapitalization(capitalization)
@@ -70,6 +62,15 @@ public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
                 .zIndex(2)
                 .padding(placeholderPadding)
                 .animation(.linear(duration: 0.15), value: isEditing)
+        }
+        .onChange(of: text) { newValue in
+            if newValue != text {
+                isEditing = true
+                isEditingBinder = true
+            } else {
+                isEditing = false
+                isEditingBinder = false
+            }
         }
     }
     
