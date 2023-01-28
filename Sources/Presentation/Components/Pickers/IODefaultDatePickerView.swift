@@ -135,9 +135,7 @@ public struct IODefaultDatePickerView: IODatePickerViewProtocol {
     // MARK: - Helper Methods
     
     private func handleDoneButton() {
-        let dateFormater = DateFormatter()
-        dateFormater.dateFormat = data.dateFormat
-        data.selectedItemString = dateFormater.string(from: selectedDate)
+        data.selectedItemString = selectedDate.string(format: data.dateFormat) ?? ""
         data.selectedItem = selectedDate
         
         data.handler?()
