@@ -10,5 +10,6 @@ import IOSwiftUIInfrastructure
 
 public extension IOLocalizationType {
     
+    static let commonDone = IOLocalizationType(rawValue: "common.done")
     static let commonOk = IOLocalizationType(rawValue: "common.ok")
 }

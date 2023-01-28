@@ -8,31 +8,29 @@
 import Foundation
 import SwiftUI
 
-public struct IOPickerUIModel<Value>: Hashable, Identifiable {
+public struct IOPickerUIModel: Hashable, Identifiable {
     
     // MARK: - Model
     
     public let displayName: String
-    public let value: Value?
     
     // MARK: - Identifiable
     
-    public var id = UUID().uuidString
+    public var id: Int
     
     // MARK: - Initialization Methods
     
     public init(
-        displayName: String,
-        valueType: Value.Type = Int.self,
-        value: Value? = nil
+        index: Int,
+        displayName: String
     ) {
+        self.id = index
         self.displayName = displayName
-        self.value = value
     }
     
     // MARK: - Protocols
     
-    public static func == (lhs: IOPickerUIModel<Value>, rhs: IOPickerUIModel<Value>) -> Bool {
+    public static func == (lhs: IOPickerUIModel, rhs: IOPickerUIModel) -> Bool {
         return lhs.id == rhs.id
     }
     

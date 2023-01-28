@@ -39,6 +39,11 @@ public extension IOPresenterable {
     
     // MARK: - Alert
     
+    func dismissPicker() {
+        self.environment.wrappedValue.datePickerData = nil
+        self.environment.wrappedValue.pickerData = nil
+    }
+    
     func showAlert(handler: () -> IOAlertData) {
         let alertData = handler()
         self.environment.wrappedValue.alertData = IOAlertData(
@@ -50,5 +55,13 @@ public extension IOPresenterable {
                 alertData.handler?(index)
             }
         )
+    }
+    
+    func showDatePicker(handler: () -> IODatePickerData) {
+        self.environment.wrappedValue.datePickerData = handler()
+    }
+    
+    func showPicker(handler: () -> IOPickerData) {
+        self.environment.wrappedValue.pickerData = handler()
     }
 }

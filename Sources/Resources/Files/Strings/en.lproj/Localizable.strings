@@ -8,6 +8,7 @@
 
 // MARK: - Common
 "common.appName" = "IO Swift UI";
+"common.done" = "Done";
 "common.ok" = "Ok";
 
 // MARK: - Networking

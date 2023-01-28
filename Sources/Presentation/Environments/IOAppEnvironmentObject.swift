@@ -20,6 +20,18 @@ final public class IOAppEnvironmentObject: IOAppEnvironment {
         }
     }
     
+    public var pickerData: IOPickerData? {
+        willSet {
+            self.objectWillChange.send()
+        }
+    }
+    
+    public var datePickerData: IODatePickerData? {
+        willSet {
+            self.objectWillChange.send()
+        }
+    }
+    
     // MARK: - Initialization Methods
     
     public init() {
