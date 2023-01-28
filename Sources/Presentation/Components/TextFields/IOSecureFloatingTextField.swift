@@ -64,12 +64,12 @@ public struct IOSecureFloatingTextField<TextFieldOverlay: View>: View {
                 .animation(.linear(duration: 0.15), value: isEditing)
         }
         .onChange(of: text) { newValue in
-            if newValue != text {
-                isEditing = true
-                isEditingBinder = true
-            } else {
+            if newValue.isEmpty {
                 isEditing = false
                 isEditingBinder = false
+            } else {
+                isEditing = true
+                isEditingBinder = true
             }
         }
     }
