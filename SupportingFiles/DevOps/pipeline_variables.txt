@@ -1,0 +1,8 @@
+IO.Build.VersionCode
+0
+
+IO.Build.VersionCode.Revision
+$[counter(variables['IO.Build.VersionCode'], 375)]
+
+
+$(IO.Build.VersionCode.Revision)

@@ -1,0 +1,7 @@
+Deploy Staging Android
+
+IO.AppIdentifier
+G-Fit/G-Fit-Staging-Android
+
+IO.DestinationID
+d5951972-1724-49e8-926d-260773ab0f69
