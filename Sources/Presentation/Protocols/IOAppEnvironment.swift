@@ -15,6 +15,7 @@ public protocol IOAppEnvironment: ObservableObject {
     
     var alertData: IOAlertData? { get set }
     var datePickerData: IODatePickerData? { get set }
+    var toastData: IOToastData? { get set }
     var pickerData: IOPickerData? { get set }
     
     // MARK: - Initialization Methods

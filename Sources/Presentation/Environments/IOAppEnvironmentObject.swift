@@ -20,13 +20,19 @@ final public class IOAppEnvironmentObject: IOAppEnvironment {
         }
     }
     
+    public var datePickerData: IODatePickerData? {
+        willSet {
+            self.objectWillChange.send()
+        }
+    }
+    
     public var pickerData: IOPickerData? {
         willSet {
             self.objectWillChange.send()
         }
     }
     
-    public var datePickerData: IODatePickerData? {
+    public var toastData: IOToastData? {
         willSet {
             self.objectWillChange.send()
         }
