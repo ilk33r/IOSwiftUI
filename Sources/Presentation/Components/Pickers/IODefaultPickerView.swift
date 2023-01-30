@@ -141,7 +141,11 @@ public struct IODefaultPickerView: IOPickerViewProtocol {
     // MARK: - Helper Methods
     
     private func handleDoneButton() {
-        data.selectedItem = data.pickerData.first(where: { $0.displayName == selectedValue })
+        if selectedValue.isEmpty {
+            data.selectedItem = data.pickerData.first
+        } else {
+            data.selectedItem = data.pickerData.first(where: { $0.displayName == selectedValue })
+        }
         
         data.handler?()
     }
