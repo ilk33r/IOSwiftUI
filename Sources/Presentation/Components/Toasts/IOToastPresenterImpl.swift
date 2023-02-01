@@ -43,7 +43,7 @@ final public class IOToastPresenterImpl<Content: View>: IOToastPresenter {
         toastVC.modalPresentationStyle = .overFullScreen
         toastVC.modalTransitionStyle = .crossDissolve
         toastVC.view.backgroundColor = .clear
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Self.handleBackgroundTapped(_:)))
         toastVC.view.addGestureRecognizer(tapGestureRecognizer)
         
         self.toastWindow?.rootViewController = toastVC
@@ -65,7 +65,7 @@ final public class IOToastPresenterImpl<Content: View>: IOToastPresenter {
     
     // MARK: - Helper Methods
     
-    @objc dynamic private func handleTap(_ sender: UITapGestureRecognizer!) {
+    @objc dynamic private func handleBackgroundTapped(_ sender: UITapGestureRecognizer!) {
         self.dismiss()
     }
 }
