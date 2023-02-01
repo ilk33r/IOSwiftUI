@@ -17,13 +17,6 @@ public struct IOAppAssembly: IOAssembly {
         container.register(class: IOValidator.self) { IOValidatorImpl() }
         container.register(class: IOAlertPresenter.self) { IOAlertPresenterImpl() }
         container.register(class: IOBottomSheetPresenter.self) { IOBottomSheetPresenterImpl() }
-        container.register(class: IOPickerPresenter.self) {
-            IOPickerPresenterImpl { data in
-                IODefaultPickerView(data: data)
-            } datePickerView: { data in
-                IODefaultDatePickerView(data: data)
-            }
-        }
         
         container.register(singleton: IOAppleSetting.self) { IOAppleSettingImpl.self }
         container.register(singleton: IOAppState.self) { IOAppStateImpl.self }
