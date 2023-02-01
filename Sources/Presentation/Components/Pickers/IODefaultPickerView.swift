@@ -31,7 +31,7 @@ public struct IODefaultPickerView: IOPickerViewProtocol {
                         Button(data.doneButtonTitle) {
                             handleDoneButton()
                         }
-                        .padding([.top, .bottom], 16)
+                        .padding([.top, .bottom], 12)
                         .padding(.trailing, 12)
                     }
                     .background(backgroundColor)
