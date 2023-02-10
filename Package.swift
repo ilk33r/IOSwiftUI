@@ -118,21 +118,26 @@ let package = Package(
         // MARK: - App Delegate
         
             .target(name: "IOSwiftUIApplication",
-                    dependencies: ["IOSwiftUIInfrastructure",
-                                   "IOSwiftUIPresentation",
-                                   "IOSwiftUIScreensHTTPDebugger"],
+                    dependencies: [
+                        "IOSwiftUICommon",
+                        "IOSwiftUIInfrastructure",
+                        "IOSwiftUIPresentation",
+                        "IOSwiftUIScreensHTTPDebugger"
+                    ],
                     path: "Sources/Application"),
         
         // MARK: - Library
         
             .target(
                 name: "IOSwiftUI",
-                dependencies: ["IOSwiftUICommon",
-                               "IOSwiftUIInfrastructure",
-                               "IOSwiftUIPresentation",
-                               "IOSwiftUIScreensHTTPDebugger",
-                               "IOSwiftUIRouter",
-                               "IOSwiftUIApplication"]),
+                dependencies: [
+                    "IOSwiftUICommon",
+                    "IOSwiftUIInfrastructure",
+                    "IOSwiftUIPresentation",
+                    "IOSwiftUIScreensHTTPDebugger",
+                    "IOSwiftUIRouter",
+                    "IOSwiftUIApplication"
+                ]),
         
         // MARK: - Tests
         
