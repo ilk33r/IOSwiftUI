@@ -26,6 +26,26 @@ final public class IODIContainerImpl: IODIContainer, IOSingleton {
         self.singletons = [:]
     }
     
+    // MARK: - Controls
+    
+    public func isRegistered<TType>(singleton type: TType.Type) -> Bool {
+        let protocolName = String(describing: type)
+        if self.singletons[protocolName] == nil {
+            return false
+        }
+        
+        return true
+    }
+    
+    public func isRegistered<TType>(class aClass: TType.Type) -> Bool {
+        let className = String(describing: aClass)
+        if self.instances[className] == nil {
+            return false
+        }
+        
+        return true
+    }
+    
     // MARK: - Registers
     
     public func register<TType>(singleton type: TType.Type, impl: @escaping SingletonBlock) {

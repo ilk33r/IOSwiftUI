@@ -14,6 +14,11 @@ public protocol IODIContainer {
     typealias InstanceBlock = () -> Any
     typealias SingletonBlock = () -> any IOSingleton.Type
     
+    // MARK: - Controls
+    
+    func isRegistered<TType>(singleton type: TType.Type) -> Bool
+    func isRegistered<TType>(class aClass: TType.Type) -> Bool
+    
     // MARK: - Registers
     
     func register<TType>(singleton type: TType.Type, impl: @escaping SingletonBlock)
