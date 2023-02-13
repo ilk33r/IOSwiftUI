@@ -58,10 +58,13 @@ public struct SettingsView: IOController {
             SettingsNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
+            if isPreviewMode {
+                presenter.interactor.loadMenu()
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
             
             presenter.interactor.loadMenu()
         }

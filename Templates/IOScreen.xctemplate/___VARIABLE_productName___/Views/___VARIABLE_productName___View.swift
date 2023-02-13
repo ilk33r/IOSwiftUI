@@ -40,10 +40,12 @@ public struct ___VARIABLE_productName___View: IOController {
             ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
         }
     }
     

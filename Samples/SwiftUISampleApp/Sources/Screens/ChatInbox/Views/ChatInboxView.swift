@@ -71,11 +71,13 @@ public struct ChatInboxView: IOController {
             }
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.interactor.getInboxes(showIndicator: true)
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.interactor.getInboxes(showIndicator: true)
         }
     }
     

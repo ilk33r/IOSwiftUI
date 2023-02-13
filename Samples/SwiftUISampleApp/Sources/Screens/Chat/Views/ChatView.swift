@@ -105,11 +105,13 @@ public struct ChatView: IOController {
             ChatNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.loadInitialMessages()
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.loadInitialMessages()
         }
         .onReceive(presenter.$chatMessages) { chatMessages in
             if chatMessages.last != nil && presenter.scrollToLastMessage {

@@ -138,12 +138,14 @@ public struct ProfileView: IOController {
             )
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.interactor.getMember()
-                presenter.loadImages()
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.interactor.getMember()
+            presenter.loadImages()
         }
     }
     

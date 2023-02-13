@@ -126,11 +126,13 @@ public struct FriendsView: IOController {
             FriendsNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.interactor.getFriends()
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.interactor.getFriends()
         }
     }
     

@@ -64,12 +64,16 @@ public struct DiscoverView: IOController {
             DiscoverNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.loadImages(showIndicator: true)
+            if isPreviewMode {
+                navigationState.userName = nil
+                navigationState.navigateToProfile = false
+                return
             }
             
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.loadImages(showIndicator: true)
+
             navigationState.userName = nil
             navigationState.navigateToProfile = false
         }

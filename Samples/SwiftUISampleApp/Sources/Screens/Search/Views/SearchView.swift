@@ -98,13 +98,14 @@ public struct SearchView: IOController {
             SearchNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.loadImages()
-            } else {
+            if isPreviewMode {
                 presenter.preparePreviewData()
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.loadImages()
             
             navigationState.userName = nil
             navigationState.navigateToProfile = false

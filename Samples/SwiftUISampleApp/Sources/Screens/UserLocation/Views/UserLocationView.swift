@@ -102,22 +102,24 @@ public struct UserLocationView: IOController {
             UserLocationNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.loadUserLocation()
-                
-                if
-                    let latitude = presenter.interactor.entity.locationLatitude.wrappedValue,
-                    let longitude = presenter.interactor.entity.locationLongitude.wrappedValue,
-                    latitude != 0 && longitude != 0
-                {
-                    annotations = [
-                        UserLocationMapPinUIModel(
-                            coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                        )
-                    ]
-                }
+            if isPreviewMode {
+                return
+            }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.loadUserLocation()
+            
+            if
+                let latitude = presenter.interactor.entity.locationLatitude.wrappedValue,
+                let longitude = presenter.interactor.entity.locationLongitude.wrappedValue,
+                latitude != 0 && longitude != 0
+            {
+                annotations = [
+                    UserLocationMapPinUIModel(
+                        coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    )
+                ]
             }
         }
         .onReceive(presenter.$userLocation) { location in

@@ -70,11 +70,13 @@ public struct LoginView: IOController {
             LoginNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                emailText = appleSettings.string(for: .debugDefaultUserName) ?? ""
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            emailText = appleSettings.string(for: .debugDefaultUserName) ?? ""
         }
     }
     

@@ -74,10 +74,12 @@ public struct RegisterCreatePasswordView: IOController {
             RegisterCreatePasswordNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
         }
     }
     

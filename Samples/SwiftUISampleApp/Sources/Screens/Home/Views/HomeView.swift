@@ -68,10 +68,12 @@ public struct HomeView: IOController {
             HomeNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
         }
         .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
             IOImagePickerView(

@@ -78,10 +78,12 @@ public struct RegisterUserNameView: IOController {
             RegisterUserNameNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
         }
         .onChange(of: userNameText) { newValue in
             userNameText = newValue.trimNonAlphaNumericCharacters()

@@ -138,11 +138,13 @@ public struct UpdateProfileView: IOController {
             }
         )
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.load()
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.load()
         }
         .onReceive(presenter.$uiModel) { output in
             guard let output else { return }

@@ -210,11 +210,13 @@ public struct RegisterProfileView: IOController {
             )
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.prepare()
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.prepare()
         }
         .onChange(of: formPhoneText) { newValue in
             let plainNumber = newValue.trimLetters()

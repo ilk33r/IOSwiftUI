@@ -67,11 +67,13 @@ public struct LoginPasswordView: IOController {
             LoginPasswordNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                passwordText = appleSettings.string(for: .debugDefaultPassword) ?? ""
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            passwordText = appleSettings.string(for: .debugDefaultPassword) ?? ""
         }
     }
     

@@ -69,11 +69,13 @@ public struct SplashView: IOController {
             SplashNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.interactor.handshake()
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.interactor.handshake()
         }
         .onReceive(presenter.$showButtons) { isShow in
             buttonsIsHidden = !isShow

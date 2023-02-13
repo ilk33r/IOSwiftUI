@@ -100,11 +100,13 @@ public struct SendOTPView: IOController {
             SendOTPNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
-                presenter.interactor.otpSend()
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.interactor.otpSend()
         }
         .onReceive(presenter.$uiModel) { newValue in
             if newValue != nil {

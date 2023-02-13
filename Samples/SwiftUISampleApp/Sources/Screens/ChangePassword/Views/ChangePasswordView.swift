@@ -116,10 +116,12 @@ public struct ChangePasswordView: IOController {
             }
         )
         .onAppear {
-            if !isPreviewMode {
-                presenter.environment = _appEnvironment
-                presenter.navigationState = _navigationState
+            if isPreviewMode {
+                return
             }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
         }
         .onReceive(presenter.$navigateToBack) { output in
             if output ?? false {
