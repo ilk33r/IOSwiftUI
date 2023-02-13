@@ -34,6 +34,10 @@ public struct IOTabControlView<Content: View>: UIViewControllerRepresentable {
     
     private let tabControlHeight: CGFloat
     private let tabTitles: [String]
+    private let textColor: UIColor
+    private let font: UIFont
+    private let lineColor: UIColor
+    private let lineHeight: CGFloat
     
     @Binding private var page: Int
     @State private var currentPage = 0
@@ -46,30 +50,50 @@ public struct IOTabControlView<Content: View>: UIViewControllerRepresentable {
         page: Binding<Int>,
         tabControlHeight: CGFloat,
         tabTitles: [String],
+        textColor: UIColor,
+        font: UIFont,
+        lineColor: UIColor,
+        lineHeight: CGFloat,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.tabControlHeight = tabControlHeight
         self.tabTitles = tabTitles
         self._page = page
         self.content = content
+        self.textColor = textColor
+        self.font = font
+        self.lineColor = lineColor
+        self.lineHeight = lineHeight
     }
     
     public init(
         page: Binding<Int>,
         tabControlHeight: CGFloat,
         tabTitles: [IOLocalizationType],
+        textColor: UIColor,
+        font: UIFont,
+        lineColor: UIColor,
+        lineHeight: CGFloat,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.tabControlHeight = tabControlHeight
         self.tabTitles = tabTitles.map({ $0.localized })
         self._page = page
         self.content = content
+        self.textColor = textColor
+        self.font = font
+        self.lineColor = lineColor
+        self.lineHeight = lineHeight
     }
 
     public func makeUIViewController(context: Context) -> IOTabControlViewController {
         let vc = IOTabControlViewController(
             tabControlHeight: self.tabControlHeight,
-            tabTitles: self.tabTitles
+            tabTitles: self.tabTitles,
+            textColor: self.textColor,
+            font: self.font,
+            lineColor: self.lineColor,
+            lineHeight: self.lineHeight
         )
         vc.hostingController.rootView = viewForContent()
         context.coordinator.viewController = vc

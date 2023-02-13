@@ -33,7 +33,11 @@ struct HTTPDebuggerDetailView: View {
                         tabTitles: [
                             "Request",
                             "Response"
-                        ]
+                        ],
+                        textColor: .black,
+                        font: .systemFont(ofSize: 16, weight: .semibold),
+                        lineColor: .black,
+                        lineHeight: 1
                     ) {
                         HStack {
                             ScrollView {

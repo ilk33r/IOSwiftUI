@@ -53,6 +53,8 @@ final public class IOTabControlHeaderView: UIView {
     
     public func configure(
         titles: [String],
+        textColor: UIColor,
+        font: UIFont,
         handler: ClickHandler?
     ) {
         self.backgroundColor = .white
@@ -74,6 +76,9 @@ final public class IOTabControlHeaderView: UIView {
             self.stackView?.addRow(type: IOTabControlButton.self) { [weak self] container in
                 container?.contentView.setTitle(buttonTitle, for: .normal)
                 container?.contentView.setTitle(buttonTitle, for: .highlighted)
+                container?.contentView.setTitleColor(textColor, for: .normal)
+                container?.contentView.setTitleColor(textColor, for: .highlighted)
+                container?.contentView.titleLabel?.font = font
                 container?.contentView.tag = index
                 container?.contentView.addTarget(self, action: #selector(IOTabControlHeaderView.btnTabTapped(_:)), for: .touchUpInside)
                 

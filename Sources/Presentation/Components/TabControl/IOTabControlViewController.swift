@@ -20,6 +20,10 @@ final public class IOTabControlViewController: UIViewController {
 
     private let tabControlHeight: CGFloat
     private let tabTitles: [String]
+    private let textColor: UIColor
+    private let font: UIFont
+    private let lineColor: UIColor
+    private let lineHeight: CGFloat
     
     private weak var scrollView: UIScrollView?
     private weak var tabControlHeaderView: IOTabControlHeaderView?
@@ -28,10 +32,18 @@ final public class IOTabControlViewController: UIViewController {
     
     public init(
         tabControlHeight: CGFloat,
-        tabTitles: [String]
+        tabTitles: [String],
+        textColor: UIColor,
+        font: UIFont,
+        lineColor: UIColor,
+        lineHeight: CGFloat
     ) {
         self.tabControlHeight = tabControlHeight
         self.tabTitles = tabTitles
+        self.textColor = textColor
+        self.font = font
+        self.lineColor = lineColor
+        self.lineHeight = lineHeight
         
         super.init(nibName: nil, bundle: nil)
         
@@ -41,6 +53,10 @@ final public class IOTabControlViewController: UIViewController {
     required init?(coder: NSCoder) {
         self.tabControlHeight = 52
         self.tabTitles = []
+        self.textColor = .black
+        self.font = .systemFont(ofSize: 16, weight: .regular)
+        self.lineColor = .yellow
+        self.lineHeight = 1
         
         super.init(coder: coder)
     }
@@ -61,9 +77,15 @@ final public class IOTabControlViewController: UIViewController {
             guard let self else { return }
             
             container?.contentView.addHeight(self.tabControlHeight)
-            container?.contentView.configure(titles: self.tabTitles, handler: { [weak self] index in
+            container?.contentView.lineColor = self.lineColor
+            container?.contentView.lineHeight = NSNumber(floatLiteral: self.lineHeight)
+            container?.contentView.configure(
+                titles: self.tabTitles,
+                textColor: self.textColor,
+                font: self.font
+            ) { [weak self] index in
                 self?.setPage(index + 1)
-            })
+            }
             
             self.tabControlHeaderView = container?.contentView
         }
@@ -96,9 +118,13 @@ final public class IOTabControlViewController: UIViewController {
     }
     
     public func update(tabTitles: [String]) {
-        self.tabControlHeaderView?.configure(titles: tabTitles, handler: { [weak self] index in
+        self.tabControlHeaderView?.configure(
+            titles: tabTitles,
+            textColor: self.textColor,
+            font: self.font
+        ) { [weak self] index in
             self?.setPage(index + 1)
-        })
+        }
     }
 }
 
