@@ -21,6 +21,7 @@ public protocol IOInteractor {
     // MARK: - DI
     
     var appState: IOAppState { get }
+    var eventProcess: IOEventProcess { get }
     var fileCache: IOFileCache { get }
     var configuration: IOConfiguration { get }
     var localStorage: IOLocalStorage { get }
@@ -36,6 +37,7 @@ public extension IOInteractor {
     // MARK: - DI
     
     var appState: IOAppState { IODIContainerImpl.get(IOAppState.self) }
+    var eventProcess: IOEventProcess { IODIContainerImpl.get(IOEventProcess.self) }
     var fileCache: IOFileCache { IODIContainerImpl.get(IOFileCache.self) }
     var configuration: IOConfiguration { IODIContainerImpl.get(IOConfiguration.self) }
     var localStorage: IOLocalStorage { IODIContainerImpl.get(IOLocalStorage.self) }

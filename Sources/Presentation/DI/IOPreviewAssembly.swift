@@ -31,6 +31,7 @@ public struct IOPreviewAssembly: IOAssembly {
         container.register(singleton: IOLocalStorage.self) { IOLocalStorageImpl.self }
         container.register(singleton: IOMapper.self) { IOMapperImpl.self }
         container.register(singleton: IOHTTPLogger.self) { IOHTTPLoggerImpl.self }
+        container.register(singleton: IOEventProcess.self, impl: { IOEventProcessImpl.self })
         
         let appleSettings = container.resolve(IOAppleSetting.self)
         if appleSettings!.bool(for: .debugSimulateHTTPClient) {
