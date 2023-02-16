@@ -8,3 +8,4 @@ IO Swift UI framework.
 - ASYNC services.
 - ActionSheet usage.
 - fullscreencover and sheet usage.
+- NSNotification usage.

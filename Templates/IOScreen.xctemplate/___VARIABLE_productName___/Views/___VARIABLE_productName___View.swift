@@ -33,10 +33,7 @@ public struct ___VARIABLE_productName___View: IOController {
                 EmptyView()
             }
         }
-//      .navigationWireframe {
-//          ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
-//      }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             ___VARIABLE_productName___NavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
