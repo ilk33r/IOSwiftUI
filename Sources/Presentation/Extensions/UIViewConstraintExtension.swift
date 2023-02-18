@@ -222,8 +222,9 @@ public extension UIView {
     }
     
     @discardableResult
-    func addTrailing(_ trailingAnchor: NSLayoutXAxisAnchor) -> NSLayoutConstraint {
+    func addTrailing(_ trailingAnchor: NSLayoutXAxisAnchor, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
         let trailingAnchor = self.trailingAnchor.constraint(equalTo: trailingAnchor)
+        trailingAnchor.priority = priority
         
         NSLayoutConstraint.activate([
             trailingAnchor
@@ -233,8 +234,9 @@ public extension UIView {
     }
     
     @discardableResult
-    func addWidth(_ constant: CGFloat) -> NSLayoutConstraint {
+    func addWidth(_ constant: CGFloat, priority: UILayoutPriority = .required) -> NSLayoutConstraint {
         let widthAnchor = self.widthAnchor.constraint(equalToConstant: constant)
+        widthAnchor.priority = priority
         
         NSLayoutConstraint.activate([
             widthAnchor

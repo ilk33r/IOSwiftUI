@@ -14,7 +14,7 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
     
     final public class Coordinator: NSObject {
         
-        weak var viewController: IOSnapScrollViewController?
+        weak var viewController: IOSnapScrollViewController<Content>?
 
         override init() {
             super.init()
@@ -38,7 +38,7 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
     
     public init(
         itemWidth: Binding<CGFloat>,
-        rootViewWidth: Binding<CGFloat> = Binding.constant(0),
+        rootViewWidth: Binding<CGFloat>,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._itemWidth = itemWidth
@@ -46,28 +46,21 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
         self.content = content
     }
 
-    public func makeUIViewController(context: Context) -> IOSnapScrollViewController {
-        let vc = IOSnapScrollViewController(itemWidth: itemWidth)
-        vc.hostingController.rootView = viewForContent()
+    public func makeUIViewController(context: Context) -> IOSnapScrollViewController<Content> {
+        let vc = IOSnapScrollViewController<Content>(itemWidth: itemWidth)
+        vc.setupHostingController(hostingController: IOSwiftUIViewController<Content>(rootView: self.content()))
         context.coordinator.viewController = vc
         
         return vc
     }
 
-    public func updateUIViewController(_ viewController: IOSnapScrollViewController, context: Context) {
-        viewController.hostingController.rootView = viewForContent()
+    public func updateUIViewController(_ viewController: IOSnapScrollViewController<Content>, context: Context) {
+        viewController.hostingController.rootView = self.content()
         
         context.coordinator.updateWidth(rootViewWidth)
     }
     
     public func makeCoordinator() -> Coordinator {
         return Coordinator()
-    }
-    
-    // MARK: - Helper Methods
-    
-    private func viewForContent() -> AnyView {
-        let view = content()
-        return AnyView(view)
     }
 }

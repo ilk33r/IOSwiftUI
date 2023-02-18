@@ -10,11 +10,11 @@ import SwiftUI
 import UIKit
 import IOSwiftUICommon
 
-final public class IOSnapScrollViewController: UIViewController {
+final public class IOSnapScrollViewController<Content: View>: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Properties
     
-    private(set) public var hostingController: UIHostingController<AnyView>!
+    private(set) public var hostingController: IOSwiftUIViewController<Content>!
     
     // MARK: - Privates
     
@@ -31,8 +31,6 @@ final public class IOSnapScrollViewController: UIViewController {
     ) {
         self.itemWidth = itemWidth
         super.init(nibName: nil, bundle: nil)
-        
-        self.hostingController = UIHostingController(rootView: AnyView(EmptyView()))
     }
     
     required init?(coder: NSCoder) {
@@ -49,24 +47,28 @@ final public class IOSnapScrollViewController: UIViewController {
         
         let scrollView = UIScrollView(
             containerView: self.view,
-            constraints: IOConstraints.safeAreaAll
+            constraints: IOConstraints.all
         )
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         
-        self.hostingController.willMove(toParent: self)
-        scrollView.addSubview(
-            view: self.hostingController.view,
+        self.hostingController.add(
+            parent: self,
+            toView: scrollView,
             constraints: IOConstraints.all
         )
         self.hostingController.view.addEqualHeight(scrollView.heightAnchor)
         self.hostingController.view.backgroundColor = .clear
-        self.hostingController.didMove(toParent: self)
+        
         self.scrollView = scrollView
         self.scrollView?.delegate = self
     }
     
     // MARK: - Helper Methods
+    
+    public func setupHostingController(hostingController: IOSwiftUIViewController<Content>) {
+        self.hostingController = hostingController
+    }
     
     public func updateWidth(_ width: CGFloat) {
         if self.widthConstraint == nil {
@@ -75,9 +77,8 @@ final public class IOSnapScrollViewController: UIViewController {
             self.widthConstraint?.constant = width
         }
     }
-}
-
-extension IOSnapScrollViewController: UIScrollViewDelegate {
+    
+    // MARK: - ScrollView Delegate
     
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.startingScrollingOffset = scrollView.contentOffset
