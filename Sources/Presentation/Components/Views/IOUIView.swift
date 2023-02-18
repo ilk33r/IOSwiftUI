@@ -13,25 +13,28 @@ public struct IOUIView<Content: View>: UIViewControllerRepresentable {
     // MARK: - Privates
     
     private var content: () -> Content
-    private var lifecycleHandler: IOUIViewController.LifecycleHandler
+    private var lifecycleHandler: IOUIViewController<Content>.LifecycleHandler
 
     // MARK: - Controller Representable
     
     public init(
-        lifecycleHandler: @escaping IOUIViewController.LifecycleHandler,
+        lifecycleHandler: @escaping IOUIViewController<Content>.LifecycleHandler,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.lifecycleHandler = lifecycleHandler
         self.content = content
     }
     
-    public func makeUIViewController(context: Context) -> IOUIViewController {
-        let vc = IOUIViewController(handler: lifecycleHandler)
-        vc.hostingController.rootView = AnyView(content())
+    public func makeUIViewController(context: Context) -> IOUIViewController<Content> {
+        let hostingController = IOSwiftUIViewController(rootView: content())
+        let vc = IOUIViewController(
+            hostingController: hostingController,
+            handler: lifecycleHandler
+        )
         return vc
     }
     
-    public func updateUIViewController(_ viewController: IOUIViewController, context: Context) {
-        viewController.hostingController.rootView = AnyView(content())
+    public func updateUIViewController(_ viewController: IOUIViewController<Content>, context: Context) {
+        viewController.hostingController.rootView = content()
     }
 }

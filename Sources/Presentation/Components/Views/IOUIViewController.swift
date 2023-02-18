@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 import IOSwiftUICommon
 
-final public class IOUIViewController: UIViewController {
+final public class IOUIViewController<Content: View>: UIViewController {
     
     // MARK: - Defs
     
@@ -25,7 +25,7 @@ final public class IOUIViewController: UIViewController {
     
     // MARK: - Properties
     
-    private(set) public var hostingController: UIHostingController<AnyView>!
+    private(set) public var hostingController: IOSwiftUIViewController<Content>!
     
     // MARK: - Privates
     
@@ -33,10 +33,13 @@ final public class IOUIViewController: UIViewController {
     
     // MARK: - View Lifecycle
     
-    public init(handler: LifecycleHandler?) {
+    public init(
+        hostingController: IOSwiftUIViewController<Content>,
+        handler: LifecycleHandler?
+    ) {
         super.init(nibName: nil, bundle: nil)
         
-        self.hostingController = UIHostingController(rootView: AnyView(EmptyView()))
+        self.hostingController = hostingController
         self.handler = handler
     }
     
@@ -51,9 +54,7 @@ final public class IOUIViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.hostingController.willMove(toParent: self)
-        self.view.addSubview(view: self.hostingController.view, constraints: IOConstraints.safeAreaAll)
-        self.hostingController.didMove(toParent: self)
+        self.hostingController.add(parent: self, toView: self.view, constraints: IOConstraints.safeAreaAll)
     }
     
     public override func viewWillAppear(_ animated: Bool) {

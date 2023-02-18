@@ -18,7 +18,7 @@ final public class IOPageViewController: UIViewController {
     
     // MARK: - Properties
     
-    private(set) public var hostingController: UIHostingController<AnyView>!
+    private(set) public var hostingController: IOSwiftUIViewController<AnyView>!
     
     // MARK: - Privates
     
@@ -29,10 +29,12 @@ final public class IOPageViewController: UIViewController {
     
     // MARK: - View Lifecycle
     
-    public init() {
+    public init(
+        hostingController: IOSwiftUIViewController<AnyView>
+    ) {
         super.init(nibName: nil, bundle: nil)
         
-        self.hostingController = UIHostingController(rootView: AnyView(EmptyView()))
+        self.hostingController = hostingController
     }
     
     required init?(coder: NSCoder) {
@@ -54,14 +56,8 @@ final public class IOPageViewController: UIViewController {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         
-        self.hostingController.willMove(toParent: self)
-        scrollView.addSubview(
-            view: self.hostingController.view,
-            constraints: IOConstraints.all
-        )
+        self.hostingController.add(parent: self, toView: scrollView, constraints: IOConstraints.all)
         self.hostingController.view.addEqualHeight(scrollView.heightAnchor)
-        self.hostingController.view.backgroundColor = .clear
-        self.hostingController.didMove(toParent: self)
         self.scrollView = scrollView
         self.scrollView?.delegate = self
     }

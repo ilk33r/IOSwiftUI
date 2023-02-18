@@ -13,7 +13,7 @@ final public class IOPopoverWrapperViewController<Content: View>: UIViewControll
     
     // MARK: - Properties
     
-    private(set) public var hostingController: UIHostingController<AnyView>!
+    private(set) public var hostingController: IOSwiftUIViewController<Content>!
     
     // MARK: - Privates
     

@@ -55,8 +55,8 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
     }
 
     public func makeUIViewController(context: Context) -> IOPageViewController {
-        let vc = IOPageViewController()
-        vc.hostingController.rootView = viewForContent()
+        let hostingController = IOSwiftUIViewController<AnyView>(rootView: viewForContent())
+        let vc = IOPageViewController(hostingController: hostingController)
         context.coordinator.viewController = vc
         
         vc.setHandler { page in
