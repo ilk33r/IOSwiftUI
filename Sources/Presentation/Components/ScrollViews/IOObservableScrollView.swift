@@ -17,15 +17,6 @@ struct IOScrollViewOffsetPreferenceKey: PreferenceKey {
     }
 }
 
-struct IOScrollViewSizePreferenceKey: PreferenceKey {
-    
-    static var defaultValue = CGSize.zero
-    
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        defaultValue = value
-    }
-}
-
 public struct IOObservableScrollView<Content>: View where Content: View {
     
     private let content: (_ proxy: ScrollViewProxy) -> Content
@@ -47,7 +38,7 @@ public struct IOObservableScrollView<Content>: View where Content: View {
                                 value: offset
                             )
                             .preference(
-                                key: IOScrollViewSizePreferenceKey.self,
+                                key: IOSizePreferenceKey.self,
                                 value: contentSize
                             )
                     })
@@ -57,7 +48,7 @@ public struct IOObservableScrollView<Content>: View where Content: View {
         .onPreferenceChange(IOScrollViewOffsetPreferenceKey.self) { value in
             scrollOffset = value
         }
-        .onPreferenceChange(IOScrollViewSizePreferenceKey.self) { value in
+        .onPreferenceChange(IOSizePreferenceKey.self) { value in
             contentSize = value
         }
     }
