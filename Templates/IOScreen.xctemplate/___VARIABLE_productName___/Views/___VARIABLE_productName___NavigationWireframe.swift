@@ -23,6 +23,7 @@ struct ___VARIABLE_productName___NavigationWireframe: IONavigationLinkView {
                 isActive: $navigationState.navigateToPage
             ) {
                 EmptyView()
+            }
         }
         .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
             if let view = navigationState.editProfileView {

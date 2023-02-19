@@ -129,4 +129,12 @@ public extension Date {
         
         return formatter.string(from: self)
     }
+    
+    func string(unitStyle: RelativeDateTimeFormatter.UnitsStyle, locale: Locale = .current) -> String? {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = unitStyle
+        formatter.locale = locale
+        
+        return formatter.localizedString(for: self, relativeTo: Date())
+    }
 }
