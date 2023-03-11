@@ -50,7 +50,7 @@ final public class IOPageViewController: UIViewController {
         
         let scrollView = UIScrollView(
             containerView: self.view,
-            constraints: IOConstraints.safeAreaAll
+            constraints: IOConstraints.all
         )
         scrollView.isPagingEnabled = true
         scrollView.showsVerticalScrollIndicator = false
