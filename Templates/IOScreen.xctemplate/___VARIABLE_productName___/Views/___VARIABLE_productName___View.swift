@@ -56,9 +56,18 @@ public struct ___VARIABLE_productName___View: IOController {
 #if DEBUG
 struct ___VARIABLE_productName___View_Previews: PreviewProvider {
     
+    struct ___VARIABLE_productName___ViewDemo: View {
+        
+        var body: some View {
+            ___VARIABLE_productName___View(
+                entity: ___VARIABLE_productName___Entity()
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return ___VARIABLE_productName___View(entity: ___VARIABLE_productName___Entity())
+        return ___VARIABLE_productName___ViewDemo()
     }
 }
 #endif
