@@ -9,6 +9,10 @@ import Foundation
 
 public protocol IOFileCache {
     
+    // MARK: - Controls
+    
+    func cacheExists(name: String) -> Bool
+    
     // MARK: - Cache Methods
     
     func getFile(fromCache name: String) throws -> Data

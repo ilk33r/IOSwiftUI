@@ -23,6 +23,23 @@ public struct IOFileCacheImpl: IOFileCache, IOSingleton {
     public init() {
     }
     
+    // MARK: - Controls
+    
+    public func cacheExists(name: String) -> Bool {
+        let fileManager = FileManager.default
+        
+        do {
+            let fileURL = try cacheFileURL(fromCache: name, cacheDirectory: fileManager.cacheDirectory)
+            if fileManager.fileExists(atPath: fileURL.path) {
+                return true
+            }
+        } catch {
+            return false
+        }
+        
+        return false
+    }
+    
     // MARK: - Cache Methods
     
     public func getFile(fromCache name: String) throws -> Data {
