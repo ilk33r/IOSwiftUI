@@ -11,6 +11,7 @@ public struct IOAppleSettingType: RawRepresentable, Equatable, Hashable {
     
     public typealias RawValue = String
     
+    public static let debugClearFileCache = IOAppleSettingType(rawValue: "debug_clear_file_cache")
     public static let debugHTTPMenuToggle = IOAppleSettingType(rawValue: "debug_http_menu_toggle")
     public static let debugRecordHTTPCalls = IOAppleSettingType(rawValue: "debug_record_http_calls")
     public static let debugSimulateHTTPClient = IOAppleSettingType(rawValue: "debug_simulate_http_client")

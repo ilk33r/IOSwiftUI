@@ -17,6 +17,7 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
     
     @IOInject public var appleSettings: IOAppleSetting
     @IOInject public var alertPresenter: IOAlertPresenter
+    @IOInject public var fileCache: IOFileCache
     @IOInject public var httpClient: IOHTTPClient
     
     // MARK: - Settings
@@ -93,6 +94,12 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
     }
     
     open func settingValueChanged() {
+        if self.appleSettings.bool(for: .debugClearFileCache) {
+            let cacheFileBeforeDate = Date()
+            self.fileCache.removeFiles(beforeDate: cacheFileBeforeDate)
+            self.appleSettings.set(false, for: .debugClearFileCache)
+        }
+        
         if self.appleSettings.bool(for: .debugHTTPMenuToggle) && self.debuggerPresenter == nil {
             self.debuggerPresenter = HTTPDebuggerPresenter()
             self.debuggerPresenter?.show()
