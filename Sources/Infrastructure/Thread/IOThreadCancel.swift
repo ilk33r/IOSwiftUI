@@ -8,11 +8,11 @@
 import Foundation
 import IOSwiftUICommon
 
-internal struct IOThreadCancel: IOCancellable {
+internal class IOThreadCancel: IOCancellable {
     
     // MARK: - Privatees
     
-    private var workItem: DispatchWorkItem?
+    private weak var workItem: DispatchWorkItem?
     
     // MARK: - Initialization Methods
     
@@ -24,5 +24,6 @@ internal struct IOThreadCancel: IOCancellable {
     
     func cancel() {
         workItem?.cancel()
+        workItem = nil
     }
 }
