@@ -12,12 +12,16 @@ internal class IOThreadCancel: IOCancellable {
     
     // MARK: - Privatees
     
-    private weak var workItem: DispatchWorkItem?
+    private var workItem: DispatchWorkItem?
     
     // MARK: - Initialization Methods
     
     init(workItem: DispatchWorkItem?) {
         self.workItem = workItem
+    }
+    
+    deinit {
+        self.workItem = nil
     }
     
     // MARK: - Cancellable
