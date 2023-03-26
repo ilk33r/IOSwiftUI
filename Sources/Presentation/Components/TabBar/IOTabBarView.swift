@@ -67,5 +67,7 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
                 updateViews = false
             }
         }
+        
+        viewController.selectedIndex = selection
     }
 }
