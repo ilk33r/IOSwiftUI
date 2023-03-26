@@ -7,10 +7,19 @@
 
 import SwiftUI
 import UIKit
+import IOSwiftUIInfrastructure
 
 public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepresentable {
 
+    // MARK: - DI
+    
+    @IOInject private var thread: IOThread
+    
+    // MARK: - Properties
+    
     @Binding private var selection: Int
+    @Binding private var updateViews: Bool
+    
     private var content: () -> [IOIdentifiableView]
     private var controllerType: Controller.Type
     private var tabBarType: UITabBar.Type
@@ -24,18 +33,21 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
         self.controllerType = controllerType
         self.tabBarType = tabBarType
         self._selection = Binding.constant(0)
+        self._updateViews = Binding.constant(false)
     }
     
     public init(
         controllerType: Controller.Type,
         tabBarType: UITabBar.Type,
         selection: Binding<Int>,
+        updateViews: Binding<Bool>,
         @ViewBuilder content: @escaping () -> [IOIdentifiableView]
     ) {
         self.content = content
         self.controllerType = controllerType
         self.tabBarType = tabBarType
         self._selection = selection
+        self._updateViews = updateViews
     }
 
     public func makeUIViewController(context: Context) -> Controller {
@@ -48,6 +60,12 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
     }
 
     public func updateUIViewController(_ viewController: Controller, context: Context) {
-//        viewController.setupViewControllers(identifiables: self.content())
+        if updateViews {
+            viewController.setupViewControllers(identifiables: self.content())
+            
+            thread.runOnMainThread(afterMilliSecond: 150) {
+                updateViews = false
+            }
+        }
     }
 }
