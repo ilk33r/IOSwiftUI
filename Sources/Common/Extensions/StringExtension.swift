@@ -111,4 +111,15 @@ public extension String {
         
         return formattedString
     }
+    
+    // MARK: - JSON
+    
+    func toJsonDictionary() -> [String: Any]? {
+        if let jsonData = self.data(using: .utf8) {
+            let jsonDict = try? JSONSerialization.jsonObject(with: jsonData)
+            return jsonDict as? [String: Any]
+        }
+        
+        return nil
+    }
 }

@@ -26,6 +26,9 @@ let package = Package(
             name: "IOSwiftUISupportNFC",
             targets: ["IOSwiftUISupportNFC"]),
         .library(
+            name: "IOSwiftUISupporPushNotification",
+            targets: ["IOSwiftUISupporPushNotification"]),
+        .library(
             name: "IOSwiftUISupportVisionDetectText",
             targets: ["IOSwiftUISupportVisionDetectText"]),
         .plugin(name: "IOBuildConfigGeneratorPlugin",
@@ -93,6 +96,11 @@ let package = Package(
                     "IOSwiftUIInfrastructure"
                 ],
                 path: "Sources/Support/NFC"),
+        .target(name: "IOSwiftUISupporPushNotification",
+                dependencies: [
+                    "IOSwiftUIInfrastructure"
+                ],
+                path: "Sources/Support/PushNotification"),
         .target(name: "IOSwiftUISupportVisionDetectText",
                 dependencies: [
                     "IOSwiftUIInfrastructure",
