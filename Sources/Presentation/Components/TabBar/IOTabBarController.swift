@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 30.08.2022.
 //
 
+import Combine
 import Foundation
 import UIKit
 import SwiftUI
@@ -18,10 +19,11 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     // MARK: - Privates
     
-    @IOInject private var appState: IOAppState
+    @IOInject private var eventProcess: IOEventProcess
     
     private(set) public var selectionHandler: SelectionHandler?
     private var tabBarType: UITabBar.Type
+    private var tabBarVisibilityCancellable: AnyCancellable?
     
     // MARK: - View Lifecycle
     
@@ -47,18 +49,27 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(IOTabBarController.tabBarVisibilityChange(_:)),
-            name: .tabBarVisibilityChangeNotification,
-            object: nil
-        )
+        self.tabBarVisibilityCancellable = self.eventProcess.bool(forType: .tabBarVisibility)
+            .sink(receiveCompletion: { _ in
+                IOLogger.debug("tabBarVisibility completed")
+            }, receiveValue: { [weak self] newValue in
+                if newValue ?? false {
+                    self?.showTabBar()
+                } else {
+                    self?.hideTabBar()
+                }
+            })
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    deinit {
+        self.tabBarVisibilityCancellable?.cancel()
+        self.tabBarVisibilityCancellable = nil
     }
     
     // MARK: - Controller Methods
@@ -86,16 +97,6 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     open func showTabBar() {
         self.tabBar.isHidden = false
-    }
-    
-    // MARK: - Actions
-    
-    @objc dynamic private func tabBarVisibilityChange(_ sender: Notification) {
-        if self.appState.bool(forType: .tabBarIsHidden) ?? false {
-            self.hideTabBar()
-        } else {
-            self.showTabBar()
-        }
     }
     
     // MARK: - Delegate
