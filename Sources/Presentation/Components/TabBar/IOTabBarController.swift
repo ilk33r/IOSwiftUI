@@ -61,12 +61,6 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
             })
     }
     
-    open override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     deinit {
         self.tabBarVisibilityCancellable?.cancel()
         self.tabBarVisibilityCancellable = nil
@@ -101,7 +95,7 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     // MARK: - Delegate
     
-    public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    open func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let controllerIndex = self.viewControllers?.firstIndex(where: { $0.isEqual(viewController) }) else { return }
         if controllerIndex >= 0 {
             self.selectionHandler?(controllerIndex)
