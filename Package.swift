@@ -12,80 +12,131 @@ let package = Package(
     products: [
         .library(
             name: "IOSwiftUI",
-            targets: ["IOSwiftUI"]),
+            targets: ["IOSwiftUI"]
+        ),
         .library(
             name: "IOSwiftUISupportBiometricAuthenticator",
-            targets: ["IOSwiftUISupportBiometricAuthenticator"]),
+            targets: ["IOSwiftUISupportBiometricAuthenticator"]
+        ),
         .library(
             name: "IOSwiftUISupportCamera",
-            targets: ["IOSwiftUISupportCamera"]),
+            targets: ["IOSwiftUISupportCamera"]
+        ),
         .library(
             name: "IOSwiftUISupportLocation",
-            targets: ["IOSwiftUISupportLocation"]),
+            targets: ["IOSwiftUISupportLocation"]
+        ),
         .library(
             name: "IOSwiftUISupportNFC",
-            targets: ["IOSwiftUISupportNFC"]),
+            targets: ["IOSwiftUISupportNFC"]
+        ),
         .library(
             name: "IOSwiftUISupporPushNotification",
-            targets: ["IOSwiftUISupporPushNotification"]),
+            targets: ["IOSwiftUISupporPushNotification"]
+        ),
         .library(
             name: "IOSwiftUISupportVisionDetectText",
-            targets: ["IOSwiftUISupportVisionDetectText"]),
-        .plugin(name: "IOBuildConfigGeneratorPlugin",
-                targets: ["IOBuildConfigGeneratorPlugin"]),
-        .plugin(name: "IORouterGeneratorPlugin",
-                targets: ["IORouterGeneratorPlugin"])
+            targets: ["IOSwiftUISupportVisionDetectText"]
+        ),
+        .plugin(
+            name: "IOBuildConfigGeneratorPlugin",
+            targets: ["IOBuildConfigGeneratorPlugin"]
+        ),
+        .plugin(
+            name: "IORouterGeneratorPlugin",
+            targets: ["IORouterGeneratorPlugin"]
+        ),
+        .plugin(
+            name: "IOSwiftLintPlugin",
+            targets: ["IOSwiftLintPlugin"]
+        )
     ],
     dependencies: [
     ],
     targets: [
         .binaryTarget(
             name: "SwiftLintBinary",
-            url: "https://github.com/realm/SwiftLint/releases/download/0.47.1/SwiftLintBinary-macos.artifactbundle.zip",
-            checksum: "82ef90b7d76b02e41edd73423687d9cedf0bb9849dcbedad8df3a461e5a7b555"
+            url: "https://github.com/realm/SwiftLint/releases/download/0.51.0/SwiftLintBinary-macos.artifactbundle.zip",
+            checksum: "9fbfdf1c2a248469cfbe17a158c5fbf96ac1b606fbcfef4b800993e7accf43ae"
         ),
-        .plugin(name: "IOBuildConfigGeneratorPlugin",
-                capability: .buildTool(),
-                dependencies: []),
-        .plugin(name: "IORouterGeneratorPlugin",
-                capability: .buildTool(),
-                dependencies: []),
+        .plugin(
+            name: "IOBuildConfigGeneratorPlugin",
+            capability: .buildTool(),
+            dependencies: []
+        ),
+        .plugin(
+            name: "IORouterGeneratorPlugin",
+            capability: .buildTool(),
+            dependencies: []
+        ),
+        .plugin(
+            name: "IOSwiftLintPlugin",
+            capability: .command(
+                intent: .custom(verb: "ioswiftlint", description: "Lint source files"),
+                permissions: []
+            ),
+            dependencies: [
+                "SwiftLintBinary"
+            ],
+            path: "Plugins/IOSwiftLint"
+        ),
         /*
          // This target auto generate IOBuildConfig.swift file from using Configuration.json
-         .target(name: "IOSwiftUIConfigurations",
+         .target(
+         name: "IOSwiftUIConfigurations",
          dependencies: [],
          path: "Sources/Configuration",
-         plugins: [ //.plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI")
-         "IOBuildConfigGeneratorPlugin"]),
+         plugins: [
+         //.plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI")
+         "IOBuildConfigGeneratorPlugin"
+         ]
+         ),
          */
-        .target(name: "IOSwiftUIResources",
-                path: "Sources/Resources",
-                resources: [.process("Files")]),
-        .target(name: "IOSwiftUICommon",
-                dependencies: [],
-                path: "Sources/Common",
-                swiftSettings: [.define("ENV_DEBUG", .when(configuration: .debug)),
-                                .define("ENV_RELEASE", .when(configuration: .release))
-                ]),
-        .target(name: "IOSwiftUIInfrastructure",
-                dependencies: ["IOSwiftUICommon"],
-                path: "Sources/Infrastructure"),
-        .target(name: "IOSwiftUIPresentation",
-                dependencies: ["IOSwiftUICommon",
-                               "IOSwiftUIInfrastructure"],
-                path: "Sources/Presentation"),
-        .target(name: "IOSwiftUIScreensShared",
-                dependencies: ["IOSwiftUIPresentation"],
-                path: "Sources/Screens/Shared"),
+        .target(
+            name: "IOSwiftUIResources",
+            path: "Sources/Resources",
+            resources: [.process("Files")]
+        ),
+        .target(
+            name: "IOSwiftUICommon",
+            dependencies: [],
+            path: "Sources/Common",
+            swiftSettings: [
+                .define("ENV_DEBUG", .when(configuration: .debug)),
+                .define("ENV_RELEASE", .when(configuration: .release))
+            ]
+        ),
+        .target(
+            name: "IOSwiftUIInfrastructure",
+            dependencies: ["IOSwiftUICommon"],
+            path: "Sources/Infrastructure"
+        ),
+        .target(
+            name: "IOSwiftUIPresentation",
+            dependencies: [
+                "IOSwiftUICommon",
+                "IOSwiftUIInfrastructure"
+            ],
+            path: "Sources/Presentation"
+        ),
+        .target(
+            name: "IOSwiftUIScreensShared",
+            dependencies: ["IOSwiftUIPresentation"],
+            path: "Sources/Screens/Shared"
+        ),
         
         // MARK: - Support
         
-            .target(name: "IOSwiftUISupportBiometricAuthenticator",
-                    dependencies: ["IOSwiftUIInfrastructure"],
-                    path: "Sources/Support/BiometricAuthenticator"),
-        .target(name: "IOSwiftUISupportCamera",
+            .target(
+                name: "IOSwiftUISupportBiometricAuthenticator",
                 dependencies: ["IOSwiftUIInfrastructure"],
-                path: "Sources/Support/Camera"),
+                path: "Sources/Support/BiometricAuthenticator"
+            ),
+        .target(
+            name: "IOSwiftUISupportCamera",
+            dependencies: ["IOSwiftUIInfrastructure"],
+            path: "Sources/Support/Camera"
+        ),
         .target(name: "IOSwiftUISupportLocation",
                 dependencies: [
                     "IOSwiftUIInfrastructure"
@@ -157,13 +208,13 @@ let package = Package(
                 ],
                 path: "Tests/CommonTests"
             ),
-            .testTarget(
-                name: "IOSwiftUITestsSupportBiometricAuthenticatorTests",
-                dependencies: [
-                    "IOSwiftUICommonTests",
-                    "IOSwiftUISupportBiometricAuthenticator"
-                ],
-                path: "Tests/Support/BiometricAuthenticatorTests"),
+        .testTarget(
+            name: "IOSwiftUITestsSupportBiometricAuthenticatorTests",
+            dependencies: [
+                "IOSwiftUICommonTests",
+                "IOSwiftUISupportBiometricAuthenticator"
+            ],
+            path: "Tests/Support/BiometricAuthenticatorTests"),
         
             .testTarget(
                 name: "IOSwiftUISupportNFCTests",

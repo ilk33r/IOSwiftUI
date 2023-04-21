@@ -6,29 +6,33 @@ excluded:
 comma: error
 
 line_length:
-    warning: 5900
+    warning: 6000
     error: 6000
 
 file_length:
-    warning: 960
+    warning: 1000
     error: 1000
 
 function_body_length:
-    warning: 120
+    warning: 160
     error: 160
 
 type_body_length:
-    warning: 860
+    warning: 900
     error: 900
 
 cyclomatic_complexity: 
     warning: 25
+    error: 25
 
 vertical_whitespace:
     max_empty_lines: 1
     severity: error
 
 comment_spacing:
+    severity: error
+
+void_function_in_ternary:
     severity: error
 
 colon:
@@ -171,25 +175,280 @@ return_value_from_void_function:
 redundant_nil_coalescing:
     severity: error
 
+force_cast:
+    severity: error
+
+force_try:
+    severity: error
+
+extension_access_modifier:
+    severity: error
+
+function_parameter_count:
+    warning: 10
+    error: 10
+    ignores_default_parameters: true
+
+large_tuple:
+    warning: 3
+    error: 3
+
+legacy_constructor:
+    severity: error
+
+notification_center_detachment:
+    severity: error
+
+multiline_parameters_brackets:
+    severity: error
+
+leading_whitespace:
+    severity: error
+
+syntactic_sugar:
+    severity: error
+
+self_in_property_initialization:
+    severity: error
+
+implicit_getter:
+    severity: error
+
+explicit_self:
+    severity: error
+
+unused_import:
+    severity: error
+
+capture_variable:
+    severity: error
+
+array_init:
+    severity: error
+
+class_delegate_protocol:
+    severity: error
+
+closure_spacing:
+    severity: error
+
+collection_alignment:
+    severity: error
+
+comma_inheritance:
+    severity: error
+
+compiler_protocol_init:
+    severity: error
+
+closing_brace:
+    severity: error
+
+contains_over_filter_count:
+    severity: error
+
+contains_over_filter_is_empty:
+    severity: error
+
+contains_over_first_not_nil:
+    severity: error
+
+contains_over_range_nil_comparison:
+    severity: error
+
+discarded_notification_center_observer:
+    severity: error
+
+discouraged_assert:
+    severity: error
+
+discouraged_direct_init:
+    severity: error
+
+discouraged_none_name:
+    severity: error
+
+duplicate_conditions:
+    severity: error
+
+duplicate_enum_cases:
+    severity: error
+
+duplicate_imports:
+    severity: error
+
+duplicated_key_in_dictionary_literal:
+    severity: error
+
+empty_parameters:
+    severity: error
+
+explicit_enum_raw_value:
+    severity: error
+
+fallthrough:
+    severity: error
+
+file_name_no_space:
+    severity: error
+
+first_where:
+    severity: error
+
+function_default_parameter_at_end:
+    severity: error
+
+identical_operands:
+    severity: error
+
+implicit_return:
+    severity: error
+
+inert_defer:
+    severity: error
+
+is_disjoint:
+    severity: error
+
+joined_default_parameter:
+    severity: error
+
+last_where:
+    severity: error
+
+legacy_cggeometry_functions:
+    severity: error
+
+legacy_constant:
+    severity: error
+
+legacy_hashing:
+    severity: error
+
+legacy_multiple:
+    severity: error
+
+legacy_nsgeometry_functions:
+    severity: error
+
+legacy_objc_type:
+    severity: error
+
+legacy_random:
+    severity: error
+
+let_var_whitespace:
+    severity: error
+
+lower_acl_than_parent:
+    severity: error
+
+multiline_function_chains:
+    severity: error
+
+nimble_operator:
+    severity: error
+
+no_fallthrough_only:
+    severity: error
+
+ns_number_init_as_function_reference:
+    severity: error
+
+nsobject_prefer_isequal:
+    severity: error
+
+operator_whitespace:
+    severity: error
+
+override_in_extension:
+    severity: error
+
+period_spacing:
+    severity: error
+
+prefer_nimble:
+    severity: error
+
+prefer_self_type_over_type_of_self:
+    severity: error
+
+prefer_self_in_static_references:
+    severity: error
+
+private_subject:
+    severity: error
+
+protocol_property_accessors_order:
+    severity: error
+
+raw_value_for_camel_cased_codable_enum:
+    severity: error
+
+reduce_boolean:
+    severity: error
+
+reduce_into:
+    severity: error
+
+redundant_discardable_let:
+    severity: error
+
+redundant_objc_attribute:
+    severity: error
+
+redundant_set_access_control:
+    severity: error
+
+redundant_void_return:
+    severity: error
+
+self_binding:
+    severity: error
+
+shorthand_optional_binding:
+    severity: error
+
+sorted_imports:
+    severity: error
+
+static_operator:
+    severity: error
+
+strict_fileprivate:
+    severity: error
+
+unavailable_condition:
+    severity: error
+
+unowned_variable_capture:
+    severity: error
+
+unused_capture_list:
+    severity: error
+
+unused_control_flow_label:
+    severity: error
+
+unused_enumerated:
+    severity: error
+
+unused_setter_value:
+    severity: error
+
+vertical_parameter_alignment:
+    severity: error
+
 disabled_rules:
-    - force_cast
-    - force_try
     - identifier_name
-    - large_tuple
-    - function_parameter_count
     - trailing_whitespace
     - type_name
-    - class_delegate_protocol
     - inclusive_language
-    - legacy_constructor
-    - notification_center_detachment
     - empty_enum_arguments
     - nesting
 
 opt_in_rules:
     - empty_count
-    - unused_declaration
-    - capture_variable
     - array_init
     - closure_end_indentation
     - collection_alignment
@@ -197,7 +456,6 @@ opt_in_rules:
     - discouraged_object_literal
     - enum_case_associated_values_count
     - explicit_init
-    - explicit_self
     - extension_access_modifier
     - fallthrough
     - ibinspectable_in_extension
@@ -207,7 +465,6 @@ opt_in_rules:
     - literal_expression_end_indentation
     - multiline_arguments_brackets
     - multiline_literal_brackets
-    - multiline_parameters
     - multiline_parameters_brackets
     - nimble_operator
     - operator_usage_whitespace
@@ -229,12 +486,45 @@ opt_in_rules:
     - switch_case_on_newline
     - toggle_bool
     - unneeded_parentheses_in_closure_argument
-    - unused_import
-    - vertical_parameter_alignment_on_call
     - vertical_whitespace_between_cases
     - weak_delegate
     - xct_specific_matcher
     - yoda_condition
+    - closure_spacing
+    - comma_inheritance
+    - contains_over_filter_count
+    - contains_over_filter_is_empty
+    - contains_over_first_not_nil
+    - contains_over_range_nil_comparison
+    - discouraged_assert
+    - explicit_enum_raw_value
+    - file_name_no_space
+    - first_where
+    - function_default_parameter_at_end
+    - implicit_return
+    - inert_defer
+    - joined_default_parameter
+    - legacy_multiple
+    - legacy_objc_type
+    - let_var_whitespace
+    - lower_acl_than_parent
+    - multiline_function_chains
+    - period_spacing
+    - prefer_self_in_static_references
+    - private_subject
+    - self_binding
+    - shorthand_optional_binding
+    - sorted_imports
+    - strict_fileprivate
+    - unowned_variable_capture
+    - unused_capture_list
+    - discouraged_none_name
+
+analyzer_rules:
+    - explicit_self
+    - unused_import
+    - unused_declaration
+    - capture_variable
 
 custom_rules:
     disable_print:
