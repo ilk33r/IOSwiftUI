@@ -44,10 +44,6 @@ public struct IOLogger: IOSingleton {
     }
     
     fileprivate func logInfo(_ logMessage: String) {
-        guard logLevel == .verbose || logLevel == .info else {
-            return
-        }
-        
         let targetName = appState.targetName
         os_log("%@: %{public}s", log: logger, type: .info, targetName, logMessage)
     }
