@@ -34,7 +34,7 @@ public struct IOMapperImpl: IOMapper, IOSingleton {
     // MARK: - Mapper Methods
     
     public func mapJson<TModel: Codable>(model: TModel.Type, data: Data) throws -> TModel {
-        return try decoder.decode(model, from: data)
+        try decoder.decode(model, from: data)
     }
     
     public func mapJson<TModel: Codable>(model: TModel.Type, string: String) throws -> TModel {
@@ -46,7 +46,7 @@ public struct IOMapperImpl: IOMapper, IOSingleton {
     }
     
     public func toJsonData<TModel: Codable>(_ model: TModel) throws -> Data {
-        return try encoder.encode(model)
+        try encoder.encode(model)
     }
     
     public func toJsonString<TModel: Codable>(_ model: TModel) throws -> String {

@@ -31,7 +31,7 @@ public struct IOPickerUIModel: Hashable, Identifiable {
     // MARK: - Protocols
     
     public static func == (lhs: IOPickerUIModel, rhs: IOPickerUIModel) -> Bool {
-        return lhs.id == rhs.id
+        lhs.id == rhs.id
     }
     
     public func hash(into hasher: inout Hasher) {

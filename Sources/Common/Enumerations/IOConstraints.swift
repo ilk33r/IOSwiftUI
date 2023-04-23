@@ -29,21 +29,21 @@ public struct IOConstraints: RawRepresentable {
     public let rawValue: ConstraintType
     public let sizeValue: CGFloat
     
-    public static let safeAreaTop: ConstraintWithValue = { IOConstraints(rawValue: .safeAreaTop, sizeValue: $0) }
-    public static let safeAreaTrailing: ConstraintWithValue = { IOConstraints(rawValue: .safeAreaTrailing, sizeValue: $0) }
-    public static let safeAreaLeading: ConstraintWithValue = { IOConstraints(rawValue: .safeAreaLeading, sizeValue: $0) }
-    public static let safeAreaBottom: ConstraintWithValue = { IOConstraints(rawValue: .safeAreaBottom, sizeValue: $0) }
+    public static let safeAreaTop: ConstraintWithValue = { Self(rawValue: .safeAreaTop, sizeValue: $0) }
+    public static let safeAreaTrailing: ConstraintWithValue = { Self(rawValue: .safeAreaTrailing, sizeValue: $0) }
+    public static let safeAreaLeading: ConstraintWithValue = { Self(rawValue: .safeAreaLeading, sizeValue: $0) }
+    public static let safeAreaBottom: ConstraintWithValue = { Self(rawValue: .safeAreaBottom, sizeValue: $0) }
     
-    public static let top: ConstraintWithValue = { IOConstraints(rawValue: .top, sizeValue: $0) }
-    public static let trailing: ConstraintWithValue = { IOConstraints(rawValue: .trailing, sizeValue: $0) }
-    public static let leading: ConstraintWithValue = { IOConstraints(rawValue: .leading, sizeValue: $0) }
-    public static let bottom: ConstraintWithValue = { IOConstraints(rawValue: .bottom, sizeValue: $0) }
+    public static let top: ConstraintWithValue = { Self(rawValue: .top, sizeValue: $0) }
+    public static let trailing: ConstraintWithValue = { Self(rawValue: .trailing, sizeValue: $0) }
+    public static let leading: ConstraintWithValue = { Self(rawValue: .leading, sizeValue: $0) }
+    public static let bottom: ConstraintWithValue = { Self(rawValue: .bottom, sizeValue: $0) }
     
-    public static let centerX: ConstraintWithValue = { IOConstraints(rawValue: .centerX, sizeValue: $0) }
-    public static let centerY: ConstraintWithValue = { IOConstraints(rawValue: .centerY, sizeValue: $0) }
+    public static let centerX: ConstraintWithValue = { Self(rawValue: .centerX, sizeValue: $0) }
+    public static let centerY: ConstraintWithValue = { Self(rawValue: .centerY, sizeValue: $0) }
     
-    public static let equalWidth: ConstraintWithValue = { IOConstraints(rawValue: .equalWidth, sizeValue: $0) }
-    public static let equalHeight: ConstraintWithValue = { IOConstraints(rawValue: .equalHeight, sizeValue: $0) }
+    public static let equalWidth: ConstraintWithValue = { Self(rawValue: .equalWidth, sizeValue: $0) }
+    public static let equalHeight: ConstraintWithValue = { Self(rawValue: .equalHeight, sizeValue: $0) }
     
     public static let safeAreaAll: [IOConstraints] = [.safeAreaTop(0), .safeAreaTrailing(0), .safeAreaLeading(0), .safeAreaBottom(0)]
     public static let all: [IOConstraints] = [.top(0), .trailing(0), .leading(0), .bottom(0)]

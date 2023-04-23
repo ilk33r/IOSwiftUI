@@ -27,7 +27,7 @@ public struct IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
     
     @discardableResult
     public func request<TModel: Codable>(_ type: TType, responseType: TModel.Type, handler: @escaping ResultHandler<TModel>) -> IOCancellable? {
-        return httpClient.request(
+        httpClient.request(
             type: type.methodType,
             path: type.path,
             contentType: type.requestContentType.rawValue,

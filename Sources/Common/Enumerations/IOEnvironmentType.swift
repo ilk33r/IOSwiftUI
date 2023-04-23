@@ -11,11 +11,11 @@ public struct IOEnvironmentType: RawRepresentable, Equatable, Hashable {
     
     public typealias RawValue = String
     
-    public static let development = IOEnvironmentType(rawValue: "Development")
-    public static let sit = IOEnvironmentType(rawValue: "SIT")
-    public static let uat = IOEnvironmentType(rawValue: "UAT")
-    public static let preProd = IOEnvironmentType(rawValue: "PreProd")
-    public static let prod = IOEnvironmentType(rawValue: "Prod")
+    public static let development = Self(rawValue: "Development")
+    public static let sit = Self(rawValue: "SIT")
+    public static let uat = Self(rawValue: "UAT")
+    public static let preProd = Self(rawValue: "PreProd")
+    public static let prod = Self(rawValue: "Prod")
     
     public var rawValue: String
     

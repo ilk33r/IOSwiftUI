@@ -5,8 +5,8 @@
 //  Created by Adnan ilker Ozcan on 27.09.2022.
 //
 
-import SwiftUI
 import IOSwiftUIInfrastructure
+import SwiftUI
 
 public struct IOValidatableTextField: View, IOValidatable {
     
@@ -48,7 +48,7 @@ public struct IOValidatableTextField: View, IOValidatable {
     }
     
     public func keyboardType(_ type: UIKeyboardType) -> IOTextField {
-        return IOTextField(
+        IOTextField(
             localizationType,
             text: $text,
             keyboardType: type
@@ -58,7 +58,7 @@ public struct IOValidatableTextField: View, IOValidatable {
     // MARK: - Validation
     
     public func observedObject() -> IOValidatorObservedObject {
-        return validationObservedObject
+        validationObservedObject
     }
 }
 

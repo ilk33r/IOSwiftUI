@@ -16,17 +16,17 @@ public struct IOHTTPError: Error {
         
         public typealias RawValue = Int
 
-        public static let unspecified = ErrorType(rawValue: 0)
-        public static let timeout = ErrorType(rawValue: 1)
-        public static let notConnectedToInternet = ErrorType(rawValue: 2)
-        public static let cancelled = ErrorType(rawValue: 3)
-        public static let notConnectToHost = ErrorType(rawValue: 4)
-        public static let authenticationRequired = ErrorType(rawValue: 5)
-        public static let notDecodeResponse = ErrorType(rawValue: 6)
-        public static let secureConnectionFailed = ErrorType(rawValue: 7)
-        public static let tooManyRedirects = ErrorType(rawValue: 8)
-        public static let notFound = ErrorType(rawValue: 9)
-        public static let decodeError = ErrorType(rawValue: 10)
+        public static let unspecified = Self(rawValue: 0)
+        public static let timeout = Self(rawValue: 1)
+        public static let notConnectedToInternet = Self(rawValue: 2)
+        public static let cancelled = Self(rawValue: 3)
+        public static let notConnectToHost = Self(rawValue: 4)
+        public static let authenticationRequired = Self(rawValue: 5)
+        public static let notDecodeResponse = Self(rawValue: 6)
+        public static let secureConnectionFailed = Self(rawValue: 7)
+        public static let tooManyRedirects = Self(rawValue: 8)
+        public static let notFound = Self(rawValue: 9)
+        public static let decodeError = Self(rawValue: 10)
         
         public var rawValue: Int
         

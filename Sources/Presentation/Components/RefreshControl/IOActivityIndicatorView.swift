@@ -29,7 +29,7 @@ public struct IOActivityIndicatorView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> UIActivityIndicatorView {
-        return UIActivityIndicatorView()
+        UIActivityIndicatorView()
     }
     
     public func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {

@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import IOSwiftUICommon
+import UIKit
 
 public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
     

@@ -13,7 +13,7 @@ public struct IOAESUtilities {
     // MARK: - AES
     
     public static func encrypt(data: Data, keyData: Data, ivData: Data?) -> Data? {
-        return crypt(data: data, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCEncrypt), key: keyData, iv: ivData)
+        crypt(data: data, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCEncrypt), key: keyData, iv: ivData)
     }
     
     public static func encrypt(string: String, keyData: Data, ivData: Data?) -> Data? {
@@ -25,7 +25,7 @@ public struct IOAESUtilities {
     }
     
     public static func decrypt(data: Data, keyData: Data, ivData: Data?) -> Data? {
-        return crypt(data: data, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCDecrypt), key: keyData, iv: ivData)
+        crypt(data: data, algorithm: CCAlgorithm(kCCAlgorithmAES), operation: CCOperation(kCCDecrypt), key: keyData, iv: ivData)
     }
     
     public static func decrypt(string: String, keyData: Data, ivData: Data?) -> Data? {

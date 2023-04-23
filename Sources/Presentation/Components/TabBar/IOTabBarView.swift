@@ -5,9 +5,9 @@
 //  Created by Adnan ilker Ozcan on 30.08.2022.
 //
 
+import IOSwiftUIInfrastructure
 import SwiftUI
 import UIKit
-import IOSwiftUIInfrastructure
 
 public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepresentable {
 

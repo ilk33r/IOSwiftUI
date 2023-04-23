@@ -61,6 +61,6 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
     }
     
     public func makeCoordinator() -> Coordinator {
-        return Coordinator()
+        Coordinator()
     }
 }

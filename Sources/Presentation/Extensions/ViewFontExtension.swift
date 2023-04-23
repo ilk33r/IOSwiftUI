@@ -11,6 +11,6 @@ import SwiftUI
 public extension View {
     
     @inlinable func font(type: IOFontType) -> some View {
-        return font(type.rawValue)
+        font(type.rawValue)
     }
 }

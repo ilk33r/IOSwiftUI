@@ -10,7 +10,7 @@ import Foundation
 public extension Data {
     
     var bytes: [UInt8] {
-        return [UInt8](self)
+        [UInt8](self)
     }
     
     init(fromHexString hexString: String) {

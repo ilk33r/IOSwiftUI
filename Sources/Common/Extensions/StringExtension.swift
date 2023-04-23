@@ -70,15 +70,15 @@ public extension String {
     // MARK: - Trim
     
     func trim(characterSet: CharacterSet) -> String {
-        return String(self.unicodeScalars.filter(characterSet.contains))
+        String(self.unicodeScalars.filter(characterSet.contains))
     }
     
     func trimNonAlphaNumericCharacters() -> String {
-        return self.trim(characterSet: CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"))
+        self.trim(characterSet: CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"))
     }
     
     func trimLetters() -> String {
-        return self.trim(characterSet: CharacterSet(charactersIn: "0123456789,."))
+        self.trim(characterSet: CharacterSet(charactersIn: "0123456789,."))
     }
     
     // MARK: - Pattern

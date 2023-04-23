@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import IOSwiftUIInfrastructure
+import SwiftUI
 
 struct IOBottomSheetViewSizePreferenceKey: PreferenceKey {
     

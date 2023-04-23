@@ -125,7 +125,7 @@ public struct IOLocalStorageImpl: IOLocalStorage, IOSingleton {
     }
     
     private func reformKey(_ key: IOStorageType) -> String {
-        return String(format: "%@_%@", configuration.configForType(type: .localStoragePrefix), key.rawValue)
+        String(format: "%@_%@", configuration.configForType(type: .localStoragePrefix), key.rawValue)
     }
     
     private func synchronize() {

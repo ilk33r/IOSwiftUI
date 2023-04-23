@@ -61,6 +61,6 @@ public struct IOToastData: Equatable {
     // MARK: - Equatable
     
     public static func == (lhs: IOToastData, rhs: IOToastData) -> Bool {
-        return false
+        false
     }
 }

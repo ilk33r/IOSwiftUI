@@ -73,14 +73,14 @@ public struct IOIndicatorView: View {
     }
     
     public func backgroundColor(_ color: Color) -> IOIndicatorView {
-        return IOIndicatorView(
+        Self(
             backgroundColor: color,
             circleColor: circleColor
         )
     }
     
     public func circleColor(_ color: Color) -> IOIndicatorView {
-        return IOIndicatorView(
+        Self(
             backgroundColor: backgroundColor,
             circleColor: color
         )

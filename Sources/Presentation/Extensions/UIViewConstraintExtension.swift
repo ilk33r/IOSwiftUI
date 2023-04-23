@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import IOSwiftUICommon
+import UIKit
 
 public extension UIView {
     
@@ -22,7 +22,7 @@ public extension UIView {
         }
         
         let filteredConstraint = self.superview?.constraints.first(where: { [weak self] constraint in
-            return constraint.firstAnchor.isEqual(self?.bottomAnchor)
+            constraint.firstAnchor.isEqual(self?.bottomAnchor)
         })
         
         return filteredConstraint
@@ -37,7 +37,7 @@ public extension UIView {
         }
         
         let filteredConstraint = self.superview?.constraints.first(where: { [weak self] constraint in
-            return constraint.firstAnchor.isEqual(self?.topAnchor)
+            constraint.firstAnchor.isEqual(self?.topAnchor)
         })
         
         return filteredConstraint

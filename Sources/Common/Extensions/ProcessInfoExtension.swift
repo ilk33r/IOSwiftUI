@@ -10,6 +10,6 @@ import Foundation
 public extension ProcessInfo {
     
     static var isPreviewMode: Bool {
-        return Self.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+        Self.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
     }
 }

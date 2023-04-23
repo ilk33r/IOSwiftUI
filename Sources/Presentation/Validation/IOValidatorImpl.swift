@@ -49,7 +49,7 @@ open class IOValidatorImpl: IOValidator {
         var unvalidatedValidatables = [any IOValidatable]()
         
         self.registeredRules.forEach { it in
-            if unvalidatedValidatables.first(where: { $0.id == it.validatable.id }) != nil {
+            if unvalidatedValidatables.contains(where: { $0.id == it.validatable.id }) {
                 return
             }
             

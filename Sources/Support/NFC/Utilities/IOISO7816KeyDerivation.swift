@@ -127,7 +127,7 @@ final class IOISO7816KeyDerivation {
                 parity += y >> j & 1
             }
             
-            bytes[i] = y + (parity % 2 == 0 ? 1 : 0)
+            bytes[i] = y + (parity.isMultiple(of: 2) ? 1 : 0)
         }
         
         return Data(bytes)

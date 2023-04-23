@@ -106,7 +106,7 @@ public struct IODefaultDatePickerView: IODatePickerViewProtocol {
     // MARK: - Modifiers
     
     public func backgroundColor(_ color: Color) -> IODefaultDatePickerView {
-        return IODefaultDatePickerView(
+        Self(
             data: data,
             backgroundColor: color,
             foregroundColor: foregroundColor,
@@ -115,7 +115,7 @@ public struct IODefaultDatePickerView: IODatePickerViewProtocol {
     }
     
     public func foregroundColor(_ color: Color) -> IODefaultDatePickerView {
-        return IODefaultDatePickerView(
+        Self(
             data: data,
             backgroundColor: backgroundColor,
             foregroundColor: color,
@@ -124,7 +124,7 @@ public struct IODefaultDatePickerView: IODatePickerViewProtocol {
     }
     
     public func font(type: IOFontType) -> IODefaultDatePickerView {
-        return IODefaultDatePickerView(
+        Self(
             data: data,
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,

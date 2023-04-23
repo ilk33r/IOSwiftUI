@@ -44,6 +44,6 @@ public protocol IODIContainer {
 public extension IODIContainer {
  
     static func get<TType>(_ type: TType.Type) -> TType! {
-        return IODIContainerImpl.shared.resolve(type)
+        IODIContainerImpl.shared.resolve(type)
     }
 }

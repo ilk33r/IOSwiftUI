@@ -13,11 +13,11 @@ public struct IODESUtility {
     // MARK: - 3DES
     
     public static func encrypt(key: Data, iv: Data, message: Data, ecbMode: Bool) -> Data? {
-        return self.crypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv, message: message, ecbMode: ecbMode)
+        self.crypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv, message: message, ecbMode: ecbMode)
     }
     
     public static func decrypt(key: Data, iv: Data, message: Data, ecbMode: Bool) -> Data? {
-        return self.crypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv, message: message, ecbMode: ecbMode)
+        self.crypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv, message: message, ecbMode: ecbMode)
     }
     
     // MARK: - Helper Methods

@@ -30,7 +30,7 @@ public protocol IOController: View {
 public extension IOController {
     
     var isPreviewMode: Bool {
-        return ProcessInfo.isPreviewMode
+        ProcessInfo.isPreviewMode
     }
     
     init(presenter: Presenter) {

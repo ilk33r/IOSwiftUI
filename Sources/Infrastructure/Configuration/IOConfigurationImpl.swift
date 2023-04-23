@@ -27,8 +27,10 @@ public struct IOConfigurationImpl: IOConfiguration, IOSingleton {
     // MARK: - Initialization Methods
     
     public init() {
+        // swiftlint:disable force_cast
         let buildConfigClass = NSClassFromString("IOBuildConfig") as! NSObject.Type
         self.configValues = buildConfigClass.value(forKey: "configValues") as! [String: Any]
+        // swiftlint:enable force_cast
         
         self._defaultLocale = IOLocales(rawValue: self.configForType(type: .localizationDefaultLocaleIdentifier))
         self._environment = IOEnvironmentType(rawValue: self.configForType(type: .environment))

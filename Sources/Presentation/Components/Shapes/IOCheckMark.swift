@@ -25,9 +25,9 @@ public struct IOCheckMark: Shape {
         let height = rect.size.height
         
         // Create check mark lines
-        path.move(to: CGPoint(x: width/3.1578, y: height/2))
-        path.addLine(to: CGPoint(x: width/2.0618, y: height/1.57894))
-        path.addLine(to: CGPoint(x: width/1.3953, y: height/2.7272))
+        path.move(to: CGPoint(x: width / 3.1578, y: height / 2))
+        path.addLine(to: CGPoint(x: width / 2.0618, y: height / 1.57894))
+        path.addLine(to: CGPoint(x: width / 1.3953, y: height / 2.7272))
         
         return path
     }

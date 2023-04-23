@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import os
 import IOSwiftUICommon
+import os
 
 public struct IOLogger: IOSingleton {
     
@@ -35,7 +35,7 @@ public struct IOLogger: IOSingleton {
     
     // MARK: - Logging Methods
     
-    fileprivate func logVerbose(_ logMessage: String) {
+    private func logVerbose(_ logMessage: String) {
         guard logLevel == .verbose else {
             return
         }
@@ -43,12 +43,12 @@ public struct IOLogger: IOSingleton {
         os_log("%@: %{public}s", log: logger, type: .default, targetName, logMessage)
     }
     
-    fileprivate func logInfo(_ logMessage: String) {
+    private func logInfo(_ logMessage: String) {
         let targetName = appState.targetName
         os_log("%@: %{public}s", log: logger, type: .info, targetName, logMessage)
     }
     
-    fileprivate func logDebug(_ logMessage: String) {
+    private func logDebug(_ logMessage: String) {
         guard logLevel == .verbose || logLevel == .info || logLevel == .debug else {
             return
         }
@@ -57,7 +57,7 @@ public struct IOLogger: IOSingleton {
         os_log("%@: %{public}s", log: logger, type: .debug, targetName, logMessage)
     }
     
-    fileprivate func logWarning(_ logMessage: String) {
+    private func logWarning(_ logMessage: String) {
         guard logLevel == .verbose || logLevel == .info || logLevel == .debug || logLevel == .warning else {
             return
         }
@@ -66,7 +66,7 @@ public struct IOLogger: IOSingleton {
         os_log("%@ %{public}s", log: logger, type: .error, targetName, logMessage)
     }
     
-    fileprivate func logError(_ logMessage: String) {
+    private func logError(_ logMessage: String) {
         guard logLevel == .verbose || logLevel == .info || logLevel == .debug || logLevel == .warning || logLevel == .error else {
             return
         }

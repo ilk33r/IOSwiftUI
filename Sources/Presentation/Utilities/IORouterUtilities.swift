@@ -13,7 +13,7 @@ public struct IORouterUtilities {
     // MARK: - Router Methods
     
     public static func route<Router: IOBaseRouterDefinition>(_ router: Router.Type, _ type: Router) -> IORouterView {
-        return Self.route(type)
+        Self.route(type)
     }
     
     public static func route(_ type: any IOBaseRouterDefinition) -> IORouterView {

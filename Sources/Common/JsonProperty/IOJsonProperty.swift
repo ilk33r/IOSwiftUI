@@ -23,7 +23,7 @@ import Foundation
 
     public var wrappedValue: TType? {
         get {
-            return self._wrappedValue
+            self._wrappedValue
         }
         set {
             self._wrappedValue = newValue

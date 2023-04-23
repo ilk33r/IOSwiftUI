@@ -30,7 +30,7 @@ public struct IOPopoverWrapperView<Content: View>: UIViewControllerRepresentable
     }
     
     public func makeUIViewController(context: Context) -> IOPopoverWrapperViewController<Content> {
-        return IOPopoverWrapperViewController(
+        IOPopoverWrapperViewController(
             size: size,
             content: content
         ) {

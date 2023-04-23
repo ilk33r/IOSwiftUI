@@ -157,7 +157,9 @@ public struct IORSAKeyUtilities {
             status == noErr,
             item != nil
         {
+            // swiftlint:disable force_cast
             return (item as! SecKey)
+            // swiftlint:enable force_cast
         }
         
         return nil

@@ -20,7 +20,7 @@ final public class IOImageCropUIScrollView: UIScrollView {
     
     // MARK: - Privates
     
-    private var viewConfigured: Bool = false
+    private var viewConfigured = false
     private var imageViewWidthAnchor: NSLayoutConstraint?
     private var imageViewHeightAnchor: NSLayoutConstraint?
     private weak var imageView: UIImageView?
@@ -44,7 +44,7 @@ final public class IOImageCropUIScrollView: UIScrollView {
         if let context = UIGraphicsGetCurrentContext() {
             context.clear(self.bounds)
         
-            //CGContextScaleCTM(ctx, self.zoomScale, self.zoomScale);
+            // CGContextScaleCTM(ctx, self.zoomScale, self.zoomScale);
             context.translateBy(x: -self.contentOffset.x, y: -self.contentOffset.y)
         
             context.setFillColor(UIColor.white.cgColor)
@@ -79,7 +79,7 @@ final public class IOImageCropUIScrollView: UIScrollView {
         trailingAnchor?.priority = .defaultLow
         
         let bottomAnchor = self.imageView?.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        bottomAnchor?.priority = .defaultLow;
+        bottomAnchor?.priority = .defaultLow
         
         NSLayoutConstraint.activate([
             self.imageView!.topAnchor.constraint(equalTo: self.topAnchor),
@@ -135,6 +135,6 @@ final public class IOImageCropUIScrollView: UIScrollView {
 extension IOImageCropUIScrollView: UIScrollViewDelegate {
     
     public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return self.imageView
+        self.imageView
     }
 }

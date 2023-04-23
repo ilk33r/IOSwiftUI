@@ -11,8 +11,8 @@ public struct IOLocales: RawRepresentable, Equatable {
     
     public typealias RawValue = String
     
-    public static let en = IOLocales(rawValue: "en_US")
-    public static let tr = IOLocales(rawValue: "tr_TR")
+    public static let en = Self(rawValue: "en_US")
+    public static let tr = Self(rawValue: "tr_TR")
     
     public var rawValue: String
     

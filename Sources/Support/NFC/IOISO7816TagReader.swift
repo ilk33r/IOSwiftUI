@@ -39,7 +39,7 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
     // MARK: - Initialization Methods
     
     public init(dataGroups: [any IONFCDataGroup]) {
-        self.dataGroups = dataGroups as! [IONFCISO7816DataGroup]
+        self.dataGroups = (dataGroups as? [IONFCISO7816DataGroup])!
         self.nfcReaderQueue = DispatchQueue(label: self.nfcReaderQueueName)
         self.tryCount = 0
         self.readedDataGroupCount = 0
@@ -61,7 +61,7 @@ final public class IOISO7816TagReader: NSObject, IONFCTagReader {
             throw IONFCError.authenticationDataIsEmpty
         }
         
-        self.mrzData = (data.describing as! String)
+        self.mrzData = (data.describing as? String)!
         self.nfcReaderSession = NFCTagReaderSession(pollingOption: .iso14443, delegate: self, queue: self.nfcReaderQueue)
         self.nfcReaderSession.begin()
     }

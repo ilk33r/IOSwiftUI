@@ -112,7 +112,7 @@ public struct IOOTPTextField<TextFieldOverlay: View>: View {
     // MARK: - Modifiers
     
     public func font(type: IOFontType) -> IOOTPTextField<TextFieldOverlay> {
-        return IOOTPTextField(
+        Self(
             text: $text,
             maxLength: maxLength,
             overlayWidth: overlayWidth,
@@ -123,7 +123,7 @@ public struct IOOTPTextField<TextFieldOverlay: View>: View {
     }
     
     public func textColor(_ color: Color) -> IOOTPTextField<TextFieldOverlay> {
-        return IOOTPTextField(
+        Self(
             text: $text,
             maxLength: maxLength,
             overlayWidth: overlayWidth,

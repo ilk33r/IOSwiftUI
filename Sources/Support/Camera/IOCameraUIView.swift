@@ -7,8 +7,8 @@
 
 import AVFoundation
 import Foundation
-import UIKit
 import IOSwiftUIInfrastructure
+import UIKit
 
 final public class IOCameraUIView: UIView {
     
@@ -35,7 +35,7 @@ final public class IOCameraUIView: UIView {
     private var orientation: IOCameraOrientation!
     private var qrOutputHandler: QROutputHandler?
     private var streamOutputHandler: StreamOutputHandler?
-    private var videoPreviewLayer: AVCaptureVideoPreviewLayer! { (self.layer as! AVCaptureVideoPreviewLayer) }
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer! { (self.layer as? AVCaptureVideoPreviewLayer)! }
     
     // MARK: - Overrides
     
@@ -47,7 +47,7 @@ final public class IOCameraUIView: UIView {
         _ outputType: IOCameraOutputType,
         position: IOCameraPosition = .back,
         orientation: IOCameraOrientation = .portrait,
-        handler: InitializationHandler!
+        handler: InitializationHandler! = nil
     ) {
         self.orientation = orientation
         self.initializationHandler = handler
@@ -270,7 +270,7 @@ extension IOCameraUIView {
             // Obtain output
             let output = self.output(forType: outputType)
             if
-                let output = output,
+                let output,
                 self.captureSession?.canAddOutput(output) ?? false {
                 // Then add output
                 self.captureSession?.addOutput(output)

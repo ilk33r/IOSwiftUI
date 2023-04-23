@@ -14,7 +14,7 @@ public struct IOValidationCustomMessageRule: IOValidationRule {
     public var id: String { "IOValidationCustomMessageRule" }
     public var errorMessage: String {
         get {
-            return errorMessageBinder
+            errorMessageBinder
         }
         set {
             _errorMessage = newValue
@@ -41,6 +41,6 @@ public struct IOValidationCustomMessageRule: IOValidationRule {
     // MARK: - Validation Methods
     
     public func validate(value: String?) -> Bool {
-        return errorMessage.isEmpty
+        errorMessage.isEmpty
     }
 }

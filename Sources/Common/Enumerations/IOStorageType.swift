@@ -11,7 +11,7 @@ public struct IOStorageType: RawRepresentable, Equatable, Hashable {
     
     public typealias RawValue = String
 
-    public static let fontsRegistered = IOStorageType(rawValue: "fontsRegistered")
+    public static let fontsRegistered = Self(rawValue: "fontsRegistered")
     
     public var rawValue: String
     

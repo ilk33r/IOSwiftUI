@@ -6,9 +6,9 @@
 //
 
 import Foundation
+import IOSwiftUIInfrastructure
 import LocalAuthentication
 import Security
-import IOSwiftUIInfrastructure
 
 struct IOBiometricAuthenticatorKeyUtilities {
     
@@ -140,7 +140,9 @@ struct IOBiometricAuthenticatorKeyUtilities {
         }
         
         // Cast key
+        // swiftlint:disable force_cast
         let privateKey = privateKeyRef as! SecKey
+        // swiftlint:enable force_cast
         
         // Create a signature
         guard let signedData = IOBiometricAuthenticatorSignUtilities.sign(data: data, privateKey: privateKey) else {
@@ -154,6 +156,6 @@ struct IOBiometricAuthenticatorKeyUtilities {
     // MARK: - Helper Methods
     
     private static func reformTag(tag: String) -> String {
-        return String(format: tagPrefix, tag)
+        String(format: tagPrefix, tag)
     }
 }

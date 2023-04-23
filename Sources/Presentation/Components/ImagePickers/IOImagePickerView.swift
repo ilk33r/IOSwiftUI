@@ -52,7 +52,7 @@ public struct IOImagePickerView: UIViewControllerRepresentable {
         sourceType: UIImagePickerController.SourceType,
         allowEditing: Bool = false,
         cameraCaptureMode: UIImagePickerController.CameraCaptureMode = .photo,
-        handler: PickHandler?
+        handler: PickHandler? = nil
     ) {
         self.sourceType = sourceType
         self.allowEditing = allowEditing

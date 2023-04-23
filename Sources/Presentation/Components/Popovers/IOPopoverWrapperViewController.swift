@@ -92,7 +92,7 @@ final public class IOPopoverWrapperViewController<Content: View>: UIViewControll
     public func updateSize(_ size: CGSize?) {
         self.size = size
         
-        if let vc = self.popoverVC, let size = size {
+        if let vc = self.popoverVC, let size {
             vc.preferredContentSize = size
         }
     }
@@ -105,6 +105,6 @@ final public class IOPopoverWrapperViewController<Content: View>: UIViewControll
     }
     
     public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
+        .none
     }
 }

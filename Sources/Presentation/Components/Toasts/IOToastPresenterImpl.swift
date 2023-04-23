@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import IOSwiftUIInfrastructure
+import SwiftUI
 
 final public class IOToastPresenterImpl<Content: View>: IOToastPresenter {
     

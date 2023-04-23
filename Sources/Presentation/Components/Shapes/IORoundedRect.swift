@@ -25,10 +25,10 @@ public struct IORoundedRect: Shape {
         public let rawValue: CornerType
         public let sizeValue: CGFloat
         
-        public static let topLeft: CornerWithValue = { Corner(rawValue: .topLeft, sizeValue: $0) }
-        public static let topRight: CornerWithValue = { Corner(rawValue: .topRight, sizeValue: $0) }
-        public static let bottomLeft: CornerWithValue = { Corner(rawValue: .bottomLeft, sizeValue: $0) }
-        public static let bottomRight: CornerWithValue = { Corner(rawValue: .bottomRight, sizeValue: $0) }
+        public static let topLeft: CornerWithValue = { Self(rawValue: .topLeft, sizeValue: $0) }
+        public static let topRight: CornerWithValue = { Self(rawValue: .topRight, sizeValue: $0) }
+        public static let bottomLeft: CornerWithValue = { Self(rawValue: .bottomLeft, sizeValue: $0) }
+        public static let bottomRight: CornerWithValue = { Self(rawValue: .bottomRight, sizeValue: $0) }
         
         public init(rawValue: CornerType) {
             self.rawValue = rawValue

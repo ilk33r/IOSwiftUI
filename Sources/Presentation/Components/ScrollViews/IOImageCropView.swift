@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import IOSwiftUIInfrastructure
+import SwiftUI
 
 public struct IOImageCropView: View {
     
@@ -54,7 +54,7 @@ public struct IOImageCropView: View {
     // MARK: - Render Methods
     
     public func getImage() -> UIImage? {
-        return viewData.imageCropView?.cropImage()
+        viewData.imageCropView?.cropImage()
     }
 }
 

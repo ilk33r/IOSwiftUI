@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import UIKit
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
+import UIKit
 
 public struct PushNotificationUtils {
     
@@ -80,7 +80,7 @@ public struct PushNotificationUtils {
 
         let notificationCenter = UNUserNotificationCenter.current()
         let options = UNAuthorizationOptions(arrayLiteral: [.badge, .sound, .alert])
-        notificationCenter.requestAuthorization(options: options) { granted, error in
+        notificationCenter.requestAuthorization(options: options) { granted, _ in
             if granted {
                 DispatchQueue.main.async {
                     application.registerForRemoteNotifications()
@@ -115,10 +115,12 @@ public struct PushNotificationUtils {
                 let userNotificationActions = self.notificationActionsForIdentifiers(identifiers: identifiers)
                 
                 // Create notification category
-                let notificationCategory = UNNotificationCategory(identifier: key as! String,
-                                                                  actions: userNotificationActions,
-                                                                  intentIdentifiers: [],
-                                                                  options: .init(rawValue: 0))
+                let notificationCategory = UNNotificationCategory(
+                    identifier: (key as? String)!,
+                    actions: userNotificationActions,
+                    intentIdentifiers: [],
+                    options: .init(rawValue: 0)
+                )
                 
                 // Append category to array
                 userNotificationCategories.append(notificationCategory)

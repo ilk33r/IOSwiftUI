@@ -5,17 +5,28 @@
 //  Created by Adnan ilker Ozcan on 16.11.2022.
 //
 
+import Combine
 import Foundation
-import UIKit
+import IOSwiftUIInfrastructure
 import SwiftUI
+import UIKit
 
 final public class HTTPDebuggerPresenter {
     
+    // MARK: - DI
+    
+    @IOInject private var eventProcess: IOEventProcess
+    
     // MARK: - Privates
 
+    private var httpDebuggerShareLogCancel: AnyCancellable?
     private var presenterWindow: UIWindow?
     private weak var hostingController: UIHostingController<HTTPDebuggerView>?
 
+    private var httpDebuggerShareLog: AnyPublisher<String?, Never> {
+        self.eventProcess.string(forType: .httpDebuggerShareLog)
+    }
+    
     // MARK: - New Instance
 
     public init() {
@@ -46,25 +57,26 @@ final public class HTTPDebuggerPresenter {
         
         self.hostingController = contentVC
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(HTTPDebuggerPresenter.handleShareNotification(_:)),
-            name: .httpDebuggerShareLog,
-            object: nil
-        )
+        self.httpDebuggerShareLogCancel = self.httpDebuggerShareLog
+            .sink { _ in
+                IOLogger.debug("httpDebuggerShareLog completed")
+            } receiveValue: { [weak self] newValue in
+                if let httpHistory = newValue {
+                    self?.handleShareNotification(httpHistory: httpHistory)
+                }
+            }
     }
     
     public func dismiss() {
-        NotificationCenter.default.removeObserver(self)
+        self.httpDebuggerShareLogCancel?.cancel()
+        self.httpDebuggerShareLogCancel = nil
         self.presenterWindow?.resignKey()
         self.presenterWindow = nil
     }
     
     // MARK: - Actions
     
-    @objc dynamic private func handleShareNotification(_ sender: Notification!) {
-        guard let httpHistory = sender.userInfo?["httpHistory"] as? String else { return }
-        
+    private func handleShareNotification(httpHistory: String) {
         // Create activity view controller
         let activityViewController = UIActivityViewController(
             activityItems: [httpHistory],

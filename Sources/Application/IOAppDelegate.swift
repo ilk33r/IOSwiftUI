@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import UIKit
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import IOSwiftUIScreensHTTPDebugger
+import UIKit
 
 open class IOAppDelegate: NSObject, UIApplicationDelegate {
     
@@ -53,7 +53,7 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
         configurationForConnecting connectingSceneSession: UISceneSession,
         options: UIScene.ConnectionOptions
     ) -> UISceneConfiguration {
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
     
     // MARK: - Configuration

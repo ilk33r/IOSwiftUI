@@ -182,7 +182,7 @@ struct IOVisionIdentityShape_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        return IOVisionIdentityShapeDemo()
+        IOVisionIdentityShapeDemo()
     }
 }
 #endif

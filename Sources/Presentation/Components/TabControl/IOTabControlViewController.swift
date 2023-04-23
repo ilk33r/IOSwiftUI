@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import UIKit
-import SwiftUI
 import IOSwiftUICommon
+import SwiftUI
+import UIKit
 
 final public class IOTabControlViewController: UIViewController {
     
@@ -78,7 +78,7 @@ final public class IOTabControlViewController: UIViewController {
             
             container?.contentView.addHeight(self.tabControlHeight)
             container?.contentView.lineColor = self.lineColor
-            container?.contentView.lineHeight = NSNumber(floatLiteral: self.lineHeight)
+            container?.contentView.lineHeight = NSNumber(value: self.lineHeight)
             container?.contentView.configure(
                 titles: self.tabTitles,
                 textColor: self.textColor,

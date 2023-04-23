@@ -5,9 +5,9 @@
 //  Created by Adnan ilker Ozcan on 21.08.2022.
 //
 
-import SwiftUI
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
+import SwiftUI
 
 public struct IOButton<Content>: View, IOClickable where Content: View {
     
@@ -16,7 +16,7 @@ public struct IOButton<Content>: View, IOClickable where Content: View {
     private var content: (() -> Content)?
     
     public var body: some View {
-        if let localizationType = localizationType {
+        if let localizationType {
             Button(localizationType.localized) {
                 handler?()
             }
@@ -48,7 +48,7 @@ public struct IOButton<Content>: View, IOClickable where Content: View {
     public func setClick(
         _ handler: IOClickableHandler?
     ) -> IOButton {
-        return IOButton(
+        Self(
             localizationType,
             content: content,
             handler: handler

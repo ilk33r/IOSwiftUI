@@ -11,7 +11,7 @@ import IOSwiftUICommon
 public protocol ApnsAlertModel: Codable {
     
     var _body: IOJsonProperty<String> { get set }
-    var _title: IOJsonProperty<String>  { get set }
+    var _title: IOJsonProperty<String> { get set }
 }
 
 public extension ApnsAlertModel {

@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import UIKit
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
+import UIKit
 
 public class IOHTMLTextUIView: UITextView {
     
@@ -59,7 +59,7 @@ public class IOHTMLTextUIView: UITextView {
     
     // MARK: - View Lifecycle
     
-    open override func willMove(toSuperview newSuperview: UIView?) {
+    public override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         
         if newSuperview == nil {
@@ -71,7 +71,7 @@ public class IOHTMLTextUIView: UITextView {
     
     // MARK: - Helper Methods
     
-    open func applyStringAttributes() {
+    public func applyStringAttributes() {
         guard let htmlText = self.htmlText else { return }
         if self.boldFont == nil {
             return

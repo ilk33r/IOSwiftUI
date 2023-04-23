@@ -112,7 +112,7 @@ public struct IODefaultPickerView: IOPickerViewProtocol {
     // MARK: - Modifiers
     
     public func backgroundColor(_ color: Color) -> IODefaultPickerView {
-        return IODefaultPickerView(
+        Self(
             data: data,
             backgroundColor: color,
             foregroundColor: foregroundColor,
@@ -121,7 +121,7 @@ public struct IODefaultPickerView: IOPickerViewProtocol {
     }
     
     public func foregroundColor(_ color: Color) -> IODefaultPickerView {
-        return IODefaultPickerView(
+        Self(
             data: data,
             backgroundColor: backgroundColor,
             foregroundColor: color,
@@ -130,7 +130,7 @@ public struct IODefaultPickerView: IOPickerViewProtocol {
     }
     
     public func font(type: IOFontType) -> IODefaultPickerView {
-        return IODefaultPickerView(
+        Self(
             data: data,
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,

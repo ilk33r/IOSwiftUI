@@ -43,7 +43,7 @@ public struct IOTextField: View {
     }
     
     public func keyboardType(_ type: UIKeyboardType) -> IOTextField {
-        return IOTextField(
+        Self(
             localizationType,
             text: $text,
             keyboardType: type

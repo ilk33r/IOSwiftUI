@@ -41,6 +41,6 @@ public struct IOPickerData: Equatable {
     // MARK: - Equatable
     
     public static func == (lhs: IOPickerData, rhs: IOPickerData) -> Bool {
-        return false
+        false
     }
 }

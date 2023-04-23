@@ -74,7 +74,7 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
     }
     
     public func makeCoordinator() -> Coordinator {
-        return Coordinator()
+        Coordinator()
     }
     
     // MARK: - Helper Methods

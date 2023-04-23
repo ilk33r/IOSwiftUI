@@ -77,7 +77,7 @@ public struct IORoundedProgressView: View {
         fontType: IOFontType = .systemSemibold(24),
         lineWidth: CGFloat = 6,
         textColor: Color = .gray,
-        onFinish: FinishHandler?
+        onFinish: FinishHandler? = nil
     ) {
         self.isActive = isActive
         self.activeCircleBackgroundColor = activeCircleBackgroundColor

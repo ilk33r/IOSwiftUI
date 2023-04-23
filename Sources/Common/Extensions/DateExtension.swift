@@ -93,31 +93,31 @@ public extension Date {
     // MARK: - Date By Subtracting
     
     func date(bySubtractingYears years: Int) -> Date? {
-        return self.date(byAddingYears: -1 * years)
+        self.date(byAddingYears: -1 * years)
     }
     
     func date(bySubtractingMonths months: Int) -> Date? {
-        return self.date(byAddingMonths: -1 * months)
+        self.date(byAddingMonths: -1 * months)
     }
     
     func date(bySubtractingWeeks weeks: Int) -> Date? {
-        return self.date(byAddingWeeks: -1 * weeks)
+        self.date(byAddingWeeks: -1 * weeks)
     }
 
     func date(bySubtractingDays days: Int) -> Date? {
-        return self.date(byAddingDays: -1 * days)
+        self.date(byAddingDays: -1 * days)
     }
     
     func date(bySubtractingHours hours: Int) -> Date? {
-        return self.date(byAddingHours: -1 * hours)
+        self.date(byAddingHours: -1 * hours)
     }
     
     func date(bySubtractingMinutes minutes: Int) -> Date? {
-        return self.date(byAddingMinutes: -1 * minutes)
+        self.date(byAddingMinutes: -1 * minutes)
     }
     
     func date(bySubtractingSeconds seconds: Int) -> Date? {
-        return self.date(byAddingSeconds: -1 * seconds)
+        self.date(byAddingSeconds: -1 * seconds)
     }
 
     // MARK: - Date Formatting

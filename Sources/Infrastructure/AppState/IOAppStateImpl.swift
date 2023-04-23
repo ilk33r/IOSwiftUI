@@ -16,7 +16,7 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     // MARK: - Publics
     
     public var allKeys: [IOStorageType] {
-        return Array(stateObject.values.keys)
+        Array(stateObject.values.keys)
     }
     
     public var buildNumber: Int { stateObject.buildNumber }
@@ -55,23 +55,23 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     // MARK: - Getters
     
     public func bool(forType type: IOStorageType) -> Bool? {
-        return stateObject.values[type] as? Bool
+        stateObject.values[type] as? Bool
     }
     
     public func double(forType type: IOStorageType) -> Double? {
-        return stateObject.values[type] as? Double
+        stateObject.values[type] as? Double
     }
     
     public func int(forType type: IOStorageType) -> Int? {
-        return stateObject.values[type] as? Int
+        stateObject.values[type] as? Int
     }
     
     public func string(forType type: IOStorageType) -> String? {
-        return stateObject.values[type] as? String
+        stateObject.values[type] as? String
     }
     
     public func object(forType type: IOStorageType) -> Any? {
-        return stateObject.values[type]
+        stateObject.values[type]
     }
     
     // MARK: - Setters

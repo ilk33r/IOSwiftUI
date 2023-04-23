@@ -31,8 +31,8 @@ public extension IOServiceType {
             guard let jsonDictionary = dictionary as? [String: Any] else { return nil }
             let encodedDictionary = jsonDictionary
                 .compactMap({ key, value -> String? in
-                    if value is Int {
-                        return String(format: "%@=%d", key, value as! Int)
+                    if value is Int, let intValue = value as? Int {
+                        return String(format: "%@=%d", key, intValue)
                     } else if
                         let stringValue = value as? String,
                         let encodedValue = stringValue.addingPercentEncoding(withAllowedCharacters: .alphanumerics)

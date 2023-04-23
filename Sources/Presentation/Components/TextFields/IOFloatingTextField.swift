@@ -5,8 +5,8 @@
 //  Created by Adnan ilker Ozcan on 23.08.2022.
 //
 
-import SwiftUI
 import IOSwiftUIInfrastructure
+import SwiftUI
 
 public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     
@@ -124,7 +124,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     // MARK: - Modifiers
     
     public func activePlaceholderPadding(_ padding: EdgeInsets) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+        Self(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -142,7 +142,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     }
     
     public func backgroundColor(_ color: Color) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+        Self(
             localizationType,
             text: $text,
             backgroundColor: color,
@@ -160,7 +160,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     }
     
     public func capitalization(_ type: UITextAutocapitalizationType) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+        Self(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -178,7 +178,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     }
     
     public func disableCorrection(_ correction: Bool) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+        Self(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -198,7 +198,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     public func editingHandler(
         isEditing: Binding<Bool>
     ) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+        Self(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -216,7 +216,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     }
     
     public func font(type: IOFontType) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+        Self(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -234,7 +234,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     }
     
     public func textColor(_ color: Color) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+        Self(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -252,7 +252,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     }
     
     public func placeholderColor(_ color: Color) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+        Self(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,
@@ -270,7 +270,7 @@ public struct IOFloatingTextField<TextFieldOverlay: View>: View {
     }
     
     public func placeholderPadding(_ padding: EdgeInsets) -> IOFloatingTextField<TextFieldOverlay> {
-        return IOFloatingTextField(
+        Self(
             localizationType,
             text: $text,
             backgroundColor: backgroundColor,

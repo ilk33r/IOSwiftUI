@@ -35,7 +35,7 @@ final public class IOAppleSettingImpl: IOAppleSetting, IOSingleton {
         
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(IOAppleSettingImpl.settingValueChanged(_:)),
+            selector: #selector(Self.settingValueChanged(_:)),
             name: UserDefaults.didChangeNotification,
             object: nil
         )
@@ -48,15 +48,15 @@ final public class IOAppleSettingImpl: IOAppleSetting, IOSingleton {
     // MARK: - Getters
     
     public func bool(for type: IOAppleSettingType) -> Bool {
-        return self.userDefaults.bool(forKey: type.rawValue)
+        self.userDefaults.bool(forKey: type.rawValue)
     }
     
     public func float(for type: IOAppleSettingType) -> Float {
-        return self.userDefaults.float(forKey: type.rawValue)
+        self.userDefaults.float(forKey: type.rawValue)
     }
     
     public func string(for type: IOAppleSettingType) -> String? {
-        return self.userDefaults.string(forKey: type.rawValue)
+        self.userDefaults.string(forKey: type.rawValue)
     }
     
     // MARK: - Setters

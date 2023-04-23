@@ -11,12 +11,12 @@ public struct IOServiceContentType: RawRepresentable, Equatable, Hashable {
     
     public typealias RawValue = String
     
-    public static let applicationJSON = IOServiceContentType(rawValue: "application/json")
-    public static let applicationPDF = IOServiceContentType(rawValue: "application/pdf")
-    public static let imagePNG = IOServiceContentType(rawValue: "image/png")
-    public static let imageJPEG = IOServiceContentType(rawValue: "image/jpeg")
-    public static let textPlain = IOServiceContentType(rawValue: "text/plain")
-    public static let textCSV = IOServiceContentType(rawValue: "text/csv")
+    public static let applicationJSON = Self(rawValue: "application/json")
+    public static let applicationPDF = Self(rawValue: "application/pdf")
+    public static let imagePNG = Self(rawValue: "image/png")
+    public static let imageJPEG = Self(rawValue: "image/jpeg")
+    public static let textPlain = Self(rawValue: "text/plain")
+    public static let textCSV = Self(rawValue: "text/csv")
     
     public var rawValue: String
     
@@ -30,6 +30,6 @@ public struct IOServiceContentType: RawRepresentable, Equatable, Hashable {
     
     public static func multipartFormData(boundary: String) -> IOServiceContentType {
         // boundary = UUID().uuidString
-        return IOServiceContentType(rawValue: "multipart/form-data; boundary=\(boundary)")
+        Self(rawValue: "multipart/form-data; boundary=\(boundary)")
     }
 }

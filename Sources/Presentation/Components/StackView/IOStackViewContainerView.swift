@@ -16,7 +16,7 @@ final public class IOStackViewContainerView<TView: UIView>: UIView {
     
     public var rowInsets: UIEdgeInsets! {
         get {
-            return self.layoutMargins
+            self.layoutMargins
         }
         set {
             self.layoutMargins = newValue

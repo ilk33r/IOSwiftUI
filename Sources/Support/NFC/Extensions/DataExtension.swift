@@ -11,7 +11,7 @@ import IOSwiftUIInfrastructure
 extension Data {
     
     static func nfcIV() -> Data {
-        return Data(repeating: 0, count: 8)
+        Data(repeating: 0, count: 8)
     }
     
     func nfcAddPadding() -> Data {

@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import LocalAuthentication
 import IOSwiftUIInfrastructure
+import LocalAuthentication
 
 public struct IOBiometricAuthenticator {
     
@@ -93,7 +93,7 @@ public struct IOBiometricAuthenticator {
     }
     
     public func pairDevice(forUser user: String) throws -> Data {
-        return try IOBiometricAuthenticatorKeyUtilities.create(forTag: user, context: authenticationContext)
+        try IOBiometricAuthenticatorKeyUtilities.create(forTag: user, context: authenticationContext)
     }
     
     public func unlockBiometricAuthentication(

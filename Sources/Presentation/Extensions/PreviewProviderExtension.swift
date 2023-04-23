@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import IOSwiftUIInfrastructure
+import SwiftUI
 
 #if DEBUG
 public extension PreviewProvider {

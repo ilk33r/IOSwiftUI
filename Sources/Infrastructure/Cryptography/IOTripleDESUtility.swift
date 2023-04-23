@@ -13,11 +13,11 @@ public struct IOTripleDESUtility {
     // MARK: - 3DES
     
     public static func encrypt(key: Data, iv: Data, message: Data) -> Data? {
-        return self.crypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv, message: message)
+        self.crypt(operation: CCOperation(kCCEncrypt), key: key, iv: iv, message: message)
     }
     
     public static func decrypt(key: Data, iv: Data, message: Data) -> Data? {
-        return self.crypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv, message: message)
+        self.crypt(operation: CCOperation(kCCDecrypt), key: key, iv: iv, message: message)
     }
     
     // MARK: - Helper Methods

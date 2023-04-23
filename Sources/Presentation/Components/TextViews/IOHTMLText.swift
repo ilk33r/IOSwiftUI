@@ -33,7 +33,7 @@ public struct IOHTMLText: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> IOHTMLTextUIView {
-        return IOHTMLTextUIView { link in
+        IOHTMLTextUIView { link in
             self.link = link
         }
     }

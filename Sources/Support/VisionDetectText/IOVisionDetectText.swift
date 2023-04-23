@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Vision
 import IOSwiftUIInfrastructure
+import Vision
 
 struct IOVisionDetectText {
     

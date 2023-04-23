@@ -5,15 +5,16 @@
 //  Created by Adnan ilker Ozcan on 16.11.2022.
 //
 
-import SwiftUI
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUI
 
 struct HTTPDebuggerDetailView: View {
     
     // MARK: - DI
     
     @IOInject private var appleSettings: IOAppleSetting
+    @IOInject private var eventProcess: IOEventProcess
     
     // MARK: - Privates
     
@@ -210,10 +211,6 @@ struct HTTPDebuggerDetailView: View {
         activityItems += networkHistory?.responseBody ?? ""
         activityItems += "\n\n"
 
-        NotificationCenter.default.post(
-            name: .httpDebuggerShareLog,
-            object: nil,
-            userInfo: ["httpHistory": activityItems]
-        )
+        self.eventProcess.set(string: activityItems, forType: .httpDebuggerShareLog)
     }
 }

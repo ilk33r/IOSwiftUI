@@ -7,9 +7,9 @@
 
 import Combine
 import Foundation
-import UIKit
-import SwiftUI
 import IOSwiftUIInfrastructure
+import SwiftUI
+import UIKit
 
 open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     

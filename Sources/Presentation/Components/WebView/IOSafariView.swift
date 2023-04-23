@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import SafariServices
+import SwiftUI
 
 public struct IOSafariView: UIViewControllerRepresentable {
 
@@ -28,7 +28,7 @@ public struct IOSafariView: UIViewControllerRepresentable {
     }
 
     public func makeUIViewController(context: Context) -> SFSafariViewController {
-        return SFSafariViewController(url: url)
+        SFSafariViewController(url: url)
     }
     
     public func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {

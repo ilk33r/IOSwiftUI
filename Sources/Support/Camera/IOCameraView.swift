@@ -27,7 +27,7 @@ public struct IOCameraView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> IOCameraUIView {
-        return IOCameraUIView()
+        IOCameraUIView()
     }
     
     public func updateUIView(_ uiView: IOCameraUIView, context: Context) {

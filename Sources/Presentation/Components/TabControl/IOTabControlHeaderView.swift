@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import IOSwiftUIInfrastructure
+import UIKit
 
 final public class IOTabControlHeaderView: UIView {
     
@@ -80,7 +80,7 @@ final public class IOTabControlHeaderView: UIView {
                 container?.contentView.setTitleColor(textColor, for: .highlighted)
                 container?.contentView.titleLabel?.font = font
                 container?.contentView.tag = index
-                container?.contentView.addTarget(self, action: #selector(IOTabControlHeaderView.btnTabTapped(_:)), for: .touchUpInside)
+                container?.contentView.addTarget(self, action: #selector(Self.btnTabTapped(_:)), for: .touchUpInside)
                 
                 self?.buttons.append(container?.contentView)
             }

@@ -70,6 +70,6 @@ public struct IOAlertData: Equatable, Identifiable {
     }
     
     public static func == (lhs: IOAlertData, rhs: IOAlertData) -> Bool {
-        return false
+        false
     }
 }

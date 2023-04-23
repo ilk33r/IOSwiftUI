@@ -6,9 +6,9 @@
 //
 
 import Foundation
+import IOSwiftUICommon
 import SwiftUI
 import UIKit
-import IOSwiftUICommon
 
 final public class IOSnapScrollViewController<Content: View>: UIViewController, UIScrollViewDelegate {
     

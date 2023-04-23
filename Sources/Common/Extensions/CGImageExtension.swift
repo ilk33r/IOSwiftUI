@@ -5,26 +5,26 @@
 //  Created by Adnan ilker Ozcan on 13.03.2023.
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 import ImageIO
 import UniformTypeIdentifiers
 
 public extension CGImage {
     
     static func create(fromRawData rawData: Data) -> CGImage? {
-        return Self.create(fromData: rawData, type: .bmp)
+        Self.create(fromData: rawData, type: .bmp)
     }
     
     static func create(fromPngData pngData: Data) -> CGImage? {
-        return Self.create(fromData: pngData, type: .png)
+        Self.create(fromData: pngData, type: .png)
     }
     
     static func create(fromJpegData jpegData: Data) -> CGImage? {
-        return Self.create(fromData: jpegData, type: .jpeg)
+        Self.create(fromData: jpegData, type: .jpeg)
     }
     
-    static func create(fromData data: Data, type: UTType)  -> CGImage? {
+    static func create(fromData data: Data, type: UTType) -> CGImage? {
         let cfData = data as CFData
         let attributes = [
             kCGImageSourceTypeIdentifierHint: type.identifier

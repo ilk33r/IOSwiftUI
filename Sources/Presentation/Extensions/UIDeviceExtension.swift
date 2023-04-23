@@ -10,10 +10,10 @@ import UIKit
 public extension UIDevice {
     
     class var isSimulator: Bool {
-#if TARGET_IPHONE_SIMULATOR
+        #if TARGET_IPHONE_SIMULATOR
         return true
-#else
+        #else
         return false
-#endif
+        #endif
     }
 }

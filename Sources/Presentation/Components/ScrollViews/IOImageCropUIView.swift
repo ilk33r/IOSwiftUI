@@ -26,7 +26,7 @@ public struct IOImageCropUIView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> IOImageCropUIScrollView {
-        return IOImageCropUIScrollView()
+        IOImageCropUIScrollView()
     }
     
     public func updateUIView(_ uiView: IOImageCropUIScrollView, context: Context) {

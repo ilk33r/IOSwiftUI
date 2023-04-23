@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import IOSwiftUIInfrastructure
+import SwiftUI
 
 public struct IOTabControlView<Content: View>: UIViewControllerRepresentable {
     
@@ -107,7 +107,7 @@ public struct IOTabControlView<Content: View>: UIViewControllerRepresentable {
     }
     
     public func makeCoordinator() -> Coordinator {
-        return Coordinator()
+        Coordinator()
     }
     
     // MARK: - Helper Methods

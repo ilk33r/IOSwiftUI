@@ -16,15 +16,15 @@ final public class IOLocalizationImpl: IOLocalization, IOSingleton {
     // MARK: - Getters
     
     public var currentLanguageCode: String {
-        return self._currentLanguageCode
+        self._currentLanguageCode
     }
     
     public var currentLocale: Locale {
-        return self._currentLocale
+        self._currentLocale
     }
     
     public var currentLocaleType: IOLocales {
-        return self._currentLocaleType
+        self._currentLocaleType
     }
     
     // MARK: - Privates
@@ -51,11 +51,11 @@ final public class IOLocalizationImpl: IOLocalization, IOSingleton {
     // MARK: - Language Methods
     
     public func availableLanguageCodes() -> [String] {
-        return self.bundle.localizations
+        self.bundle.localizations
     }
     
     public func availableLocales() -> [Locale] {
-        return self.availableLanguageCodes().map { Locale(identifier: $0) }
+        self.availableLanguageCodes().map { Locale(identifier: $0) }
     }
     
     public func changeLanguage(locale: Locale) {
@@ -84,7 +84,7 @@ final public class IOLocalizationImpl: IOLocalization, IOSingleton {
     // MARK: - Accessor Methods
     
     public func string(_ key: String) -> String {
-        return self.string(key, alternateText: nil)
+        self.string(key, alternateText: nil)
     }
     
     public func string(_ key: String, alternateText: String?) -> String {
