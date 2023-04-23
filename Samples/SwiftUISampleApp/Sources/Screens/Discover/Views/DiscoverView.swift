@@ -30,6 +30,8 @@ public struct DiscoverView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             IORefreshableScrollView(
                 backgroundColor: .white,
@@ -93,6 +95,7 @@ public struct DiscoverView: IOController {
                 isRefreshing = false
             }
         }
+        */
     }
     
     // MARK: - Initialization Methods

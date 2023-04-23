@@ -36,6 +36,8 @@ public struct ProfileView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             IOUIView { lifecycle in
                 if lifecycle == .willAppear && navigationBarHidden {
@@ -147,6 +149,7 @@ public struct ProfileView: IOController {
             presenter.interactor.getMember()
             presenter.loadImages()
         }
+        */
     }
     
     // MARK: - Initialization Methods

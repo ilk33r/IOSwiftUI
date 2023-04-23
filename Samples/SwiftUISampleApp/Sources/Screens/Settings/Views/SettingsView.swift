@@ -31,6 +31,8 @@ public struct SettingsView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 ScrollView {
@@ -108,6 +110,7 @@ public struct SettingsView: IOController {
                 ]
             )
         }
+         */
     }
     
     // MARK: - Initialization Methods

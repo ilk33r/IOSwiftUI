@@ -38,6 +38,8 @@ public struct RegisterUserNameView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         IOFormGroup(.commonDone) {
         } content: {
             VStack(alignment: .leading) {
@@ -88,6 +90,7 @@ public struct RegisterUserNameView: IOController {
         .onChange(of: userNameText) { newValue in
             userNameText = newValue.trimNonAlphaNumericCharacters()
         }
+        */
     }
     
     // MARK: - Initialization Methods

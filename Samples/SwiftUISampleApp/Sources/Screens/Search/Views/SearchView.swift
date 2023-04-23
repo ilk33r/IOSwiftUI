@@ -35,6 +35,8 @@ public struct SearchView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOObservableScrollView(
@@ -137,6 +139,7 @@ public struct SearchView: IOController {
         .onChange(of: searchText) { newValue in
             searchText = newValue.trimNonAlphaNumericCharacters()
         }
+        */
     }
     
     // MARK: - Initialization Methods

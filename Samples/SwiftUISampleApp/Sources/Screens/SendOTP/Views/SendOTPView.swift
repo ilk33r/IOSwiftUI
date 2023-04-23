@@ -35,6 +35,8 @@ public struct SendOTPView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack {
                 ScrollView {
@@ -113,6 +115,7 @@ public struct SendOTPView: IOController {
                 progressIsActive = true
             }
         }
+        */
     }
     
     // MARK: - Initialization Methods

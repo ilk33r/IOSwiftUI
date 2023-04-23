@@ -26,6 +26,8 @@ public struct HomeView: IOController {
     @State private var selectedIndex: Int = 0
     
     public var body: some View {
+        EmptyView()
+        /*
         IOTabBarView(
             controllerType: TabBarController.self,
             tabBarType: UITabBar.self,
@@ -115,6 +117,7 @@ public struct HomeView: IOController {
                 ]
             )
         }
+        */
     }
     
     // MARK: - Initialization Methods

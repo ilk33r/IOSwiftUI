@@ -29,6 +29,8 @@ public struct WebView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOWebView { webView in
@@ -58,6 +60,7 @@ public struct WebView: IOController {
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
         }
+         */
     }
     
     // MARK: - Initialization Methods

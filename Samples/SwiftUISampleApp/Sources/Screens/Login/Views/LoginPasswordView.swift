@@ -35,6 +35,8 @@ public struct LoginPasswordView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         IOFormGroup(.commonDone, handler: {
 
         }, content: {
@@ -75,6 +77,7 @@ public struct LoginPasswordView: IOController {
             presenter.navigationState = _navigationState
             passwordText = appleSettings.string(for: .debugDefaultPassword) ?? ""
         }
+        */
     }
     
     // MARK: - Initialization Methods

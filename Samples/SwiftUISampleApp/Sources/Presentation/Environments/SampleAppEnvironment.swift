@@ -15,9 +15,28 @@ final public class SampleAppEnvironment: IOAppEnvironment {
     // MARK: - Properties
     
     @Published public var showLoading = false
+    #warning("Change with app screens")
     @Published public var isLoggedIn = false
     
     public var alertData: IOAlertData? {
+        willSet {
+            self.objectWillChange.send()
+        }
+    }
+    
+    public var datePickerData: IODatePickerData? {
+        willSet {
+            self.objectWillChange.send()
+        }
+    }
+    
+    public var pickerData: IOPickerData? {
+        willSet {
+            self.objectWillChange.send()
+        }
+    }
+    
+    public var toastData: IOToastData? {
         willSet {
             self.objectWillChange.send()
         }

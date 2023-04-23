@@ -29,6 +29,8 @@ public struct ChatInboxView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             IORefreshableScrollView(
                 backgroundColor: .white,
@@ -79,6 +81,7 @@ public struct ChatInboxView: IOController {
             presenter.navigationState = _navigationState
             presenter.interactor.getInboxes(showIndicator: true)
         }
+        */
     }
     
     // MARK: - Initialization Methods

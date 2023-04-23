@@ -98,9 +98,9 @@ public struct UserLocationView: IOController {
                 }
             }
         }
-        .navigationWireframe {
+        /*.navigationWireframe {
             UserLocationNavigationWireframe(navigationState: navigationState)
-        }
+        }*/
         .onAppear {
             if isPreviewMode {
                 return

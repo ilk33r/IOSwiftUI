@@ -38,6 +38,8 @@ public struct RegisterMRZReaderView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOVisionDetectTextView(
@@ -100,6 +102,7 @@ public struct RegisterMRZReaderView: IOController {
                 presentationMode.wrappedValue.dismiss()
             }
         }
+        */
     }
     
     // MARK: - Initialization Methods

@@ -27,6 +27,8 @@ public struct SplashView: IOController {
     @State private var buttonsIsHidden = true
     
     public var body: some View {
+        EmptyView()
+        /*
         VStack {
             ZStack {
                 Image.bgSplash
@@ -80,6 +82,7 @@ public struct SplashView: IOController {
         .onReceive(presenter.$showButtons) { isShow in
             buttonsIsHidden = !isShow
         }
+         */
     }
     
     // MARK: - Initialization Methods

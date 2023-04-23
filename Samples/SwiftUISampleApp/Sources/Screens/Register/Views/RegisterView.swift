@@ -39,6 +39,8 @@ public struct RegisterView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         IOFormGroup(.commonDone) {
         } content: {
             VStack(alignment: .leading) {
@@ -83,6 +85,7 @@ public struct RegisterView: IOController {
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
         }
+        */
     }
     
     // MARK: - Initialization Methods

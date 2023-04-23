@@ -51,6 +51,8 @@ public struct RegisterProfileView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 ScrollView {
@@ -258,6 +260,7 @@ public struct RegisterProfileView: IOController {
                 profilePictureImageView = Image(uiImage: uiImage)
             }
         }
+        */
     }
     
     // MARK: - Initialization Methods

@@ -38,6 +38,8 @@ public struct ChatView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
@@ -146,6 +148,7 @@ public struct ChatView: IOController {
                 loadPreviousMessages()
             }
         }
+        */
     }
     
     // MARK: - Initialization Methods

@@ -38,8 +38,8 @@ final public class UpdateProfilePresenter: IOPresenterable {
     // MARK: - Presenter
     
     func hideTabBar() {
-        self.interactor.appState.set(bool: true, forType: .tabBarIsHidden)
-        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+//        self.interactor.appState.set(bool: true, forType: .tabBarIsHidden)
+//        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
     }
     
     func load() {
@@ -57,8 +57,8 @@ final public class UpdateProfilePresenter: IOPresenterable {
     }
     
     func showTabBar() {
-        self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
-        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+//        self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
+//        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
     }
     
     func updateSuccess() {

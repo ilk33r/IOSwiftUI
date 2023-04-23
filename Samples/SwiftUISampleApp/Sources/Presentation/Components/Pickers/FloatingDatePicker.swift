@@ -39,6 +39,8 @@ public struct FloatingDatePicker: View, IOValidatable {
     
     public var body: some View {
         VStack(alignment: .leading) {
+            EmptyView()
+            /*
             IOFloatingDatePicker(
                 localizationType,
                 date: $date,
@@ -61,6 +63,7 @@ public struct FloatingDatePicker: View, IOValidatable {
                 .foregroundColor(.colorTabEnd)
                 .padding(.top, 4)
                 .hidden(isHidden: $validationObservedObject.isValidated)
+                  */
         }
     }
     

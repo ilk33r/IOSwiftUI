@@ -31,6 +31,8 @@ public struct FriendsView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOTabControlView(
@@ -134,6 +136,7 @@ public struct FriendsView: IOController {
             presenter.navigationState = _navigationState
             presenter.interactor.getFriends()
         }
+        */
     }
     
     // MARK: - Initialization Methods

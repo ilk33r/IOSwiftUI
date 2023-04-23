@@ -40,6 +40,8 @@ public struct ChangePasswordView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack {
                 IOUIView { lifecycle in
@@ -100,9 +102,9 @@ public struct ChangePasswordView: IOController {
         //            .navigationWireframe {
         //                ChangePasswordNavigationWireframe(navigationState: navigationState)
         //            }
-        .controllerWireframe {
-            ChangePasswordNavigationWireframe(navigationState: navigationState)
-        }
+//        .controllerWireframe {
+//            ChangePasswordNavigationWireframe(navigationState: navigationState)
+//        }
         .sheet(
             isPresented: $showSendOTP,
             onDismiss: {
@@ -136,6 +138,7 @@ public struct ChangePasswordView: IOController {
                 )
             }
         }
+         */
     }
     
     // MARK: - Initialization Methods

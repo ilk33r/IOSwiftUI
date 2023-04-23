@@ -35,6 +35,8 @@ public struct LoginView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         IOFormGroup(.commonDone, handler: {
 
         }, content: {
@@ -78,6 +80,7 @@ public struct LoginView: IOController {
             presenter.navigationState = _navigationState
             emailText = appleSettings.string(for: .debugDefaultUserName) ?? ""
         }
+        */
     }
     
     // MARK: - Initialization Methods

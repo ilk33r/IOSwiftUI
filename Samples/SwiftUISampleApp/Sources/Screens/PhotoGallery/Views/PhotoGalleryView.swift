@@ -28,6 +28,8 @@ public struct PhotoGalleryView: IOController {
     @State private var currentPage = 0
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOPageView(
@@ -91,6 +93,7 @@ public struct PhotoGalleryView: IOController {
             presenter.navigationState = _navigationState
             presenter.getImages()
         }
+        */
     }
     
     // MARK: - Initialization Methods

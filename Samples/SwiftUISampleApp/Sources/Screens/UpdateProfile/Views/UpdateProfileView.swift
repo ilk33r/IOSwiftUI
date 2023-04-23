@@ -52,6 +52,8 @@ public struct UpdateProfileView: IOController {
     // MARK: - Body
     
     public var body: some View {
+        EmptyView()
+        /*
         GeometryReader { proxy in
             ZStack {
                 IOUIView { lifecycle in
@@ -108,6 +110,8 @@ public struct UpdateProfileView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
+         */
+        /*
         .controllerWireframe {
             UpdateProfileNavigationWireframe(navigationState: navigationState)
         }
@@ -183,6 +187,7 @@ public struct UpdateProfileView: IOController {
                 )
             }
         }
+         */
     }
     
     // MARK: - Initialization Methods
