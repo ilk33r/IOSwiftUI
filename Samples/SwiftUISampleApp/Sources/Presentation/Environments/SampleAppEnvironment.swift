@@ -9,14 +9,14 @@ import Combine
 import Foundation
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUISampleAppCommon
 
 final public class SampleAppEnvironment: IOAppEnvironment {
     
     // MARK: - Properties
     
+    @Published public var appScreen = AppScreen.splash
     @Published public var showLoading = false
-    #warning("Change with app screens")
-    @Published public var isLoggedIn = false
     
     public var alertData: IOAlertData? {
         willSet {

@@ -38,26 +38,31 @@ public struct SplashInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func handshake() {
+    @MainActor
+    func handshake() async throws {
         showIndicator()
         
-        service.request(.handshake, responseType: HandshakeResponseModel.self) { result in
-            switch result {
-            case .success(response: let response):
-                setupCryptography(response: response)
-                
-            case .error(message: let message, type: let type, response: let response):
-                hideIndicator()
-                handleServiceError(message, type: type, response: response, handler: { _ in
-                    exit(0)
-                })
-            }
+        var headers = [
+            "X-IO-AUTHORIZATION": configuration.configForType(type: .networkingAuthorizationHeader)
+        ]
+        httpClient.setDefaultHTTPHeaders(headers: headers)
+        
+        let result = await service.async(.handshake, responseType: HandshakeResponseModel.self)
+        switch result {
+        case .success(response: let response):
+            try await setupCryptography(response: response)
+            
+        case .error(message: _, type: let type, response: let response):
+            hideIndicator()
+            await handleServiceErrorAsync(nil, type: type, response: response)
+            exit(0)
         }
     }
     
     // MARK: - Helper Methods
     
-    private func setupCryptography(response: HandshakeResponseModel) {            
+    @MainActor
+    private func setupCryptography(response: HandshakeResponseModel) async throws {
         if
             let exponent = response.publicKeyExponent,
             let modulus = response.publicKeyModulus,
@@ -76,45 +81,43 @@ public struct SplashInteractor: IOInteractor {
                 let encryptedIV = IORSAEncryptionUtilities.encrypt(data: aesIV, publicKey: publicKey),
                 let encryptedKey = IORSAEncryptionUtilities.encrypt(data: aesKey, publicKey: publicKey)
             {
-                checkSessionIfNecessary(encryptedIV: encryptedIV, encryptedKey: encryptedKey)
+                try await checkSessionIfNecessary(encryptedIV: encryptedIV, encryptedKey: encryptedKey)
             } else {
-                handleServiceError(nil, type: .responseStatusError, response: nil) { _ in
-                    exit(0)
-                }
-            }
-        } else {
-            handleServiceError(nil, type: .responseStatusError, response: nil) { _ in
+                await handleServiceErrorAsync(nil, type: .responseStatusError, response: nil)
                 exit(0)
             }
+        } else {
+            await handleServiceErrorAsync(nil, type: .responseStatusError, response: nil)
+            exit(0)
         }
     }
     
-    private func checkSessionIfNecessary(encryptedIV: Data, encryptedKey: Data) {
+    @MainActor
+    private func checkSessionIfNecessary(encryptedIV: Data, encryptedKey: Data) async throws {
         if let token = localStorage.string(forType: .userToken) {
             setupHttpClientHeaders(encryptedIV: encryptedIV, encryptedKey: encryptedKey, token: token)
-            checkToken()
+            try await checkToken()
             return
         }
         
         hideIndicator()
         setupHttpClientHeaders(encryptedIV: encryptedIV, encryptedKey: encryptedKey, token: nil)
-        presenter?.updateButtons()
+        throw IOInteractorError.service
     }
     
-    private func checkToken() {
-        service.request(.checkToken, responseType: GenericResponseModel.self) { result in
-            hideIndicator()
+    @MainActor
+    private func checkToken() async throws {
+        let result = await service.async(.checkToken, responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(response: _):
-                presenter?.navigateToHome()
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: { _ in
-                    localStorage.remove(type: .userToken)
-                    presenter?.updateButtons()
-                })
-            }
+        case .error(_, let type, let response):
+            await handleServiceErrorAsync(nil, type: type, response: response)
+            localStorage.remove(type: .userToken)
+            throw IOInteractorError.service
         }
     }
     

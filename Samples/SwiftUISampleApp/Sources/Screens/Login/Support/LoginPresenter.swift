@@ -28,6 +28,6 @@ final public class LoginPresenter: IOPresenterable {
     // MARK: - Presenter
     
     func loginCompleted() {
-        self.environment.wrappedValue.isLoggedIn = true
+        self.environment.wrappedValue.appScreen = .loggedIn
     }
 }

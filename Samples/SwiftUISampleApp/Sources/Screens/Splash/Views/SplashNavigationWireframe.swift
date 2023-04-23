@@ -34,5 +34,27 @@ public struct SplashNavigationWireframe: IONavigationLinkView {
                 EmptyView()
             }
         }
+        /*
+        .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
+            if let view = navigationState.editProfileView {
+                view
+            } else {
+                EmptyView()
+            }
+        }
+        .sheet(isPresented: $navigationState.navigateToMap) {
+            if let mapView = navigationState.mapView {
+                mapView
+            } else {
+                EmptyView()
+            }
+        }
+        */
+    }
+    
+    // MARK: - Initialization Methods
+    
+    init(navigationState: SplashNavigationState) {
+        self.navigationState = navigationState
     }
 }

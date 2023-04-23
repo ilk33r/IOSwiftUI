@@ -13,8 +13,15 @@ import SwiftUISampleAppResources
 
 public struct SecondaryButton: View, IOClickable {
     
+    // MARK: - Publics
+    
     public var handler: IOClickableHandler?
+    
+    // MARK: - Privates
+    
     private var localizationType: IOLocalizationType
+    
+    // MARK: - Body
     
     public var body: some View {
         IOButton {
@@ -25,6 +32,7 @@ public struct SecondaryButton: View, IOClickable {
                             .stroke(Color.black, lineWidth: 2)
                     )
                     .frame(height: 52)
+                
                 Text(type: localizationType)
                     .padding([.top, .bottom], 19)
                     .padding([.leading, .trailing], 12)
@@ -37,6 +45,8 @@ public struct SecondaryButton: View, IOClickable {
         .frame(height: 52)
     }
     
+    // MARK: - Initialization Methods
+    
     public init(_ l: IOLocalizationType) {
         self.localizationType = l
     }
@@ -46,6 +56,8 @@ public struct SecondaryButton: View, IOClickable {
         self.handler = handler
     }
     
+    // MARK: - Clickable
+    
     public func setClick(_ handler: IOClickableHandler?) -> SecondaryButton {
         Self(localizationType, handler: handler)
     }
@@ -54,9 +66,16 @@ public struct SecondaryButton: View, IOClickable {
 #if DEBUG
 struct SecondaryButton_Previews: PreviewProvider {
     
+    struct SecondaryButtonDemo: View {
+        
+        var body: some View {
+            SecondaryButton(.init(rawValue: "Primary Button"))
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return SecondaryButton(.init(rawValue: "Secondary Button"))
+        return SecondaryButtonDemo()
     }
 }
 #endif

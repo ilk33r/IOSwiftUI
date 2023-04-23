@@ -20,20 +20,29 @@ final public class SplashPresenter: IOPresenterable {
     public var interactor: SplashInteractor!
     public var navigationState: StateObject<SplashNavigationState>!
     
-    // MARK: - Publisher
+    // MARK: - Publics
+    
+    // MARK: - Publishers
     
     @Published private(set) var showButtons = false
+    
+    // MARK: - Privates
     
     // MARK: - Initialization Methods
     
     public init() {
     }
     
-    func updateButtons() {
-        self.showButtons = true
-    }
+    // MARK: - Presenter
     
-    func navigateToHome() {
-        self.environment.wrappedValue.isLoggedIn = true
+    @MainActor
+    func prepare() async {
+        do {
+            try await self.interactor.handshake()
+            self.environment.wrappedValue.appScreen = .loggedIn
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+            self.showButtons = true
+        }
     }
 }

@@ -25,6 +25,7 @@ public extension IOInteractor {
     
     // MARK: - Service
     
+    @available(*, deprecated, message: "Use handleServiceErrorAsync")
     func handleServiceError(
         _ message: String?,
         type: IOHTTPError.ErrorType,
@@ -34,6 +35,34 @@ public extension IOInteractor {
         let message = message ?? IOLocalizationType.networkCommonError.localized
         showAlert {
             IOAlertData(title: nil, message: message, buttons: [.commonOk], handler: handler)
+        }
+    }
+    
+    // MARK: - HTTP
+    
+    @discardableResult
+    @MainActor
+    func handleServiceErrorAsync(
+        _ message: String?,
+        type: IOHTTPError.ErrorType,
+        response: Any?
+    ) async -> Int {
+        do {
+            return try await withUnsafeThrowingContinuation { contination in
+//                if type == .keyError {
+//                    contination.resume(returning: 0)
+//                    return
+//                }
+                
+                let message = message ?? IOLocalizationType.networkCommonError.localized
+                showAlert {
+                    IOAlertData(title: nil, message: message, buttons: [.commonOk]) { index in
+                        contination.resume(returning: index)
+                    }
+                }
+            }
+        } catch {
+            return 0
         }
     }
 }

@@ -28,10 +28,6 @@ final class IOSwiftUISampleAppDelegate: IOAppDelegate {
         self.localization.setLocalizationBundle(bundleName: "SwiftUISampleApp_SwiftUISampleAppResources")
         self.localization.changeLanguage(type: self.configuration.defaultLocale)
         
-        self.httpClient.setDefaultHTTPHeaders(headers: [
-            "X-IO-AUTHORIZATION": configuration.configForType(type: .networkingAuthorizationHeader)
-        ])
-        
         let cacheFileBeforeDate = Date()
         self.fileCache.removeFiles(beforeDate: cacheFileBeforeDate.date(bySubtractingDays: 3)!)
     }

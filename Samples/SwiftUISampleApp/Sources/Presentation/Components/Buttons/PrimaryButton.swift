@@ -13,14 +13,22 @@ import SwiftUISampleAppResources
 
 public struct PrimaryButton: View, IOClickable {
     
+    // MARK: - Publics
+    
     public var handler: IOClickableHandler?
+    
+    // MARK: - Privates
+    
     private var localizationType: IOLocalizationType
+    
+    // MARK: - Body
     
     public var body: some View {
         IOButton {
             ZStack {
                 Color.black
                     .cornerRadius(6)
+                
                 Text(type: localizationType)
                     .padding([.top, .bottom], 19)
                     .padding([.leading, .trailing], 12)
@@ -33,6 +41,8 @@ public struct PrimaryButton: View, IOClickable {
         .frame(height: 52)
     }
     
+    // MARK: - Initialization Methods
+    
     public init(_ l: IOLocalizationType) {
         self.localizationType = l
     }
@@ -42,6 +52,8 @@ public struct PrimaryButton: View, IOClickable {
         self.handler = handler
     }
     
+    // MARK: - Clickable
+    
     public func setClick(_ handler: IOClickableHandler?) -> PrimaryButton {
         Self(localizationType, handler: handler)
     }
@@ -50,12 +62,16 @@ public struct PrimaryButton: View, IOClickable {
 #if DEBUG
 struct PrimaryButton_Previews: PreviewProvider {
     
-    static var previews: some View {
-        prepare()
-        return Group {
-            PrimaryButton(.init(rawValue: "Primary Button"))
+    struct PrimaryButtonDemo: View {
+        
+        var body: some View {
             PrimaryButton(.init(rawValue: "Primary Button"))
         }
+    }
+    
+    static var previews: some View {
+        prepare()
+        return PrimaryButtonDemo()
     }
 }
 #endif

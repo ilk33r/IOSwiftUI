@@ -114,7 +114,7 @@ final public class SettingsPresenter: IOPresenterable {
     }
     
     func navigateSplash() {
-        self.environment.wrappedValue.isLoggedIn = false
+        self.environment.wrappedValue.appScreen = .splash
     }
     
     func updateBiometricPaired() {

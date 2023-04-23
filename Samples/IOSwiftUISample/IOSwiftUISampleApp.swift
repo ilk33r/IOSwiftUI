@@ -33,7 +33,7 @@ struct IOSwiftUISampleApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                if appEnvironment.isLoggedIn {
+                if appEnvironment.appScreen == .loggedIn {
                     homeView
                         .setEnvironment(appEnvironment)
                         .transition(.opacity)

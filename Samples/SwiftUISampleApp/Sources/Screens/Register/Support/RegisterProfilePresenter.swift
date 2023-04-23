@@ -56,7 +56,7 @@ final public class RegisterProfilePresenter: IOPresenterable {
     // MARK: - Presenter
     
     func navigateToHome() {
-        self.environment.wrappedValue.isLoggedIn = true
+        self.environment.wrappedValue.appScreen = .loggedIn
     }
     
     func prepare() {

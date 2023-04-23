@@ -10,6 +10,6 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
-    static let splashButtonLogInUppercased = IOLocalizationType(rawValue: "splash.button.logIn.uppercased")
-    static let splashButtonRegisterUppercased = IOLocalizationType(rawValue: "splash.button.register.uppercased")
+    static let buttonLogInUppercased = IOLocalizationType(rawValue: "splash.button.logIn.uppercased")
+    static let buttonRegisterUppercased = IOLocalizationType(rawValue: "splash.button.register.uppercased")
 }
