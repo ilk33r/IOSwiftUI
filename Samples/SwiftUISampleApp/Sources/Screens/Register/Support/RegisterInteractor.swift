@@ -30,20 +30,21 @@ public struct RegisterInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func checkMember(email: String) {
+    @MainActor
+    func checkMember(email: String) async throws {
         showIndicator()
         
         let request = CheckMemberRequestModel(email: email)
-        service.request(.checkMember(request: request), responseType: GenericResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.checkMember(request: request), responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(_):
-                presenter?.navigateToUserName(email: email)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
 }

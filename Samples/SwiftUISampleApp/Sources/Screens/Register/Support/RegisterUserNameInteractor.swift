@@ -30,23 +30,21 @@ public struct RegisterUserNameInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func checkUserName(userName: String) {
+    @MainActor
+    func checkUserName(userName: String) async throws {
         showIndicator()
         
         let request = CheckMemberUserNameRequestModel(userName: userName)
-        service.request(.checkMemberUserName(request: request), responseType: GenericResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.checkMemberUserName(request: request), responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(_):
-                presenter?.navigateToCreatePassword(
-                    email: entity.email,
-                    userName: userName
-                )
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
 }

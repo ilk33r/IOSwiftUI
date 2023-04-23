@@ -34,8 +34,14 @@ final public class RegisterPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func navigateToUserName(email: String) {
-        self.navigationState.wrappedValue.userNameEntity = RegisterUserNameEntity(email: email)
-        self.navigationState.wrappedValue.navigateToUserName = true
+    @MainActor
+    func checkMember(email: String) async {
+        do {
+            try await self.interactor.checkMember(email: email)
+            self.navigationState.wrappedValue.userNameEntity = RegisterUserNameEntity(email: email)
+            self.navigationState.wrappedValue.navigateToUserName = true
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
 }

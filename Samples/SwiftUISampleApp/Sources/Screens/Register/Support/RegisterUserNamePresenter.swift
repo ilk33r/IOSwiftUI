@@ -34,16 +34,19 @@ final public class RegisterUserNamePresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func navigateToCreatePassword(
-        email: String,
-        userName: String
-    ) {
-        self.navigationState.wrappedValue.createPasswordEntity = RegisterCreatePasswordEntity(
-            email: email,
-            password: "",
-            userName: userName,
-            validate: false
-        )
-        self.navigationState.wrappedValue.navigateToCreatePassword = true
+    @MainActor
+    func checkUserName(userName: String) async {
+        do {
+            try await self.interactor.checkUserName(userName: userName)
+            self.navigationState.wrappedValue.createPasswordEntity = RegisterCreatePasswordEntity(
+                email: self.interactor.entity.email,
+                password: "",
+                userName: userName,
+                validate: false
+            )
+            self.navigationState.wrappedValue.navigateToCreatePassword = true
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
 }

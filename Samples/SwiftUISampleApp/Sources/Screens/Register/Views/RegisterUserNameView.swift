@@ -20,6 +20,7 @@ public struct RegisterUserNameView: IOController {
     
     // MARK: - DI
     
+    @IOInject private var appleSettings: IOAppleSetting
     @IOInject private var validator: IOValidator
     
     // MARK: - Properties
@@ -29,54 +30,64 @@ public struct RegisterUserNameView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    #if DEBUG
-    @State private var userNameText = "ilker4"
-    #else
     @State private var userNameText = ""
-    #endif
     
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
-        IOFormGroup(.commonDone) {
-        } content: {
-            VStack(alignment: .leading) {
-                Text(type: .registerTitle)
-                    .foregroundColor(.black)
-                    .font(type: .regular(36))
-                    .multilineTextAlignment(.leading)
-                FloatingTextField(
-                    .registerInputUserName,
-                    text: $userNameText
-                )
-                .disableCorrection(true)
-                .capitalization(.none)
-                .keyboardType(.asciiCapable)
-                .registerValidator(
-                    to: validator,
-                    rules: [
-                        IOValidationRequiredRule(errorMessage: .registerInputErrorUserName),
-                        IOValidationAlphaNumericRule(errorMessage: .registerInputErrorUserName)
-                    ]
-                )
-                .padding(.top, 32)
-                PrimaryButton(.commonNextUppercased)
-                    .setClick({
-                        if validator.validate().isEmpty {
-                            presenter.interactor.checkUserName(userName: userNameText)
-                        }
-                    })
-                    .padding(.top, 16)
-                Spacer()
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                
+                IOFormGroup(.commonDone) {
+                } content: {
+                    VStack(alignment: .leading) {
+                        
+                        Text(type: .title)
+                            .foregroundColor(.black)
+                            .font(type: .regular(36))
+                            .multilineTextAlignment(.leading)
+                        
+                        FloatingTextField(
+                            .inputUserName,
+                            text: $userNameText
+                        )
+                        .disableCorrection(true)
+                        .capitalization(.none)
+                        .keyboardType(.asciiCapable)
+                        .registerValidator(
+                            to: validator,
+                            rules: [
+                                IOValidationRequiredRule(errorMessage: .inputErrorUserName),
+                                IOValidationAlphaNumericRule(errorMessage: .inputErrorUserName)
+                            ]
+                        )
+                        .padding(.top, 32)
+                        
+                        PrimaryButton(.commonNextUppercased)
+                            .setClick {
+                                if validator.validate().isEmpty {
+                                    Task {
+                                        await presenter.checkUserName(userName: userNameText)
+                                    }
+                                }
+                            }
+                            .padding(.top, 16)
+                        
+                        Spacer()
+                    }
+                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+                }
+                
+                Color.white
+                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                    .ignoresSafeArea()
             }
-            .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                EmptyView()
+            }
         }
-        .navigationBar {
-            EmptyView()
-        }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             RegisterUserNameNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
@@ -86,11 +97,16 @@ public struct RegisterUserNameView: IOController {
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
+            
+            #if DEBUG
+            let defaultEmail = appleSettings.string(for: .debugDefaultUserName) ?? ""
+            let emailParts = defaultEmail.components(separatedBy: "@")
+            userNameText = emailParts.first ?? ""
+            #endif
         }
         .onChange(of: userNameText) { newValue in
             userNameText = newValue.trimNonAlphaNumericCharacters()
         }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -103,9 +119,18 @@ public struct RegisterUserNameView: IOController {
 #if DEBUG
 struct RegisterUserNameView_Previews: PreviewProvider {
     
+    struct RegisterUserNameViewDemo: View {
+        
+        var body: some View {
+            RegisterUserNameView(
+                entity: RegisterUserNameEntity(email: "")
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return RegisterUserNameView(entity: RegisterUserNameEntity(email: ""))
+        return RegisterUserNameViewDemo()
     }
 }
 #endif

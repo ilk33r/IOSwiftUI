@@ -21,12 +21,30 @@ struct RegisterNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        NavigationLink(
-            destination: route(RegisterRouters.self, .userName(entity: navigationState.userNameEntity)),
-            isActive: $navigationState.navigateToUserName
-        ) {
-            EmptyView()
+        Group {
+            NavigationLink(
+                destination: route(RegisterRouters.self, .userName(entity: navigationState.userNameEntity)),
+                isActive: $navigationState.navigateToUserName
+            ) {
+                EmptyView()
+            }
         }
+        /*
+        .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
+            if let view = navigationState.editProfileView {
+                view
+            } else {
+                EmptyView()
+            }
+        }
+        .sheet(isPresented: $navigationState.navigateToMap) {
+            if let mapView = navigationState.mapView {
+                mapView
+            } else {
+                EmptyView()
+            }
+        }
+        */
     }
     
     // MARK: - Initialization Methods

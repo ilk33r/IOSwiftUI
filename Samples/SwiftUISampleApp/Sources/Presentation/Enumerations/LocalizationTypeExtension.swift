@@ -12,7 +12,6 @@ public extension IOLocalizationType {
     
     static let commonAppName = IOLocalizationType(rawValue: "common.appName")
     static let commonCancel = IOLocalizationType(rawValue: "common.cancel")
-    static let commonDone = IOLocalizationType(rawValue: "common.done")
     static let commonNextUppercased = IOLocalizationType(rawValue: "common.next.uppercased")
     static let commonNo = IOLocalizationType(rawValue: "common.no")
     static let commonSave = IOLocalizationType(rawValue: "common.save")

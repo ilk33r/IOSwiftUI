@@ -19,15 +19,17 @@ public struct FloatingTextField: View, IOValidatable {
     
     // MARK: - Privates
     
-    @Binding private var isEditingBinder: Bool
-    @Binding private var text: String
-    @ObservedObject private var validationObservedObject = IOValidatorObservedObject()
-    @State private var isEditing = false
-    
     private let localizationType: IOLocalizationType
     private let capitalization: UITextAutocapitalizationType
     private let disableAutocorrection: Bool
     private let keyboardType: UIKeyboardType
+    
+    @Binding private var isEditingBinder: Bool
+    @Binding private var text: String
+    
+    @ObservedObject private var validationObservedObject = IOValidatorObservedObject()
+    
+    @State private var isEditing = false
     
     // MARK: - Body
     

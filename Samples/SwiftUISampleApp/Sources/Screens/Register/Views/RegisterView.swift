@@ -21,6 +21,7 @@ public struct RegisterView: IOController {
     
     // MARK: - DI
     
+    @IOInject private var appleSettings: IOAppleSetting
     @IOInject private var validator: IOValidator
     
     // MARK: - Properties
@@ -30,51 +31,61 @@ public struct RegisterView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    #if DEBUG
-    @State private var emailText = "ilker4@ilker.com"
-    #else
     @State private var emailText = ""
-    #endif
     
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
-        IOFormGroup(.commonDone) {
-        } content: {
-            VStack(alignment: .leading) {
-                Text(type: .registerTitle)
-                    .foregroundColor(.black)
-                    .font(type: .regular(36))
-                    .multilineTextAlignment(.leading)
-                FloatingTextField(
-                    .registerInputEmailAddress,
-                    text: $emailText
-                )
-                .disableCorrection(true)
-                .capitalization(.none)
-                .keyboardType(.emailAddress)
-                .registerValidator(
-                    to: validator,
-                    rule: IOValidationEmailRule(errorMessage: .registerInputErrorEmail)
-                )
-                .padding(.top, 32)
-                PrimaryButton(.commonNextUppercased)
-                    .setClick({
-                        if validator.validate().isEmpty {
-                            presenter.interactor.checkMember(email: emailText)
-                        }
-                    })
-                    .padding(.top, 16)
-                Spacer()
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                
+                IOFormGroup(.commonDone) {
+                } content: {
+                    VStack(alignment: .leading) {
+                        
+                        Text(type: .title)
+                            .foregroundColor(.black)
+                            .font(type: .regular(36))
+                            .multilineTextAlignment(.leading)
+                        
+                        FloatingTextField(
+                            .inputEmailAddress,
+                            text: $emailText
+                        )
+                        .disableCorrection(true)
+                        .capitalization(.none)
+                        .keyboardType(.emailAddress)
+                        .registerValidator(
+                            to: validator,
+                            rule: IOValidationEmailRule(errorMessage: .inputErrorEmail)
+                        )
+                        .padding(.top, 32)
+                        
+                        PrimaryButton(.commonNextUppercased)
+                            .setClick {
+                                if validator.validate().isEmpty {
+                                    Task {
+                                        await presenter.checkMember(email: emailText)
+                                    }
+                                }
+                            }
+                            .padding(.top, 16)
+                        
+                        Spacer()
+                    }
+                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+                }
+                
+                Color.white
+                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                    .ignoresSafeArea()
             }
-            .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                EmptyView()
+            }
         }
-        .navigationBar {
-            EmptyView()
-        }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             RegisterNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
@@ -84,8 +95,11 @@ public struct RegisterView: IOController {
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
+            
+            #if DEBUG
+            emailText = appleSettings.string(for: .debugDefaultUserName) ?? ""
+            #endif
         }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -98,9 +112,18 @@ public struct RegisterView: IOController {
 #if DEBUG
 struct RegisterView_Previews: PreviewProvider {
     
+    struct RegisterViewDemo: View {
+        
+        var body: some View {
+            RegisterView(
+                entity: RegisterEntity()
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return RegisterView(entity: RegisterEntity())
+        return RegisterViewDemo()
     }
 }
 #endif

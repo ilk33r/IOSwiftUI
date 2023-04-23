@@ -19,5 +19,5 @@ final public class RegisterNavigationState: IONavigationState {
     
     @Published var navigateToUserName = false
     
-    var userNameEntity: RegisterUserNameEntity!
+    var userNameEntity: RegisterUserNameEntity?
 }

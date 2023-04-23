@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  IOLocalizationTypeExtension.swift
 //  
 //
 //  Created by Adnan ilker Ozcan on 8.11.2022.
