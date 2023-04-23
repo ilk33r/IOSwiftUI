@@ -9,10 +9,10 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import IOSwiftUISupportBiometricAuthenticator
 import SwiftUISampleAppCommon
 import SwiftUISampleAppScreensShared
 import UIKit
-import IOSwiftUISupportBiometricAuthenticator
 
 public struct SettingsInteractor: IOInteractor {
     

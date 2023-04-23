@@ -80,7 +80,7 @@ extension BaseService: IOServiceType {
         
         if responseType is ImageAssetResponseModel.Type {
             let model = ImageAssetResponseModel(data: resultData)
-            return IOServiceResult<TModel>.success(response: model as! TModel)
+            return IOServiceResult<TModel>.success(response: (model as? TModel)!)
         } else {
             return IOServiceResult<TModel>.error(message: httpError.errorMessage, type: httpError.errorType, response: nil)
         }

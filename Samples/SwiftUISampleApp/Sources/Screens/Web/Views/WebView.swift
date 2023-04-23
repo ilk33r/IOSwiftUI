@@ -9,9 +9,9 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
-import WebKit
-import SwiftUISampleAppScreensShared
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
+import WebKit
 
 public struct WebView: IOController {
     

@@ -60,6 +60,6 @@ extension ChatService: IOServiceType {
     }
     
     func response<TModel>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> where TModel: Decodable, TModel: Encodable {
-        return handleResponse(type: responseType, result: result)
+        handleResponse(type: responseType, result: result)
     }
 }

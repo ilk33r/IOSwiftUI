@@ -9,9 +9,9 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
-import SwiftUI
 
 final public class DiscoverPresenter: IOPresenterable {
     

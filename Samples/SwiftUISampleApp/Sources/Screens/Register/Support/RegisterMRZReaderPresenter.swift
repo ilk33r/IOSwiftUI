@@ -9,12 +9,12 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import IOSwiftUISupportCamera
+import IOSwiftUISupportNFC
+import IOSwiftUISupportVisionDetectText
 import SwiftUI
 import SwiftUISampleAppPresentation
-import IOSwiftUISupportCamera
-import IOSwiftUISupportVisionDetectText
 import SwiftUISampleAppScreensShared
-import IOSwiftUISupportNFC
 
 final public class RegisterMRZReaderPresenter: IOPresenterable {
     
@@ -61,7 +61,7 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
         }
         
         self.tagReader.error { [weak self] error in
-            return self?.messageForNFCError(error: error) ?? .registerNFCError0
+            self?.messageForNFCError(error: error) ?? .registerNFCError0
         }
         
         self.tagReader.finish { [weak self] isSuccess in

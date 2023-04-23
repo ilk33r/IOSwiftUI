@@ -5,9 +5,9 @@
 //  Created by Adnan ilker Ozcan on 20.08.2022.
 //
 
-import SwiftUI
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUI
 import SwiftUISampleAppResources
 
 public struct FloatingTextField: View, IOValidatable {
@@ -94,7 +94,7 @@ public struct FloatingTextField: View, IOValidatable {
     // MARK: - Modifiers
     
     public func capitalization(_ type: UITextAutocapitalizationType) -> FloatingTextField {
-        return FloatingTextField(
+        Self(
             localizationType,
             text: $text,
             keyboardType: keyboardType,
@@ -105,7 +105,7 @@ public struct FloatingTextField: View, IOValidatable {
     }
     
     public func disableCorrection(_ correction: Bool) -> FloatingTextField {
-        return FloatingTextField(
+        Self(
             localizationType,
             text: $text,
             keyboardType: keyboardType,
@@ -116,7 +116,7 @@ public struct FloatingTextField: View, IOValidatable {
     }
     
     public func keyboardType(_ type: UIKeyboardType) -> FloatingTextField {
-        return FloatingTextField(
+        Self(
             localizationType,
             text: $text,
             keyboardType: type,
@@ -127,7 +127,7 @@ public struct FloatingTextField: View, IOValidatable {
     }
     
     public func editingHandler(isEditing: Binding<Bool>) -> FloatingTextField {
-        return FloatingTextField(
+        Self(
             localizationType,
             text: $text,
             keyboardType: keyboardType,
@@ -140,7 +140,7 @@ public struct FloatingTextField: View, IOValidatable {
     // MARK: - Validation
     
     public func observedObject() -> IOValidatorObservedObject {
-        return validationObservedObject
+        validationObservedObject
     }
 }
 

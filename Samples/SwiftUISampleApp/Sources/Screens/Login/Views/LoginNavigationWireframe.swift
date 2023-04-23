@@ -12,11 +12,11 @@ import SwiftUISampleAppPresentation
 
 struct LoginNavigationWireframe: IONavigationLinkView {
     
-    public typealias AppEnvironment = SampleAppEnvironment
+    typealias AppEnvironment = SampleAppEnvironment
     
     // MARK: - States
     
-    public var appEnvironment: EnvironmentObject<SampleAppEnvironment>!
+    var appEnvironment: EnvironmentObject<SampleAppEnvironment>!
     @ObservedObject var navigationState: LoginNavigationState
     
     // MARK: - Properties

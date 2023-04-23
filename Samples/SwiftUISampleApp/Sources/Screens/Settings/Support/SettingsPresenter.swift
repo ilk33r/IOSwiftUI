@@ -9,10 +9,10 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import IOSwiftUISupportBiometricAuthenticator
 import SwiftUI
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppScreensShared
-import IOSwiftUISupportBiometricAuthenticator
 
 final public class SettingsPresenter: IOPresenterable {
     

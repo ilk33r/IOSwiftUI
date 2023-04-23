@@ -8,10 +8,10 @@
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import IOSwiftUISupportVisionDetectText
 import SwiftUI
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppScreensShared
-import IOSwiftUISupportVisionDetectText
 
 public struct RegisterMRZReaderView: IOController {
     

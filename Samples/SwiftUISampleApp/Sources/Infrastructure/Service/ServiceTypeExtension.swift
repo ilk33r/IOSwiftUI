@@ -12,15 +12,15 @@ import SwiftUISampleAppCommon
 public extension IOServiceType {
     
     func handleQuery<TModel: BaseRequestModel>(_ model: TModel) -> String? {
-        return _handleQuery(model)
+        _handleQuery(model)
     }
     
     func handleRequest<TModel: BaseRequestModel>(_ model: TModel) -> Data? {
-        return _handleRequest(model)
+        _handleRequest(model)
     }
     
     func handleMultipartRequest(_ data: [IOServiceMultipartFormData], boundary: String) -> Data? {
-        return _handleMultipartRequest(data, boundary: boundary)
+        _handleMultipartRequest(data, boundary: boundary)
     }
     
     func handleResponse<TModel: Codable>(

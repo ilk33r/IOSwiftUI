@@ -9,8 +9,8 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
-import SwiftUISampleAppPresentation
 import SwiftUI
+import SwiftUISampleAppPresentation
 
 final public class PhotoGalleryPresenter: IOPresenterable {
     

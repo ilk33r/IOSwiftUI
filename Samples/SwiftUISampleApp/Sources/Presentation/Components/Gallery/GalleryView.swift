@@ -5,9 +5,9 @@
 //  Created by Adnan ilker Ozcan on 29.08.2022.
 //
 
-import SwiftUI
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUI
 
 public struct GalleryView: View {
     
@@ -82,8 +82,8 @@ public struct GalleryView: View {
         var rightGalleryData = [GalleryCellData]()
         
         galleryImages.enumerated().forEach { it in
-            if it.offset % 2 == 0 {
-                let isSmall = it.offset % 4 == 0
+            if it.offset.isMultiple(of: 2) {
+                let isSmall = it.offset.isMultiple(of: 4)
                 leftGalleryData.append(
                     GalleryCellData(
                         imagePublicId: it.element,

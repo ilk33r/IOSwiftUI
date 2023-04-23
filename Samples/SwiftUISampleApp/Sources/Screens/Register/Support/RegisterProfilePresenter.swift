@@ -9,9 +9,9 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import IOSwiftUISupportNFC
 import SwiftUI
 import SwiftUISampleAppPresentation
-import IOSwiftUISupportNFC
 
 final public class RegisterProfilePresenter: IOPresenterable {
     

@@ -7,8 +7,8 @@
 
 import Foundation
 import IOSwiftUIPresentation
-import SwiftUISampleAppCommon
 import SwiftUI
+import SwiftUISampleAppCommon
 
 public struct UpdateProfileEntity: IOEntity {
     

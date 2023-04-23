@@ -9,9 +9,9 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
-import SwiftUI
 import SwiftUISampleAppScreensShared
 
 final public class ProfilePresenter: IOPresenterable {
@@ -74,7 +74,7 @@ final public class ProfilePresenter: IOPresenterable {
     }
     
     func navigate(toMemberId memberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
-        guard let inbox = inbox else { return }
+        guard let inbox else { return }
         self.chatEntity = ChatEntity(toMemberId: memberId, inbox: inbox, messages: messages, pagination: pagination)
     }
     

@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import IOSwiftUIPresentation
+import SwiftUI
 
 struct RegisterMRZFlashButton: View {
     

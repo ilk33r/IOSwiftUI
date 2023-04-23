@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import SwiftUI
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUI
 
 public struct FloatingDatePicker: View, IOValidatable {
     
@@ -80,7 +80,7 @@ public struct FloatingDatePicker: View, IOValidatable {
     // MARK: - Validation
     
     public func observedObject() -> IOValidatorObservedObject {
-        return validationObservedObject
+        validationObservedObject
     }
 }
 

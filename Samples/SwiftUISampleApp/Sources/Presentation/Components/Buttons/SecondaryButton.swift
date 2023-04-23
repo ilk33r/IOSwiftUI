@@ -5,10 +5,10 @@
 //  Created by Adnan ilker Ozcan on 20.08.2022.
 //
 
-import SwiftUI
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUI
 import SwiftUISampleAppResources
 
 public struct SecondaryButton: View, IOClickable {
@@ -47,7 +47,7 @@ public struct SecondaryButton: View, IOClickable {
     }
     
     public func setClick(_ handler: IOClickableHandler?) -> SecondaryButton {
-        return SecondaryButton(localizationType, handler: handler)
+        Self(localizationType, handler: handler)
     }
 }
 

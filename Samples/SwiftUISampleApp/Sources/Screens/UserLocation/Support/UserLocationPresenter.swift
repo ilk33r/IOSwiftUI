@@ -10,9 +10,9 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import IOSwiftUISupportLocation
 import SwiftUI
 import SwiftUISampleAppPresentation
-import IOSwiftUISupportLocation
 import UIKit
 
 final public class UserLocationPresenter: IOPresenterable {

@@ -9,9 +9,9 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
-import SwiftUISampleAppScreensShared
-import IOSwiftUISupportVisionDetectText
 import IOSwiftUISupportNFC
+import IOSwiftUISupportVisionDetectText
+import SwiftUISampleAppScreensShared
 
 public struct RegisterMRZReaderInteractor: IOInteractor {
     

@@ -5,9 +5,9 @@
 //  Created by Adnan ilker Ozcan on 28.08.2022.
 //
 
-import SwiftUI
 import IOSwiftUICommon
 import IOSwiftUIPresentation
+import SwiftUI
 import SwiftUISampleAppPresentation
 
 struct ChatInboxItemView: View {

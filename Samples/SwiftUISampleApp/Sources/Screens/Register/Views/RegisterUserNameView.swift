@@ -9,8 +9,8 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
-import SwiftUISampleAppScreensShared
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 public struct RegisterUserNameView: IOController {
     

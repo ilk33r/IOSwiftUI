@@ -11,8 +11,8 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppCommon
-import SwiftUISampleAppScreensShared
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 public struct UpdateProfileView: IOController {
     

@@ -21,6 +21,6 @@ public extension Color {
     static let colorTabStart = Color("colorTabStart", bundle: Bundle.resources)
     
     func convertUI() -> UIColor {
-        return UIColor(self)
+        UIColor(self)
     }
 }

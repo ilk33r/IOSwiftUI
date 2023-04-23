@@ -5,8 +5,8 @@
 //  Created by Adnan ilker Ozcan on 19.11.2022.
 //
 
-import SwiftUI
 import IOSwiftUIInfrastructure
+import SwiftUI
 
 struct SearchNavBar: View {
     

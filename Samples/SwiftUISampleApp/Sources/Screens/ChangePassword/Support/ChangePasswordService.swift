@@ -62,6 +62,6 @@ extension ChangePasswordService: IOServiceType {
     }
     
     func response<TModel: Codable>(responseType: TModel.Type, result: IOHTTPResult?) -> IOServiceResult<TModel> {
-        return handleResponse(type: responseType, result: result)
+        handleResponse(type: responseType, result: result)
     }
 }

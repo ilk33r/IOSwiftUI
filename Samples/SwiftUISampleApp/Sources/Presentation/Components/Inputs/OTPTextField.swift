@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import IOSwiftUIPresentation
+import SwiftUI
 
 public struct OTPTextField: View, IOValidatable {
     
@@ -57,7 +57,7 @@ public struct OTPTextField: View, IOValidatable {
     // MARK: - Validation
     
     public func observedObject() -> IOValidatorObservedObject {
-        return validationObservedObject
+        validationObservedObject
     }
 }
 

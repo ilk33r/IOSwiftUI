@@ -10,8 +10,8 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
-import SwiftUISampleAppScreensShared
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 final public class RegisterPresenter: IOPresenterable {
     

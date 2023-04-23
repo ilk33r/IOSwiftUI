@@ -5,8 +5,8 @@
 //  Created by Adnan ilker Ozcan on 12.11.2022.
 //
 
-import SwiftUI
 import IOSwiftUIPresentation
+import SwiftUI
 import SwiftUISampleAppCommon
 
 public struct RoundedProgressView: View {

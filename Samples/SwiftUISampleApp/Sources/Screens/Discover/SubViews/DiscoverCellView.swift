@@ -5,10 +5,10 @@
 //  Created by Adnan ilker Ozcan on 3.09.2022.
 //
 
-import SwiftUI
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import SwiftUI
 import SwiftUISampleAppPresentation
 
 struct DiscoverCellView: View {
