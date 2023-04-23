@@ -18,7 +18,6 @@ final class IOSwiftUISampleAppDelegate: IOAppDelegate {
     // MARK: - DI
     
     @IOInject private var configuration: IOConfiguration
-    @IOInject private var fileCache: IOFileCache
     @IOInject private var localization: IOLocalization
     
     // MARK: - Configuration

@@ -3,8 +3,23 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
+
+/* Begin PBXAggregateTarget section */
+		F725EAF029F50F9C0062AEDD /* ExecuteSwiftLint */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F725EAF429F50F9C0062AEDD /* Build configuration list for PBXAggregateTarget "ExecuteSwiftLint" */;
+			buildPhases = (
+				F725EAF529F50FB20062AEDD /* [IO] Lint */,
+				F725EAF829F524300062AEDD /* [IO] Lint Sample App */,
+			);
+			dependencies = (
+			);
+			name = ExecuteSwiftLint;
+			productName = ExecuteSwiftLint;
+		};
+/* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		F73A7BD7291D5F8500D1D832 /* IOSwiftUISampleAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73A7BD6291D5F8500D1D832 /* IOSwiftUISampleAppDelegate.swift */; };
@@ -16,6 +31,16 @@
 		F7FEE59328B0F1C9005D6633 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7FEE59228B0F1C9005D6633 /* Preview Assets.xcassets */; };
 		F7FEE5C128B10015005D6633 /* SwiftUISampleApp in Frameworks */ = {isa = PBXBuildFile; productRef = F7FEE5C028B10015005D6633 /* SwiftUISampleApp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F725EAF629F50FFC0062AEDD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7FEE58028B0F1C9005D6633 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F725EAF029F50F9C0062AEDD;
+			remoteInfo = ExecuteSwiftLint;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		F7AD7DE228DCE8FA00CDB8B8 /* CopyFiles */ = {
@@ -177,11 +202,11 @@
 				F7FEE58428B0F1C9005D6633 /* Sources */,
 				F7FEE58528B0F1C9005D6633 /* Frameworks */,
 				F7FEE58628B0F1C9005D6633 /* Resources */,
-				F7FEE59B28B0F249005D6633 /* [IO] Lint */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F725EAF729F50FFC0062AEDD /* PBXTargetDependency */,
 				F7FEE5BF28B10000005D6633 /* PBXTargetDependency */,
 			);
 			name = IOSwiftUISample;
@@ -202,6 +227,9 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					F725EAF029F50F9C0062AEDD = {
+						CreatedOnToolsVersion = 14.3;
+					};
 					F7AD7DE328DCE8FA00CDB8B8 = {
 						CreatedOnToolsVersion = 14.0;
 					};
@@ -211,7 +239,7 @@
 				};
 			};
 			buildConfigurationList = F7FEE58328B0F1C9005D6633 /* Build configuration list for PBXProject "IOSwiftUISample" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -223,8 +251,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F7FEE58728B0F1C9005D6633 /* IOSwiftUISample */,
+				F725EAF029F50F9C0062AEDD /* ExecuteSwiftLint */,
 				F7AD7DE328DCE8FA00CDB8B8 /* IOBuildConfigGenerator */,
+				F7FEE58728B0F1C9005D6633 /* IOSwiftUISample */,
 			);
 		};
 /* End PBXProject section */
@@ -243,6 +272,43 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		F725EAF529F50FB20062AEDD /* [IO] Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[IO] Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ $ACTION == \"build\" && $ENABLE_PREVIEWS == \"NO\" ]]; then\n    swift package plugin ioswiftlint --target IOSwiftUI\nfi\n";
+		};
+		F725EAF829F524300062AEDD /* [IO] Lint Sample App */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[IO] Lint Sample App";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ $ACTION == \"build\" && $ENABLE_PREVIEWS == \"NO\" ]]; then\n    cd \"${SRCROOT}/SwiftUISampleApp\"\n    swift package plugin ioswiftlint --target SwiftUISampleApp\nfi\n";
+		};
 		F72608622922CD9F009C545C /* [IO] Prepare Settings Bundle */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -261,25 +327,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "SCRIPT_PATH=\"${SOURCE_ROOT}/../Plugins/IOPrepareSettingsBundle/IOPrepareSettingsBundle.sh\"\nPLIST_PATH=\"${SOURCE_ROOT}/IOSwiftUISample/Resources/Settings.bundle\"\n\nif [[ \"${CONFIGURATION}\" == \"Release\" ]]; then\n    \"${SCRIPT_PATH}\" Release \"${PLIST_PATH}\"\nelse\n    \"${SCRIPT_PATH}\" Debug \"${PLIST_PATH}\" \nfi\n";
-		};
-		F7FEE59B28B0F249005D6633 /* [IO] Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "[IO] Lint";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ $ACTION == \"build\" && $ENABLE_PREVIEWS == \"NO\" ]]; then\n    LINT_BINARY=\"${BUILD_ROOT}/../../SourcePackages/artifacts/IOSwiftUI/SwiftLintBinary.artifactbundle/swiftlint-0.47.1-macos/bin/swiftlint\"\n\n    $LINT_BINARY lint --in-process-sourcekit --path \"${SRCROOT}/../Sources\" --cache-path \"${BUILD_ROOT}/../../SourcePackages/plugins/SwiftLintCache\" --config \"${SRCROOT}/../.swiftlint.yml\"\n    \n    $LINT_BINARY lint --in-process-sourcekit --path \"${SRCROOT}/SwiftUISampleApp/Sources\" --cache-path \"${BUILD_ROOT}/../../SourcePackages/plugins/SampleSwiftLintCache\" --config \"${SRCROOT}/../.swiftlint.yml\"  \nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -305,6 +352,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F725EAF729F50FFC0062AEDD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F725EAF029F50F9C0062AEDD /* ExecuteSwiftLint */;
+			targetProxy = F725EAF629F50FFC0062AEDD /* PBXContainerItemProxy */;
+		};
 		F7FEE5BF28B10000005D6633 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = F7FEE5BE28B10000005D6633 /* SwiftUISampleApp */;
@@ -312,13 +364,40 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		F725EAF129F50F9C0062AEDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F725EAF229F50F9C0062AEDD /* DEV */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = DEV;
+		};
+		F725EAF329F50F9C0062AEDD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		F7A69E7628F16605001EDC99 /* DEV */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -344,8 +423,9 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -365,10 +445,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = DEV;
 		};
@@ -378,19 +458,6 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
-				INFOPLIST_KEY_NFCReaderUsageDescription = "We need NFC reader permission to perform document scanning.";
-				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access camera for adding a new photo.";
-				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need Face ID permission for biometric authentication.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_NSLocationUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -440,7 +507,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -466,6 +533,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -500,7 +568,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -526,6 +594,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -552,28 +621,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F7FEE5B528B0F35C005D6633 /* IOSwiftUISample.Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = IOSwiftUISample/IOSwiftUISampleDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 3U8TGD2356;
-				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
-				INFOPLIST_KEY_NFCReaderUsageDescription = "We need NFC reader permission to perform document scanning.";
-				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access camera for adding a new photo.";
-				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need Face ID permission for biometric authentication.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_NSLocationUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				DEVELOPMENT_TEAM = 3U8TGD2356;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "IOSwiftUISample Debug Development";
+				PROVISIONING_PROFILE_SPECIFIER = "IOSwiftUISample Debug Development";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -583,19 +636,6 @@
 			baseConfigurationReference = F7FEE5B628B0F364005D6633 /* IOSwiftUISample.Release.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = IOSwiftUISample/Info.plist;
-				INFOPLIST_KEY_NFCReaderUsageDescription = "We need NFC reader permission to perform document scanning.";
-				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access camera for adding a new photo.";
-				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need Face ID permission for biometric authentication.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_NSLocationUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location for display on your profile page.";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -605,6 +645,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F725EAF429F50F9C0062AEDD /* Build configuration list for PBXAggregateTarget "ExecuteSwiftLint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F725EAF129F50F9C0062AEDD /* Debug */,
+				F725EAF229F50F9C0062AEDD /* DEV */,
+				F725EAF329F50F9C0062AEDD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F7AD7DE828DCE8FA00CDB8B8 /* Build configuration list for PBXNativeTarget "IOBuildConfigGenerator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

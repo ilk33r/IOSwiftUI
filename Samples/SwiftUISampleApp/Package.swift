@@ -12,7 +12,8 @@ let package = Package(
     products: [
         .library(
             name: "SwiftUISampleApp",
-            targets: ["SwiftUISampleApp"]),
+            targets: ["SwiftUISampleApp"]
+        ),
     ],
     dependencies: [
         .package(path: "../..")
