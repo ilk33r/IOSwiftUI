@@ -15,7 +15,6 @@ enum SettingsService {
 
     case deleteProfilePicture
     case pairFaceID(request: MemberPairFaceIDRequestModel)
-    case uploadProfilePicture(image: Data, boundary: String = UUID().uuidString)
 }
 
 extension SettingsService: IOServiceType {
@@ -27,17 +26,11 @@ extension SettingsService: IOServiceType {
             
         case .pairFaceID:
             return .post
-            
-        case .uploadProfilePicture:
-            return .put
         }
     }
     
     var requestContentType: IOServiceContentType {
         switch self {
-        case .uploadProfilePicture(_, let boundary):
-            return .multipartFormData(boundary: boundary)
-            
         default:
             return .applicationJSON
         }
@@ -50,9 +43,6 @@ extension SettingsService: IOServiceType {
             
         case .pairFaceID:
             return "MemberRegister/PairFaceID"
-            
-        case .uploadProfilePicture:
-            return "MemberImages/UploadProfilePicture"
         }
     }
     
@@ -74,11 +64,6 @@ extension SettingsService: IOServiceType {
         switch self {
         case .pairFaceID(request: let request):
             return handleRequest(request)
-            
-        case .uploadProfilePicture(image: let image, boundary: let boundary):
-            let fileName = UUID().uuidString + ".png"
-            let formData = IOServiceMultipartFormData(formName: "file", contentType: .imagePNG, content: image, fileName: fileName)
-            return handleMultipartRequest([formData], boundary: boundary)
             
         default:
             return nil

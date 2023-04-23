@@ -47,16 +47,18 @@ public struct RegisterCreatePasswordView: IOController {
                             .font(type: .regular(36))
                             .multilineTextAlignment(.leading)
                         
-                        SecureFloatingTextField(presenter.interactor.entity.validate ? .inputPasswordReEnter : .inputPassword, text: $password)
-                            .disableCorrection(true)
-                            .capitalization(.none)
-                            .registerValidator(
-                                to: validator,
-                                rule: IOValidationMinLengthRule(
-                                    errorMessage: .inputErrorPasswordLength,
-                                    length: 8
-                                )
+                        SecureFloatingTextField(
+                            presenter.interactor.entity.validate ? .inputPasswordReEnter : .inputPassword, text: $password
+                        )
+                        .disableCorrection(true)
+                        .capitalization(.none)
+                        .registerValidator(
+                            to: validator,
+                            rule: IOValidationMinLengthRule(
+                                errorMessage: .inputErrorPasswordLength,
+                                length: 8
                             )
+                        )
                         
                         PrimaryButton(.commonNextUppercased)
                             .setClick({

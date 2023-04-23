@@ -17,6 +17,7 @@ public extension Color {
     static let colorImage = Color("colorImage", bundle: Bundle.resources)
     static let colorPassthrought = Color("colorPassthrought", bundle: Bundle.resources)
     static let colorPlaceholder = Color("colorPlaceholder", bundle: Bundle.resources)
+    static let colorSuccess = Color("colorSuccess", bundle: Bundle.resources)
     static let colorTabEnd = Color("colorTabEnd", bundle: Bundle.resources)
     static let colorTabStart = Color("colorTabStart", bundle: Bundle.resources)
     

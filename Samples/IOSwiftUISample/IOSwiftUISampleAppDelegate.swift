@@ -42,6 +42,34 @@ final class IOSwiftUISampleAppDelegate: IOAppDelegate {
             }
         }
         
+        container.register(class: IOPickerPresenter.self) {
+            IOPickerPresenterImpl { data in
+                IODefaultPickerView(data: data)
+                    .backgroundColor(.colorImage)
+            } datePickerView: { data in
+                IODefaultDatePickerView(data: data)
+                    .backgroundColor(.colorImage)
+            }
+        }
+        
+        container.register(class: IOToastPresenter.self) {
+            IOToastPresenterImpl { data in
+                IOToastView(
+                    data,
+                    successBackgroundColor: .colorSuccess,
+                    errorBackgroundColor: .colorTabEnd,
+                    warningBackgroundColor: .yellow,
+                    infoBackgroundColor: .colorImage,
+                    successTextColor: .colorImage,
+                    errorTextColor: .colorImage,
+                    warningTextColor: .colorImage,
+                    infoTextColor: .black,
+                    titleFont: .systemSemibold(14),
+                    messageFont: .systemRegular(14)
+                )
+            }
+        }
+        
         IOFontType.registerFontsIfNecessary(Bundle.resources)
         AppTheme.applyTheme()
     }

@@ -21,6 +21,8 @@ struct IOSwiftUISampleApp: App {
     
     @IOInject private var alertPresenter: IOAlertPresenter
     @IOInject private var indicatorPresenter: IOIndicatorPresenter
+    @IOInject private var pickerPresenter: IOPickerPresenter
+    @IOInject private var toastPresenter: IOToastPresenter
     
     @UIApplicationDelegateAdaptor private var appDelegate: IOSwiftUISampleAppDelegate
     @ObservedObject private var appEnvironment = SampleAppEnvironment()
@@ -56,6 +58,33 @@ struct IOSwiftUISampleApp: App {
                 alertPresenter.show {
                     newValue
                 }
+            }
+        }
+        .onChange(of: appEnvironment.datePickerData) { newValue in
+            if let newValue {
+                pickerPresenter.show {
+                    newValue
+                }
+            } else {
+                pickerPresenter.dismiss()
+            }
+        }
+        .onChange(of: appEnvironment.pickerData) { newValue in
+            if let newValue {
+                pickerPresenter.show {
+                    newValue
+                }
+            } else {
+                pickerPresenter.dismiss()
+            }
+        }
+        .onChange(of: appEnvironment.toastData) { newValue in
+            if let newValue {
+                toastPresenter.show {
+                    newValue
+                }
+            } else {
+                toastPresenter.dismiss()
             }
         }
     }

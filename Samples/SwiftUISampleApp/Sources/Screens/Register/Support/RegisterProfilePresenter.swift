@@ -11,16 +11,10 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import IOSwiftUISupportNFC
 import SwiftUI
+import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
 
 final public class RegisterProfilePresenter: IOPresenterable {
-    
-    // MARK: - Defs
-    
-    struct ActionSheetData: Identifiable {
-        
-        let id = UUID()
-    }
     
     // MARK: - Presentable
     
@@ -32,8 +26,8 @@ final public class RegisterProfilePresenter: IOPresenterable {
     
     // MARK: - Publishers
     
-    @Published var actionSheetData: ActionSheetData?
-    @Published private(set) var birthDate: Date?
+    @Published var actionSheetData: IOAlertData?
+    @Published private(set) var birthDate: String?
     @Published private(set) var locationName: String
     @Published private(set) var name: String
     @Published private(set) var profilePictureImage: UIImage?
@@ -69,7 +63,10 @@ final public class RegisterProfilePresenter: IOPresenterable {
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyMMdd"
-            self.birthDate = dateFormatter.date(from: nfcDG1.dateOfBirth)
+            if let birthDate = dateFormatter.date(from: nfcDG1.dateOfBirth) {
+                dateFormatter.dateFormat = CommonConstants.pickerDateFormat
+                self.birthDate = dateFormatter.string(from: birthDate)
+            }
         }
         
         if
@@ -94,7 +91,23 @@ final public class RegisterProfilePresenter: IOPresenterable {
     }
     
     func showActionSheet() {
-        self.actionSheetData = ActionSheetData()
+        self.actionSheetData = IOAlertData(
+            title: .cameraActionsTitle,
+            message: "",
+            buttons: [
+                .cameraActionsTakePhoto,
+                .cameraActionsChoosePhoto,
+                .commonCancel
+            ]
+        ) { [weak self] index in
+            if index == 2 { return }
+            
+            if index == 0 {
+                self?.navigationState.wrappedValue.navigateToCamera = true
+            } else if index == 1 {
+                self?.navigationState.wrappedValue.navigateToPhotoLibrary = true
+            }
+        }
     }
     
     func updateProfilePicture(image: UIImage) {

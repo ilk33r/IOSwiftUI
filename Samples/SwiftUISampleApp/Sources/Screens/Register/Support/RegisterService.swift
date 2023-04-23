@@ -16,7 +16,6 @@ enum RegisterService {
     case checkMember(request: CheckMemberRequestModel)
     case checkMemberUserName(request: CheckMemberUserNameRequestModel)
     case register(request: RegisterMemberRequestModel)
-    case authenticate(request: AuthenticateRequestModel)
     case uploadProfilePicture(image: Data, boundary: String = UUID().uuidString)
 }
 
@@ -32,9 +31,6 @@ extension RegisterService: IOServiceType {
             
         case .register:
             return .put
-            
-        case .authenticate:
-            return .post
             
         case .uploadProfilePicture:
             return .put
@@ -61,9 +57,6 @@ extension RegisterService: IOServiceType {
             
         case .register:
             return "MemberRegister/Register"
-            
-        case .authenticate:
-            return "MemberLogin/Authenticate"
             
         case .uploadProfilePicture:
             return "MemberImages/UploadProfilePicture"
@@ -93,9 +86,6 @@ extension RegisterService: IOServiceType {
             return handleRequest(request)
             
         case .register(request: let request):
-            return handleRequest(request)
-            
-        case .authenticate(request: let request):
             return handleRequest(request)
             
         case .uploadProfilePicture(image: let image, boundary: let boundary):

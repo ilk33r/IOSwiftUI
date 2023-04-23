@@ -90,6 +90,7 @@ public struct RegisterProfileInteractor: IOInteractor {
     // MARK: - Helper Methods
     
     private func authenticate() {
+        /*
         let request = AuthenticateRequestModel(email: entity.email, password: entity.password)
         service.request(.authenticate(request: request), responseType: AuthenticateResponseModel.self) { result in
             switch result {
@@ -101,6 +102,7 @@ public struct RegisterProfileInteractor: IOInteractor {
                 handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
+        */
     }
     
     private func completeLogin(response: AuthenticateResponseModel?) {

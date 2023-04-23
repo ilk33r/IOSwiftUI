@@ -14,7 +14,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
     
     // MARK: - Identifiable
     
-    public var id = UUID().uuidString
+    public var id: String
     public var validationText: String? { text }
     
     // MARK: - Privates
@@ -67,11 +67,13 @@ public struct SecureFloatingTextField: View, IOValidatable {
     
     public init(
         _ l: IOLocalizationType,
-        text: Binding<String>
+        text: Binding<String>,
+        validationId: String = "SecureFloatingTextField"
     ) {
         self.keyboardType = .default
         self.localizationType = l
         self._text = text
+        self.id = validationId
         self._isEditingBinder = Binding.constant(false)
         self.disableAutocorrection = false
         self.capitalization = .words
@@ -80,6 +82,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
     private init(
         _ l: IOLocalizationType,
         text: Binding<String>,
+        validationId: String,
         keyboardType: UIKeyboardType,
         editingBinder: Binding<Bool>,
         disableAutocorrection: Bool,
@@ -88,6 +91,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
         self.keyboardType = keyboardType
         self.localizationType = l
         self._text = text
+        self.id = validationId
         self._isEditingBinder = editingBinder
         self.disableAutocorrection = disableAutocorrection
         self.capitalization = capitalization
@@ -99,6 +103,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
         Self(
             localizationType,
             text: $text,
+            validationId: id,
             keyboardType: keyboardType,
             editingBinder: $isEditingBinder,
             disableAutocorrection: disableAutocorrection,
@@ -110,6 +115,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
         Self(
             localizationType,
             text: $text,
+            validationId: id,
             keyboardType: keyboardType,
             editingBinder: $isEditingBinder,
             disableAutocorrection: correction,
@@ -121,6 +127,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
         Self(
             localizationType,
             text: $text,
+            validationId: id,
             keyboardType: type,
             editingBinder: $isEditingBinder,
             disableAutocorrection: disableAutocorrection,
@@ -132,6 +139,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
         Self(
             localizationType,
             text: $text,
+            validationId: id,
             keyboardType: keyboardType,
             editingBinder: isEditing,
             disableAutocorrection: disableAutocorrection,

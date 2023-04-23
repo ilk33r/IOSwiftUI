@@ -20,6 +20,7 @@ final public class RegisterProfileNavigationState: IONavigationState {
     @Published var navigateToCamera = false
     @Published var navigateToMRZReader = false
     @Published var navigateToPhotoLibrary = false
+    @Published var pickedImage: UIImage?
     
     // MARK: - Privates
     

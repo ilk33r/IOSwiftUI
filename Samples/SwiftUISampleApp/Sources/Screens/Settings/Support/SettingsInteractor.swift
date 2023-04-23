@@ -224,6 +224,7 @@ public struct SettingsInteractor: IOInteractor {
     }
     
     private func uploadProfilePicture(image: UIImage) {
+        /*
         service.request(.uploadProfilePicture(image: image.pngData()!), responseType: ImageCreateResponseModel.self) { result in
             hideIndicator()
             
@@ -237,5 +238,6 @@ public struct SettingsInteractor: IOInteractor {
                 handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
+         */
     }
 }
