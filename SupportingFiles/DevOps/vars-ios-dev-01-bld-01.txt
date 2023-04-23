@@ -1,3 +1,6 @@
+IO.ArchiveName
+SevenK-Test.xcarchive
+
 IO.ArtifactName
 ios-package
 
@@ -12,12 +15,6 @@ SevenK-Test
 
 IO.WorkSpaceName
 SevenK.xcworkspace
-
-IO.ArchiveName
-SevenK-Test.xcarchive
-
-IO.TeamID
-xyz
 
 IO.ExportMethod
 app-store, package, ad-hoc, enterprise, or development.
