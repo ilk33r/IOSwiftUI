@@ -9,5 +9,6 @@ IO Swift UI framework.
 - ActionSheet usage.
 - fullscreencover and sheet usage.
 - NSNotification usage.
+- Deprecated remove.
 - Friends page map view.
 - Stories.

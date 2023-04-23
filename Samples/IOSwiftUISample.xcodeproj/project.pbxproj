@@ -293,6 +293,7 @@
 		};
 		F725EAF829F524300062AEDD /* [IO] Lint Sample App */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

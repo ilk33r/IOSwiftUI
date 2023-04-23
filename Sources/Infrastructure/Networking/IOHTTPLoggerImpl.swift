@@ -70,26 +70,21 @@ final public class IOHTTPLoggerImpl: IOHTTPLogger, IOSingleton {
         guard let urlResponse = sessionTask.response as? HTTPURLResponse else { return }
         
         let requestHeaders = self.jsonStringFromObject(object: urlRequest.allHTTPHeaderFields ?? [String: String]())
-        let requestBody = self.requestBodies[sessionTask.taskIdentifier]
+        let requestBody = self.getFormattedJson(object: self.requestBodies[sessionTask.taskIdentifier])
         let requestLog = String(
-            format: "%@ %@ '%@':\n%@\n%@",
+            format: "%@[REQUEST]-[%@]->\n'%@':\n%@\n%@",
             self.separatorString(),
             urlRequest.httpMethod ?? "",
             urlRequest.url?.absoluteString ?? "",
             requestHeaders,
-            requestBody ?? ""
+            requestBody
         )
-        
-        // Log call
-        self.thread.runOnBackgroundThread {
-            IOLogger.debug(requestLog)
-        }
         
         if let requestError = error {
             let responseHeaders = self.jsonStringFromObject(object: urlResponse.allHeaderFields)
             let responseBody = self.jsonStringFromObject(object: requestError)
             let responseLog = String(
-                format: "%@ %@ '%@' (%ld) :\n%@%@",
+                format: "[RESPONSE]-%@-[%@]->'%@' [Status:%ld]:\n%@%@",
                 self.failureIcon,
                 urlRequest.httpMethod ?? "",
                 urlResponse.url?.absoluteString ?? "",
@@ -100,7 +95,7 @@ final public class IOHTTPLoggerImpl: IOHTTPLogger, IOSingleton {
             
             // Log call
             self.thread.runOnBackgroundThread {
-                IOLogger.debug(responseLog)
+                IOLogger.error(requestLog + "\n" + responseLog)
             }
             
             let networkHistoryItem = IOHTTPNetworkHistory(
@@ -108,7 +103,7 @@ final public class IOHTTPLoggerImpl: IOHTTPLogger, IOSingleton {
                 methodType: urlRequest.httpMethod ?? "",
                 path: urlResponse.url?.absoluteString ?? "",
                 requestHeaders: requestHeaders,
-                requestBody: requestBody ?? "",
+                requestBody: requestBody,
                 responseHeaders: responseHeaders,
                 responseBody: responseBody,
                 responseStatusCode: urlResponse.statusCode
@@ -122,27 +117,26 @@ final public class IOHTTPLoggerImpl: IOHTTPLogger, IOSingleton {
                 if let responseObject = responseJSON {
                     responseBody = self.jsonStringFromObject(object: responseObject)
                 } else {
-                    responseBody = self.jsonStringFromObject(object: responseObject ?? [])
+                    responseBody = self.jsonStringFromObject(object: responseObject ?? [String: Any]())
                 }
             } else {
-                responseBody = self.jsonStringFromObject(object: responseObject ?? [])
+                responseBody = self.jsonStringFromObject(object: responseObject ?? [String: Any]())
             }
             
             let responseHeaders = self.jsonStringFromObject(object: urlResponse.allHeaderFields)
             let responseLog = String(
-                format: "%@ %ld '%@' :\n%@\n",
+                format: "[RESPONSE]-> %@ [Status:%ld]\n'%@': \n%@\n%@%@\n",
                 self.successIcon,
                 urlResponse.statusCode,
                 urlResponse.url?.absoluteString ?? "",
-                responseHeaders
+                responseHeaders,
+                responseBody,
+                self.separatorString()
             )
-            let separatorString = self.separatorString()
             
             // Log call
             self.thread.runOnBackgroundThread {
-                IOLogger.debug(responseLog)
-                IOLogger.debug("\n\(responseBody)")
-                IOLogger.debug(separatorString)
+                IOLogger.debug(requestLog + "\n" + responseLog)
             }
             
             let networkHistoryItem = IOHTTPNetworkHistory(
@@ -150,7 +144,7 @@ final public class IOHTTPLoggerImpl: IOHTTPLogger, IOSingleton {
                 methodType: urlRequest.httpMethod ?? "",
                 path: urlResponse.url?.absoluteString ?? "",
                 requestHeaders: requestHeaders,
-                requestBody: requestBody ?? "",
+                requestBody: requestBody,
                 responseHeaders: responseHeaders,
                 responseBody: responseBody,
                 responseStatusCode: urlResponse.statusCode
@@ -180,6 +174,15 @@ final public class IOHTTPLoggerImpl: IOHTTPLogger, IOSingleton {
         } catch {
             return ""
         }
+    }
+    
+    private func getFormattedJson(object: String?) -> String {
+        guard let object, let data = object.data(using: .utf8, allowLossyConversion: false) else { return object ?? "" }
+        guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) else { return object }
+        guard let prettyPrintedData = try? JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted]) else { return object }
+        guard let prettyPrintedString = String(data: prettyPrintedData, encoding: .utf8) else { return object }
+        
+        return prettyPrintedString
     }
     
     private func separatorString() -> String {

@@ -41,7 +41,7 @@ public struct IORouterView: View {
     public func setEnvironment<Environment: ObservableObject>(_ environment: Environment) -> IORouterView {
         if let view {
             let environmentView = view.environmentObject(environment)
-            Self(AnyView(environmentView))
+            return Self(AnyView(environmentView))
         }
         
         return self
