@@ -157,7 +157,11 @@ public struct RegisterProfileView: IOController {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
-                EmptyView()
+                RegisterNavigationBar(
+                    proxy: proxy
+                ) {
+                    showNFCBottomSheet()
+                }
             }
         }
         .navigationWireframe(hasNavigationView: false) {
@@ -214,8 +218,6 @@ public struct RegisterProfileView: IOController {
                     IOFormGroup(.commonDone, handler: {
                     }, content: {
                         VStack(alignment: .leading) {
-
-
                             FloatingTextField(.registerFormLocation, text: $formLocationName)
                                 .disabled(true)
                                 .setClick {
@@ -232,30 +234,6 @@ public struct RegisterProfileView: IOController {
                         }
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
                     })
-                }
-            }
-            .navigationBar {
-                HStack {
-                    HStack {
-                        Image(systemName: "person.fill")
-                            .resizable()
-                            .frame(width: 16, height: 16)
-                            .padding(.trailing, 4)
-                            .padding(.leading, -8)
-                        Text(type: .registerTitleProfile)
-                            .font(type: .medium(17))
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(.leading, 32)
-                    .padding(.trailing, 32)
-                    .frame(width: proxy.size.width - 108)
-                    Button {
-                        showNFCBottomSheet()
-                    } label: {
-                        Image(systemName: "wave.3.right")
-                    }
-                    .foregroundColor(.black)
-                    .frame(width: 32)
                 }
             }
         }

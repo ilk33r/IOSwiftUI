@@ -41,5 +41,5 @@ extension IOLocalizationType {
     static let title = IOLocalizationType(rawValue: "register.title")
     static let registerTitleMRZ = IOLocalizationType(rawValue: "register.title.mrz")
     static let registerTitleNFC = IOLocalizationType(rawValue: "register.title.nfc")
-    static let registerTitleProfile = IOLocalizationType(rawValue: "register.title.profile")
+    static let titleProfile = IOLocalizationType(rawValue: "register.title.profile")
 }
