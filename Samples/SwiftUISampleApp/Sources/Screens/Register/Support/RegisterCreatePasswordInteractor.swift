@@ -13,6 +13,12 @@ import SwiftUISampleAppScreensShared
 
 public struct RegisterCreatePasswordInteractor: IOInteractor {
     
+    // MARK: - Defs
+    
+    enum CreatePasswordError: Error {
+        case encryptionError
+    }
+    
     // MARK: - Interactorable
     
     public var entity: RegisterCreatePasswordEntity!
@@ -29,11 +35,14 @@ public struct RegisterCreatePasswordInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func hashPassword(password: String) {
-        guard let aesIV = appState.object(forType: .aesIV) as? Data else { return }
-        guard let aesKey = appState.object(forType: .aesKey) as? Data else { return }
+    func hashPassword(password: String) throws -> String {
+        guard let aesIV = appState.object(forType: .aesIV) as? Data else { throw CreatePasswordError.encryptionError }
+        guard let aesKey = appState.object(forType: .aesKey) as? Data else { throw CreatePasswordError.encryptionError }
         
-        guard let encryptedPassword = IOAESUtilities.encrypt(string: password, keyData: aesKey, ivData: aesIV) else { return }
-        presenter?.navigateToProfile(hashedPassword: encryptedPassword.base64EncodedString())
+        guard let encryptedPassword = IOAESUtilities.encrypt(string: password, keyData: aesKey, ivData: aesIV) else {
+            throw CreatePasswordError.encryptionError
+        }
+        
+        return encryptedPassword.base64EncodedString()
     }
 }

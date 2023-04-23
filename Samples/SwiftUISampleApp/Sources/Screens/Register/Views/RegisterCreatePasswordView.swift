@@ -20,6 +20,7 @@ public struct RegisterCreatePasswordView: IOController {
     
     // MARK: - DI
     
+    @IOInject private var appleSettings: IOAppleSetting
     @IOInject private var validator: IOValidator
     
     // MARK: - Properties
@@ -29,50 +30,57 @@ public struct RegisterCreatePasswordView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    #if DEBUG
-    @State private var password = "12345678"
-    #else
     @State private var password = ""
-    #endif
     
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
-        IOFormGroup(.commonDone) {
-            
-        } content: {
-            VStack(alignment: .leading) {
-                Text(type: .registerTitle)
-                    .foregroundColor(.black)
-                    .font(type: .regular(36))
-                    .multilineTextAlignment(.leading)
-                SecureFloatingTextField(presenter.interactor.entity.validate ? .registerInputPasswordReEnter : .registerInputPassword, text: $password)
-                    .disableCorrection(true)
-                    .capitalization(.none)
-                    .registerValidator(
-                        to: validator,
-                        rule: IOValidationMinLengthRule(
-                            errorMessage: .registerInputErrorPasswordLength,
-                            length: 8
-                        )
-                    )
-                PrimaryButton(.commonNextUppercased)
-                    .setClick({
-                        if validator.validate().isEmpty {
-                            presenter.validatePassword(password: password)
-                        }
-                    })
-                    .padding(.top, 16)
-                Spacer()
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                
+                IOFormGroup(.commonDone) {
+                } content: {
+                    VStack(alignment: .leading) {
+                        
+                        Text(type: .title)
+                            .foregroundColor(.black)
+                            .font(type: .regular(36))
+                            .multilineTextAlignment(.leading)
+                        
+                        SecureFloatingTextField(presenter.interactor.entity.validate ? .inputPasswordReEnter : .inputPassword, text: $password)
+                            .disableCorrection(true)
+                            .capitalization(.none)
+                            .registerValidator(
+                                to: validator,
+                                rule: IOValidationMinLengthRule(
+                                    errorMessage: .inputErrorPasswordLength,
+                                    length: 8
+                                )
+                            )
+                        
+                        PrimaryButton(.commonNextUppercased)
+                            .setClick({
+                                if validator.validate().isEmpty {
+                                    presenter.validatePassword(password: password)
+                                }
+                            })
+                            .padding(.top, 16)
+                        
+                        Spacer()
+                    }
+                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+                }
+                
+                Color.white
+                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                    .ignoresSafeArea()
             }
-            .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                EmptyView()
+            }
         }
-        .navigationBar {
-            EmptyView()
-        }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             RegisterCreatePasswordNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
@@ -82,8 +90,11 @@ public struct RegisterCreatePasswordView: IOController {
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
+            
+            #if DEBUG
+            password = appleSettings.string(for: .debugDefaultPassword) ?? ""
+            #endif
         }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -96,16 +107,23 @@ public struct RegisterCreatePasswordView: IOController {
 #if DEBUG
 struct RegisterCreatePasswordView_Previews: PreviewProvider {
     
+    struct RegisterCreatePasswordViewDemo: View {
+        
+        var body: some View {
+            RegisterCreatePasswordView(
+                entity: RegisterCreatePasswordEntity(
+                    email: "",
+                    password: "",
+                    userName: "",
+                    validate: false
+                )
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return RegisterCreatePasswordView(
-            entity: RegisterCreatePasswordEntity(
-                email: "",
-                password: "",
-                userName: "",
-                validate: false
-            )
-        )
+        return RegisterCreatePasswordViewDemo()
     }
 }
 #endif

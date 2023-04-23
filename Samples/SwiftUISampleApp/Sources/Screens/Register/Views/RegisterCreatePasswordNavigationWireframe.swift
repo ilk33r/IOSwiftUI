@@ -21,18 +21,36 @@ struct RegisterCreatePasswordNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        NavigationLink(
-            destination: route(RegisterRouters.self, .createPassword(entity: navigationState.createPasswordEntity)),
-            isActive: $navigationState.navigateToCreatePassword
-        ) {
-            EmptyView()
+        Group {
+            NavigationLink(
+                destination: route(RegisterRouters.self, .createPassword(entity: navigationState.createPasswordEntity)),
+                isActive: $navigationState.navigateToCreatePassword
+            ) {
+                EmptyView()
+            }
+            NavigationLink(
+                destination: route(RegisterRouters.self, .profile(entity: navigationState.profileEntity)),
+                isActive: $navigationState.navigateToProfile
+            ) {
+                EmptyView()
+            }
         }
-        NavigationLink(
-            destination: route(RegisterRouters.self, .profile(entity: navigationState.profileEntity)),
-            isActive: $navigationState.navigateToProfile
-        ) {
-            EmptyView()
+        /*
+        .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
+            if let view = navigationState.editProfileView {
+                view
+            } else {
+                EmptyView()
+            }
         }
+        .sheet(isPresented: $navigationState.navigateToMap) {
+            if let mapView = navigationState.mapView {
+                mapView
+            } else {
+                EmptyView()
+            }
+        }
+        */
     }
     
     // MARK: - Initialization Methods
