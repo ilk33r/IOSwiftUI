@@ -44,8 +44,8 @@ public struct UserLocationView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        ZStack {
-            GeometryReader { proxy in
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
                 Map(
                     coordinateRegion: $region,
                     interactionModes: .all,
@@ -77,30 +77,35 @@ public struct UserLocationView: IOController {
                     }
                 )
                 .highPriorityGesture(DragGesture(minimumDistance: 10))
-                .navigationBar {
-                    HStack {
-                        Text(type: presenter.interactor.entity.isEditable ? .userLocationSelectLocationTitle : .userLocationCurrentTitle)
-                            .font(type: .medium(17))
-                            .multilineTextAlignment(.center)
-                            .padding(.leading, 64)
-                            .padding(.trailing, presenter.interactor.entity.isEditable ? 0 : 64)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                        if presenter.interactor.entity.isEditable {
-                            IOButton(.commonSave)
-                                .setClick {
-                                    presenter.saveUserLocation(annotations: annotations)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                HStack {
+                    Text(
+                        type: presenter.interactor.entity.isEditable ? .selectLocationTitle : .currentTitle
+                    )
+                    .font(type: .medium(17))
+                    .multilineTextAlignment(.center)
+                    .padding(.leading, 64)
+                    .padding(.trailing, presenter.interactor.entity.isEditable ? 0 : 64)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    if presenter.interactor.entity.isEditable {
+                        IOButton(.commonSave)
+                            .setClick {
+                                Task {
+                                    await presenter.saveUserLocation(annotations: annotations)
                                 }
-                                .font(type: .regular(16))
-                                .foregroundColor(.colorTabEnd)
-                                .frame(width: 64)
-                        }
+                            }
+                            .font(type: .regular(16))
+                            .foregroundColor(.colorTabEnd)
+                            .frame(width: 64)
                     }
                 }
             }
         }
-        /*.navigationWireframe {
+        .navigationWireframe(hasNavigationView: true) {
             UserLocationNavigationWireframe(navigationState: navigationState)
-        }*/
+        }
         .onAppear {
             if isPreviewMode {
                 return
@@ -108,7 +113,10 @@ public struct UserLocationView: IOController {
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
-            presenter.loadUserLocation()
+            
+            Task {
+                await presenter.loadUserLocation()
+            }
             
             if
                 let latitude = presenter.interactor.entity.locationLatitude.wrappedValue,
@@ -174,16 +182,25 @@ public struct UserLocationView: IOController {
 
 #if DEBUG
 struct UserLocationView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserLocationView(
-            entity: UserLocationEntity(
-                isEditable: true,
-                isPresented: Binding.constant(false),
-                locationName: Binding.constant(""),
-                locationLatitude: Binding.constant(0),
-                locationLongitude: Binding.constant(0)
+    
+    struct UserLocationViewDemo: View {
+        
+        var body: some View {
+            UserLocationView(
+                entity: UserLocationEntity(
+                    isEditable: true,
+                    isPresented: Binding.constant(false),
+                    locationName: Binding.constant(""),
+                    locationLatitude: Binding.constant(0),
+                    locationLongitude: Binding.constant(0)
+                )
             )
-        )
+        }
+    }
+    
+    static var previews: some View {
+        prepare()
+        return UserLocationViewDemo()
     }
 }
 #endif

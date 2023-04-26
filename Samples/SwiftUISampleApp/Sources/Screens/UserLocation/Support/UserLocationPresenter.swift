@@ -10,7 +10,6 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
-import IOSwiftUISupportLocation
 import SwiftUI
 import SwiftUISampleAppPresentation
 import UIKit
@@ -32,80 +31,75 @@ final public class UserLocationPresenter: IOPresenterable {
     
     // MARK: - Privates
     
-    private let location: IOLocation
-    
     // MARK: - Initialization Methods
     
     public init() {
         self.addPin = false
-        self.location = IOLocation()
     }
     
     // MARK: - Presenter
     
-    func loadUserLocation() {
-        if !interactor.entity.isEditable {
-            self.userLocation = CLLocation(
-                latitude: self.interactor.entity.locationLatitude.wrappedValue ?? 0,
-                longitude: self.interactor.entity.locationLongitude.wrappedValue ?? 0
-            )
+    @MainActor
+    func loadUserLocation() async {
+        do {
+            self.userLocation = try await self.interactor.loadUserLocation()
             self.addPin = true
-            return
-        }
-        
-        self.location.authorizeWhenInUse { [weak self] authorizationStatus, errorMessage, settingsURL in
-            if authorizationStatus == .authorizedAlways || authorizationStatus == .authorizedWhenInUse {
-                self?.requestLocation()
-                return
-            }
-            
-            if let message = errorMessage {
-                self?.navigateToSettings(message: message, settingsURL: settingsURL)
-            }
+        } catch UserLocationInteractor.InteractorError.navigateToSettings(let message, let settingsURL) {
+            await self.navigateToSettings(message: message, settingsURL: settingsURL)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
         }
     }
     
-    func saveUserLocation(annotations: [UserLocationMapPinUIModel]) {
+    @MainActor
+    func saveUserLocation(annotations: [UserLocationMapPinUIModel]) async {
         guard let annotation = annotations.first else {
-            self.showAlert {
-                IOAlertData(title: nil, message: .userLocationErrorSelectLocation, buttons: [.commonOk], handler: nil)
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .errorSelectLocation,
+                    buttons: [.commonOk]
+                )
             }
             return
         }
         
         let location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
-        self.interactor.geocodeLocation(userLocation: location)
-    }
-    
-    func update(location: CLLocation, locationName: String) {
-        self.interactor.entity.locationName.wrappedValue = locationName
-        self.interactor.entity.locationLatitude.wrappedValue = location.coordinate.latitude
-        self.interactor.entity.locationLongitude.wrappedValue = location.coordinate.longitude
-        self.interactor.entity.isPresented.wrappedValue = false
+        
+        do {
+            let locationName = try await self.interactor.geocodeLocation(userLocation: location)
+            
+            self.interactor.entity.locationName.wrappedValue = locationName
+            self.interactor.entity.locationLatitude.wrappedValue = location.coordinate.latitude
+            self.interactor.entity.locationLongitude.wrappedValue = location.coordinate.longitude
+            self.interactor.entity.isPresented.wrappedValue = false
+        } catch UserLocationInteractor.InteractorError.geocodeError(message: let message) {
+            await showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: message,
+                    buttons: [.commonOk]
+                )
+            }
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
     // MARK: - Helper Methods
     
-    private func requestLocation() {
-        _ = location.request { [weak self] status, currentLocation in
-            if status {
-                self?.userLocation = currentLocation
-            }
-        }
-    }
-    
-    private func navigateToSettings(message: IOLocalizationType, settingsURL: URL?) {
-        self.showAlert {
+    @MainActor
+    private func navigateToSettings(message: IOLocalizationType, settingsURL: URL?) async {
+        let index = await self.showAlertAsync {
             IOAlertData(
                 title: nil,
                 message: message,
-                buttons: [.commonCancel, .commonOk],
-                handler: { index in
-                    if index == 1, let settingsURL {
-                        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-                    }
-                }
+                buttons: [.commonCancel, .commonOk]
             )
+        }
+        
+        if index == 1, let settingsURL {
+            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
         }
     }
 }

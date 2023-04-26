@@ -10,7 +10,7 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
-    static let userLocationCurrentTitle = IOLocalizationType(rawValue: "userLocation.current.title")
-    static let userLocationErrorSelectLocation = IOLocalizationType(rawValue: "userLocation.error.selectLocation")
-    static let userLocationSelectLocationTitle = IOLocalizationType(rawValue: "userLocation.selectLocation.title")
+    static let currentTitle = IOLocalizationType(rawValue: "userLocation.current.title")
+    static let errorSelectLocation = IOLocalizationType(rawValue: "userLocation.error.selectLocation")
+    static let selectLocationTitle = IOLocalizationType(rawValue: "userLocation.selectLocation.title")
 }
