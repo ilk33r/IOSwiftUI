@@ -33,9 +33,9 @@ public extension IOInteractor {
         handler: IOAlertResultHandler?
     ) {
         let message = message ?? IOLocalizationType.networkCommonError.localized
-        showAlert {
-            IOAlertData(title: nil, message: message, buttons: [.commonOk], handler: handler)
-        }
+//        showAlert {
+//            IOAlertData(title: nil, message: message, buttons: [.commonOk], handler: handler)
+//        }
     }
     
     // MARK: - HTTP
@@ -47,22 +47,13 @@ public extension IOInteractor {
         type: IOHTTPError.ErrorType,
         response: Any?
     ) async -> Int {
-        do {
-            return try await withUnsafeThrowingContinuation { contination in
-//                if type == .keyError {
-//                    contination.resume(returning: 0)
-//                    return
-//                }
-                
-                let message = message ?? IOLocalizationType.networkCommonError.localized
-                showAlert {
-                    IOAlertData(title: nil, message: message, buttons: [.commonOk]) { index in
-                        contination.resume(returning: index)
-                    }
-                }
-            }
-        } catch {
-            return 0
+        let message = message ?? IOLocalizationType.networkCommonError.localized
+        return await showAlertAsync {
+            IOAlertData(
+                title: nil,
+                message: message,
+                buttons: [.commonOk]
+            )
         }
     }
 }

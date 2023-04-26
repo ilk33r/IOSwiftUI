@@ -106,9 +106,10 @@ public struct SettingsInteractor: IOInteractor {
             
             switch result {
             case .success(_):
-                showAlert {
-                    IOAlertData(title: nil, message: .settingsSuccessDeleteProfilePicture, buttons: [.commonOk], handler: nil)
-                }
+//                showAlert {
+//                    IOAlertData(title: nil, message: .settingsSuccessDeleteProfilePicture, buttons: [.commonOk], handler: nil)
+//                }
+                break
                 
             case .error(message: let message, type: let type, response: let response):
                 handleServiceError(message, type: type, response: response, handler: nil)
@@ -153,17 +154,17 @@ public struct SettingsInteractor: IOInteractor {
             
             let isPaired = try biometricAuthenticator.isPaired(forUser: entity.member.userName ?? "")
             if isPaired {
-                showAlert {
-                    IOAlertData(
-                        title: nil,
-                        message: .settingsErrorBiometricActivated,
-                        buttons: [.commonCancel, .settingsButtonReactivate]
-                    ) { index in
-                        if index == 1 {
-                            biometricPairDevice()
-                        }
-                    }
-                }
+//                showAlert {
+//                    IOAlertData(
+//                        title: nil,
+//                        message: .settingsErrorBiometricActivated,
+//                        buttons: [.commonCancel, .settingsButtonReactivate]
+//                    ) { index in
+//                        if index == 1 {
+//                            biometricPairDevice()
+//                        }
+//                    }
+//                }
                 
                 return
             }

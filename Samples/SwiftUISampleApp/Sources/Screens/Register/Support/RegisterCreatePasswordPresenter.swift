@@ -53,8 +53,7 @@ final public class RegisterCreatePasswordPresenter: IOPresenterable {
                     IOAlertData(
                         title: nil,
                         message: .inputErrorPasswordMatch,
-                        buttons: [.commonOk],
-                        handler: nil
+                        buttons: [.commonOk]
                     )
                 }
             }

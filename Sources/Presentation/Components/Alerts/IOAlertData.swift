@@ -20,49 +20,49 @@ public struct IOAlertData: Equatable, Identifiable {
     
     public let id = UUID()
     
-    public init(title: String?, message: String, buttons: [String], handler: IOAlertResultHandler?) {
+    public init(title: String?, message: String, buttons: [String], handler: IOAlertResultHandler? = nil) {
         self.title = title
         self.message = message
         self.buttons = buttons
         self.handler = handler
     }
     
-    public init(title: IOLocalizationType, message: String, buttons: [String], handler: IOAlertResultHandler?) {
+    public init(title: IOLocalizationType, message: String, buttons: [String], handler: IOAlertResultHandler? = nil) {
         self.title = title.localized
         self.message = message
         self.buttons = buttons
         self.handler = handler
     }
     
-    public init(title: IOLocalizationType, message: IOLocalizationType, buttons: [String], handler: IOAlertResultHandler?) {
+    public init(title: IOLocalizationType, message: IOLocalizationType, buttons: [String], handler: IOAlertResultHandler? = nil) {
         self.title = title.localized
         self.message = message.localized
         self.buttons = buttons
         self.handler = handler
     }
     
-    public init(title: IOLocalizationType, message: IOLocalizationType, buttons: [IOLocalizationType], handler: IOAlertResultHandler?) {
+    public init(title: IOLocalizationType, message: IOLocalizationType, buttons: [IOLocalizationType], handler: IOAlertResultHandler? = nil) {
         self.title = title.localized
         self.message = message.localized
         self.buttons = buttons.map({ $0.localized })
         self.handler = handler
     }
     
-    public init(title: IOLocalizationType, message: String, buttons: [IOLocalizationType], handler: IOAlertResultHandler?) {
+    public init(title: IOLocalizationType, message: String, buttons: [IOLocalizationType], handler: IOAlertResultHandler? = nil) {
         self.title = title.localized
         self.message = message
         self.buttons = buttons.map({ $0.localized })
         self.handler = handler
     }
     
-    public init(title: String?, message: IOLocalizationType, buttons: [IOLocalizationType], handler: IOAlertResultHandler?) {
+    public init(title: String?, message: IOLocalizationType, buttons: [IOLocalizationType], handler: IOAlertResultHandler? = nil) {
         self.title = title
         self.message = message.localized
         self.buttons = buttons.map({ $0.localized })
         self.handler = handler
     }
     
-    public init(title: String?, message: String, buttons: [IOLocalizationType], handler: IOAlertResultHandler?) {
+    public init(title: String?, message: String, buttons: [IOLocalizationType], handler: IOAlertResultHandler? = nil) {
         self.title = title
         self.message = message
         self.buttons = buttons.map({ $0.localized })

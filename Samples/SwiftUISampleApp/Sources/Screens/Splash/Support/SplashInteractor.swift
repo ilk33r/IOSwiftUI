@@ -42,7 +42,7 @@ public struct SplashInteractor: IOInteractor {
     func handshake() async throws {
         showIndicator()
         
-        var headers = [
+        let headers = [
             "X-IO-AUTHORIZATION": configuration.configForType(type: .networkingAuthorizationHeader)
         ]
         httpClient.setDefaultHTTPHeaders(headers: headers)

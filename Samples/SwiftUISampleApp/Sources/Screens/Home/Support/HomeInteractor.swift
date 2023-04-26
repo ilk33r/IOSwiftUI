@@ -39,9 +39,10 @@ public struct HomeInteractor: IOInteractor {
             
             switch result {
             case .success(_):
-                showAlert {
-                    IOAlertData(title: nil, message: .homeSuccessUploadImage, buttons: [.commonOk], handler: nil)
-                }
+//                showAlert {
+//                    IOAlertData(title: nil, message: .homeSuccessUploadImage, buttons: [.commonOk], handler: nil)
+//                }
+                break
                 
             case .error(message: let message, type: let type, response: let response):
                 handleServiceError(message, type: type, response: response, handler: nil)

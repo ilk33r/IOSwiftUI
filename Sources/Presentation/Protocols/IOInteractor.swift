@@ -52,7 +52,9 @@ public extension IOInteractor {
     
     // MARK: - Alert
     
-    func showAlert(handler: () -> IOAlertData) {
-        presenter?.showAlert(handler: handler)
+    @discardableResult
+    @MainActor
+    func showAlertAsync(handler: () -> IOAlertData) async -> Int {
+        await presenter?.showAlertAsync(handler: handler) ?? 0
     }
 }
