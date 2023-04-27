@@ -55,13 +55,15 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
         self.tagReader.dataGroup { [weak self] dg, data in
             guard let dg = dg as? IONFCISO7816DataGroup else { return }
             guard let data else { return }
-            self?.thread.runOnBackgroundThread { [weak self] in
-                self?.interactor.parseNFCDG(dg: dg, data: data)
+            
+            Task { [weak self] in
+                guard let self else { return }
+                await self.parseNFCDG(dg: dg, data: data)
             }
         }
         
         self.tagReader.error { [weak self] error in
-            self?.messageForNFCError(error: error) ?? .registerNFCError0
+            self?.messageForNFCError(error: error) ?? .nfcError0
         }
         
         self.tagReader.finish { [weak self] isSuccess in
@@ -76,140 +78,166 @@ final public class RegisterMRZReaderPresenter: IOPresenterable {
         self.tagReader.status { status in
             switch status {
             case .started:
-                return .registerNfcInfo1
+                return .nfcInfo1
                 
             case .reading:
-                return .registerNFCInfo2
+                return .nfcInfo2
                 
             case .error:
-                return .registerNFCError0
+                return .nfcError0
                 
             case .finished:
-                return .registerNFCInfo3
+                return .nfcInfo3
             }
         }
     }
     
     // MARK: - Presenter
     
-    func parseMRZ(detectedTexts: [[String]]) {
+    func parseMRZ(detectedTexts: [[String]]) async {
         if self.mrzParsed {
             return
         }
         
-        self.interactor.parseMRZ(detectedTexts: detectedTexts)
+        do {
+            let mrzModel = try await self.interactor.parseMRZ(detectedTexts: detectedTexts)
+            self.mrzParsed = true
+            
+            Task { [weak self] in
+                guard let self else { return }
+                await self.startNFCScaning(mrzModel: mrzModel.modelData)
+            }
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
-    func update(cameraError: IOCameraError) {
+    @MainActor
+    func update(cameraError: IOCameraError) async {
         switch cameraError {
         case .authorization(errorMessage: let errorMessage, settingsURL: let settingsURL):
-            self.showAlert {
+            let index = await self.showAlertAsync {
                 IOAlertData(
                     title: nil,
                     message: errorMessage,
-                    buttons: [.commonCancel, .commonOk],
-                    handler: { index in
-                        if index == 1, let settingsURL {
-                            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-                        }
-                    }
+                    buttons: [.commonCancel, .commonOk]
                 )
             }
             
+            if index == 1, let settingsURL {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+            
         case .deviceError(errorMessage: let errorMessage):
-            self.showAlert {
-                IOAlertData(title: nil, message: errorMessage, buttons: [.commonOk], handler: nil)
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: errorMessage,
+                    buttons: [.commonOk]
+                )
             }
             
         case .deviceNotFound:
-            self.showAlert {
-                IOAlertData(title: nil, message: .registerCameraDeviceNotFound, buttons: [.commonOk], handler: nil)
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .cameraDeviceNotFound,
+                    buttons: [.commonOk],
+                    handler: nil
+                )
             }
         }
     }
     
-    func update(mrz: IOVisionIdentityMRZModel.ModelData) {
-        self.mrzParsed = true
-        
-        self.thread.runOnMainThread { [weak self] in
-            self?.isCameraRunning = false
-            
-            let readerData = IOISO7816ReaderData(
-                documentNumber: mrz.documentNumber ?? "",
-                birthdate: mrz.birthDate ?? "",
-                validUntilDate: mrz.expireDate ?? ""
-            )
-            
-            self?.readerData = readerData
-            self?.readIdentity(readerData: readerData)
-        }
-    }
-    
-    func updateError() {
-        self.thread.runOnMainThread(afterMilliSecond: 3000) { [weak self] in
-            self?.showNFCErrorBottomSheet = true
-        }
-    }
-    
-    func rescanID() {
-        self.readIdentity(readerData: self.readerData)
+    @MainActor
+    func rescanID() async {
+        await self.readIdentity(readerData: self.readerData)
     }
     
     // MARK: - Helper Methods
     
-    private func readIdentity(readerData: IOISO7816ReaderData) {
+    @MainActor
+    private func startNFCScaning(mrzModel: IOVisionIdentityMRZModel.ModelData) async {
+        self.isCameraRunning = false
+        
+        let readerData = IOISO7816ReaderData(
+            documentNumber: mrzModel.documentNumber ?? "",
+            birthdate: mrzModel.birthDate ?? "",
+            validUntilDate: mrzModel.expireDate ?? ""
+        )
+        
+        self.readerData = readerData
+        await self.readIdentity(readerData: readerData)
+    }
+    
+    @MainActor
+    private func readIdentity(readerData: IOISO7816ReaderData) async {
         do {
             try self.tagReader.startScanning(data: readerData)
-        } catch let error {
-            if let error = error as? IONFCError {
-                let message = self.messageForNFCError(error: error)
-                self.showAlert {
-                    IOAlertData(
-                        title: nil,
-                        message: message,
-                        buttons: [.commonOk],
-                        handler: { [weak self] _ in
-                            self?.thread.runOnMainThread(afterMilliSecond: 150) { [weak self] in
-                                self?.showNFCErrorBottomSheet = true
-                            }
-                        }
-                    )
-                }
+        } catch let err as IONFCError {
+            let message = self.messageForNFCError(error: err)
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: message,
+                    buttons: [.commonOk]
+                )
             }
+            
+            self.thread.runOnMainThread(afterMilliSecond: 150) { [weak self] in
+                self?.showNFCErrorBottomSheet = true
+            }
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
         }
     }
     
     private func messageForNFCError(error: IONFCError) -> IOLocalizationType {
         switch error {
         case .readingNotAvailable:
-            return .registerNFCError1
+            return .nfcError1
             
         case .authenticationDataIsEmpty:
-            return .registerNFCError0
+            return .nfcError0
             
         case .userCancelled:
-            return .registerNFCError0
+            return .nfcError0
             
         case .tagValidation:
-            return .registerNFCError2
+            return .nfcError2
             
         case .tagConnection(message: let message):
             return IOLocalizationType(rawValue: message)
             
         case .keyDerivation:
-            return .registerNFCError2
+            return .nfcError2
             
         case .connectionLost:
-            return .registerNFCError3
+            return .nfcError3
             
         case .tagRead:
-            return .registerNFCError4
+            return .nfcError4
             
         case .authentication:
-            return .registerNFCError2
+            return .nfcError2
             
         case .tagResponse:
-            return .registerNFCError4
+            return .nfcError4
+        }
+    }
+    
+    private func parseNFCDG(dg: IONFCISO7816DataGroup, data: Data) async {
+        do {
+            try await self.interactor.parseNFCDG(dg: dg, data: data)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+            self.updateError()
+        }
+    }
+    
+    private func updateError() {
+        self.thread.runOnMainThread(afterMilliSecond: 2500) { [weak self] in
+            self?.showNFCErrorBottomSheet = true
         }
     }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import IOSwiftUIInfrastructure
+import IOSwiftUIPresentation
 
 public struct IOTestAssembly: IOAssembly {
     

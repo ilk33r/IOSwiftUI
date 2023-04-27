@@ -38,16 +38,19 @@ public struct RegisterMRZReaderView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOVisionDetectTextView(
                     isRunning: $presenter.isCameraRunning,
-                    isFlashEnabled: $isFlashEnabled) { texts in
-                    presenter.parseMRZ(detectedTexts: texts)
+                    isFlashEnabled: $isFlashEnabled
+                ) { texts in
+                    Task {
+                        await presenter.parseMRZ(detectedTexts: texts)
+                    }
                 } errorHandler: { error in
-                    presenter.update(cameraError: error)
+                    Task {
+                        await presenter.update(cameraError: error)
+                    }
                 }
                 .frame(width: proxy.size.width, height: proxy.size.height + proxy.safeAreaInsets.bottom + proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
@@ -73,14 +76,14 @@ public struct RegisterMRZReaderView: IOController {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
                 NavBarTitleView(
-                    .registerTitleMRZ,
+                    .titleMRZ,
                     iconName: "lanyardcard",
                     width: 22,
                     height: 30
                 )
             }
         }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             RegisterMRZReaderNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
@@ -102,7 +105,6 @@ public struct RegisterMRZReaderView: IOController {
                 presentationMode.wrappedValue.dismiss()
             }
         }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -120,14 +122,17 @@ public struct RegisterMRZReaderView: IOController {
                     Image(systemName: "lanyardcard")
                         .resizable()
                         .frame(width: 36, height: 50)
-                    Text(type: .registerNFCError5)
+                    Text(type: .nfcError5)
                         .font(type: .regular(14))
                         .lineLimit(0)
                         .padding(.top, 8)
-                    PrimaryButton(.registerButtonScan)
+                    PrimaryButton(.buttonScan)
                         .setClick {
                             bottomSheetPresenter.dismiss()
-                            presenter.rescanID()
+                            
+                            Task {
+                                await presenter.rescanID()
+                            }
                         }
                         .padding(16)
                 }
@@ -139,9 +144,18 @@ public struct RegisterMRZReaderView: IOController {
 #if DEBUG
 struct RegisterMRZReaderView_Previews: PreviewProvider {
     
+    struct RegisterMRZReaderViewDemo: View {
+        
+        var body: some View {
+            RegisterMRZReaderView(
+                entity: RegisterMRZReaderEntity()
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return RegisterMRZReaderView(entity: RegisterMRZReaderEntity())
+        return RegisterMRZReaderViewDemo()
     }
 }
 #endif

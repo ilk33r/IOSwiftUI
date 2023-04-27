@@ -17,7 +17,7 @@ final class IOISO7816TagCommunicationUtilities {
     
     // MARK: - Privates
     
-    private let maxDataLengthToRead = 256
+    private let maxDataLengthToRead = 128
     
     private let nfcTag: NFCISO7816Tag
     

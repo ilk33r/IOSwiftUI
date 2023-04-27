@@ -31,52 +31,69 @@ public struct RegisterMRZReaderInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func parseMRZ(detectedTexts: [[String]]) {
-        guard detectedTexts.count > 3 else { return }
-        
-        let lastIndex = detectedTexts.count - 1
-        let mrzSecondLine = detectedTexts[lastIndex - 1]
-        let mrzFirstLine = detectedTexts[lastIndex - 2]
-        
-        if let mrzModel = try? IOVisionIdentityMRZModel(firstLine: mrzFirstLine, secondLine: mrzSecondLine) {
-            presenter?.update(mrz: mrzModel.modelData)
+    func parseMRZ(detectedTexts: [[String]]) async throws -> IOVisionIdentityMRZModel {
+        try await withUnsafeThrowingContinuation { continuation in
+            guard detectedTexts.count > 3 else {
+                continuation.resume(throwing: IOInteractorError.service)
+                return
+            }
+            
+            let lastIndex = detectedTexts.count - 1
+            let mrzSecondLine = detectedTexts[lastIndex - 1]
+            let mrzFirstLine = detectedTexts[lastIndex - 2]
+            
+            do {
+                let mrzModel = try IOVisionIdentityMRZModel(firstLine: mrzFirstLine, secondLine: mrzSecondLine)
+                continuation.resume(returning: mrzModel)
+            } catch {
+                continuation.resume(throwing: IOInteractorError.service)
+            }
         }
     }
     
-    func parseNFCDG(dg: IONFCISO7816DataGroup, data: Data) {
+    func parseNFCDG(dg: IONFCISO7816DataGroup, data: Data) async throws {
         if dg == .dg1 {
-            self.parseNFCDG1(data: data)
+            try await self.parseNFCDG1(data: data)
         } else if dg == .dg2 {
-            self.parseNFCDG2(data: data)
+            try await self.parseNFCDG2(data: data)
         } else if dg == .dg11 {
-            self.parseNFCDG11(data: data)
+            try await self.parseNFCDG11(data: data)
         }
     }
     
-    func parseNFCDG1(data: Data) {
-        do {
-            let dg1 = try IOISO7816DG1Model(data: data)
-            appState.set(object: dg1, forType: .registerNFCDG1)
-        } catch {
-            presenter?.updateError()
+    func parseNFCDG1(data: Data) async throws {
+        try await withUnsafeThrowingContinuation { continuation in
+            do {
+                let dg1 = try IOISO7816DG1Model(data: data)
+                appState.set(object: dg1, forType: .registerNFCDG1)
+                continuation.resume()
+            } catch {
+                continuation.resume(throwing: IOInteractorError.service)
+            }
         }
     }
     
-    func parseNFCDG2(data: Data) {
-        do {
-            let dg2 = try IOISO7816DG2Model(data: data)
-            appState.set(object: dg2, forType: .registerNFCDG2)
-        } catch {
-            presenter?.updateError()
+    func parseNFCDG2(data: Data) async throws {
+        try await withUnsafeThrowingContinuation { continuation in
+            do {
+                let dg2 = try IOISO7816DG2Model(data: data)
+                appState.set(object: dg2, forType: .registerNFCDG2)
+                continuation.resume()
+            } catch {
+                continuation.resume(throwing: IOInteractorError.service)
+            }
         }
     }
     
-    func parseNFCDG11(data: Data) {
-        do {
-            let dg11 = try IOISO7816DG11Model(data: data)
-            appState.set(object: dg11, forType: .registerNFCDG11)
-        } catch {
-            presenter?.updateError()
+    func parseNFCDG11(data: Data) async throws {
+        try await withUnsafeThrowingContinuation { continuation in
+            do {
+                let dg11 = try IOISO7816DG11Model(data: data)
+                appState.set(object: dg11, forType: .registerNFCDG11)
+                continuation.resume()
+            } catch {
+                continuation.resume(throwing: IOInteractorError.service)
+            }
         }
     }
 }

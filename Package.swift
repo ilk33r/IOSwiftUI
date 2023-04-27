@@ -204,7 +204,8 @@ let package = Package(
                 name: "IOSwiftUICommonTests",
                 dependencies: [
                     "IOSwiftUICommon",
-                    "IOSwiftUIInfrastructure"
+                    "IOSwiftUIInfrastructure",
+                    "IOSwiftUIPresentation",
                 ],
                 path: "Tests/CommonTests"
             ),
