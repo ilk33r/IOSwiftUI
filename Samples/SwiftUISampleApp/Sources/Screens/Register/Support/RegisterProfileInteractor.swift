@@ -26,6 +26,7 @@ public struct RegisterProfileInteractor: IOInteractor {
     
     // MARK: - Privates
     
+    private var authenticationService = IOServiceProviderImpl<AuthenticationService>()
     private var service = IOServiceProviderImpl<RegisterService>()
     
     // MARK: - Initialization Methods
@@ -35,6 +36,7 @@ public struct RegisterProfileInteractor: IOInteractor {
     
     // MARK: - Interactor
     
+    @MainActor
     func createProfile(
         birthDate: Date?,
         name: String?,
@@ -42,8 +44,9 @@ public struct RegisterProfileInteractor: IOInteractor {
         locationName: String?,
         locationLatitude: Double?,
         locationLongitude: Double?,
-        phoneNumber: String?
-    ) {
+        phoneNumber: String?,
+        mrzFullString: String?
+    ) async throws {
         showIndicator()
         
         let request = RegisterMemberRequestModel(
@@ -58,51 +61,52 @@ public struct RegisterProfileInteractor: IOInteractor {
             phoneNumber: phoneNumber,
             deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "",
             deviceManifacturer: UIDevice.current.systemName,
-            deviceModel: UIDevice.current.model
+            deviceModel: UIDevice.current.model,
+            mrzFullString: mrzFullString
         )
-        service.request(.register(request: request), responseType: GenericResponseModel.self) { result in
-            switch result {
-            case .success(_):
-                authenticate()
-                
-            case .error(message: let message, type: let type, response: let response):
-                hideIndicator()
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        
+        let result = await service.async(.register(request: request), responseType: GenericResponseModel.self)
+        
+        switch result {
+        case .success:
+            try await authenticate()
+            
+        case .error(let message, let type, let response):
+            hideIndicator()
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     
-    func uploadProfilePicture(image: UIImage) {
-        service.request(.uploadProfilePicture(image: image.pngData()!), responseType: ImageCreateResponseModel.self) { result in
-            hideIndicator()
+    @MainActor
+    func uploadProfilePicture(image: UIImage) async {
+        let result = await service.async(.uploadProfilePicture(image: image.pngData()!), responseType: ImageCreateResponseModel.self)
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(_):
-                presenter?.navigateToHome()
-                
-            case .error(message: let message, type: let type, response: let response):
-                hideIndicator()
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            hideIndicator()
+            await handleServiceErrorAsync(message, type: type, response: response)
         }
     }
     
     // MARK: - Helper Methods
     
-    private func authenticate() {
-        /*
+    @MainActor
+    private func authenticate() async throws {
         let request = AuthenticateRequestModel(email: entity.email, password: entity.password)
-        service.request(.authenticate(request: request), responseType: AuthenticateResponseModel.self) { result in
-            switch result {
-            case .success(response: let response):
-                completeLogin(response: response)
-                
-            case .error(message: let message, type: let type, response: let response):
-                hideIndicator()
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        let result = await authenticationService.async(.authenticate(request: request), responseType: AuthenticateResponseModel.self)
+        
+        switch result {
+        case .success(let response):
+            completeLogin(response: response)
+            
+        case .error(let message, let type, let response):
+            hideIndicator()
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
-        */
     }
     
     private func completeLogin(response: AuthenticateResponseModel?) {
@@ -114,7 +118,5 @@ public struct RegisterProfileInteractor: IOInteractor {
             defaultHTTPHeaders["X-IO-AUTHORIZATION-TOKEN"] = response.token ?? ""
             httpClient.setDefaultHTTPHeaders(headers: defaultHTTPHeaders)
         }
-        
-        presenter?.registerCompleted()
     }
 }

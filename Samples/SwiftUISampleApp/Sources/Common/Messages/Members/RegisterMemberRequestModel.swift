@@ -50,6 +50,9 @@ public struct RegisterMemberRequestModel: BaseRequestModel {
     @IOJsonProperty(key: "deviceModel")
     public var deviceModel: String!
     
+    @IOJsonProperty(key: "mrzFullString")
+    public var mrzFullString: String?
+    
     public init() {
     }
     
@@ -66,7 +69,8 @@ public struct RegisterMemberRequestModel: BaseRequestModel {
         phoneNumber: String?,
         deviceId: String?,
         deviceManifacturer: String?,
-        deviceModel: String?
+        deviceModel: String?,
+        mrzFullString: String?
     ) {
         self.userName = userName
         self.password = password
@@ -81,5 +85,6 @@ public struct RegisterMemberRequestModel: BaseRequestModel {
         self.deviceId = deviceId
         self.deviceManifacturer = deviceManifacturer
         self.deviceModel = deviceModel
+        self.mrzFullString = mrzFullString
     }
 }

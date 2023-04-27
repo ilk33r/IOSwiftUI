@@ -57,7 +57,8 @@ public struct UpdateProfileInteractor: IOInteractor {
             phoneNumber: phoneNumber,
             deviceId: UIDevice.current.identifierForVendor?.uuidString ?? "",
             deviceManifacturer: UIDevice.current.systemName,
-            deviceModel: UIDevice.current.model
+            deviceModel: UIDevice.current.model,
+            mrzFullString: ""
         )
         
         service.request(.updateMember(request: request), responseType: GenericResponseModel.self) { result in

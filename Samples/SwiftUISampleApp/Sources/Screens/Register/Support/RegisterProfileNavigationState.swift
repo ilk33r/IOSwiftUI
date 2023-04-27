@@ -20,17 +20,46 @@ final public class RegisterProfileNavigationState: IONavigationState {
     @Published var navigateToCamera = false
     @Published var navigateToMRZReader = false
     @Published var navigateToPhotoLibrary = false
+    @Published var showLocationSelection = false
+    @Published var showSendOTP = false
     @Published var pickedImage: UIImage?
+    
+    private(set) var locationView: IORouterView?
+    private(set) var sendOTPView: IORouterView?
     
     // MARK: - Privates
     
-    private var sendOTPView: IORouterView?
-    
     // MARK: - Helper Methods
     
-    func createSendOTPView(showSendOTP: Binding<Bool>, isOTPValidated: Binding<Bool>, phoneNumber: String) -> IORouterView {
+    func showLocationSelection(
+        isPresented: Binding<Bool>,
+        locationName: Binding<String>,
+        locationLatitude: Binding<Double?>,
+        locationLongitude: Binding<Double?>
+    ) {
+        self.locationView = IORouterUtilities.route(
+            ProfileRouters.self,
+            .userLocation(
+                entity: UserLocationEntity(
+                    isEditable: true,
+                    isPresented: isPresented,
+                    locationName: locationName,
+                    locationLatitude: locationLatitude,
+                    locationLongitude: locationLongitude
+                )
+            )
+        )
+        
+        self.showLocationSelection = true
+    }
+    
+    func createSendOTPView(
+        showSendOTP: Binding<Bool>,
+        isOTPValidated: Binding<Bool>,
+        phoneNumber: String
+    ) {
         if let sendOTPView = self.sendOTPView {
-            return sendOTPView
+            self.showSendOTP = true
         }
         
         self.sendOTPView = IORouterUtilities.route(
@@ -44,7 +73,7 @@ final public class RegisterProfileNavigationState: IONavigationState {
             )
         )
         
-        return self.sendOTPView!
+        self.showSendOTP = true
     }
     
     func sendOTPDismissed() {

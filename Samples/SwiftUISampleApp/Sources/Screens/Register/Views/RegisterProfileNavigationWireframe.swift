@@ -45,15 +45,25 @@ struct RegisterProfileNavigationWireframe: IONavigationLinkView {
                 navigationState.pickedImage = image
             }
         }
-        /*
-        .sheet(isPresented: $navigationState.navigateToMap) {
-            if let mapView = navigationState.mapView {
-                mapView
+        .sheet(isPresented: $navigationState.showLocationSelection) {
+            if let locationView = navigationState.locationView {
+                locationView
             } else {
                 EmptyView()
             }
         }
-        */
+        .sheet(
+            isPresented: $navigationState.showSendOTP,
+            onDismiss: {
+                navigationState.sendOTPDismissed()
+            }, content: {
+                if let sendOTPView = navigationState.sendOTPView {
+                    sendOTPView
+                } else {
+                    EmptyView()
+                }
+            }
+        )
     }
     
     // MARK: - Initialization Methods

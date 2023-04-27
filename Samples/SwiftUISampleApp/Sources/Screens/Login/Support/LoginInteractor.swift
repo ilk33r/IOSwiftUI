@@ -43,6 +43,7 @@ public struct LoginInteractor: IOInteractor {
         showIndicator()
         
         let request = AuthenticateRequestModel(email: email, password: encryptedPassword.base64EncodedString())
+        /*
         service.request(
             .authenticate(request: request),
             responseType: AuthenticateResponseModel.self
@@ -57,6 +58,7 @@ public struct LoginInteractor: IOInteractor {
                 handleServiceError(message, type: type, response: response, handler: nil)
             }
         }
+         */
     }
     
     // MARK: - Helper Methods

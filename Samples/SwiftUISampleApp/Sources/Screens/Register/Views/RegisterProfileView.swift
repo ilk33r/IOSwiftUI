@@ -33,9 +33,7 @@ public struct RegisterProfileView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-//    @State private var isOTPValidated = false
-//    @State private var showSendOTP = false
-//    @State private var showLocationSelection = false
+    @State private var isOTPValidated = false
     
     @State private var formUserNameText = ""
     @State private var formEmailText = ""
@@ -146,6 +144,32 @@ public struct RegisterProfileView: IOController {
                                     length: 19
                                 )
                             )
+                            
+                            FloatingTextField(
+                                .formLocation,
+                                text: $formLocationName
+                            )
+                            .disabled(true)
+                            .setClick {
+                                navigationState.showLocationSelection(
+                                    isPresented: $navigationState.showLocationSelection,
+                                    locationName: $formLocationName,
+                                    locationLatitude: $formLocationLatitude,
+                                    locationLongitude: $formLocationLongitude
+                                )
+                            }
+                            
+                            PrimaryButton(.commonNextUppercased)
+                                .setClick {
+                                    if validator.validate().isEmpty {
+                                        navigationState.createSendOTPView(
+                                            showSendOTP: $navigationState.showSendOTP,
+                                            isOTPValidated: $isOTPValidated,
+                                            phoneNumber: formPhoneText.trimLetters()
+                                        )
+                                    }
+                                }
+                                .padding(.top, 16)
                         }
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
                     }
@@ -211,72 +235,21 @@ public struct RegisterProfileView: IOController {
                 presenter.updateProfilePicture(image: image)
             }
         }
-        /*
-        GeometryReader { proxy in
-            ZStack(alignment: .top) {
-                ScrollView {
-                    IOFormGroup(.commonDone, handler: {
-                    }, content: {
-                        VStack(alignment: .leading) {
-                            FloatingTextField(.registerFormLocation, text: $formLocationName)
-                                .disabled(true)
-                                .setClick {
-                                    showLocationSelection = true
-                                }
-                            PrimaryButton(.commonNextUppercased)
-                                .setClick({
-                                    if validator.validate().isEmpty {
-                                        showSendOTP = true
-                                    }
-                                })
-                                .padding(.top, 16)
-                            Spacer()
-                        }
-                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
-                    })
+        .onChange(of: isOTPValidated) { newValue in
+            if newValue {
+                Task {
+                    await presenter.createProfile(
+                        birthDate: formBirthDateSelectedDate,
+                        name: formNameText,
+                        surname: formSurnameText,
+                        locationName: formLocationName,
+                        locationLatitude: formLocationLatitude,
+                        locationLongitude: formLocationLongitude,
+                        phoneNumber: formPhoneText.trimLetters()
+                    )
                 }
             }
         }
-        .sheet(isPresented: $showLocationSelection) {
-            IORouterUtilities.route(
-                ProfileRouters.self,
-                .userLocation(
-                    entity: UserLocationEntity(
-                        isEditable: true,
-                        isPresented: $showLocationSelection,
-                        locationName: $formLocationName,
-                        locationLatitude: $formLocationLatitude,
-                        locationLongitude: $formLocationLongitude
-                    )
-                )
-            )
-        }
-        .sheet(
-            isPresented: $showSendOTP,
-            onDismiss: {
-                navigationState.sendOTPDismissed()
-            }, content: {
-                navigationState.createSendOTPView(
-                    showSendOTP: $showSendOTP,
-                    isOTPValidated: $isOTPValidated,
-                    phoneNumber: formPhoneText.trimLetters()
-                )
-            }
-        )
-        .onChange(of: isOTPValidated) { newValue in
-            if newValue {
-                presenter.interactor.createProfile(
-                    birthDate: formBirthDate,
-                    name: formNameText,
-                    surname: formSurnameText,
-                    locationName: formLocationName,
-                    locationLatitude: formLocationLatitude,
-                    locationLongitude: formLocationLongitude,
-                    phoneNumber: formPhoneText.trimLetters()
-                )
-            }
-        }
-        */
     }
     
     // MARK: - Initialization Methods

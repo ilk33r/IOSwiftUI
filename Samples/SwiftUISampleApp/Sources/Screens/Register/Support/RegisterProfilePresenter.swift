@@ -37,6 +37,8 @@ final public class RegisterProfilePresenter: IOPresenterable {
     
     // MARK: - Privates
     
+    private var mrzFullString: String?
+    
     // MARK: - Initialization Methods
     
     public init() {
@@ -49,10 +51,6 @@ final public class RegisterProfilePresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func navigateToHome() {
-        self.environment.wrappedValue.appScreen = .loggedIn
-    }
-    
     func prepare() {
         self.userEmail = self.interactor.entity.email
         self.userName = self.interactor.entity.userName
@@ -60,6 +58,7 @@ final public class RegisterProfilePresenter: IOPresenterable {
         if let nfcDG1 = self.interactor.appState.object(forType: .registerNFCDG1) as? IOISO7816DG1Model {
             self.surname = nfcDG1.surname
             self.name = nfcDG1.name
+            self.mrzFullString = nfcDG1.mrzFullString
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyMMdd"
@@ -78,16 +77,6 @@ final public class RegisterProfilePresenter: IOPresenterable {
         if let nfcDG11 = self.interactor.appState.object(forType: .registerNFCDG11) as? IOISO7816DG11Model {
             self.locationName = nfcDG11.placeOfBirth
         }
-    }
-    
-    func registerCompleted() {
-        if let profilePictureImage = self.profilePictureImage {
-            self.interactor.uploadProfilePicture(image: profilePictureImage)
-            return
-        }
-        
-        self.hideIndicator()
-        self.navigateToHome()
     }
     
     func showActionSheet() {
@@ -112,5 +101,38 @@ final public class RegisterProfilePresenter: IOPresenterable {
     
     func updateProfilePicture(image: UIImage) {
         self.profilePictureImage = image
+    }
+    
+    @MainActor
+    func createProfile(
+        birthDate: Date?,
+        name: String?,
+        surname: String?,
+        locationName: String?,
+        locationLatitude: Double?,
+        locationLongitude: Double?,
+        phoneNumber: String?
+    ) async {
+        do {
+            try await self.interactor.createProfile(
+                birthDate: birthDate,
+                name: name,
+                surname: surname,
+                locationName: locationName,
+                locationLatitude: locationLatitude,
+                locationLongitude: locationLongitude,
+                phoneNumber: phoneNumber,
+                mrzFullString: self.mrzFullString
+            )
+            
+            if let profilePictureImage = self.profilePictureImage {
+                await self.interactor.uploadProfilePicture(image: profilePictureImage)
+            }
+            
+            self.hideIndicator()
+            self.environment.wrappedValue.appScreen = .loggedIn
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
 }
