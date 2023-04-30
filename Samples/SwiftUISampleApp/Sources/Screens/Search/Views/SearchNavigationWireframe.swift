@@ -21,21 +21,39 @@ struct SearchNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        NavigationLink(
-            destination: route(
-                HomeRouters.self,
-                .profile(
-                    entity: ProfileEntity(
-                        navigationBarHidden: true,
-                        userName: navigationState.userName
+        Group {
+            NavigationLink(
+                destination: route(
+                    HomeRouters.self,
+                    .profile(
+                        entity: ProfileEntity(
+                            navigationBarHidden: true,
+                            userName: navigationState.userName
+                        )
                     )
-                )
-            ),
-            isActive: $navigationState.navigateToProfile
-        ) {
-            EmptyView()
+                ),
+                isActive: $navigationState.navigateToProfile
+            ) {
+                EmptyView()
+            }
+            .navigationBarTitle("", displayMode: .inline)
         }
-        .navigationBarTitle("", displayMode: .inline)
+        /*
+        .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
+            if let view = navigationState.editProfileView {
+                view
+            } else {
+                EmptyView()
+            }
+        }
+        .sheet(isPresented: $navigationState.navigateToMap) {
+            if let mapView = navigationState.mapView {
+                mapView
+            } else {
+                EmptyView()
+            }
+        }
+        */
     }
     
     // MARK: - Initialization Methods

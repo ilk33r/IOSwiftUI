@@ -10,6 +10,6 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
-    static let searchInputPlaceholder = IOLocalizationType(rawValue: "search.input.placeholder")
-    static let searchResultTypeAll = IOLocalizationType(rawValue: "search.resultType.all")
+    static let inputPlaceholder = IOLocalizationType(rawValue: "search.input.placeholder")
+    static let resultTypeAll = IOLocalizationType(rawValue: "search.resultType.all")
 }

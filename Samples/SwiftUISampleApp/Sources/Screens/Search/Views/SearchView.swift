@@ -35,15 +35,13 @@ public struct SearchView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOObservableScrollView(
                     contentSize: $contentSize,
                     scrollOffset: $scrollOffset
                 ) { _ in
-                    Text(type: .searchResultTypeAll)
+                    Text(type: .resultTypeAll)
                         .font(type: .black(13))
                         .foregroundColor(.black)
                         .padding(.top, 32)
@@ -87,16 +85,20 @@ public struct SearchView: IOController {
                         screenHeight = proxy.size.height + safeareaTop + safeareaBottom
                     }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
                 SearchNavBar(
                     text: $searchText
                 ) {
                     searchText = searchText.trimNonAlphaNumericCharacters()
-                    presenter.searchUser(userName: searchText)
+                    
+                    Task {
+                        await presenter.searchUser(userName: searchText)
+                    }
                 }
             }
         }
-        .navigationWireframe {
+        .navigationWireframe(hasNavigationView: true) {
             SearchNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
@@ -107,21 +109,37 @@ public struct SearchView: IOController {
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
-            presenter.loadImages()
+            
+            Task {
+                await presenter.prepare()
+            }
             
             navigationState.userName = nil
             navigationState.navigateToProfile = false
         }
         .onChange(of: isRefreshing) { _ in
+            if isPreviewMode {
+                return
+            }
+            
             if isRefreshing {
                 searchText = ""
                 presenter.resetPaging()
-                presenter.loadImages()
+                
+                Task {
+                    await presenter.loadImages()
+                }
             }
         }
         .onChange(of: scrollOffset) { newValue in
+            if isPreviewMode {
+                return
+            }
+            
             if newValue + screenHeight >= contentSize.height {
-                presenter.loadImages()
+                Task {
+                    await presenter.loadImages()
+                }
             }
         }
         .onReceive(presenter.$isRefreshing) { newValue in
@@ -139,7 +157,6 @@ public struct SearchView: IOController {
         .onChange(of: searchText) { newValue in
             searchText = newValue.trimNonAlphaNumericCharacters()
         }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -152,9 +169,18 @@ public struct SearchView: IOController {
 #if DEBUG
 struct SearchView_Previews: PreviewProvider {
     
+    struct SearchViewDemo: View {
+        
+        var body: some View {
+            SearchView(
+                entity: SearchEntity()
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return SearchView(entity: SearchEntity())
+        return SearchViewDemo()
     }
 }
 #endif

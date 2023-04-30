@@ -68,7 +68,13 @@ final public class SearchPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func loadImages() {
+    @MainActor
+    func prepare() async {
+        await loadImages()
+    }
+    
+    @MainActor
+    func loadImages() async {
         if self.isSearchMode {
             return
         }
@@ -80,12 +86,18 @@ final public class SearchPresenter: IOPresenterable {
         if let totalImageCount = self.totalImageCount, self.images.count < totalImageCount {
             self.imagesStart += self.numberOfImagesPerPage
             self.isImagesLoading = true
-            self.interactor.discoverAll(start: self.imagesStart, count: self.numberOfImagesPerPage)
         } else if totalImageCount == nil {
             self.images.append(contentsOf: self.generateDummyData())
-            
             self.isImagesLoading = true
-            self.interactor.discoverAll(start: self.imagesStart, count: self.numberOfImagesPerPage)
+        } else {
+            return
+        }
+        
+        do {
+            let response = try await self.interactor.discoverAll(start: self.imagesStart, count: self.numberOfImagesPerPage)
+            self.update(discoverResponse: response)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
         }
     }
     
@@ -97,11 +109,12 @@ final public class SearchPresenter: IOPresenterable {
         self.isRefreshing = true
     }
     
-    func searchUser(userName: String) {
+    @MainActor
+    func searchUser(userName: String) async {
         if userName.isEmpty {
             self.isSearchMode = false
             self.resetPaging()
-            self.loadImages()
+            await self.loadImages()
             return
         }
         
@@ -111,10 +124,27 @@ final public class SearchPresenter: IOPresenterable {
         images.append(contentsOf: self.generateDummyData())
         self.images = images
         
-        self.interactor.discoverMember(userName: userName, start: 0, count: 51)
+        do {
+            let response = try await self.interactor.discoverMember(userName: userName, start: 0, count: 51)
+            self.update(discoverResponse: response)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
-    func update(discoverResponse response: DiscoverImagesResponseModel?) {
+    // MARK: - Helper Methods
+    
+    private func generateDummyData() -> [SearchUIModel] {
+        var dummyData = [SearchUIModel]()
+        
+        for _ in 0..<21 {
+            dummyData.append(SearchUIModel(imagePublicId: "", userName: "", isDummy: true))
+        }
+        
+        return dummyData
+    }
+    
+    private func update(discoverResponse response: DiscoverImagesResponseModel?) {
         self.totalImageCount = response?.pagination?.total ?? 0
         
         let mappedImages = response?.images?.map({
@@ -139,32 +169,13 @@ final public class SearchPresenter: IOPresenterable {
             self?.isRefreshing = false
         }
     }
-    
-    // MARK: - Helper Methods
-    
-    private func generateDummyData() -> [SearchUIModel] {
-        var dummyData = [SearchUIModel]()
-        
-        for _ in 0..<21 {
-            dummyData.append(SearchUIModel(imagePublicId: "", userName: "", isDummy: true))
-        }
-        
-        return dummyData
-    }
 }
 
 #if DEBUG
 extension SearchPresenter {
     
     func preparePreviewData() {
-        self.images = [
-            SearchUIModel(imagePublicId: "pwGallery0", userName: "User0", isDummy: true),
-            SearchUIModel(imagePublicId: "pwGallery1", userName: "User1", isDummy: true),
-            SearchUIModel(imagePublicId: "pwGallery2", userName: "User2", isDummy: true),
-            SearchUIModel(imagePublicId: "pwGallery3", userName: "User3", isDummy: true),
-            SearchUIModel(imagePublicId: "pwGallery4", userName: "User4", isDummy: true),
-            SearchUIModel(imagePublicId: "pwGallery5", userName: "User5", isDummy: true)
-        ]
+        self.images = SearchPreviewData.images
     }
 }
 #endif

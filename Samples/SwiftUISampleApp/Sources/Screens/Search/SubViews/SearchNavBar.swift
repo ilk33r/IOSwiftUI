@@ -62,7 +62,7 @@ struct SearchNavBar: View {
                 )
                 
                 if !isPlaceholderHidden {
-                    Text(type: .searchInputPlaceholder)
+                    Text(type: .inputPlaceholder)
                         .font(type: .thin(14))
                         .foregroundColor(Color.colorPlaceholder)
                         .allowsHitTesting(false)

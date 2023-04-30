@@ -12,6 +12,7 @@ IO Swift UI framework.
 -   .sheet(isPresented:
 - Deprecated remove.
 - static var previews: some View {
+- navigationState.wrappedValue | navigationState.
 - FaceID Login
 - Friends page map view.
 - Stories.
