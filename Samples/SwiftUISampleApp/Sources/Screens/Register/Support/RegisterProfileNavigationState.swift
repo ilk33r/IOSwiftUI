@@ -58,8 +58,9 @@ final public class RegisterProfileNavigationState: IONavigationState {
         isOTPValidated: Binding<Bool>,
         phoneNumber: String
     ) {
-        if let sendOTPView = self.sendOTPView {
+        if self.sendOTPView != nil {
             self.showSendOTP = true
+            return
         }
         
         self.sendOTPView = IORouterUtilities.route(
@@ -77,6 +78,7 @@ final public class RegisterProfileNavigationState: IONavigationState {
     }
     
     func sendOTPDismissed() {
+        self.showSendOTP = false
         self.sendOTPView = nil
     }
 }

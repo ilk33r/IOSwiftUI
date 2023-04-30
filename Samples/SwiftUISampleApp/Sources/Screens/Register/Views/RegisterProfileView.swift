@@ -162,6 +162,7 @@ public struct RegisterProfileView: IOController {
                             PrimaryButton(.commonNextUppercased)
                                 .setClick {
                                     if validator.validate().isEmpty {
+                                        presenter.dismissPicker()
                                         navigationState.createSendOTPView(
                                             showSendOTP: $navigationState.showSendOTP,
                                             isOTPValidated: $isOTPValidated,
@@ -200,6 +201,9 @@ public struct RegisterProfileView: IOController {
             presenter.navigationState = _navigationState
             presenter.prepare()
         }
+        .onDisappear {
+            presenter.dismissPicker()
+        }
         .actionSheet(data: $presenter.actionSheetData)
         .onChange(of: formPhoneText) { newValue in
             let plainNumber = newValue.trimLetters()
@@ -220,6 +224,7 @@ public struct RegisterProfileView: IOController {
         .onReceive(presenter.$birthDate) { output in
             if let birthDate = output {
                 formBirthDate = birthDate
+                presenter.dismissPicker()
             }
         }
         .onReceive(presenter.$locationName) { output in

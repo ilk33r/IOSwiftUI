@@ -30,40 +30,41 @@ public struct SendOTPInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func otpSend() {
+    @MainActor
+    func otpSend() async throws -> Int {
         showIndicator()
         
         let request = SendOTPRequestModel(phoneNumber: entity.phoneNumber ?? "")
-        service.request(.otpSend(request: request), responseType: SendOTPResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.otpSend(request: request), responseType: SendOTPResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success(let response):
+            return response.otpTimeout ?? 90
             
-            switch result {
-            case .success(response: let response):
-                presenter?.update(otpTimeout: response.otpTimeout ?? 90)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response) { _ in
-                    entity.isPresented.wrappedValue = false
-                }
-            }
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            entity.isPresented.wrappedValue = false
+            throw IOInteractorError.service
         }
     }
     
-    func otpVerify(otp: String) {
+    @MainActor
+    func otpVerify(otp: String) async throws {
         showIndicator()
         
         let request = VerifyOTPRequestModel(phoneNumber: entity.phoneNumber ?? "", otp: otp)
-        service.request(.otpVerify(request: request), responseType: GenericResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.otpVerify(request: request), responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            entity.isOTPValidated.wrappedValue = true
+            entity.isPresented.wrappedValue = false
             
-            switch result {
-            case .success(_):
-                entity.isOTPValidated.wrappedValue = true
-                entity.isPresented.wrappedValue = false
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
 }

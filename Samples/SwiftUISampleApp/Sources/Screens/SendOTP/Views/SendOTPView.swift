@@ -35,8 +35,6 @@ public struct SendOTPView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
             ZStack {
                 ScrollView {
@@ -65,7 +63,9 @@ public struct SendOTPView: IOController {
                                     secondsLeft: presenter.uiModel?.otpTimeout ?? 90,
                                     isActive: $progressIsActive
                                 ) {
-                                    presenter.updateOTPTimeout()
+                                    Task {
+                                        await presenter.updateOTPTimeout()
+                                    }
                                 }
                                 .frame(width: 80, height: 80)
                                 .padding(.vertical, 24)
@@ -75,7 +75,9 @@ public struct SendOTPView: IOController {
                             PrimaryButton(.commonNextUppercased)
                                 .setClick({
                                     if validator.validate().isEmpty {
-                                        presenter.interactor.otpVerify(otp: formOTPText)
+                                        Task {
+                                            await presenter.otpVerify(otp: formOTPText)
+                                        }
                                     } else {
                                         formOTPText = ""
                                     }
@@ -98,7 +100,7 @@ public struct SendOTPView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
-        .navigationWireframe {
+        .navigationWireframe(hasNavigationView: true) {
             SendOTPNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
@@ -108,14 +110,16 @@ public struct SendOTPView: IOController {
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
-            presenter.interactor.otpSend()
+            
+            Task {
+                await presenter.otpSend()
+            }
         }
         .onReceive(presenter.$uiModel) { newValue in
             if newValue != nil {
                 progressIsActive = true
             }
         }
-        */
     }
     
     // MARK: - Initialization Methods
