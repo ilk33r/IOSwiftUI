@@ -31,22 +31,20 @@ public struct HomeInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func uploadImage(image: UIImage) {
+    @MainActor
+    func uploadImage(image: UIImage) async throws {
         showIndicator()
         
-        service.request(.addMemberImage(image: image.pngData()!), responseType: ImageCreateResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.addMemberImage(image: image.pngData()!), responseType: ImageCreateResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(_):
-//                showAlert {
-//                    IOAlertData(title: nil, message: .homeSuccessUploadImage, buttons: [.commonOk], handler: nil)
-//                }
-                break
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(message: let message, type: let type, response: let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
 }

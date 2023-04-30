@@ -42,6 +42,7 @@ public struct HomeView: IOController {
         .navigationWireframe(hasNavigationView: false) {
             HomeNavigationWireframe(navigationState: navigationState)
         }
+        .actionSheet(data: $presenter.actionSheetData)
         .onAppear {
             if isPreviewMode {
                 return
@@ -51,55 +52,18 @@ public struct HomeView: IOController {
             presenter.navigationState = _navigationState
             updateViews = true
         }
-        
-        /*
-
         .onChange(of: selectedIndex) { newValue in
             if newValue == 2 {
                 presenter.showActionSheet()
             }
         }
-        .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
-            IOImagePickerView(
-                sourceType: .camera,
-                allowEditing: true
-            ) { image in
-                presenter.interactor.uploadImage(image: image)
+        .onReceive(navigationState.$selectedImage) { output in
+            if let output {
+                Task {
+                    await presenter.uploadImage(image: output)
+                }
             }
         }
-        .fullScreenCover(isPresented: $navigationState.navigateToPhotoLibrary) {
-            IOImagePickerView(
-                sourceType: .photoLibrary,
-                allowEditing: true
-            ) { image in
-                presenter.interactor.uploadImage(image: image)
-            }
-        }
-        .actionSheet(item: $presenter.actionSheetData) { _ in
-            ActionSheet(
-                title: Text(type: .homeCameraActionsTitle),
-                buttons: [
-                    .default(
-                        Text(type: .homeCameraActionsTakePhoto),
-                        action: {
-                            navigationState.navigateToCamera = true
-                        }
-                    ),
-                    .default(
-                        Text(type: .homeCameraActionsChoosePhoto),
-                        action: {
-                            navigationState.navigateToPhotoLibrary = true
-                        }
-                    ),
-                    .destructive(
-                        Text(type: .commonCancel),
-                        action: {
-                        }
-                    )
-                ]
-            )
-        }
-        */
     }
     
     // MARK: - Initialization Methods

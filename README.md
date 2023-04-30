@@ -11,7 +11,7 @@ IO Swift UI framework.
 -   .fullScreenCover(isPresented:
 -   .sheet(isPresented:
 - Deprecated remove.
-- : PreviewProvider
+- static var previews: some View {
 - FaceID Login
 - Friends page map view.
 - Stories.

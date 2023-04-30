@@ -25,7 +25,31 @@ final public class SettingsNavigationState: IONavigationState {
     @Published var navigateToWeb = false
     @Published var selectedImage: UIImage?
     
+    var cameraView: IOImagePickerView?
+    var photoLibraryView: IOImagePickerView?
     var changePasswordEntity: ChangePasswordEntity!
     var updateProfileEntity: UpdateProfileEntity!
     var webEntity: WebEntity!
+    
+    func navigateToCameraPage() {
+        self.cameraView = IOImagePickerView(
+            sourceType: .camera,
+            allowEditing: true
+        ) { [weak self] image in
+            self?.selectedImage = image
+        }
+        
+        self.navigateToCamera = true
+    }
+    
+    func navigateToPhotoLibraryPage() {
+        self.photoLibraryView = IOImagePickerView(
+            sourceType: .photoLibrary,
+            allowEditing: true
+        ) { [weak self] image in
+            self?.selectedImage = image
+        }
+        
+        self.navigateToPhotoLibrary = true
+    }
 }

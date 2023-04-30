@@ -42,19 +42,17 @@ struct SettingsNavigationWireframe: IONavigationLinkView {
             }
         }
         .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
-            IOImagePickerView(
-                sourceType: .camera,
-                allowEditing: true
-            ) { image in
-                navigationState.selectedImage = image
+            if let cameraView = navigationState.cameraView {
+                cameraView
+            } else {
+                EmptyView()
             }
         }
         .fullScreenCover(isPresented: $navigationState.navigateToPhotoLibrary) {
-            IOImagePickerView(
-                sourceType: .photoLibrary,
-                allowEditing: true
-            ) { image in
-                navigationState.selectedImage = image
+            if let photoLibraryView = navigationState.photoLibraryView {
+                photoLibraryView
+            } else {
+                EmptyView()
             }
         }
         /*

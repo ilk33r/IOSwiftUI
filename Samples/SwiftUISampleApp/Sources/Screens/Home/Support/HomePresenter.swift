@@ -14,13 +14,6 @@ import SwiftUISampleAppPresentation
 
 final public class HomePresenter: IOPresenterable {
     
-    // MARK: - Defs
-    
-    struct ActionSheetData: Identifiable {
-        
-        let id = UUID()
-    }
-    
     // MARK: - Presentable
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
@@ -29,7 +22,7 @@ final public class HomePresenter: IOPresenterable {
     
     // MARK: - Properties
     
-    @Published var actionSheetData: ActionSheetData?
+    @Published var actionSheetData: IOAlertData?
     
     // MARK: - Initialization Methods
     
@@ -39,6 +32,37 @@ final public class HomePresenter: IOPresenterable {
     // MARK: - Presenter
     
     func showActionSheet() {
-        self.actionSheetData = ActionSheetData()
+        self.actionSheetData = IOAlertData(
+            title: .cameraActionsTitle,
+            message: "",
+            buttons: [
+                .cameraActionsTakePhoto,
+                .cameraActionsChoosePhoto,
+                .commonCancel
+            ],
+            handler: { [weak self] index in
+                if index == 0 {
+                    self?.navigationState.wrappedValue.navigateToCameraPage()
+                } else if index == 1 {
+                    self?.navigationState.wrappedValue.navigateToPhotoLibraryPage()
+                }
+            }
+        )
+    }
+    
+    @MainActor
+    func uploadImage(image: UIImage) async {
+        do {
+            try await self.interactor.uploadImage(image: image)
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .successUploadImage,
+                    buttons: [.commonOk]
+                )
+            }
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
 }

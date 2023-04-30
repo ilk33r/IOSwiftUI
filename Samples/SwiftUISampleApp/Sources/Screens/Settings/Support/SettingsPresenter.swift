@@ -200,9 +200,9 @@ final public class SettingsPresenter: IOPresenterable {
             ],
             handler: { [weak self] index in
                 if index == 0 {
-                    self?.navigationState.wrappedValue.navigateToCamera = true
+                    self?.navigationState.wrappedValue.navigateToCameraPage()
                 } else if index == 1 {
-                    self?.navigationState.wrappedValue.navigateToPhotoLibrary = true
+                    self?.navigationState.wrappedValue.navigateToPhotoLibraryPage()
                 }
             }
         )
