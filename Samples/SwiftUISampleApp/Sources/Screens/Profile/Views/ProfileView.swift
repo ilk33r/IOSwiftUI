@@ -36,8 +36,6 @@ public struct ProfileView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
             IOUIView { lifecycle in
                 if lifecycle == .willAppear && navigationBarHidden {
@@ -56,10 +54,14 @@ public struct ProfileView: IOController {
                                 presenter.navigateToSettings()
                                 
                             case .follow:
-                                presenter.followMember()
+                                Task {
+                                    await presenter.followMember()
+                                }
                                 
                             case .unfollow:
-                                presenter.unFollowMember()
+                                Task {
+                                    await presenter.unFollowMember()
+                                }
                                 
                             case .message:
                                 presenter.createInbox()
@@ -110,8 +112,36 @@ public struct ProfileView: IOController {
                 presenter.loadImages()
             }
         }
-        .navigationWireframe(isHidden: true) {
+        .navigationWireframe(hasNavigationView: true, isHidden: navigationBarHidden) {
             ProfileNavigationWireframe(navigationState: navigationState)
+        }
+        .navigationBarTitle("", displayMode: .inline)
+        /*
+        .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
+            IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
+        }
+        .sheet(isPresented: $presentUserLocation) {
+            IORouterUtilities.route(
+                ProfileRouters.self,
+                .userLocation(
+                    entity: presenter.userLocationEntity
+                )
+            )
+        }
+        */
+        .onAppear {
+            if isPreviewMode {
+                return
+            }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            
+            Task {
+                await presenter.prepare()
+            }
+            
+            presenter.loadImages()
         }
         .onReceive(presenter.$chatEntity) { chatEntity in
             if chatEntity == nil {
@@ -126,30 +156,6 @@ public struct ProfileView: IOController {
                 presentUserLocation = true
             }
         }
-        .navigationBarHidden(navigationBarHidden)
-        .navigationBarTitle("", displayMode: .inline)
-        .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
-            IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
-        }
-        .sheet(isPresented: $presentUserLocation) {
-            IORouterUtilities.route(
-                ProfileRouters.self,
-                .userLocation(
-                    entity: presenter.userLocationEntity
-                )
-            )
-        }
-        .onAppear {
-            if isPreviewMode {
-                return
-            }
-            
-            presenter.environment = _appEnvironment
-            presenter.navigationState = _navigationState
-            presenter.interactor.getMember()
-            presenter.loadImages()
-        }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -161,9 +167,19 @@ public struct ProfileView: IOController {
 
 #if DEBUG
 struct ProfileView_Previews: PreviewProvider {
+    
+    struct ProfileViewDemo: View {
+        
+        var body: some View {
+            ProfileView(
+                entity: ProfileEntity(userName: nil)
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return ProfileView(entity: ProfileEntity(userName: nil))
+        return ProfileViewDemo()
     }
 }
 #endif

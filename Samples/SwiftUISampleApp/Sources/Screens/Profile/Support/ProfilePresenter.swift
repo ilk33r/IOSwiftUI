@@ -50,12 +50,28 @@ final public class ProfilePresenter: IOPresenterable {
     
     // MARK: - Presenter
     
+    @MainActor
+    func prepare() async {
+        do {
+            let member = try await self.interactor.getMember()
+            self.updateMember(member: member)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
+    }
+    
     func createInbox() {
         self.interactor.createInbox(memberID: self.member?.id ?? 0)
     }
     
-    func followMember() {
-        self.interactor.followMember(memberID: self.member?.id ?? 0)
+    @MainActor
+    func followMember() async {
+        do {
+            let member = try await self.interactor.followMember(memberID: self.member?.id ?? 0)
+            self.updateMember(member: member)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
     func loadImages() {
@@ -104,23 +120,14 @@ final public class ProfilePresenter: IOPresenterable {
         self.navigationState.wrappedValue.navigateToSettings = true
     }
     
-    func set(member: MemberModel?) {
-        self.member = member
-    }
-    
-    func unFollowMember() {
-        self.interactor.unFollowMember(memberID: self.member?.id ?? 0)
-    }
-    
-    func update(member: MemberModel?, isOwnProfile: Bool) {
-        self.profileUIModel = ProfileUIModel(
-            name: (member?.name ?? "").uppercased(),
-            nameSurname: String(format: "%@ %@", member?.name ?? "", member?.surname ?? ""),
-            locationName: member?.locationName ?? "",
-            isOwnProfile: isOwnProfile,
-            isFollowing: member?.isFollowing ?? false,
-            profilePicturePublicId: member?.profilePicturePublicId
-        )
+    @MainActor
+    func unFollowMember() async {
+        do {
+            let member = try await self.interactor.unFollowMember(memberID: self.member?.id ?? 0)
+            self.updateMember(member: member)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
     func update(imagesResponse: MemberImagesResponseModel?) {
@@ -129,5 +136,19 @@ final public class ProfilePresenter: IOPresenterable {
         let mappedImages = imagesResponse?.images?.map({ $0.publicId ?? "" })
         self.images.append(contentsOf: mappedImages ?? [])
         self.isImagesLoading = false
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func updateMember(member: MemberModel?) {
+        self.member = member
+        self.profileUIModel = ProfileUIModel(
+            name: (member?.name ?? "").uppercased(),
+            nameSurname: String(format: "%@ %@", member?.name ?? "", member?.surname ?? ""),
+            locationName: member?.locationName ?? "",
+            isOwnProfile: self.interactor.entity.userName == nil ? true : false,
+            isFollowing: member?.isFollowing ?? false,
+            profilePicturePublicId: member?.profilePicturePublicId
+        )
     }
 }

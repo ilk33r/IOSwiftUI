@@ -21,24 +21,42 @@ struct SettingsNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        NavigationLink(
-            destination: route(ProfileRouters.self, .updateProfile(entity: navigationState.updateProfileEntity)),
-            isActive: $navigationState.navigateToUpdateProfile
-        ) {
-            EmptyView()
+        Group {
+            NavigationLink(
+                destination: route(ProfileRouters.self, .updateProfile(entity: navigationState.updateProfileEntity)),
+                isActive: $navigationState.navigateToUpdateProfile
+            ) {
+                EmptyView()
+            }
+            NavigationLink(
+                destination: route(ProfileRouters.self, .changePassword(entity: navigationState.changePasswordEntity)),
+                isActive: $navigationState.navigateToChangePassword
+            ) {
+                EmptyView()
+            }
+            NavigationLink(
+                destination: route(ProfileRouters.self, .web(entity: navigationState.webEntity)),
+                isActive: $navigationState.navigateToWeb
+            ) {
+                EmptyView()
+            }
         }
-        NavigationLink(
-            destination: route(ProfileRouters.self, .changePassword(entity: navigationState.changePasswordEntity)),
-            isActive: $navigationState.navigateToChangePassword
-        ) {
-            EmptyView()
-        }
-        NavigationLink(
-            destination: route(ProfileRouters.self, .web(entity: navigationState.webEntity)),
-            isActive: $navigationState.navigateToWeb
-        ) {
-            EmptyView()
-        }
+        /*
+         .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
+             if let view = navigationState.editProfileView {
+                 view
+             } else {
+                 EmptyView()
+             }
+         }
+         .sheet(isPresented: $navigationState.navigateToMap) {
+             if let mapView = navigationState.mapView {
+                 mapView
+             } else {
+                 EmptyView()
+             }
+         }
+         */
     }
     
     // MARK: - Initialization Methods

@@ -67,7 +67,7 @@ struct SettingMenuItemView_Previews: PreviewProvider {
         return SettingMenuItemView(
             menuItem: SettingsMenuItemUIModel(
                 iconName: "person.fill",
-                localizableKey: .settingsMenuUpdateProfile,
+                localizableKey: .menuUpdateProfile,
                 type: .updateProfile
             ),
             handler: {

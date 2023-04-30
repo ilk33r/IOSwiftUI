@@ -23,50 +23,23 @@ public struct HomeView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    @State private var selectedIndex: Int = 0
+    @State private var selectedIndex = 0
+    @State private var updateViews = false
     
     public var body: some View {
-        EmptyView()
-        /*
         IOTabBarView(
             controllerType: TabBarController.self,
             tabBarType: UITabBar.self,
-            selection: $selectedIndex
+            selection: $selectedIndex,
+            updateViews: $updateViews
         ) {
-            return [
-                IOIdentifiableView(
-                    anyView: IORouterUtilities.route(
-                        HomeRouters.self,
-                        .discover(entity: nil)
-                    ).setEnvironment(appEnvironment).contentView
-                ),
-                IOIdentifiableView(
-                    anyView: IORouterUtilities.route(
-                        HomeRouters.self,
-                        .search(entity: nil)
-                    ).setEnvironment(appEnvironment).contentView
-                ),
-                IOIdentifiableView(view: HomeTabEmptyView()),
-                IOIdentifiableView(
-                    anyView: IORouterUtilities.route(
-                        HomeRouters.self,
-                        .chatInbox(entity: nil)
-                    ).setEnvironment(appEnvironment).contentView
-                ),
-                IOIdentifiableView(
-                    anyView: IORouterUtilities.route(
-                        HomeRouters.self,
-                        .profile(entity: ProfileEntity(userName: nil))
-                    ).setEnvironment(appEnvironment).contentView
-                )
-            ]
-        }
-        .onChange(of: selectedIndex) { newValue in
-            if newValue == 2 {
-                presenter.showActionSheet()
+            if let tabViews = tabViews() {
+                return tabViews
+            } else {
+                return []
             }
         }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             HomeNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
@@ -76,6 +49,15 @@ public struct HomeView: IOController {
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
+            updateViews = true
+        }
+        
+        /*
+
+        .onChange(of: selectedIndex) { newValue in
+            if newValue == 2 {
+                presenter.showActionSheet()
+            }
         }
         .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
             IOImagePickerView(
@@ -125,14 +107,60 @@ public struct HomeView: IOController {
     public init(presenter: Presenter) {
         self.presenter = presenter
     }
+    
+    // MARK: - Helper Methods
+    
+    private func tabViews() -> [IOIdentifiableView]? {
+        [
+            IOIdentifiableView(
+                anyView: IORouterUtilities.route(
+                    HomeRouters.self,
+                    .discover(entity: nil)
+                )
+                .setEnvironment(appEnvironment).contentView
+            ),
+            IOIdentifiableView(
+                anyView: IORouterUtilities.route(
+                    HomeRouters.self,
+                    .search(entity: nil)
+                )
+                .setEnvironment(appEnvironment).contentView
+            ),
+            IOIdentifiableView(view: HomeTabEmptyView()),
+            IOIdentifiableView(
+                anyView: IORouterUtilities.route(
+                    HomeRouters.self,
+                    .chatInbox(entity: nil)
+                )
+                .setEnvironment(appEnvironment).contentView
+            ),
+            IOIdentifiableView(
+                anyView: IORouterUtilities.route(
+                    HomeRouters.self,
+                    .profile(entity: ProfileEntity(userName: nil))
+                )
+                .setEnvironment(appEnvironment).contentView
+            )
+        ]
+    }
 }
 
 #if DEBUG
 struct HomeView_Previews: PreviewProvider {
+    
+    struct HomeViewDemo: View {
+        
+        var body: some View {
+            HomeView(
+                entity: HomeEntity()
+            )
+            .environmentObject(SampleAppEnvironment())
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return HomeView(entity: HomeEntity())
-            .environmentObject(SampleAppEnvironment())
+        return HomeViewDemo()
     }
 }
 #endif

@@ -50,20 +50,21 @@ public struct ProfileInteractor: IOInteractor {
         }
     }
     
-    func followMember(memberID: Int) {
+    @MainActor
+    func followMember(memberID: Int) async throws -> MemberModel? {
         showIndicator()
         
         let request = MemberFollowingRequestModel(memberID: memberID)
-        service.request(.follow(request: request), responseType: GenericResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.follow(request: request), responseType: GenericResponseModel.self)
+        hideIndicator()
             
-            switch result {
-            case .success(_):
-                getMember()
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        switch result {
+        case .success:
+            return try await getMember()
+            
+        case .error(message: let message, type: let type, response: let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     
@@ -83,21 +84,21 @@ public struct ProfileInteractor: IOInteractor {
         }
     }
     
-    func getMember() {
+    @MainActor
+    func getMember() async throws -> MemberModel? {
         showIndicator()
         
         let request = MemberGetRequestModel(userName: entity.userName)
-        service.request(.memberGet(request: request), responseType: MemberGetResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.memberGet(request: request), responseType: MemberGetResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success(let response):
+            return response.member
             
-            switch result {
-            case .success(response: let response):
-                presenter?.set(member: response.member)
-                presenter?.update(member: response.member, isOwnProfile: entity.userName == nil ? true : false)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     
@@ -116,20 +117,21 @@ public struct ProfileInteractor: IOInteractor {
         }
     }
     
-    func unFollowMember(memberID: Int) {
+    @MainActor
+    func unFollowMember(memberID: Int) async throws -> MemberModel? {
         showIndicator()
         
         let request = MemberFollowingRequestModel(memberID: memberID)
-        service.request(.unFollow(request: request), responseType: GenericResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.unFollow(request: request), responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            return try await getMember()
             
-            switch result {
-            case .success(_):
-                getMember()
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(message: let message, type: let type, response: let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     

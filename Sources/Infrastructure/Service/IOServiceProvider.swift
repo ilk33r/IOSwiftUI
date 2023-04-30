@@ -21,6 +21,7 @@ public protocol IOServiceProvider {
     
     // MARK: - Request Methods
     
+    @available(*, deprecated, message: "Use async")
     @discardableResult
     func request<TModel: Codable>(_ type: ServiceType, responseType: TModel.Type, handler: @escaping ResultHandler<TModel>) -> IOCancellable?
     

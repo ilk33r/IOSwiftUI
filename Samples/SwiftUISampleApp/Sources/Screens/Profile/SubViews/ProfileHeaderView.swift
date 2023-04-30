@@ -50,14 +50,14 @@ struct ProfileHeaderView: View {
             .padding(.bottom, 0)
             .frame(minHeight: 18)
             if uiModel?.isOwnProfile ?? false {
-                PrimaryButton(.profileButtonFriends)
+                PrimaryButton(.buttonFriends)
                     .setClick {
                         clickHandler?(.friends)
                     }
                     .padding(.top, 16)
                     .padding(.leading, 16)
                     .padding(.trailing, 16)
-                SecondaryButton(.profileButtonSettings)
+                SecondaryButton(.buttonSettings)
                     .setClick {
                         clickHandler?(.settings)
                     }
@@ -66,7 +66,7 @@ struct ProfileHeaderView: View {
                     .padding(.trailing, 16)
             } else {
                 if uiModel?.isFollowing ?? false {
-                    PrimaryButton(.profileButtonUnfollow.format(uiModel?.name ?? ""))
+                    PrimaryButton(.buttonUnfollow.format(uiModel?.name ?? ""))
                         .setClick {
                             clickHandler?(.unfollow)
                         }
@@ -74,7 +74,7 @@ struct ProfileHeaderView: View {
                         .padding(.leading, 16)
                         .padding(.trailing, 16)
                 } else {
-                    PrimaryButton(.profileButtonFollow.format(uiModel?.name ?? ""))
+                    PrimaryButton(.buttonFollow.format(uiModel?.name ?? ""))
                         .setClick {
                             clickHandler?(.follow)
                         }
@@ -82,7 +82,7 @@ struct ProfileHeaderView: View {
                         .padding(.leading, 16)
                         .padding(.trailing, 16)
                 }
-                SecondaryButton(.profileButtonMessage)
+                SecondaryButton(.buttonMessage)
                     .setClick {
                         clickHandler?(.message)
                     }
@@ -92,6 +92,8 @@ struct ProfileHeaderView: View {
             }
         }
     }
+    
+    // MARK: - Initialization Methods
     
     init(
         uiModel: ProfileUIModel?,
@@ -105,9 +107,16 @@ struct ProfileHeaderView: View {
 #if DEBUG
 struct ProfileHeaderView_Previews: PreviewProvider {
     
+    struct ProfileHeaderViewDemo: View {
+        
+        var body: some View {
+            ProfileHeaderView(uiModel: nil, clickHandler: nil)
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return ProfileHeaderView(uiModel: nil, clickHandler: nil)
+        return ProfileHeaderViewDemo()
     }
 }
 #endif

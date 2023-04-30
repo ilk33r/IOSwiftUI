@@ -31,15 +31,15 @@ public struct SettingsView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 ScrollView {
                     LazyVStack {
                         ForEach(presenter.menu) { item in
                             SettingMenuItemView(menuItem: item) {
-                                presenter.navigate(menu: item)
+                                Task {
+                                    await presenter.navigate(menu: item)
+                                }
                             }
                         }
                     }
@@ -48,7 +48,7 @@ public struct SettingsView: IOController {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
                 NavBarTitleView(
-                    .settingsTitle,
+                    .title,
                     iconName: "slider.horizontal.3"
                 )
             }
@@ -56,20 +56,21 @@ public struct SettingsView: IOController {
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
         }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             SettingsNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
             if isPreviewMode {
-                presenter.interactor.loadMenu()
+                presenter.prepare()
                 return
             }
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
             
-            presenter.interactor.loadMenu()
+            presenter.prepare()
         }
+        /*
         .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
             IOImagePickerView(
                 sourceType: .camera,
@@ -122,13 +123,21 @@ public struct SettingsView: IOController {
 
 #if DEBUG
 struct SettingsView_Previews: PreviewProvider {
+    
+    struct SettingsViewDemo: View {
+        
+        var body: some View {
+            SettingsView(
+                entity: SettingsEntity(
+                    member: MemberModel()
+                )
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return SettingsView(
-            entity: SettingsEntity(
-                member: MemberModel()
-            )
-        )
+        return SettingsViewDemo()
     }
 }
 #endif

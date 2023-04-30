@@ -46,7 +46,12 @@ final public class SettingsPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func navigate(menu: SettingsMenuItemUIModel) {
+    func prepare() {
+        self.menu = self.interactor.loadMenu()
+    }
+    
+    @MainActor
+    func navigate(menu: SettingsMenuItemUIModel) async {
         switch menu.type {
         case .updateProfile:
             self.navigationState.wrappedValue.updateProfileEntity = UpdateProfileEntity(
@@ -61,7 +66,7 @@ final public class SettingsPresenter: IOPresenterable {
             self.showAlert { [weak self] in
                 IOAlertData(
                     title: nil,
-                    message: .settingsPromptDeleteProfilePicture,
+                    message: .promptDeleteProfilePicture,
                     buttons: [.commonYes, .commonNo]
                 ) { [weak self] index in
                     if index == 0 {
@@ -96,32 +101,15 @@ final public class SettingsPresenter: IOPresenterable {
             self.navigationState.wrappedValue.navigateToWeb = true
             
         case .logout:
-            self.showAlert { [weak self] in
-                IOAlertData(
-                    title: nil,
-                    message: .settingsPromptLogout,
-                    buttons: [
-                        .commonYes,
-                        .commonNo
-                    ]
-                ) { [weak self] index in
-                    if index == 0 {
-                        self?.interactor.logout()
-                    }
-                }
-            }
+            await self.logout()
         }
-    }
-    
-    func navigateSplash() {
-        self.environment.wrappedValue.appScreen = .splash
     }
     
     func updateBiometricPaired() {
         showAlert {
             IOAlertData(
                 title: nil,
-                message: .settingsSuccessBiometricPaired,
+                message: .successBiometricPaired,
                 buttons: [.commonOk],
                 handler: nil
             )
@@ -144,7 +132,7 @@ final public class SettingsPresenter: IOPresenterable {
             showAlert {
                 IOAlertData(
                     title: nil,
-                    message: .settingsErrorBiometricCanNotEvaluate,
+                    message: .errorBiometricCanNotEvaluate,
                     buttons: [.commonOk],
                     handler: nil
                 )
@@ -165,7 +153,24 @@ final public class SettingsPresenter: IOPresenterable {
         }
     }
     
-    func update(menu: [SettingsMenuItemUIModel]) {
-        self.menu = menu
+    // MARK: - Helper Methods
+    
+    @MainActor
+    private func logout() async {
+        let index = await self.showAlertAsync {
+            IOAlertData(
+                title: nil,
+                message: .promptLogout,
+                buttons: [
+                    .commonYes,
+                    .commonNo
+                ]
+            )
+        }
+        
+        if index == 0 {
+            self.interactor.logout()
+            self.environment.wrappedValue.appScreen = .splash
+        }
     }
 }

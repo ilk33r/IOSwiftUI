@@ -35,67 +35,67 @@ public struct SettingsInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func loadMenu() {
+    func loadMenu() -> [SettingsMenuItemUIModel] {
         var settingMenu = [SettingsMenuItemUIModel]()
         
         settingMenu.append(
             SettingsMenuItemUIModel(
                 iconName: "person.fill",
-                localizableKey: .settingsMenuUpdateProfile,
+                localizableKey: .menuUpdateProfile,
                 type: .updateProfile
             )
         )
         settingMenu.append(
             SettingsMenuItemUIModel(
                 iconName: "person.crop.circle",
-                localizableKey: .settingsMenuUpdateProfilePicture,
+                localizableKey: .menuUpdateProfilePicture,
                 type: .updateProfilePicture
             )
         )
         settingMenu.append(
             SettingsMenuItemUIModel(
                 iconName: "person.crop.circle.badge.minus",
-                localizableKey: .settingsMenuRemoveProfilePicture,
+                localizableKey: .menuRemoveProfilePicture,
                 type: .removeProfilePicture
             )
         )
         settingMenu.append(
             SettingsMenuItemUIModel(
                 iconName: "lock.fill",
-                localizableKey: .settingsMenuChangePassword,
+                localizableKey: .menuChangePassword,
                 type: .changePassword
             )
         )
         settingMenu.append(
             SettingsMenuItemUIModel(
                 iconName: "faceid",
-                localizableKey: .settingsMenuSetupBiometricAuth,
+                localizableKey: .menuSetupBiometricAuth,
                 type: .biometricAuth
             )
         )
         settingMenu.append(
             SettingsMenuItemUIModel(
                 iconName: "doc.text",
-                localizableKey: .settingsMenuPrivacyPolicy,
+                localizableKey: .menuPrivacyPolicy,
                 type: .privacyPolicy
             )
         )
         settingMenu.append(
             SettingsMenuItemUIModel(
                 iconName: "doc.richtext",
-                localizableKey: .settingsMenuTermOfUse,
+                localizableKey: .menuTermOfUse,
                 type: .termsAndConditions
             )
         )
         settingMenu.append(
             SettingsMenuItemUIModel(
                 iconName: "xmark.shield",
-                localizableKey: .settingsMenuLogout,
+                localizableKey: .menuLogout,
                 type: .logout
             )
         )
         
-        presenter?.update(menu: settingMenu)
+        return settingMenu
     }
     
     func deleteProfilePicture() {
@@ -144,8 +144,6 @@ public struct SettingsInteractor: IOInteractor {
             defaultHTTPHeaders.removeValue(forKey: "X-IO-AUTHORIZATION-TOKEN")
             httpClient.setDefaultHTTPHeaders(headers: defaultHTTPHeaders)
         }
-        
-        presenter?.navigateSplash()
     }
     
     func prepareBiometricAuthentication() {
@@ -178,7 +176,7 @@ public struct SettingsInteractor: IOInteractor {
     
     func unlockBiometricAuthentication() {
         biometricAuthenticator.unlockBiometricAuthentication(
-            reason: .settingsErrorBiometricLockedOut
+            reason: .errorBiometricLockedOut
         ) { _, error in
             if let error {
                 presenter?.update(biometryError: error)
