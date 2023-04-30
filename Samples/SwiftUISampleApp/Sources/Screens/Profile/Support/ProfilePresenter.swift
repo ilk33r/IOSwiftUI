@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 29.08.2022.
 //
 
+import Combine
 import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
@@ -26,10 +27,17 @@ final public class ProfilePresenter: IOPresenterable {
     
     private let numberOfImagesPerPage = 10
     
+    // MARK: - Publics
+    
+    var profilePictureUpdatedPublisher: AnyPublisher<Bool?, Never> {
+        self.interactor.eventProcess.bool(forType: .profilePictureUpdated)
+    }
+    
     // MARK: - Publisher
     
     @Published private(set) var chatEntity: ChatEntity?
     @Published private(set) var images: [String]!
+    @Published private(set) var navigationBarHidden: Bool
     @Published private(set) var profileUIModel: ProfileUIModel?
     @Published private(set) var userLocationEntity: UserLocationEntity?
     
@@ -46,15 +54,19 @@ final public class ProfilePresenter: IOPresenterable {
         self.imagesStart = 0
         self.isImagesLoading = false
         self.images = []
+        self.navigationBarHidden = false
     }
     
     // MARK: - Presenter
     
     @MainActor
     func prepare() async {
+        self.navigationBarHidden = self.interactor.entity.navigationBarHidden
+        
         do {
             let member = try await self.interactor.getMember()
             self.updateMember(member: member)
+            self.interactor.eventProcess.set(bool: false, forType: .profilePictureUpdated)
         } catch let err {
             IOLogger.error(err.localizedDescription)
         }

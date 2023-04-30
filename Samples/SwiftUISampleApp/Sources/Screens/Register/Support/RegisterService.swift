@@ -16,7 +16,6 @@ enum RegisterService {
     case checkMember(request: CheckMemberRequestModel)
     case checkMemberUserName(request: CheckMemberUserNameRequestModel)
     case register(request: RegisterMemberRequestModel)
-    case uploadProfilePicture(image: Data, boundary: String = UUID().uuidString)
 }
 
 extension RegisterService: IOServiceType {
@@ -30,18 +29,12 @@ extension RegisterService: IOServiceType {
             return .post
             
         case .register:
-            return .put
-            
-        case .uploadProfilePicture:
-            return .put
+            return .put        
         }
     }
     
     var requestContentType: IOServiceContentType {
-        switch self {
-        case .uploadProfilePicture(_, let boundary):
-            return .multipartFormData(boundary: boundary)
-            
+        switch self {    
         default:
             return .applicationJSON
         }
@@ -56,10 +49,7 @@ extension RegisterService: IOServiceType {
             return "MemberRegister/CheckMemberUserName"
             
         case .register:
-            return "MemberRegister/Register"
-            
-        case .uploadProfilePicture:
-            return "MemberImages/UploadProfilePicture"
+            return "MemberRegister/Register"        
         }
     }
     
@@ -87,11 +77,6 @@ extension RegisterService: IOServiceType {
             
         case .register(request: let request):
             return handleRequest(request)
-            
-        case .uploadProfilePicture(image: let image, boundary: let boundary):
-            let fileName = UUID().uuidString + ".png"
-            let formData = IOServiceMultipartFormData(formName: "file", contentType: .imagePNG, content: image, fileName: fileName)
-            return handleMultipartRequest([formData], boundary: boundary)
         }
     }
     

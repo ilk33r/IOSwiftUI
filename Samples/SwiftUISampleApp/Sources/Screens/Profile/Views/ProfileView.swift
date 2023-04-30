@@ -37,64 +37,59 @@ public struct ProfileView: IOController {
     
     public var body: some View {
         GeometryReader { proxy in
-            IOUIView { lifecycle in
-                if lifecycle == .willAppear && navigationBarHidden {
-                    navigationBarHidden = false
-                }
-            } content: {
+            ZStack(alignment: .top) {
+                let headerHeight = max(0, headerSize.height - scrollOffset)
                 ZStack(alignment: .top) {
-                    let headerHeight = max(0, headerSize.height - scrollOffset)
-                    ZStack(alignment: .top) {
-                        ProfileHeaderView(uiModel: presenter.profileUIModel) { buttonType in
-                            switch buttonType {
-                            case .friends:
-                                presenter.interactor.getFriends()
-                                
-                            case .settings:
-                                presenter.navigateToSettings()
-                                
-                            case .follow:
-                                Task {
-                                    await presenter.followMember()
-                                }
-                                
-                            case .unfollow:
-                                Task {
-                                    await presenter.unFollowMember()
-                                }
-                                
-                            case .message:
-                                presenter.createInbox()
-                                
-                            case .location:
-                                presenter.navigateToLocation(isPresented: $presentUserLocation)
+                    ProfileHeaderView(uiModel: presenter.profileUIModel) { buttonType in
+                        switch buttonType {
+                        case .friends:
+                            presenter.interactor.getFriends()
+                            
+                        case .settings:
+                            presenter.navigateToSettings()
+                            
+                        case .follow:
+                            Task {
+                                await presenter.followMember()
+                            }
+                            
+                        case .unfollow:
+                            Task {
+                                await presenter.unFollowMember()
+                            }
+                            
+                        case .message:
+                            presenter.createInbox()
+                            
+                        case .location:
+                            presenter.navigateToLocation(isPresented: $presentUserLocation)
+                        }
+                    }
+                    .padding(.top, 24)
+                    .padding(.bottom, 32)
+                    .background(
+                        GeometryReader { proxy in
+                            Color.clear.onAppear {
+                                headerSize = proxy.size
                             }
                         }
-                        .padding(.top, 24)
-                        .padding(.bottom, 32)
-                        .background(
-                            GeometryReader { proxy in
-                                Color.clear.onAppear {
-                                    headerSize = proxy.size
-                                }
-                            }
-                        )
-                    }
-                    .zIndex(20)
-                    .frame(height: headerHeight, alignment: .top)
-                    .clipped()
-                    GalleryView(
-                        insetTop: $headerSize.height,
-                        scrollContentSize: $scrollContentSize,
-                        scrollOffset: $scrollOffset,
-                        tapIndex: $tapIndex,
-                        viewSize: $viewSize,
-                        galleryImages: presenter.images
                     )
-                    .zIndex(10)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .zIndex(20)
+                .frame(height: headerHeight, alignment: .top)
+                .clipped()
+                GalleryView(
+                    insetTop: $headerSize.height,
+                    scrollContentSize: $scrollContentSize,
+                    scrollOffset: $scrollOffset,
+                    tapIndex: $tapIndex,
+                    viewSize: $viewSize,
+                    galleryImages: presenter.images
+                )
+                .zIndex(10)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
@@ -117,18 +112,18 @@ public struct ProfileView: IOController {
         }
         .navigationBarTitle("", displayMode: .inline)
         /*
-        .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
-            IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
-        }
-        .sheet(isPresented: $presentUserLocation) {
-            IORouterUtilities.route(
-                ProfileRouters.self,
-                .userLocation(
-                    entity: presenter.userLocationEntity
-                )
-            )
-        }
-        */
+         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
+         IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
+         }
+         .sheet(isPresented: $presentUserLocation) {
+         IORouterUtilities.route(
+         ProfileRouters.self,
+         .userLocation(
+         entity: presenter.userLocationEntity
+         )
+         )
+         }
+         */
         .onAppear {
             if isPreviewMode {
                 return
@@ -151,9 +146,19 @@ public struct ProfileView: IOController {
             navigationState.chatEntity = chatEntity
             navigationState.navigateToChat = true
         }
+        .onReceive(presenter.$navigationBarHidden) { output in
+            navigationBarHidden = output
+        }
         .onReceive(presenter.$userLocationEntity) { userLocationEntity in
             if userLocationEntity != nil {
                 presentUserLocation = true
+            }
+        }
+        .onReceive(presenter.profilePictureUpdatedPublisher) { output in
+            if output ?? false {
+                Task {
+                    await presenter.prepare()
+                }
             }
         }
     }
@@ -172,7 +177,10 @@ struct ProfileView_Previews: PreviewProvider {
         
         var body: some View {
             ProfileView(
-                entity: ProfileEntity(userName: nil)
+                entity: ProfileEntity(
+                    navigationBarHidden: true,
+                    userName: nil
+                )
             )
         }
     }

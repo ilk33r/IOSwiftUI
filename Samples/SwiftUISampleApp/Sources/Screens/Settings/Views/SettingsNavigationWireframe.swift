@@ -41,14 +41,23 @@ struct SettingsNavigationWireframe: IONavigationLinkView {
                 EmptyView()
             }
         }
+        .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
+            IOImagePickerView(
+                sourceType: .camera,
+                allowEditing: true
+            ) { image in
+                navigationState.selectedImage = image
+            }
+        }
+        .fullScreenCover(isPresented: $navigationState.navigateToPhotoLibrary) {
+            IOImagePickerView(
+                sourceType: .photoLibrary,
+                allowEditing: true
+            ) { image in
+                navigationState.selectedImage = image
+            }
+        }
         /*
-         .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
-             if let view = navigationState.editProfileView {
-                 view
-             } else {
-                 EmptyView()
-             }
-         }
          .sheet(isPresented: $navigationState.navigateToMap) {
              if let mapView = navigationState.mapView {
                  mapView

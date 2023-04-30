@@ -16,13 +16,6 @@ import SwiftUISampleAppScreensShared
 
 final public class SettingsPresenter: IOPresenterable {
     
-    // MARK: - Defs
-    
-    struct ActionSheetData: Identifiable {
-        
-        let id = UUID()
-    }
-    
     // MARK: - Presentable
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
@@ -33,8 +26,9 @@ final public class SettingsPresenter: IOPresenterable {
     
     // MARK: - Publishers
     
-    @Published var actionSheetData: ActionSheetData?
+    @Published var actionSheetData: IOAlertData?
     @Published private(set) var menu: [SettingsMenuItemUIModel]
+    @Published private(set) var navigateToBack: Bool
     
     // MARK: - Privates
     
@@ -42,12 +36,32 @@ final public class SettingsPresenter: IOPresenterable {
     
     public init() {
         self.menu = []
+        self.navigateToBack = false
     }
     
     // MARK: - Presenter
     
     func prepare() {
         self.menu = self.interactor.loadMenu()
+    }
+    
+    @MainActor
+    func deleteAndUploadProfilePicture(image: UIImage) async {
+        do {
+            try await self.interactor.deleteAndUploadProfilePicture(image: image)
+            await showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .successUpdateProfilePicture,
+                    buttons: [.commonOk]
+                )
+            }
+            
+            self.interactor.eventProcess.set(bool: true, forType: .profilePictureUpdated)
+            self.navigateToBack = true
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
     @MainActor
@@ -60,7 +74,7 @@ final public class SettingsPresenter: IOPresenterable {
             self.navigationState.wrappedValue.navigateToUpdateProfile = true
             
         case .updateProfilePicture:
-            self.actionSheetData = ActionSheetData()
+            self.createUpdateProfilePictureSheet()
             
         case .removeProfilePicture:
             self.showAlert { [weak self] in
@@ -172,5 +186,25 @@ final public class SettingsPresenter: IOPresenterable {
             self.interactor.logout()
             self.environment.wrappedValue.appScreen = .splash
         }
+    }
+    
+    @MainActor
+    private func createUpdateProfilePictureSheet() {
+        self.actionSheetData = IOAlertData(
+            title: .cameraActionsTitle,
+            message: "",
+            buttons: [
+                .cameraActionsTakePhoto,
+                .cameraActionsChoosePhoto,
+                .commonCancel
+            ],
+            handler: { [weak self] index in
+                if index == 0 {
+                    self?.navigationState.wrappedValue.navigateToCamera = true
+                } else if index == 1 {
+                    self?.navigationState.wrappedValue.navigateToPhotoLibrary = true
+                }
+            }
+        )
     }
 }

@@ -101,7 +101,7 @@
 "settings.button.reactivate" = "Re-activate";
 "settings.camera.actions.choosePhoto" = "Pick from gallery";
 "settings.camera.actions.takePhoto" = "Take a photo";
-"settings.camera.actions.title" = "Create";
+"settings.camera.actions.title" = "Profile Picture";
 "settings.error.biometric.activated" = "Your biometric login is already activated.";
 "settings.error.biometric.canNotEvaluate" = "Your device does not support biometric login.";
 "settings.error.biometric.lockedOut" = "Biometric authentication locked out.";

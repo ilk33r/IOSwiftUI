@@ -137,7 +137,12 @@ public struct HomeView: IOController {
             IOIdentifiableView(
                 anyView: IORouterUtilities.route(
                     HomeRouters.self,
-                    .profile(entity: ProfileEntity(userName: nil))
+                    .profile(
+                        entity: ProfileEntity(
+                            navigationBarHidden: true,
+                            userName: nil
+                        )
+                    )
                 )
                 .setEnvironment(appEnvironment).contentView
             )

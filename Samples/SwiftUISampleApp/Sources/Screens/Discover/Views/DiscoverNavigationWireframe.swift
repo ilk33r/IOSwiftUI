@@ -20,7 +20,15 @@ struct DiscoverNavigationWireframe: IONavigationLinkView {
     
     var body: some View {
         NavigationLink(
-            destination: route(HomeRouters.self, .profile(entity: ProfileEntity(userName: navigationState.userName))),
+            destination: route(
+                HomeRouters.self,
+                .profile(
+                    entity: ProfileEntity(
+                        navigationBarHidden: true,
+                        userName: navigationState.userName
+                    )
+                )
+            ),
             isActive: $navigationState.navigateToProfile
         ) {
             EmptyView()

@@ -26,6 +26,7 @@ public struct SettingsInteractor: IOInteractor {
     @IOInject private var httpClient: IOHTTPClient
     
     private var biometricAuthenticator = IOBiometricAuthenticator()
+    private var profilePictureService = IOServiceProviderImpl<ProfilePictureService>()
     private var service = IOServiceProviderImpl<SettingsService>()
     
     // MARK: - Initialization Methods
@@ -117,23 +118,24 @@ public struct SettingsInteractor: IOInteractor {
         }
     }
     
-    func deleteAndUploadProfilePicture(image: UIImage) {
+    @MainActor
+    func deleteAndUploadProfilePicture(image: UIImage) async throws {
         showIndicator()
         
         if entity.member.profilePicturePublicId == nil {
-            uploadProfilePicture(image: image)
+            try await uploadProfilePicture(image: image)
             return
         }
         
-        service.request(.deleteProfilePicture, responseType: GenericResponseModel.self) { result in
-            switch result {
-            case .success(_):
-                uploadProfilePicture(image: image)
-                
-            case .error(message: let message, type: let type, response: let response):
-                hideIndicator()
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        let result = await service.async(.deleteProfilePicture, responseType: GenericResponseModel.self)
+        switch result {
+        case .success:
+            try await uploadProfilePicture(image: image)
+            
+        case .error(message: let message, type: let type, response: let response):
+            hideIndicator()
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     
@@ -222,21 +224,18 @@ public struct SettingsInteractor: IOInteractor {
         }
     }
     
-    private func uploadProfilePicture(image: UIImage) {
-        /*
-        service.request(.uploadProfilePicture(image: image.pngData()!), responseType: ImageCreateResponseModel.self) { result in
-            hideIndicator()
+    @MainActor
+    private func uploadProfilePicture(image: UIImage) async throws {
+        let result = await profilePictureService.async(.uploadProfilePicture(image: image.pngData()!), responseType: ImageCreateResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(_):
-                showAlert {
-                    IOAlertData(title: nil, message: .settingsSuccessUpdateProfilePicture, buttons: [.commonOk], handler: nil)
-                }
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(message: let message, type: let type, response: let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
-         */
     }
 }

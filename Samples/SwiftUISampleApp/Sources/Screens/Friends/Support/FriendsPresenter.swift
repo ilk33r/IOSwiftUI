@@ -77,7 +77,10 @@ final public class FriendsPresenter: IOPresenterable {
     }
     
     func navigate(toUser userName: String) {
-        navigationState.wrappedValue.profileEntity = ProfileEntity(userName: userName)
+        navigationState.wrappedValue.profileEntity = ProfileEntity(
+            navigationBarHidden: true,
+            userName: userName
+        )
         navigationState.wrappedValue.navigateToProfile = true
     }
 }

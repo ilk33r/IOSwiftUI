@@ -25,6 +25,7 @@ public struct SettingsView: IOController {
     @StateObject public var navigationState = SettingsNavigationState()
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    @Environment(\.presentationMode) private var presentationMode
     
     @State private var showUpdateProfilePictureSheet = false
     
@@ -70,48 +71,19 @@ public struct SettingsView: IOController {
             
             presenter.prepare()
         }
-        /*
-        .fullScreenCover(isPresented: $navigationState.navigateToCamera) {
-            IOImagePickerView(
-                sourceType: .camera,
-                allowEditing: true
-            ) { image in
-                presenter.interactor.deleteAndUploadProfilePicture(image: image)
+        .actionSheet(data: $presenter.actionSheetData)
+        .onReceive(navigationState.$selectedImage) { output in
+            if let output {
+                Task {
+                    await presenter.deleteAndUploadProfilePicture(image: output)
+                }
             }
         }
-        .fullScreenCover(isPresented: $navigationState.navigateToPhotoLibrary) {
-            IOImagePickerView(
-                sourceType: .photoLibrary,
-                allowEditing: true
-            ) { image in
-                presenter.interactor.deleteAndUploadProfilePicture(image: image)
+        .onReceive(presenter.$navigateToBack) { output in
+            if output {
+                presentationMode.wrappedValue.dismiss()
             }
         }
-        .actionSheet(item: $presenter.actionSheetData) { _ in
-            ActionSheet(
-                title: Text(type: .settingsCameraActionsTitle),
-                buttons: [
-                    .default(
-                        Text(type: .settingsCameraActionsTakePhoto),
-                        action: {
-                            navigationState.navigateToCamera = true
-                        }
-                    ),
-                    .default(
-                        Text(type: .settingsCameraActionsChoosePhoto),
-                        action: {
-                            navigationState.navigateToPhotoLibrary = true
-                        }
-                    ),
-                    .destructive(
-                        Text(type: .commonCancel),
-                        action: {
-                        }
-                    )
-                ]
-            )
-        }
-         */
     }
     
     // MARK: - Initialization Methods

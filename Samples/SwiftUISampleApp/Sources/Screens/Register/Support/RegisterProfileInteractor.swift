@@ -27,6 +27,7 @@ public struct RegisterProfileInteractor: IOInteractor {
     // MARK: - Privates
     
     private var authenticationService = IOServiceProviderImpl<AuthenticationService>()
+    private var profilePictureService = IOServiceProviderImpl<ProfilePictureService>()
     private var service = IOServiceProviderImpl<RegisterService>()
     
     // MARK: - Initialization Methods
@@ -80,7 +81,7 @@ public struct RegisterProfileInteractor: IOInteractor {
     
     @MainActor
     func uploadProfilePicture(image: UIImage) async {
-        let result = await service.async(.uploadProfilePicture(image: image.pngData()!), responseType: ImageCreateResponseModel.self)
+        let result = await profilePictureService.async(.uploadProfilePicture(image: image.pngData()!), responseType: ImageCreateResponseModel.self)
         switch result {
         case .success:
             break

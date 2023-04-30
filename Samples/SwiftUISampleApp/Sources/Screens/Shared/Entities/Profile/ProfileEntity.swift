@@ -10,9 +10,14 @@ import IOSwiftUIPresentation
 
 public struct ProfileEntity: IOEntity {
     
+    public let navigationBarHidden: Bool
     public let userName: String?
     
-    public init(userName: String?) {
+    public init(
+        navigationBarHidden: Bool,
+        userName: String?
+    ) {
+        self.navigationBarHidden = navigationBarHidden
         self.userName = userName
     }
 }

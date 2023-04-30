@@ -12,6 +12,7 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppScreensShared
+import UIKit
 
 final public class SettingsNavigationState: IONavigationState {
     
@@ -22,6 +23,7 @@ final public class SettingsNavigationState: IONavigationState {
     @Published var navigateToPhotoLibrary = false
     @Published var navigateToUpdateProfile = false
     @Published var navigateToWeb = false
+    @Published var selectedImage: UIImage?
     
     var changePasswordEntity: ChangePasswordEntity!
     var updateProfileEntity: UpdateProfileEntity!
