@@ -19,6 +19,7 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
     @IOInject public var alertPresenter: IOAlertPresenter
     @IOInject public var fileCache: IOFileCache
     @IOInject public var httpClient: IOHTTPClient
+    @IOInject public var localStorage: IOLocalStorage
     
     // MARK: - Settings
     
@@ -98,6 +99,16 @@ open class IOAppDelegate: NSObject, UIApplicationDelegate {
             let cacheFileBeforeDate = Date()
             self.fileCache.removeFiles(beforeDate: cacheFileBeforeDate)
             self.appleSettings.set(false, for: .debugClearFileCache)
+        }
+        
+        if self.appleSettings.bool(for: .debugResetLocalStorage) {
+            self.localStorage.removeAllObjects()
+            
+            self.alertPresenter.show {
+                IOAlertData(title: nil, message: "Restart required for debug settings changed.", buttons: ["Ok"]) { _ in
+                    exit(0)
+                }
+            }
         }
         
         if self.appleSettings.bool(for: .debugHTTPMenuToggle) && self.debuggerPresenter == nil {

@@ -14,6 +14,7 @@ public struct IOAppleSettingType: RawRepresentable, Equatable, Hashable {
     public static let debugClearFileCache = Self(rawValue: "debug_clear_file_cache")
     public static let debugHTTPMenuToggle = Self(rawValue: "debug_http_menu_toggle")
     public static let debugRecordHTTPCalls = Self(rawValue: "debug_record_http_calls")
+    public static let debugResetLocalStorage = Self(rawValue: "debug_reset_local_storage")
     public static let debugSimulateHTTPClient = Self(rawValue: "debug_simulate_http_client")
     public static let debugSimulationHTTPResponseTime = Self(rawValue: "debug_simulation_http_response_time")
     public static let debugAPIURL = Self(rawValue: "debug_api_url")

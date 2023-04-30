@@ -25,6 +25,7 @@ public struct IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
     
     // MARK: - Request Methods
     
+    @available(*, deprecated, message: "Use async")
     @discardableResult
     public func request<TModel: Codable>(_ type: TType, responseType: TModel.Type, handler: @escaping ResultHandler<TModel>) -> IOCancellable? {
         httpClient.request(
