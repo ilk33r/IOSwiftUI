@@ -77,17 +77,7 @@ final public class SettingsPresenter: IOPresenterable {
             self.createUpdateProfilePictureSheet()
             
         case .removeProfilePicture:
-            self.showAlert { [weak self] in
-                IOAlertData(
-                    title: nil,
-                    message: .promptDeleteProfilePicture,
-                    buttons: [.commonYes, .commonNo]
-                ) { [weak self] index in
-                    if index == 0 {
-                        self?.interactor.deleteProfilePicture()
-                    }
-                }
-            }
+            await self.removeProfilePicture()
             
         case .changePassword:
             self.navigationState.wrappedValue.changePasswordEntity = ChangePasswordEntity(
@@ -206,5 +196,34 @@ final public class SettingsPresenter: IOPresenterable {
                 }
             }
         )
+    }
+    
+    @MainActor
+    private func removeProfilePicture() async {
+        let index = await self.showAlertAsync {
+            IOAlertData(
+                title: nil,
+                message: .promptDeleteProfilePicture,
+                buttons: [.commonYes, .commonNo]
+            )
+        }
+        
+        if index == 0 {
+            do {
+                try await self.interactor.deleteProfilePicture()
+                await self.showAlertAsync {
+                    IOAlertData(
+                        title: nil,
+                        message: .successDeleteProfilePicture,
+                        buttons: [.commonOk]
+                    )
+                }
+                
+                self.interactor.eventProcess.set(bool: true, forType: .profilePictureUpdated)
+                self.navigateToBack = true
+            } catch let err {
+                IOLogger.error(err.localizedDescription)
+            }
+        }
     }
 }

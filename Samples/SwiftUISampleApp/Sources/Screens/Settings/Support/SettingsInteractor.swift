@@ -99,22 +99,20 @@ public struct SettingsInteractor: IOInteractor {
         return settingMenu
     }
     
-    func deleteProfilePicture() {
+    @MainActor
+    func deleteProfilePicture() async throws {
         showIndicator()
         
-        service.request(.deleteProfilePicture, responseType: GenericResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.deleteProfilePicture, responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(_):
-//                showAlert {
-//                    IOAlertData(title: nil, message: .settingsSuccessDeleteProfilePicture, buttons: [.commonOk], handler: nil)
-//                }
-                break
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(message: let message, type: let type, response: let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     
