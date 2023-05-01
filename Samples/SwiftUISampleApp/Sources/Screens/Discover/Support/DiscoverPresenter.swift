@@ -51,7 +51,13 @@ final public class DiscoverPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func loadImages(showIndicator: Bool) {
+    @MainActor
+    func prepare() async {
+        await self.loadImages(showIndicator: true)
+    }
+    
+    @MainActor
+    func loadImages(showIndicator: Bool) async {
         if self.isImagesLoading {
             return
         }
@@ -59,14 +65,24 @@ final public class DiscoverPresenter: IOPresenterable {
         if let totalImageCount = self.totalImageCount, self.images.count < totalImageCount {
             self.imagesStart += self.numberOfImagesPerPage
             self.isImagesLoading = true
-            self.interactor.discover(start: self.imagesStart, count: self.numberOfImagesPerPage)
         } else if totalImageCount == nil {
             if !self.isRefreshing {
                 self.showIndicator()
             }
             
             self.isImagesLoading = true
-            self.interactor.discover(start: self.imagesStart, count: self.numberOfImagesPerPage)
+        } else {
+            return
+        }
+        
+        do {
+            let response = try await self.interactor.discover(
+                start: self.imagesStart,
+                count: self.numberOfImagesPerPage
+            )
+            self.update(discoverResponse: response)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
         }
     }
     
@@ -77,7 +93,9 @@ final public class DiscoverPresenter: IOPresenterable {
         self.isRefreshing = true
     }
     
-    func update(discoverResponse response: DiscoverImagesResponseModel?) {
+    // MARK: - Helper Methods
+    
+    private func update(discoverResponse response: DiscoverImagesResponseModel?) {
         if !self.isRefreshing {
             self.hideIndicator()
         }
@@ -111,3 +129,12 @@ final public class DiscoverPresenter: IOPresenterable {
         }
     }
 }
+
+#if DEBUG
+extension DiscoverPresenter {
+    
+    func prepareForPreview() {
+        self.images = DiscoverPreviewData.uiModels
+    }
+}
+#endif

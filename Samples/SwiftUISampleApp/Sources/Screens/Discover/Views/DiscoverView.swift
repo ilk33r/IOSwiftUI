@@ -30,8 +30,6 @@ public struct DiscoverView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
             IORefreshableScrollView(
                 backgroundColor: .white,
@@ -61,41 +59,61 @@ public struct DiscoverView: IOController {
                 }
         }
         .navigationBarTitleDisplayMode(.large)
-        .navigationTitle(type: .discoverTitle)
-        .navigationWireframe {
+        .navigationTitle(type: .title)
+        .navigationWireframe(hasNavigationView: true) {
             DiscoverNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
             if isPreviewMode {
                 navigationState.userName = nil
                 navigationState.navigateToProfile = false
+                presenter.prepareForPreview()
                 return
             }
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
-            presenter.loadImages(showIndicator: true)
-
+            
+            Task {
+                await presenter.prepare()
+            }
+            
             navigationState.userName = nil
             navigationState.navigateToProfile = false
         }
         .onChange(of: isRefreshing) { _ in
+            if isPreviewMode {
+                return
+            }
+            
             if isRefreshing {
                 presenter.resetPaging()
-                presenter.loadImages(showIndicator: false)
+                
+                Task {
+                    await presenter.loadImages(showIndicator: false)
+                }
             }
         }
         .onChange(of: scrollOffset) { newValue in
+            if isPreviewMode {
+                return
+            }
+            
             if newValue + screenHeight >= contentSize.height {
-                presenter.loadImages(showIndicator: false)
+                Task {
+                    await presenter.loadImages(showIndicator: false)
+                }
             }
         }
         .onReceive(presenter.$isRefreshing) { newValue in
+            if isPreviewMode {
+                return
+            }
+            
             if !(newValue ?? false) {
                 isRefreshing = false
             }
         }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -110,44 +128,10 @@ struct DiscoverView_Previews: PreviewProvider {
     
     struct DiscoverViewDemo: View {
         
-        let uiModels = [
-            DiscoverUIModel(
-                imagePublicId: "pwGallery0",
-                userName: "ilker",
-                userNameAndSurname: "İlker Özcan",
-                userAvatarPublicId: "pwProfilePicture",
-                messageTime: "1 Hour ago"
-            ),
-            DiscoverUIModel(
-                imagePublicId: "pwGallery1",
-                userName: "ilker",
-                userNameAndSurname: "İlker Özcan",
-                userAvatarPublicId: "pwProfilePicture",
-                messageTime: "1 Hour ago"
-            ),
-            DiscoverUIModel(
-                imagePublicId: "pwGallery2",
-                userName: "ilker",
-                userNameAndSurname: "İlker Özcan",
-                userAvatarPublicId: "pwProfilePicture",
-                messageTime: "1 Hour ago"
-            ),
-            DiscoverUIModel(
-                imagePublicId: "pwGallery3",
-                userName: "ilker",
-                userNameAndSurname: "İlker Özcan",
-                userAvatarPublicId: "pwProfilePicture",
-                messageTime: "1 Hour ago"
-            )
-        ]
-        
-        let view = DiscoverView(entity: DiscoverEntity())
-        
         var body: some View {
-            view
-                .onAppear {
-//                    view.presenter.images = uiModels
-                }
+            DiscoverView(
+                entity: DiscoverEntity()
+            )
         }
     }
     

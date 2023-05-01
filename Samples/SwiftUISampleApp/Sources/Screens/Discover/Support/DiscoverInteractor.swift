@@ -30,18 +30,19 @@ public struct DiscoverInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func discover(start: Int, count: Int) {
+    @MainActor
+    func discover(start: Int, count: Int) async throws -> DiscoverImagesResponseModel? {
         let pagination = PaginationModel(start: start, count: count, total: nil)
         let request = PaginationRequestModel(pagination: pagination)
         
-        service.request(.discover(request: request), responseType: DiscoverImagesResponseModel.self) { result in
-            switch result {
-            case .success(response: let response):
-                presenter?.update(discoverResponse: response)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        let result = await service.async(.discover(request: request), responseType: DiscoverImagesResponseModel.self)
+        switch result {
+        case .success(response: let response):
+            return response
+            
+        case .error(message: let message, type: let type, response: let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
 }
