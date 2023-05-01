@@ -35,10 +35,10 @@ final public class ProfilePresenter: IOPresenterable {
     
     // MARK: - Publisher
     
+    @Published var profileUIModel: ProfileUIModel?
     @Published private(set) var chatEntity: ChatEntity?
     @Published private(set) var images: [String]!
     @Published private(set) var navigationBarHidden: Bool
-    @Published private(set) var profileUIModel: ProfileUIModel?
     @Published private(set) var userLocationEntity: UserLocationEntity?
     
     // MARK: - Privates

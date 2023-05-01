@@ -13,11 +13,19 @@ import SwiftUISampleAppPresentation
 
 struct DiscoverCellView: View {
 
+    // MARK: - Defs
+    
     typealias ClickHandler = (_ userName: String?) -> Void
+    
+    // MARK: - Privates
     
     private var handler: ClickHandler?
     private var uiModel: DiscoverUIModel
     private var width: CGFloat
+    
+    @State private var userAvatarPublicId: String?
+    
+    // MARK: - Body
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -29,13 +37,15 @@ struct DiscoverCellView: View {
             
             HStack(alignment: .top) {
                 
-                ProfilePictureImageView(imagePublicID: uiModel.userAvatarPublicId)
-                    .frame(width: 28, height: 28)
-                    .contentShape(Rectangle())
-                    .clipShape(Circle())
-                    .setClick {
-                        handler?(uiModel.userName)
-                    }
+                ProfilePictureImageView(
+                    imagePublicID: $userAvatarPublicId
+                )
+                .frame(width: 28, height: 28)
+                .contentShape(Rectangle())
+                .clipShape(Circle())
+                .setClick {
+                    handler?(uiModel.userName)
+                }
                 
                 VStack(alignment: .leading) {
                     Text(uiModel.userNameAndSurname)
@@ -61,6 +71,8 @@ struct DiscoverCellView: View {
         .padding(.bottom, 24)
     }
     
+    // MARK: - Initialization Methods
+    
     init(
         uiModel: DiscoverUIModel,
         width: CGFloat,
@@ -69,6 +81,7 @@ struct DiscoverCellView: View {
         self.handler = handler
         self.uiModel = uiModel
         self.width = width
+        self._userAvatarPublicId = State(initialValue: uiModel.userAvatarPublicId)
     }
 }
 
@@ -94,7 +107,8 @@ struct DiscoverCellView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        DiscoverCellViewDemo()
+        prepare()
+        return DiscoverCellViewDemo()
             .previewLayout(.sizeThatFits)
     }
 }

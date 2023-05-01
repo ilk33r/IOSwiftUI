@@ -17,14 +17,19 @@ struct ChatReceivedCellView: View {
     
     private var uiModel: ChatItemUIModel
     
+    @State private var imagePublicID: String?
+    
     // MARK: - Body
     
     var body: some View {
         HStack(alignment: .top) {
             VStack {
-                ProfilePictureImageView(imagePublicID: uiModel.imagePublicID)
-                    .frame(width: 25, height: 25)
-                    .clipShape(Circle())
+                ProfilePictureImageView(
+                    imagePublicID: $imagePublicID
+                )
+                .frame(width: 25, height: 25)
+                .clipShape(Circle())
+                
                 Text(uiModel.messageTime)
                     .foregroundColor(.colorPlaceholder)
                     .font(type: .thin(8))
@@ -54,24 +59,32 @@ struct ChatReceivedCellView: View {
     
     init(uiModel: ChatItemUIModel) {
         self.uiModel = uiModel
+        self._imagePublicID = State(initialValue: uiModel.imagePublicID)
     }
 }
 
 #if DEBUG
 struct ChatReceivedCellView_Previews: PreviewProvider {
     
+    struct ChatReceivedCellViewDemo: View {
+        
+        var body: some View {
+            ChatReceivedCellView(
+                uiModel: ChatItemUIModel(
+                    id: 0,
+                    imagePublicID: "pwProfilePicture",
+                    chatMessage: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
+                    isLastMessage: false,
+                    isSend: false,
+                    messageTime: "16 min ago"
+                )
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        let uiModel = ChatItemUIModel(
-            id: 0,
-            imagePublicID: "pwProfilePicture",
-            chatMessage: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
-            isLastMessage: false,
-            isSend: false,
-            messageTime: "16 min ago"
-        )
-        
-        return ChatReceivedCellView(uiModel: uiModel)
+        return ChatReceivedCellViewDemo()
             .previewLayout(.sizeThatFits)
     }
 }

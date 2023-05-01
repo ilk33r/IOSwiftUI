@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProfileUIModel {
+struct ProfileUIModel: Equatable {
     
     let name: String
     let nameSurname: String
@@ -15,4 +15,10 @@ struct ProfileUIModel {
     let isOwnProfile: Bool
     let isFollowing: Bool
     let profilePicturePublicId: String?
+    
+    // MARK: - Equatable
+    
+    static func == (lhs: ProfileUIModel, rhs: ProfileUIModel) -> Bool {
+        lhs.profilePicturePublicId == rhs.profilePicturePublicId && lhs.name == rhs.name && lhs.nameSurname == rhs.nameSurname
+    }
 }

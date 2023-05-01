@@ -25,6 +25,9 @@ struct ChatInboxItemView: View {
     
     @State private var deleteButtonIsHidden = true
     @State private var offset: CGSize = .zero
+    @State private var profilePicturePublicId: String?
+    
+    // MARK: - Body
     
     var body: some View {
         VStack {
@@ -55,9 +58,12 @@ struct ChatInboxItemView: View {
                 .zIndex(1)
                 .hidden(isHidden: $deleteButtonIsHidden)
                 HStack(alignment: .top) {
-                    ProfilePictureImageView(imagePublicID: uiModel.profilePicturePublicId)
-                        .frame(width: 64, height: 64, alignment: .top)
-                        .clipShape(Circle())
+                    ProfilePictureImageView(
+                        imagePublicID: $profilePicturePublicId
+                    )
+                    .frame(width: 64, height: 64, alignment: .top)
+                    .clipShape(Circle())
+                    
                     VStack(alignment: .leading) {
                         Text(uiModel.nameSurname)
                             .font(type: .bold(13))
@@ -142,6 +148,8 @@ struct ChatInboxItemView: View {
         }
     }
     
+    // MARK: - Initialization Methods
+    
     init(
         uiModel: ChatInboxUIModel,
         clickHandler: ClickHandler?,
@@ -150,24 +158,33 @@ struct ChatInboxItemView: View {
         self.uiModel = uiModel
         self.clickHandler = clickHandler
         self.deleteHandler = deleteHandler
+        self._profilePicturePublicId = State(initialValue: uiModel.profilePicturePublicId)
     }
 }
 
 #if DEBUG
 struct ChatInboxItemView_Previews: PreviewProvider {
+    
+    struct ChatInboxItemViewDemo: View {
+        
+        var body: some View {
+            ChatInboxItemView(
+                uiModel: ChatInboxUIModel(
+                    index: 0,
+                    profilePicturePublicId: "pwProfilePicture",
+                    nameSurname: "İlker Özcan",
+                    lastMessage: "Wanted to ask if you’re available for a portrait shoot next week."
+                ),
+                clickHandler: nil,
+                deleteHandler: nil
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return ChatInboxItemView(
-            uiModel: ChatInboxUIModel(
-                index: 0,
-                profilePicturePublicId: "pwProfilePicture",
-                nameSurname: "İlker Özcan",
-                lastMessage: "Wanted to ask if you’re available for a portrait shoot next week."
-            ),
-            clickHandler: nil,
-            deleteHandler: nil
-        )
-        .previewLayout(.sizeThatFits)
+        return ChatInboxItemViewDemo()
+            .previewLayout(.sizeThatFits)
     }
 }
 #endif

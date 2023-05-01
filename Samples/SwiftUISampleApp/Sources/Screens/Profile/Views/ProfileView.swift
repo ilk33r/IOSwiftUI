@@ -40,7 +40,9 @@ public struct ProfileView: IOController {
             ZStack(alignment: .top) {
                 let headerHeight = max(0, headerSize.height - scrollOffset)
                 ZStack(alignment: .top) {
-                    ProfileHeaderView(uiModel: presenter.profileUIModel) { buttonType in
+                    ProfileHeaderView(
+                        uiModel: $presenter.profileUIModel
+                    ) { buttonType in
                         switch buttonType {
                         case .friends:
                             presenter.interactor.getFriends()

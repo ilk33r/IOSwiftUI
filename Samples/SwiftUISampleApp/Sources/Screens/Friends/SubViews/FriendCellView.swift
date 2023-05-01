@@ -19,12 +19,16 @@ struct FriendCellView: View {
     private let clickHandler: ClickHandler?
     private let uiModel: FriendUIModel
     
+    @State private var profilePicturePublicId: String?
+    
     // MARK: - Body
     
     var body: some View {
         ZStack(alignment: .topLeading) {
             HStack(alignment: .top) {
-                ProfilePictureImageView(imagePublicID: uiModel.profilePicturePublicId)
+                ProfilePictureImageView(
+                    imagePublicID: $profilePicturePublicId
+                )
                     .frame(width: 64, height: 64, alignment: .top)
                     .clipShape(Circle())
                 VStack(alignment: .leading) {
@@ -62,26 +66,35 @@ struct FriendCellView: View {
     ) {
         self.clickHandler = clickHandler
         self.uiModel = uiModel
+        self._profilePicturePublicId = State(initialValue: uiModel.profilePicturePublicId)
     }
 }
 
 #if DEBUG
 struct FriendCellView_Previews: PreviewProvider {
+    
+    struct FriendCellViewDemo: View {
+        
+        var body: some View {
+            FriendCellView(
+                uiModel: FriendUIModel(
+                    userName: "ilker0",
+                    userNameAndSurname: "İlker ÖZCAN",
+                    locationName: "Avcılar, İstanbul",
+                    locationLatitude: 0,
+                    locationLongitude: 0,
+                    profilePicturePublicId: "pwChatAvatar"
+                ),
+                clickHandler: { _ in
+                }
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return FriendCellView(
-            uiModel: FriendUIModel(
-                userName: "ilker0",
-                userNameAndSurname: "İlker ÖZCAN",
-                locationName: "Avcılar, İstanbul",
-                locationLatitude: 0,
-                locationLongitude: 0,
-                profilePicturePublicId: "pwChatAvatar"
-            ),
-            clickHandler: { _ in
-            }
-        )
-        .previewLayout(.fixed(width: 320, height: 88))
+        return FriendCellViewDemo()
+            .previewLayout(.fixed(width: 320, height: 88))
     }
 }
 #endif

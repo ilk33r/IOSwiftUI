@@ -11,7 +11,7 @@ public struct ProfilePictureImageView: View {
     
     // MARK: - Privates
     
-    private let imagePublicID: String?
+    @Binding private var imagePublicID: String?
     
     // MARK: - Body
     
@@ -21,7 +21,7 @@ public struct ProfilePictureImageView: View {
             let profilePicturePublicId = imagePublicID,
             !profilePicturePublicId.isEmpty {
             Image()
-                .from(publicId: profilePicturePublicId)
+                .from(publicId: _imagePublicID)
         } else {
             Image(systemName: "person.crop.circle")
                 .renderingMode(.template)
@@ -32,8 +32,10 @@ public struct ProfilePictureImageView: View {
     
     // MARK: - Initialization Methods
     
-    public init(imagePublicID: String?) {
-        self.imagePublicID = imagePublicID
+    public init(
+        imagePublicID: Binding<String?>
+    ) {
+        self._imagePublicID = imagePublicID
     }
 }
 
@@ -42,7 +44,9 @@ struct ProvilePictureImageView_Previews: PreviewProvider {
     
     static var previews: some View {
         prepare()
-        return ProfilePictureImageView(imagePublicID: "pwChatAvatar")
+        return ProfilePictureImageView(
+            imagePublicID: Binding.constant("pwChatAvatar")
+        )
     }
 }
 #endif

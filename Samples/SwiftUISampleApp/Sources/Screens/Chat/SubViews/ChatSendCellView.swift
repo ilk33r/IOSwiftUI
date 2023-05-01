@@ -17,6 +17,8 @@ struct ChatSendCellView: View {
     
     private var uiModel: ChatItemUIModel
     
+    @State private var imagePublicID: String?
+    
     // MARK: - Body
     
     var body: some View {
@@ -33,9 +35,12 @@ struct ChatSendCellView: View {
                 )
                 .padding(.leading, 16)
             VStack {
-                ProfilePictureImageView(imagePublicID: uiModel.imagePublicID)
-                    .frame(width: 25, height: 25)
-                    .clipShape(Circle())
+                ProfilePictureImageView(
+                    imagePublicID: $imagePublicID
+                )
+                .frame(width: 25, height: 25)
+                .clipShape(Circle())
+                
                 Text(uiModel.messageTime)
                     .foregroundColor(.colorPlaceholder)
                     .font(type: .thin(8))
@@ -54,23 +59,32 @@ struct ChatSendCellView: View {
     
     init(uiModel: ChatItemUIModel) {
         self.uiModel = uiModel
+        self._imagePublicID = State(initialValue: uiModel.imagePublicID)
     }
 }
 
 #if DEBUG
 struct ChatSendCellView_Previews: PreviewProvider {
+    
+    struct ChatSendCellViewDemo: View {
+        
+        var body: some View {
+            ChatSendCellView(
+                uiModel: ChatItemUIModel(
+                    id: 0,
+                    imagePublicID: "pwProfilePicture",
+                    chatMessage: "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
+                    isLastMessage: false,
+                    isSend: true,
+                    messageTime: "16 min ago"
+                )
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        let uiModel = ChatItemUIModel(
-            id: 0,
-            imagePublicID: "pwProfilePicture",
-            chatMessage: "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
-            isLastMessage: false,
-            isSend: true,
-            messageTime: "16 min ago"
-        )
-        
-        return ChatSendCellView(uiModel: uiModel)
+        return ChatSendCellViewDemo()
             .previewLayout(.sizeThatFits)
     }
 }

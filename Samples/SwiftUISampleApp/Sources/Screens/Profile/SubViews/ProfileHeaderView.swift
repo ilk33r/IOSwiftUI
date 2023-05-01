@@ -28,15 +28,20 @@ struct ProfileHeaderView: View {
     // MARK: - Privates
     
     private let clickHandler: ClickHandler?
-    private let uiModel: ProfileUIModel?
+    
+    @Binding private var uiModel: ProfileUIModel?
+    @State private var profilePicturePublicId: String?
     
     // MARK: - Body
     
     var body: some View {
         VStack {
-            ProfilePictureImageView(imagePublicID: uiModel?.profilePicturePublicId)
-                .frame(width: 128, height: 128)
-                .clipShape(Circle())
+            ProfilePictureImageView(
+                imagePublicID: $profilePicturePublicId
+            )
+            .frame(width: 128, height: 128)
+            .clipShape(Circle())
+            
             Text(uiModel?.nameSurname ?? "")
                 .font(type: .regular(36))
                 .padding(.top, 16)
@@ -91,15 +96,19 @@ struct ProfileHeaderView: View {
                     .padding(.trailing, 16)
             }
         }
+        .onChange(of: uiModel) { newValue in
+            profilePicturePublicId = newValue?.profilePicturePublicId
+        }
     }
     
     // MARK: - Initialization Methods
     
     init(
-        uiModel: ProfileUIModel?,
+        uiModel: Binding<ProfileUIModel?>,
         clickHandler: ClickHandler?
     ) {
-        self.uiModel = uiModel
+        self._uiModel = uiModel
+        self._profilePicturePublicId = State(initialValue: uiModel.wrappedValue?.profilePicturePublicId)
         self.clickHandler = clickHandler
     }
 }
@@ -110,7 +119,10 @@ struct ProfileHeaderView_Previews: PreviewProvider {
     struct ProfileHeaderViewDemo: View {
         
         var body: some View {
-            ProfileHeaderView(uiModel: nil, clickHandler: nil)
+            ProfileHeaderView(
+                uiModel: Binding.constant(nil),
+                clickHandler: nil
+            )
         }
     }
     
