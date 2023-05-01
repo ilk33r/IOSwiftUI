@@ -43,8 +43,13 @@ public struct IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
     
     @discardableResult
     public func async<TModel: Codable>(_ type: TType, responseType: TModel.Type) async -> IOServiceResult<TModel> {
+        await async(type, responseType: responseType, cancelHandler: nil)
+    }
+    
+    @discardableResult
+    public func async<TModel: Codable>(_ type: TType, responseType: TModel.Type, cancelHandler: CancelHandler?) async -> IOServiceResult<TModel> {
         let response = await withCheckedContinuation { contination in
-            _ = httpClient.request(
+            let cancellable = httpClient.request(
                 type: type.methodType,
                 path: type.path,
                 contentType: type.requestContentType.rawValue,
@@ -55,6 +60,8 @@ public struct IOServiceProviderImpl<TType: IOServiceType>: IOServiceProvider {
                 let handledResult = type.response(responseType: responseType, result: result)
                 contination.resume(returning: handledResult)
             }
+            
+            cancelHandler?(cancellable)
         }
         
         return response

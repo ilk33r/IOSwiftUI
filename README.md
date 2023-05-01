@@ -4,7 +4,6 @@ IO Swift UI framework.
 
 ### Evolution
 - ASYNC services.
-- Image load system.
 - ActionSheet usage.
 -   .actionSheet(item:
 - fullscreencover and sheet usage.
@@ -13,6 +12,7 @@ IO Swift UI framework.
 - Deprecated remove.
 - static var previews: some View {
 - navigationState.wrappedValue | navigationState.
+- Tests.
 - FaceID Login
 - Friends page map view.
 - Stories.

@@ -15,6 +15,7 @@ public protocol IOServiceProvider {
     
     // MARK: - Types
     
+    typealias CancelHandler = (_ cancellable: IOCancellable?) -> Void
     typealias HTTPGroupHandler = (_ group: DispatchGroup?) -> Void
     typealias HTTPGroupCompleteHandler = () -> Void
     typealias ResultHandler<TModel: Codable> = (_ result: IOServiceResult<TModel>) -> Void
@@ -27,6 +28,9 @@ public protocol IOServiceProvider {
     
     @discardableResult
     func async<TModel: Codable>(_ type: ServiceType, responseType: TModel.Type) async -> IOServiceResult<TModel>
+   
+    @discardableResult
+    func async<TModel: Codable>(_ type: ServiceType, responseType: TModel.Type, cancelHandler: CancelHandler?) async -> IOServiceResult<TModel>
     
     // MARK: - HTTPGroup
     

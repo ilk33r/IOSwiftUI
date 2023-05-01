@@ -15,30 +15,49 @@ public extension Image {
     
     @ViewBuilder
     func from(publicId: String) -> some View {
-        modifier(ImagePublicIDModifier(publicId: publicId))
+        modifier(
+            ImagePublicIDModifier(
+                publicId: Binding.constant(publicId)
+            )
+        )
+    }
+    
+    @ViewBuilder
+    func from(publicId: Binding<String?>) -> some View {
+        modifier(
+            ImagePublicIDModifier(
+                publicId: publicId
+            )
+        )
     }
 }
 
 private struct ImagePublicIDModifier: ViewModifier {
     
+    // MARK: - DI
+    
     @IOInject private var fileCache: IOFileCache
+    @IOInject private var thread: IOThread
+    
+    // MARK: - Privates
     
     private var baseService = IOServiceProviderImpl<BaseService>()
     
     @State private var image = Image()
     @State private var imageLoadCancellable: IOCancellable?
+    @State private var imageLoadTask: Task<(), Never>?
     @State private var isImageLoaded = false
     
-    private let publicId: String
+    @Binding private var publicId: String?
     
-    init(publicId: String) {
-        self.publicId = publicId
+    // MARK: - Initialization Methods
+    
+    init(publicId: Binding<String?>) {
+        self._publicId = publicId
         
-        if ProcessInfo.isPreviewMode && publicId.starts(with: "pw") {
-            image = Image(publicId, bundle: Bundle.main)
-            isImageLoaded = true
-        } else {
-            loadCachedImage()
+        if ProcessInfo.isPreviewMode && publicId.wrappedValue?.starts(with: "pw") ?? false {
+            image = Image(self.publicId ?? "", bundle: Bundle.main)
+            _isImageLoaded = State(initialValue: true)
         }
     }
     
@@ -48,54 +67,108 @@ private struct ImagePublicIDModifier: ViewModifier {
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
+                .onChange(of: publicId) { _ in
+                    isImageLoaded = false
+                    loadImage()
+                }
         } else {
             Rectangle()
                 .background(Color.colorImage)
                 .shimmering(active: true)
                 .onAppear {
-                    imageLoadCancellable = loadImage()
+                    loadImage()
                 }
                 .onDisappear {
-                    imageLoadCancellable?.cancel()
+                    cancelLoadImage()
+                }
+                .onChange(of: publicId) { _ in
+                    isImageLoaded = false
+                    loadImage()
                 }
         }
     }
     
     @discardableResult
     private func loadCachedImage() -> Bool {
-        do {
-            let cachedImage = try fileCache.getFile(fromCache: publicId)
-            image = Image(fromData: cachedImage)
-            isImageLoaded = true
+        if fileCache.cacheExists(name: publicId ?? "") {
+            cancelLoadImage()
+            
+            imageLoadCancellable = thread.runOnBackgroundThread {
+                loadImageFromCache()
+            }
+            
             return true
-        } catch let error {
-            IOLogger.debug(error.localizedDescription)
         }
         
         return false
     }
     
-    private func loadImage() -> IOCancellable? {
-        if loadCachedImage() {
-            return nil
-        }
+    private func loadImage() {
+        if loadCachedImage() { return }
+        guard let publicId else { return }
         
-        let request = ImageAssetRequestModel(publicId: publicId)
-        
-        return baseService.request(.imageAsset(request: request), responseType: ImageAssetResponseModel.self) { result in
-            switch result {
-            case .success(response: let response):
-                do {
-                    try fileCache.storeFile(toCache: publicId, fileData: response.imageData)
-                    image = Image(fromData: response.imageData)
-                    isImageLoaded = true
-                } catch let error {
-                    IOLogger.debug(error.localizedDescription)
+        imageLoadTask = Task {
+            guard let imageData = await loadImageAsync(publicId: publicId) else { return }
+            
+            do {
+                let cgImage = CGImage.create(fromJpegData: imageData)
+                
+                if let rawData = cgImage?.rawData() {
+                    try fileCache.storeFile(toCache: publicId, fileData: rawData)
                 }
                 
-            case .error(message: let message, type: _, response: _):
-                IOLogger.error(message)
+                if let cgImage {
+                    image = await Image(decorative: cgImage, scale: UIScreen.main.scale)
+                }
+                
+                isImageLoaded = true
+                cancelLoadImage()
+            } catch let error {
+                IOLogger.error(error.localizedDescription)
             }
         }
+    }
+    
+    private func loadImageFromCache() {
+        do {
+            let cachedImage = try fileCache.getFile(fromCache: publicId ?? "")
+            if let cgImage = CGImage.create(fromRawData: cachedImage) {
+                imageLoadCancellable = thread.runOnMainThread {
+                    image = Image(decorative: cgImage, scale: UIScreen.main.scale)
+                    isImageLoaded = true
+                    cancelLoadImage()
+                }
+            } else {
+                try fileCache.removeFile(fromCache: publicId ?? "")
+            }
+        } catch let error {
+            IOLogger.error(error.localizedDescription)
+        }
+    }
+    
+    @MainActor
+    private func loadImageAsync(publicId: String) async -> Data? {
+        let request = ImageAssetRequestModel(publicId: publicId)
+        let result = await baseService.async(.imageAsset(request: request), responseType: ImageAssetResponseModel.self) { cancellable in
+            imageLoadCancellable = cancellable
+        }
+        
+        switch result {
+        case .success(let response):
+            return response.imageData
+            
+        case .error(let message, _, _):
+            IOLogger.error(message)
+        }
+        
+        return nil
+    }
+    
+    private func cancelLoadImage() {
+        imageLoadCancellable?.cancel()
+        imageLoadTask?.cancel()
+        
+        imageLoadCancellable = nil
+        imageLoadTask = nil
     }
 }
