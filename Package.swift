@@ -38,6 +38,10 @@ let package = Package(
             name: "IOSwiftUISupportVisionDetectText",
             targets: ["IOSwiftUISupportVisionDetectText"]
         ),
+        .library(
+            name: "IOSwiftUITestInfrastructure",
+            targets: ["IOSwiftUITestInfrastructure"]
+        ),
         .plugin(
             name: "IOBuildConfigGeneratorPlugin",
             targets: ["IOBuildConfigGeneratorPlugin"]
@@ -169,10 +173,13 @@ let package = Package(
         
         // This target auto generate AppRouter.swift file from Screens folder
             .target(name: "IOSwiftUIRouter",
-                    dependencies: ["IOSwiftUIScreensShared"],
+                    dependencies: [
+                        "IOSwiftUIScreensShared"
+                    ],
                     path: "Sources/Router",
                     plugins: [ //.plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI")
-                             ]),
+                             ]
+                   ),
         
         // MARK: - App Delegate
         
@@ -201,21 +208,32 @@ let package = Package(
         // MARK: - Tests
         
             .target(
-                name: "IOSwiftUICommonTests",
+                name: "IOSwiftUITestInfrastructure",
                 dependencies: [
                     "IOSwiftUICommon",
                     "IOSwiftUIInfrastructure",
                     "IOSwiftUIPresentation",
                 ],
-                path: "Tests/CommonTests"
+                path: "Tests/TestInfrastructure"
             ),
+        .target(
+            name: "IOSwiftUICommonTests",
+            dependencies: [
+                "IOSwiftUICommon",
+                "IOSwiftUIInfrastructure",
+                "IOSwiftUIPresentation",
+                "IOSwiftUITestInfrastructure"
+            ],
+            path: "Tests/CommonTests"
+        ),
         .testTarget(
             name: "IOSwiftUITestsSupportBiometricAuthenticatorTests",
             dependencies: [
                 "IOSwiftUICommonTests",
                 "IOSwiftUISupportBiometricAuthenticator"
             ],
-            path: "Tests/Support/BiometricAuthenticatorTests"),
+            path: "Tests/Support/BiometricAuthenticatorTests"
+        ),
         
             .testTarget(
                 name: "IOSwiftUISupportNFCTests",
@@ -223,13 +241,15 @@ let package = Package(
                     "IOSwiftUICommonTests",
                     "IOSwiftUISupportNFC"
                 ],
-                path: "Tests/Support/NFCTests"),
+                path: "Tests/Support/NFCTests"
+            ),
         
             .testTarget(
                 name: "IOSwiftUITests",
                 dependencies: [
                     "IOSwiftUI",
                     "IOSwiftUICommonTests"
-                ]),
+                ]
+            ),
     ]
 )

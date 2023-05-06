@@ -25,9 +25,11 @@ let package = Package(
                 path: "Sources/Configuration",
                 plugins: [ .plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI") ]),
         
-            .target(name: "SwiftUISampleAppResources",
-                    path: "Sources/Resources",
-                    resources: [.process("Files")]),
+            .target(
+                name: "SwiftUISampleAppResources",
+                path: "Sources/Resources",
+                resources: [.process("Files")]
+            ),
         .target(name: "SwiftUISampleAppCommon",
                 dependencies: [.product(name: "IOSwiftUI", package: "IOSwiftUI")],
                 path: "Sources/Common",
@@ -117,50 +119,74 @@ let package = Package(
         
         // This target auto generate AppRouter.swift file from Screens folder
             .target(name: "SwiftUISampleAppRouter",
-                    dependencies: ["SwiftUISampleAppScreensSplash",
-                                   "SwiftUISampleAppScreensLogin",
-                                   "SwiftUISampleAppScreensHome",
-                                   "SwiftUISampleAppScreensDiscover",
-                                   "SwiftUISampleAppScreensChatInbox",
-                                   "SwiftUISampleAppScreensProfile",
-                                   "SwiftUISampleAppScreensPhotoGallery",
-                                   "SwiftUISampleAppScreensChat",
-                                   "SwiftUISampleAppScreensSettings",
-                                   "SwiftUISampleAppScreensUpdateProfile",
-                                   "SwiftUISampleAppScreensChangePassword",
-                                   "SwiftUISampleAppScreensSendOTP",
-                                   "SwiftUISampleAppScreensWeb",
-                                   "SwiftUISampleAppScreensFriends",
-                                   "SwiftUISampleAppScreensSearch",
-                                   "SwiftUISampleAppScreensRegister",
-                                   "SwiftUISampleAppScreensUserLocation"],
+                    dependencies: [
+                        "SwiftUISampleAppScreensSplash",
+                        "SwiftUISampleAppScreensLogin",
+                        "SwiftUISampleAppScreensHome",
+                        "SwiftUISampleAppScreensDiscover",
+                        "SwiftUISampleAppScreensChatInbox",
+                        "SwiftUISampleAppScreensProfile",
+                        "SwiftUISampleAppScreensPhotoGallery",
+                        "SwiftUISampleAppScreensChat",
+                        "SwiftUISampleAppScreensSettings",
+                        "SwiftUISampleAppScreensUpdateProfile",
+                        "SwiftUISampleAppScreensChangePassword",
+                        "SwiftUISampleAppScreensSendOTP",
+                        "SwiftUISampleAppScreensWeb",
+                        "SwiftUISampleAppScreensFriends",
+                        "SwiftUISampleAppScreensSearch",
+                        "SwiftUISampleAppScreensRegister",
+                        "SwiftUISampleAppScreensUserLocation"
+                    ],
                     path: "Sources/Router",
                     plugins: [ .plugin(name: "IORouterGeneratorPlugin", package: "IOSwiftUI") ]),
         
             .target(
                 name: "SwiftUISampleApp",
-                dependencies: ["SwiftUISampleAppConfigurations",
-                               "SwiftUISampleAppResources",
-                               "SwiftUISampleAppCommon",
-                               "SwiftUISampleAppInfrastructure",
-                               "SwiftUISampleAppPresentation",
-                               "SwiftUISampleAppScreensSplash",
-                               "SwiftUISampleAppScreensLogin",
-                               "SwiftUISampleAppScreensHome",
-                               "SwiftUISampleAppScreensDiscover",
-                               "SwiftUISampleAppScreensChatInbox",
-                               "SwiftUISampleAppScreensProfile",
-                               "SwiftUISampleAppScreensPhotoGallery",
-                               "SwiftUISampleAppScreensChat",
-                               "SwiftUISampleAppScreensSettings",
-                               "SwiftUISampleAppScreensUpdateProfile",
-                               "SwiftUISampleAppScreensChangePassword",
-                               "SwiftUISampleAppScreensSendOTP",
-                               "SwiftUISampleAppScreensWeb",
-                               "SwiftUISampleAppScreensFriends",
-                               "SwiftUISampleAppScreensSearch",
-                               "SwiftUISampleAppScreensRegister",
-                               "SwiftUISampleAppScreensUserLocation",
-                               "SwiftUISampleAppRouter"])
+                dependencies: [
+                    "SwiftUISampleAppConfigurations",
+                    "SwiftUISampleAppResources",
+                    "SwiftUISampleAppCommon",
+                    "SwiftUISampleAppInfrastructure",
+                    "SwiftUISampleAppPresentation",
+                    "SwiftUISampleAppScreensSplash",
+                    "SwiftUISampleAppScreensLogin",
+                    "SwiftUISampleAppScreensHome",
+                    "SwiftUISampleAppScreensDiscover",
+                    "SwiftUISampleAppScreensChatInbox",
+                    "SwiftUISampleAppScreensProfile",
+                    "SwiftUISampleAppScreensPhotoGallery",
+                    "SwiftUISampleAppScreensChat",
+                    "SwiftUISampleAppScreensSettings",
+                    "SwiftUISampleAppScreensUpdateProfile",
+                    "SwiftUISampleAppScreensChangePassword",
+                    "SwiftUISampleAppScreensSendOTP",
+                    "SwiftUISampleAppScreensWeb",
+                    "SwiftUISampleAppScreensFriends",
+                    "SwiftUISampleAppScreensSearch",
+                    "SwiftUISampleAppScreensRegister",
+                    "SwiftUISampleAppScreensUserLocation",
+                    "SwiftUISampleAppRouter"
+                ]
+            ),
+        
+        // MARK: - Tests
+        
+            .target(
+                name: "SwiftUISampleAppCommonTests",
+                dependencies: [
+                    .productItem(name: "IOSwiftUITestInfrastructure", package: "IOSwiftUI"),
+                    "SwiftUISampleApp"
+                ],
+                path: "Tests/CommonTests"
+            ),
+        .testTarget(
+            name: "SplashTests",
+            dependencies: [
+                "SwiftUISampleAppCommonTests"
+            ],
+            path: "Tests/Screens/SplashTests",
+            resources: [.process("Files")]
+        ),
     ]
 )
