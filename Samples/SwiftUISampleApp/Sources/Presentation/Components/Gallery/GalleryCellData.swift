@@ -9,10 +9,11 @@ import SwiftUI
 
 public struct GalleryCellData: Identifiable {
     
-    public let id = UUID()
     public let imagePublicId: String
     public let index: Int
     public let type: GalleryCellView.`Type`
+    
+    public var id = UUID().uuidString
     
     public init(
         imagePublicId: String,

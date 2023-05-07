@@ -7,16 +7,26 @@
 
 import SwiftUI
 
-public struct GalleryCellView: View {
+public struct GalleryCellView: View, Identifiable {
+ 
+    // MARK: - Defs
     
     public enum `Type` {
         case small
         case normal
     }
     
+    // MARK: - Identifiable
+    
+    public var id: String
+    
+    // MARK: - Privates
+    
     private var imagePublicId: String
     private var type: `Type`
     private var width: CGFloat
+    
+    // MARK: - Body
     
     public var body: some View {
         let height: CGFloat
@@ -33,6 +43,8 @@ public struct GalleryCellView: View {
             .clipped()
     }
     
+    // MARK: - Initialization Methods
+    
     public init(
         imagePublicId: String,
         type: `Type`,
@@ -41,15 +53,23 @@ public struct GalleryCellView: View {
         self.imagePublicId = imagePublicId
         self.type = type
         self.width = width
+        self.id = imagePublicId
     }
 }
 
 #if DEBUG
 struct GalleryCellView_Previews: PreviewProvider {
     
+    struct GalleryCellViewDemo: View {
+        
+        var body: some View {
+            GalleryCellView(imagePublicId: "", type: .normal, width: 90)
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return GalleryCellView(imagePublicId: "", type: .normal, width: 90)
+        return GalleryCellViewDemo()
             .previewLayout(.sizeThatFits)
     }
 }

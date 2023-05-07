@@ -32,6 +32,7 @@ public struct ProfileView: IOController {
     @State private var scrollOffset: CGFloat = 0
     @State private var tapIndex: Int = -1
     @State private var viewSize: CGSize = .zero
+    @State private var galleryView: GalleryView?
     
     // MARK: - Body
     
@@ -80,15 +81,11 @@ public struct ProfileView: IOController {
                 .zIndex(20)
                 .frame(height: headerHeight, alignment: .top)
                 .clipped()
-                GalleryView(
-                    insetTop: $headerSize.height,
-                    scrollContentSize: $scrollContentSize,
-                    scrollOffset: $scrollOffset,
-                    tapIndex: $tapIndex,
-                    viewSize: $viewSize,
-                    galleryImages: presenter.images
-                )
-                .zIndex(10)
+                
+                if let galleryView {
+                    galleryView
+                        .zIndex(10)
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             
@@ -104,11 +101,11 @@ public struct ProfileView: IOController {
             )
             navigationState.navigateToGallery = true
         }
-        .onChange(of: scrollOffset) { newValue in
-            if scrollContentSize.height - viewSize.height <= newValue {
-                presenter.loadImages()
-            }
-        }
+//        .onChange(of: scrollOffset) { newValue in
+//            if scrollContentSize.height - viewSize.height <= newValue {
+//                presenter.loadImages()
+//            }
+//        }
         .navigationWireframe(hasNavigationView: true, isHidden: navigationBarHidden) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
@@ -162,6 +159,16 @@ public struct ProfileView: IOController {
                     await presenter.prepare()
                 }
             }
+        }
+        .onReceive(presenter.$images) { output in
+            galleryView = GalleryView(
+                insetTop: $headerSize.height,
+                scrollContentSize: $scrollContentSize,
+                scrollOffset: $scrollOffset,
+                tapIndex: $tapIndex,
+                viewSize: $viewSize,
+                galleryImages: output ?? []
+            )
         }
     }
     
