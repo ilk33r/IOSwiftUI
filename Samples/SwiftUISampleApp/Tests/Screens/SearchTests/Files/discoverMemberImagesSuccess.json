@@ -1,0 +1,47 @@
+{
+  "status" : {
+    "code" : 200,
+    "message" : "OK",
+    "success" : true,
+    "detailedMessage" : ""
+  },
+  "pagination" : {
+    "start" : 0,
+    "count" : 4,
+    "total" : 4
+  },
+  "images" : [
+    {
+      "memberId" : 11,
+      "userNameAndSurname" : "İlker Özcan",
+      "userProfilePicturePublicId" : null,
+      "publicId" : "phG0vgZ1Jh1mWTqW0ViIjLqYvy7Kv0WR\/SnTW3bBWV2vtY3Bb34T0T3ZXO6\/rBv3CL78n+XqeYtSdWX9xH7WY9hvEH\/MFUM3eSCG\/GPNJGn84HLiZHSUbXbvp7AMZGjd2+ZoQES97aCqpj9lOxMYQKFzYbAO0U6bSo+ih6RKFoQ=",
+      "createDate" : "2023-04-30T17:18:45+00:00",
+      "userName" : "ilker11"
+    },
+    {
+      "memberId" : 11,
+      "userNameAndSurname" : "İlker Özcan",
+      "userProfilePicturePublicId" : null,
+      "publicId" : "phG0vgZ1Jh1mWTqW0ViIjLqYvy7Kv0WR\/SnTW3bBWV2vtY3Bb34T0T3ZXO6\/rBv3CL78n+XqeYtSdWX9xH7WY6zZXyRt1yQg4cVG8UBDz9H6VcUJQbqpuWSFQH699E5wfgbVRc+lHuMQreayYk8RrcVQCf6VQ1hcaZulBDL\/HFM=",
+      "createDate" : "2023-04-30T17:16:23+00:00",
+      "userName" : "ilker11"
+    },
+    {
+      "memberId" : 11,
+      "userNameAndSurname" : "İlker Özcan",
+      "userProfilePicturePublicId" : null,
+      "publicId" : "phG0vgZ1Jh1mWTqW0ViIjLqYvy7Kv0WR\/SnTW3bBWV2vtY3Bb34T0T3ZXO6\/rBv3CL78n+XqeYtSdWX9xH7WY9+OOXEB692L08B68xxWIPspnWG\/zDhfPwj+1Dl9X3LEDcGhrbNgyyIubxzEDDvJkb1J81+Nkfo6OHa1r6msi+I=",
+      "createDate" : "2023-04-30T17:15:59+00:00",
+      "userName" : "ilker11"
+    },
+    {
+      "memberId" : 11,
+      "userNameAndSurname" : "İlker Özcan",
+      "userProfilePicturePublicId" : null,
+      "publicId" : "phG0vgZ1Jh1mWTqW0ViIjLqYvy7Kv0WR\/SnTW3bBWV2vtY3Bb34T0T3ZXO6\/rBv3CL78n+XqeYtSdWX9xH7WY\/WtlbA2DzKYewWnqkNG\/ylKE2ZR6X90nMSbPpVjOrjFVMyUZnkKJ3eGGQw0L0Fq6oVK1oZNjrTdg9CjS0uSl+M=",
+      "createDate" : "2023-04-30T17:15:40+00:00",
+      "userName" : "ilker11"
+    }
+  ]
+}

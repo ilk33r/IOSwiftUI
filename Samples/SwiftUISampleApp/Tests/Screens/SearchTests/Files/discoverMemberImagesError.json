@@ -1,0 +1,16 @@
+{
+  "status" : {
+    "code" : 200,
+    "message" : "OK",
+    "success" : true,
+    "detailedMessage" : ""
+  },
+  "pagination" : {
+    "start" : 0,
+    "count" : 0,
+    "total" : 0
+  },
+  "images" : [
+
+  ]
+}

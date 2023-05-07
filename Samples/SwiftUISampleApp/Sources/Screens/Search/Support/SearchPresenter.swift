@@ -163,9 +163,8 @@ final public class SearchPresenter: IOPresenterable {
             self.images = images
         }
         
-        self.isImagesLoading = false
-        
         self.thread.runOnMainThread(afterMilliSecond: 250) { [weak self] in
+            self?.isImagesLoading = false
             self?.isRefreshing = false
         }
     }

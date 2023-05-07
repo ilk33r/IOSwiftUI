@@ -204,5 +204,13 @@ let package = Package(
             path: "Tests/Screens/DiscoverTests",
             resources: [.process("Files")]
         ),
+        .testTarget(
+            name: "SearchTests",
+            dependencies: [
+                "SwiftUISampleAppCommonTests"
+            ],
+            path: "Tests/Screens/SearchTests",
+            resources: [.process("Files")]
+        ),
     ]
 )
