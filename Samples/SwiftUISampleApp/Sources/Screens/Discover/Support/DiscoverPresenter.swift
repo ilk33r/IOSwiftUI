@@ -122,9 +122,8 @@ final public class DiscoverPresenter: IOPresenterable {
             self.images.append(contentsOf: mappedImages ?? [])
         }
         
-        self.isImagesLoading = false
-        
         self.thread.runOnMainThread(afterMilliSecond: 250) { [weak self] in
+            self?.isImagesLoading = false
             self?.isRefreshing = false
         }
     }

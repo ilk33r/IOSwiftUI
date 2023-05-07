@@ -196,5 +196,13 @@ let package = Package(
             path: "Tests/Screens/LoginTests",
             resources: [.process("Files")]
         ),
+        .testTarget(
+            name: "DiscoverTests",
+            dependencies: [
+                "SwiftUISampleAppCommonTests"
+            ],
+            path: "Tests/Screens/DiscoverTests",
+            resources: [.process("Files")]
+        ),
     ]
 )
