@@ -53,11 +53,8 @@ final public class IOHTTPClientTestImpl: IOHTTPClient, IOSingleton {
         self.headerDatas[path] = self.jsonData(from: fileName, bundle: bundle)
     }
     
-    public func setResponse(for path: String, fileName: String, bundle: Bundle) {
+    public func setResponse(for path: String, fileName: String, statusCode: Int, bundle: Bundle) {
         self.responseDatas[path] = self.jsonData(from: fileName, bundle: bundle)
-    }
-    
-    public func setResponseStatusCode(for path: String, statusCode: Int) {
         self.responseStatusCodes[path] = statusCode
     }
     

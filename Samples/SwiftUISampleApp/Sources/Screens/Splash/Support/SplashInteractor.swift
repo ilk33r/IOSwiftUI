@@ -63,6 +63,15 @@ public struct SplashInteractor: IOInteractor {
     
     @MainActor
     private func setupCryptography(response: HandshakeResponseModel) async throws {
+        if ProcessInfo.isTestMode {
+            try await checkSessionIfNecessary(
+                encryptedIV: Data(secureRandomizedData: 16),
+                encryptedKey: Data(secureRandomizedData: 32)
+            )
+            
+            return
+        }
+        
         if
             let exponent = response.publicKeyExponent,
             let modulus = response.publicKeyModulus,

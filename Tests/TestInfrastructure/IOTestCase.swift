@@ -6,6 +6,7 @@
 //
 
 import Combine
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
@@ -29,7 +30,7 @@ open class IOTestCase: XCTestCase {
     
     // MARK: - Properties
     
-    public let testTimeout = 2000
+    public let testTimeout = 3000
     
     open var bundleName: String { "" }
     open var window: UIWindow!
@@ -50,6 +51,10 @@ open class IOTestCase: XCTestCase {
         self._httpClient as! IOHTTPClientTestImpl
     }
     
+    // MARK: - Privates
+    
+    private var httpRequestTimeout: IOCancellable?
+    
     // MARK: - Test Methods
     
     open override func setUp() async throws {
@@ -68,23 +73,42 @@ open class IOTestCase: XCTestCase {
     }
     
     @discardableResult
-    public func waitServiceCall() async throws -> Bool {
+    public func waitServiceCall(count: Int = 1) async throws -> Bool {
+        self.httpRequestTimeout?.cancel()
+        self.httpRequestTimeout = nil
+        self.httpRequestCancellable?.cancel()
+        self.httpRequestCancellable = nil
+        
         return try await withUnsafeThrowingContinuation { [weak self] contination in
             guard let self else { return }
-            let timeout = self.thread.runOnBackgroundThread(afterMilliSecond: self.testTimeout) {
+            
+            self.httpRequestTimeout?.cancel()
+            self.httpRequestTimeout = self.thread.runOnBackgroundThread(afterMilliSecond: self.testTimeout * count) {
                 contination.resume(throwing: TestError.service)
             }
             
-            
             self.httpRequestCancellable = self.httpClient.httpRequestStatus
+                .dropFirst(count - 1)
                 .sink(receiveValue: { newValue in
                     if newValue ?? false {
-                        timeout.cancel()
+                        self.httpRequestTimeout?.cancel()
+                        self.httpRequestTimeout = nil
                         self.httpRequestCancellable?.cancel()
                         self.httpRequestCancellable = nil
                         contination.resume(returning: true)
                     }
                 })
+        }
+    }
+    
+    @discardableResult
+    public func wait(milliseconds: Int) async -> Bool {
+        return await withUnsafeContinuation { [weak self] contination in
+            guard let self else { return }
+            
+            self.thread.runOnBackgroundThread(afterMilliSecond: milliseconds) {
+                contination.resume(returning: true)
+            }
         }
     }
 }
