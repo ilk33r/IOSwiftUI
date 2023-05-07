@@ -11,10 +11,20 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 final public class LoginNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-//    @Published public var navigateToPage = false
+    @Published public var navigateToPassword = false
+    
+    var loginPasswordEntity: LoginPasswordEntity?
+    
+    // MARK: - Navigations
+    
+    func navigateToPassword(email: String) {
+        self.loginPasswordEntity = LoginPasswordEntity(email: email)
+        self.navigateToPassword = true
+    }
 }

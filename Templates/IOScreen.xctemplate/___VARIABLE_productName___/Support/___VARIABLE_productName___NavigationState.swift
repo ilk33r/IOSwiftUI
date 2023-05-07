@@ -14,4 +14,8 @@ final public class ___VARIABLE_productName___NavigationState: IONavigationState 
 //    @Published var navigateToPage = false
     
 //    var pageView: IORouterView?
+    
+    // MARK: - Navigations
+    
+//   func navigateToPage() { }
 }

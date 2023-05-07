@@ -20,6 +20,12 @@ final public class LoginPresenter: IOPresenterable {
     public var interactor: LoginInteractor!
     public var navigationState: StateObject<LoginNavigationState>!
     
+    // MARK: - Publics
+    
+    // MARK: - Publishers
+    
+    // MARK: - Privates
+    
     // MARK: - Initialization Methods
     
     public init() {
@@ -27,7 +33,23 @@ final public class LoginPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func loginCompleted() {
-        self.environment.wrappedValue.appScreen = .loggedIn
+    @MainActor
+    func checkMember(email: String) async {
+        do {
+            try await self.interactor.checkMemberEmail(email: email)
+            self.navigationState.wrappedValue.navigateToPassword(email: email)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+            
+            await showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .errorUserNotFound,
+                    buttons: [
+                        .commonOk
+                    ]
+                )
+            }
+        }
     }
 }

@@ -19,12 +19,9 @@ public struct LoginInteractor: IOInteractor {
     public var entity: LoginEntity!
     public weak var presenter: LoginPresenter?
     
-    // MARK: - DI
-    
-    @IOInject private var httpClient: IOHTTPClient
-    
     // MARK: - Privates
     
+    private var authenticationService = IOServiceProviderImpl<AuthenticationService>()
     private var service = IOServiceProviderImpl<LoginService>()
     
     // MARK: - Initialization Methods
@@ -34,45 +31,20 @@ public struct LoginInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func login(email: String, password: String) {
-        guard let aesIV = appState.object(forType: .aesIV) as? Data else { return }
-        guard let aesKey = appState.object(forType: .aesKey) as? Data else { return }
-        
-        guard let encryptedPassword = IOAESUtilities.encrypt(string: password, keyData: aesKey, ivData: aesIV) else { return }
-        
+    @MainActor
+    func checkMemberEmail(email: String) async throws {
         showIndicator()
         
-        let request = AuthenticateRequestModel(email: email, password: encryptedPassword.base64EncodedString())
-        /*
-        service.request(
-            .authenticate(request: request),
-            responseType: AuthenticateResponseModel.self
-        ) { result in
-            hideIndicator()
+        let request = CheckMemberRequestModel(email: email)
+        let result = await authenticationService.async(.checkMember(request: request), responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            throw IOInteractorError.service
             
-            switch result {
-            case .success(response: let response):
-                completeLogin(response: response)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error:
+            break
         }
-         */
-    }
-    
-    // MARK: - Helper Methods
-    
-    private func completeLogin(response: AuthenticateResponseModel?) {
-        guard let response else { return }
-        
-        localStorage.set(string: response.token ?? "", forType: .userToken)
-        
-        if var defaultHTTPHeaders = httpClient.defaultHTTPHeaders {
-            defaultHTTPHeaders["X-IO-AUTHORIZATION-TOKEN"] = response.token ?? ""
-            httpClient.setDefaultHTTPHeaders(headers: defaultHTTPHeaders)
-        }
-        
-        presenter?.loginCompleted()
-    }
+    }    
 }

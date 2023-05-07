@@ -1,0 +1,10 @@
+{
+  "status" : {
+    "code" : 200,
+    "message" : "OK",
+    "success" : true,
+    "detailedMessage" : ""
+  },
+  "expire" : null,
+  "token" : "948089ca-200b-4106-9d95-ab539223b8a4-11"
+}

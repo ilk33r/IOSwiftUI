@@ -11,10 +11,8 @@ import IOSwiftUIPresentation
 public struct LoginPasswordEntity: IOEntity {
     
     public let email: String?
-    public let userName: String?
     
-    public init(email: String?, userName: String?) {
+    public init(email: String?) {
         self.email = email
-        self.userName = userName
     }
 }

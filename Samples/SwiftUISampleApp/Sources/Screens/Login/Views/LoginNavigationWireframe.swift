@@ -9,26 +9,39 @@ import Foundation
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 struct LoginNavigationWireframe: IONavigationLinkView {
     
-    typealias AppEnvironment = SampleAppEnvironment
-    
     // MARK: - States
     
-    var appEnvironment: EnvironmentObject<SampleAppEnvironment>!
     @ObservedObject var navigationState: LoginNavigationState
     
     // MARK: - Properties
     
     var body: some View {
-        EmptyView()
+        Group {
+            NavigationLink(
+                destination: route(PreLoginRouters.self, .loginPassword(entity: navigationState.loginPasswordEntity)),
+                isActive: $navigationState.navigateToPassword
+            ) {
+                EmptyView()
+            }
+        }
         /*
-        NavigationLink(
-            destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)),
-            isActive: $navigationState.navigateToPage
-        ) {
-            EmptyView()
+        .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
+            if let view = navigationState.editProfileView {
+                view
+            } else {
+                EmptyView()
+            }
+        }
+        .sheet(isPresented: $navigationState.navigateToMap) {
+            if let mapView = navigationState.mapView {
+                mapView
+            } else {
+                EmptyView()
+            }
         }
         */
     }

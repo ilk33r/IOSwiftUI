@@ -13,15 +13,14 @@ import SwiftUISampleAppInfrastructure
 
 enum LoginService {
     
-//    case authenticate(request: AuthenticateRequestModel)
 }
 
 extension LoginService: IOServiceType {
     
     var methodType: IOHTTPRequestType {
         switch self {
-//        case .authenticate:
-//            return .post
+        default:
+            return .get
         }
     }
     
@@ -34,8 +33,8 @@ extension LoginService: IOServiceType {
     
     var path: String {
         switch self {
-//        case .authenticate:
-//            return "MemberLogin/Authenticate"
+        default:
+            return ""
         }
     }
     
@@ -55,8 +54,8 @@ extension LoginService: IOServiceType {
     
     var body: Data? {
         switch self {
-//        case .authenticate(let request):
-//            return handleRequest(request)
+        default:
+            return nil
         }
     }
     

@@ -12,6 +12,8 @@ import SwiftUISampleAppCommon
 public enum AuthenticationService {
     
     case authenticate(request: AuthenticateRequestModel)
+    case checkMember(request: CheckMemberRequestModel)
+    case checkMemberUserName(request: CheckMemberUserNameRequestModel)
 }
 
 extension AuthenticationService: IOServiceType {
@@ -19,6 +21,12 @@ extension AuthenticationService: IOServiceType {
     public var methodType: IOHTTPRequestType {
         switch self {
         case .authenticate:
+            return .post
+            
+        case .checkMember:
+            return .post
+            
+        case .checkMemberUserName:
             return .post
         }
     }
@@ -34,6 +42,12 @@ extension AuthenticationService: IOServiceType {
         switch self {
         case .authenticate:
             return "MemberLogin/Authenticate"
+            
+        case .checkMember:
+            return "MemberRegister/CheckMember"
+            
+        case .checkMemberUserName:
+            return "MemberRegister/CheckMemberUserName"
         }
     }
     
@@ -54,6 +68,12 @@ extension AuthenticationService: IOServiceType {
     public var body: Data? {
         switch self {
         case .authenticate(let request):
+            return handleRequest(request)
+            
+        case .checkMember(request: let request):
+            return handleRequest(request)
+            
+        case .checkMemberUserName(request: let request):
             return handleRequest(request)
         }
     }

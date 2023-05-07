@@ -32,4 +32,14 @@ final public class LoginPasswordPresenter: IOPresenterable {
     }
     
     // MARK: - Presenter
+    
+    @MainActor
+    func login(password: String) async {
+        do {
+            try await self.interactor.login(password: password)
+            self.environment.wrappedValue.appScreen = .loggedIn
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
+    }
 }

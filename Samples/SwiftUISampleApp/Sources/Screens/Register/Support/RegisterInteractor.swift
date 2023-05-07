@@ -21,6 +21,7 @@ public struct RegisterInteractor: IOInteractor {
     
     // MARK: - Privates
     
+    private var authenticationService = IOServiceProviderImpl<AuthenticationService>()
     private var service = IOServiceProviderImpl<RegisterService>()
     
     // MARK: - Initialization Methods
@@ -35,7 +36,7 @@ public struct RegisterInteractor: IOInteractor {
         showIndicator()
         
         let request = CheckMemberRequestModel(email: email)
-        let result = await service.async(.checkMember(request: request), responseType: GenericResponseModel.self)
+        let result = await authenticationService.async(.checkMember(request: request), responseType: GenericResponseModel.self)
         hideIndicator()
         
         switch result {
