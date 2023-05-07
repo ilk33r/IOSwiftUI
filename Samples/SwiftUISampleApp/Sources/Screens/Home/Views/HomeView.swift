@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 27.08.2022.
 //
 
+import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
@@ -15,6 +16,10 @@ public struct HomeView: IOController {
     // MARK: - Generics
     
     public typealias Presenter = HomePresenter
+    
+    // MARK: - DI
+    
+    @IOInject private var thread: IOThread
     
     // MARK: - Properties
     

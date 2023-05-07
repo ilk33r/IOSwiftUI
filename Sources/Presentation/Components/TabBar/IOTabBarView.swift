@@ -62,12 +62,11 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
     public func updateUIViewController(_ viewController: Controller, context: Context) {
         if updateViews {
             viewController.setupViewControllers(identifiables: self.content())
+            viewController.selectedIndex = selection
             
             thread.runOnMainThread(afterMilliSecond: 150) {
                 updateViews = false
             }
         }
-        
-        viewController.selectedIndex = selection
     }
 }
