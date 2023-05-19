@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "F6B7E00A-C063-4D91-B0B7-A861765C8FF8",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true,
+    "userAttachmentLifetime" : "keepAlways"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SplashTests",
+        "name" : "SplashTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -33,7 +33,7 @@ final class HomeTests: BaseTestCase {
         self.homeView = HomeView(entity: nil)
     }
     
-    func testActionSheet() async throws {
+    func test01ActionSheet() async throws {
         // Instantiate controller
         self.setupView(view: self.homeView, environment: self.environment)
         
@@ -50,7 +50,7 @@ final class HomeTests: BaseTestCase {
         XCTAssertNotNil(self.homeView.presenter.actionSheetData)
     }
     
-    func testUploadImage() async throws {
+    func test02UploadImage() async throws {
         // Setup service
         self.setResponse(for: "MemberImages/AddMemberImage", fileName: "addMemberImageSuccess", statusCode: 200)
         self.setResponseHeaders(for: "MemberImages/AddMemberImage", fileName: "addMemberImageSuccessHeaders")

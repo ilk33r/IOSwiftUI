@@ -33,7 +33,7 @@ final class SplashTests: BaseTestCase {
         self.splashView = SplashView(entity: nil)
     }
     
-    func testAnonymouseUserSuccess() async throws {
+    func test01AnonymouseUserSuccess() async throws {
         // Setup service
         self.setResponse(for: "HandshakeDefault/Index", fileName: "handshakeSuccess", statusCode: 200)
         self.setResponseHeaders(for: "HandshakeDefault/Index", fileName: "handshakeSuccessHeaders")
@@ -57,7 +57,7 @@ final class SplashTests: BaseTestCase {
         XCTAssertTrue(self.splashView.presenter.showButtons)
     }
     
-    func testLoggedInUserSuccess() async throws {
+    func test02LoggedInUserSuccess() async throws {
         // Setup service
         self.setResponse(for: "HandshakeDefault/Index", fileName: "handshakeSuccess", statusCode: 200)
         self.setResponseHeaders(for: "HandshakeDefault/Index", fileName: "handshakeSuccessHeaders")

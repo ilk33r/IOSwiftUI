@@ -14,11 +14,26 @@ let package = Package(
             name: "SwiftUISampleApp",
             targets: ["SwiftUISampleApp"]
         ),
+        .plugin(
+            name: "RunAllTestCases",
+            targets: ["RunAllTestCases"]
+        )
     ],
     dependencies: [
         .package(path: "../..")
     ],
     targets: [
+        .plugin(
+            name: "RunAllTestCases",
+            capability: .command(
+                intent: .custom(verb: "runalltests", description: "Run all test cases"),
+                permissions: []
+            ),
+            dependencies: [
+            ],
+            path: "Plugins/RunAllTestCases"
+        ),
+        
         // This target auto generate IOBuildConfig.swift file from using Configuration.json
         .target(name: "SwiftUISampleAppConfigurations",
                 dependencies: [],

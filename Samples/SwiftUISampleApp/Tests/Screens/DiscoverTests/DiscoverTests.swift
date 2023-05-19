@@ -33,7 +33,7 @@ final class DiscoverTests: BaseTestCase {
         self.discoverView = DiscoverView(entity: nil)
     }
     
-    func testCheckDiscoverSuccess() async throws {
+    func test01CheckDiscoverSuccess() async throws {
         // Setup service
         self.setResponse(for: "Discover/Discover", fileName: "discoverSuccess", statusCode: 200)
         self.setResponseHeaders(for: "Discover/Discover", fileName: "discoverSuccessHeaders")

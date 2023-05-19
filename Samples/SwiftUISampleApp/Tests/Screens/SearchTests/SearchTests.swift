@@ -33,7 +33,7 @@ final class SearchTests: BaseTestCase {
         self.searchView = SearchView(entity: nil)
     }
     
-    func testDiscoverAll() async throws {
+    func test01DiscoverAll() async throws {
         // Setup service
         self.setResponse(for: "Discover/DiscoverAll", fileName: "discoverAllSuccess", statusCode: 200)
         self.setResponseHeaders(for: "Discover/DiscoverAll", fileName: "discoverAllSuccessHeaders")
@@ -54,7 +54,7 @@ final class SearchTests: BaseTestCase {
         XCTAssertFalse(self.searchView.presenter.images.isEmpty)
     }
     
-    func testDiscoverMemberImagesError() async throws {
+    func test02DiscoverMemberImagesError() async throws {
         // Setup service
         self.setResponse(for: "Discover/DiscoverMemberImages", fileName: "discoverMemberImagesError", statusCode: 200)
         self.setResponseHeaders(for: "Discover/DiscoverMemberImages", fileName: "discoverMemberImagesErrorHeaders")
@@ -79,7 +79,7 @@ final class SearchTests: BaseTestCase {
         XCTAssertTrue(self.searchView.presenter.images.isEmpty)
     }
     
-    func testDiscoverMemberImagesSuccess() async throws {
+    func test03DiscoverMemberImagesSuccess() async throws {
         // Setup service
         self.setResponse(for: "Discover/DiscoverMemberImages", fileName: "discoverMemberImagesSuccess", statusCode: 200)
         self.setResponseHeaders(for: "Discover/DiscoverMemberImages", fileName: "discoverMemberImagesSuccessHeaders")

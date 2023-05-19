@@ -33,7 +33,7 @@ final class LoginTests: BaseTestCase {
         self.loginView = LoginView(entity: nil)
     }
     
-    func testCheckMemberSuccess() async throws {
+    func test01CheckMemberSuccess() async throws {
         // Setup service
         self.setResponse(for: "MemberRegister/CheckMember", fileName: "checkMemberSuccess", statusCode: 200)
         self.setResponseHeaders(for: "MemberRegister/CheckMember", fileName: "checkMemberSuccessHeaders")
@@ -64,7 +64,7 @@ final class LoginTests: BaseTestCase {
         XCTAssertTrue(self.loginView.presenter.navigationState.wrappedValue.navigateToPassword)
     }
     
-    func testCheckError() async throws {
+    func test02CheckError() async throws {
         // Setup service
         self.setResponse(for: "MemberRegister/CheckMember", fileName: "checkMemberError", statusCode: 200)
         self.setResponseHeaders(for: "MemberRegister/CheckMember", fileName: "checkMemberErrorHeaders")

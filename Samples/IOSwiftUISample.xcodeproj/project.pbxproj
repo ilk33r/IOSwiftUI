@@ -60,6 +60,7 @@
 		F750013D294F9FB4006D7DF7 /* IOSwiftUISampleDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IOSwiftUISampleDebug.entitlements; sourceTree = "<group>"; };
 		F758756F29192D2200C665D1 /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		F78D1A7D291A47FE00E6C38B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		F7A4B57C2A178A4700B72C2D /* SplashTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SplashTests.xctestplan; sourceTree = "<group>"; };
 		F7A69E7928F16633001EDC99 /* IOSwiftUISample.DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = IOSwiftUISample.DEV.xcconfig; sourceTree = "<group>"; };
 		F7AD7DE428DCE8FA00CDB8B8 /* IOBuildConfigGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = IOBuildConfigGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IOBuildConfig.m; path = ../Plugins/IOBuildConfigGenerator/IOBuildConfig.m; sourceTree = "<group>"; };
@@ -108,6 +109,7 @@
 			children = (
 				F7FEE5B728B0F37B005D6633 /* IOSwiftUI */,
 				F7FEE5BD28B0FF08005D6633 /* SwiftUISampleApp */,
+				F7A4B57C2A178A4700B72C2D /* SplashTests.xctestplan */,
 				F7FEE58A28B0F1C9005D6633 /* IOSwiftUISample */,
 				F7AD7DEE28DCE95300CDB8B8 /* IOBuildConfigGenerator */,
 				F7FEE58928B0F1C9005D6633 /* Products */,

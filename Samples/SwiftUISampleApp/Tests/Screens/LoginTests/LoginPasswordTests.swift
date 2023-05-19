@@ -37,7 +37,7 @@ final class LoginPasswordTests: BaseTestCase {
         )
     }
     
-    func testAuthenticateSuccess() async throws {
+    func test01AuthenticateSuccess() async throws {
         // Setup service
         self.setResponse(for: "MemberLogin/Authenticate", fileName: "authenticateSuccess", statusCode: 200)
         self.setResponseHeaders(for: "MemberLogin/Authenticate", fileName: "authenticateSuccessHeaders")
@@ -72,7 +72,7 @@ final class LoginPasswordTests: BaseTestCase {
         XCTAssertEqual(self.environment.appScreen, .loggedIn)
     }
     
-    func testAuthenticateError() async throws {
+    func test02AuthenticateError() async throws {
         // Setup service
         self.setResponse(for: "MemberLogin/Authenticate", fileName: "authenticateError", statusCode: 200)
         self.setResponseHeaders(for: "MemberLogin/Authenticate", fileName: "authenticateErrorHeaders")
