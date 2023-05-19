@@ -1,0 +1,8 @@
+{
+  "status" : {
+    "code" : 200,
+    "message" : "OK",
+    "success" : true,
+    "detailedMessage" : ""
+  }
+}

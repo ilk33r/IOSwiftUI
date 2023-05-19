@@ -1,0 +1,8 @@
+{
+  "status" : {
+    "code" : 700,
+    "message" : "User exists.",
+    "success" : false,
+    "detailedMessage" : ""
+  }
+}
