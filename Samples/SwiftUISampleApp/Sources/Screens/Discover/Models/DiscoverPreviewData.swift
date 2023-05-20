@@ -15,28 +15,28 @@ struct DiscoverPreviewData {
             imagePublicId: "",
             userName: "ilker",
             userNameAndSurname: "İlker Özcan",
-            userAvatarPublicId: "pwProfilePicture",
+            userAvatarPublicId: "",
             messageTime: "1 Hour ago"
         ),
         DiscoverUIModel(
             imagePublicId: "",
             userName: "ilker",
             userNameAndSurname: "İlker Özcan",
-            userAvatarPublicId: "pwProfilePicture",
+            userAvatarPublicId: "",
             messageTime: "1 Hour ago"
         ),
         DiscoverUIModel(
             imagePublicId: "",
             userName: "ilker",
             userNameAndSurname: "İlker Özcan",
-            userAvatarPublicId: "pwProfilePicture",
+            userAvatarPublicId: "",
             messageTime: "1 Hour ago"
         ),
         DiscoverUIModel(
             imagePublicId: "",
             userName: "ilker",
             userNameAndSurname: "İlker Özcan",
-            userAvatarPublicId: "pwProfilePicture",
+            userAvatarPublicId: "",
             messageTime: "1 Hour ago"
         )
     ]
@@ -45,7 +45,7 @@ struct DiscoverPreviewData {
         imagePublicId: "",
         userName: "@ridzjcob!",
         userNameAndSurname: "Ridhwan Nordin",
-        userAvatarPublicId: "pwChatAvatar",
+        userAvatarPublicId: "",
         messageTime: "16 min ago"
     )
 }

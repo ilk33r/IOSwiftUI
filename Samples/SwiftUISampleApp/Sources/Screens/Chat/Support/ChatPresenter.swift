@@ -68,8 +68,7 @@ final public class ChatPresenter: IOPresenterable {
     // MARK: - Presenter
     
     func hideTabBar() {
-//        self.interactor.appState.set(bool: true, forType: .tabBarIsHidden)
-//        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+        self.interactor.eventProcess.set(bool: false, forType: .tabBarVisibility)
     }
     
     func loadInitialMessages() {
@@ -79,7 +78,8 @@ final public class ChatPresenter: IOPresenterable {
         self.updateMessages(messages: self.interactor.entity.messages)
     }
     
-    func loadPreviousMessages() {
+    @MainActor
+    func loadPreviousMessages() async {
         if self.isMessagesLoading {
             return
         }
@@ -88,42 +88,47 @@ final public class ChatPresenter: IOPresenterable {
         
         let start = self.pagination.start ?? 0
         let pagination = PaginationModel(start: start + ChatConstants.messageCountPerPage, count: ChatConstants.messageCountPerPage, total: nil)
-        self.interactor.loadMessages(pagination: pagination)
+        
+        do {
+            guard let previousMessagesResponse = try await self.interactor.loadMessages(pagination: pagination) else { return }
+            self.pagination = previousMessagesResponse.pagination
+            self.messageCount = previousMessagesResponse.pagination?.count
+            
+            if let messages = previousMessagesResponse.messages, !messages.isEmpty {
+                self.updateMessages(messages: messages)
+            }
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
+    }
+    
+    @MainActor
+    func sendMessage(message: String) async {
+        do {
+            guard let lastMessage = try await self.interactor.sendMessage(message: message) else { return }
+            
+            let relativeDate = Date()
+            let dateFormatter = RelativeDateTimeFormatter()
+            dateFormatter.dateTimeStyle = .numeric
+            
+            let newMessage = ChatItemUIModel(
+                id: lastMessage.messageID ?? 0,
+                imagePublicID: lastMessage.userAvatarPublicID,
+                chatMessage: self.interactor.decryptMessage(encryptedMessage: lastMessage.message ?? ""),
+                isLastMessage: true,
+                isSend: lastMessage.isSent ?? false,
+                messageTime: dateFormatter.localizedString(for: lastMessage.messageDate ?? Date(), relativeTo: relativeDate)
+            )
+            
+            self.scrollToLastMessage = true
+            self.chatMessages.append(newMessage)
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
     func showTabBar() {
-//        self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
-//        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
-    }
-    
-    func update(lastMessage: MessageModel?) {
-        guard let lastMessage else { return }
-        
-        let relativeDate = Date()
-        let dateFormatter = RelativeDateTimeFormatter()
-        dateFormatter.dateTimeStyle = .numeric
-        
-        let newMessage = ChatItemUIModel(
-            id: lastMessage.messageID ?? 0,
-            imagePublicID: lastMessage.userAvatarPublicID,
-            chatMessage: self.interactor.decryptMessage(encryptedMessage: lastMessage.message ?? ""),
-            isLastMessage: true,
-            isSend: lastMessage.isSent ?? false,
-            messageTime: dateFormatter.localizedString(for: lastMessage.messageDate ?? Date(), relativeTo: relativeDate)
-        )
-        
-        self.scrollToLastMessage = true
-        self.chatMessages.append(newMessage)
-    }
-    
-    func update(previousMessagesResponse: GetMessagesResponseModel?) {
-        guard let previousMessagesResponse else { return }
-        self.pagination = previousMessagesResponse.pagination
-        self.messageCount = previousMessagesResponse.pagination?.count
-        
-        if let messages = previousMessagesResponse.messages, !messages.isEmpty {
-            self.updateMessages(messages: messages)
-        }
+        self.interactor.eventProcess.set(bool: true, forType: .tabBarVisibility)
     }
     
     // MARK: - Helper Methods
@@ -153,3 +158,12 @@ final public class ChatPresenter: IOPresenterable {
         }
     }
 }
+
+#if DEBUG
+extension ChatPresenter {
+    
+    func prepareForPreview() {
+        chatMessages = ChatPreviewData.previewData
+    }
+}
+#endif

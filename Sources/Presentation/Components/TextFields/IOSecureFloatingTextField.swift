@@ -321,7 +321,7 @@ struct IOSecureFloatingTextField_Previews: PreviewProvider {
         
         var body: some View {
             IOSecureFloatingTextField(
-                .init(rawValue: "Email address"),
+                "Email address",
                 text: $emailAddress,
                 textFieldOverlay: {
                     RoundedRectangle(cornerRadius: 0)

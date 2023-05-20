@@ -38,13 +38,9 @@ public struct ChatView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
-            Color.white
-                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
-                .ignoresSafeArea()
             ZStack(alignment: .top) {
+                
                 VStack {
                     IOUIView { lifecycle in
                         if lifecycle == .willAppear {
@@ -74,7 +70,7 @@ public struct ChatView: IOController {
                         .hideKeyboardOnTap()
                     }
                     ChatTextEditorView(
-                        .chatInputPlaceholder,
+                        .inputPlaceholder,
                         text: $messageText,
                         handler: {
                             sendMessage()
@@ -82,17 +78,34 @@ public struct ChatView: IOController {
                     )
                     .padding(.bottom, isKeyboardVisible ? 0 : -proxy.safeAreaInsets.bottom)
                 }
+                
+                Color.white
+                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                    .ignoresSafeArea()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
                 NavBarTitleView(
-                    .init(rawValue: presenter.userNameSurname),
+                    presenter.userNameSurname,
                     iconName: "keyboard",
                     height: 12
                 )
             }
         }
-        .onReceive(presenter.keyboardPublisher, perform: { value in
+        .navigationWireframe(hasNavigationView: false) {
+            ChatNavigationWireframe(navigationState: navigationState)
+        }
+        .onAppear {
+            if isPreviewMode {
+                presenter.prepareForPreview()
+                return
+            }
+            
+            presenter.environment = _appEnvironment
+            presenter.navigationState = _navigationState
+            presenter.loadInitialMessages()
+        }
+        .onReceive(presenter.keyboardPublisher) { value in
             isKeyboardVisible = value
             
             if value, let lastMessageID = presenter.chatMessages.last?.id {
@@ -102,18 +115,6 @@ public struct ChatView: IOController {
                     }
                 }
             }
-        })
-        .controllerWireframe {
-            ChatNavigationWireframe(navigationState: navigationState)
-        }
-        .onAppear {
-            if isPreviewMode {
-                return
-            }
-            
-            presenter.environment = _appEnvironment
-            presenter.navigationState = _navigationState
-            presenter.loadInitialMessages()
         }
         .onReceive(presenter.$chatMessages) { chatMessages in
             if chatMessages.last != nil && presenter.scrollToLastMessage {
@@ -148,7 +149,6 @@ public struct ChatView: IOController {
                 loadPreviousMessages()
             }
         }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -164,7 +164,10 @@ public struct ChatView: IOController {
             return
         }
         
-        presenter.interactor.sendMessage(message: messageText)
+        Task {
+            await presenter.sendMessage(message: messageText)
+        }
+
         thread.runOnMainThread {
             messageText = ""
         }
@@ -172,7 +175,9 @@ public struct ChatView: IOController {
     
     private func loadPreviousMessages() {
         previousMessageThreadCancellable = thread.runOnMainThread(afterMilliSecond: 150) {
-            presenter.loadPreviousMessages()
+            Task {
+                await presenter.loadPreviousMessages()
+            }
         }
     }
 }
@@ -180,16 +185,23 @@ public struct ChatView: IOController {
 #if DEBUG
 struct ChatView_Previews: PreviewProvider {
     
+    struct ChatViewDemo: View {
+        
+        var body: some View {
+            ChatView(
+                entity: ChatEntity(
+                    toMemberId: 0,
+                    inbox: nil,
+                    messages: [],
+                    pagination: PaginationModel(start: 0, count: 10, total: nil)
+                )
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return ChatView(
-            entity: ChatEntity(
-                toMemberId: 0,
-                inbox: nil,
-                messages: [],
-                pagination: PaginationModel(start: 0, count: 10, total: nil)
-            )
-        )
+        return ChatViewDemo()
     }
 }
 #endif

@@ -40,34 +40,37 @@ public struct ChatInteractor: IOInteractor {
         return String(data: decryptedMessage, encoding: .utf8) ?? ""
     }
     
-    func loadMessages(pagination: PaginationModel) {
+    @MainActor
+    func loadMessages(pagination: PaginationModel) async throws -> GetMessagesResponseModel? {
         let request = GetMessagesRequestModel(pagination: pagination, inboxID: entity.inbox.inboxID)
-        chatMessageService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
-            switch result {
-            case .success(response: let response):
-                presenter?.update(previousMessagesResponse: response)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        let result = await chatMessageService.async(.getMessages(request: request), responseType: GetMessagesResponseModel.self)
+        
+        switch result {
+        case .success(let response):
+            return response
+            
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     
-    func sendMessage(message: String) {
-        guard let aesIV = appState.object(forType: .aesIV) as? Data else { return }
-        guard let aesKey = appState.object(forType: .aesKey) as? Data else { return }
-        
-        guard let encryptedMessage = IOAESUtilities.encrypt(string: message, keyData: aesKey, ivData: aesIV) else { return }
+    @MainActor
+    func sendMessage(message: String) async throws -> MessageModel? {
+        guard let aesIV = appState.object(forType: .aesIV) as? Data else { return nil }
+        guard let aesKey = appState.object(forType: .aesKey) as? Data else { return nil }
+        guard let encryptedMessage = IOAESUtilities.encrypt(string: message, keyData: aesKey, ivData: aesIV) else { return nil }
         
         let request = SendMessageRequestModel(toMemberID: entity.toMemberId, encryptedMessage: encryptedMessage.base64EncodedString())
-        service.request(.sendMessage(request: request), responseType: GetMessagesResponseModel.self) { result in
-            switch result {
-            case .success(response: let response):
-                presenter?.update(lastMessage: response.messages?.first)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        let result = await service.async(.sendMessage(request: request), responseType: GetMessagesResponseModel.self)
+        
+        switch result {
+        case .success(let response):
+            return response.messages?.first
+            
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
 }

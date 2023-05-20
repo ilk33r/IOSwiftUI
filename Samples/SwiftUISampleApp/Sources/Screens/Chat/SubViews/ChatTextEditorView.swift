@@ -12,23 +12,29 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppPresentation
 
-private struct ChatTextEditorViewPreferenceKey: PreferenceKey {
-    
-    static var defaultValue = CGFloat.zero
-    
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value += nextValue()
-    }
-}
-
 struct ChatTextEditorView: View {
+    
+    // MARK: - Defs
+    
+    private struct ViewPreferenceKey: PreferenceKey {
+        
+        static var defaultValue = CGFloat.zero
+        
+        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+            value += nextValue()
+        }
+    }
+    
+    // MARK: - Privates
+    
+    private let clickHandler: IOClickableHandler?
+    private let localizableKey: IOLocalizationType
     
     @Binding private var text: String
     @State private var hidePlaceholder = false
     @State var textEditorHeight: CGFloat = 38
     
-    private var clickHandler: IOClickableHandler?
-    private var localizableKey: IOLocalizationType
+    // MARK: - Body
     
     var body: some View {
         HStack {
@@ -40,7 +46,7 @@ struct ChatTextEditorView: View {
                     .background(GeometryReader { geo in
                         Color.clear
                             .preference(
-                                key: ChatTextEditorViewPreferenceKey.self,
+                                key: ViewPreferenceKey.self,
                                 value: geo.frame(in: .local).size.height
                             )
                     })
@@ -72,7 +78,7 @@ struct ChatTextEditorView: View {
                     .padding(.leading, 16)
                     .hidden(isHidden: $hidePlaceholder)
             }
-            IOButton(.chatButtonSend)
+            IOButton(.buttonSend)
                 .setClick({
                     clickHandler?()
                 })
@@ -82,9 +88,9 @@ struct ChatTextEditorView: View {
                 .frame(width: 32)
         }
         .padding([.trailing, .leading], 8)
-        .onPreferenceChange(ChatTextEditorViewPreferenceKey.self, perform: { newHeight in
+        .onPreferenceChange(ViewPreferenceKey.self) { newHeight in
             textEditorHeight = max(32, newHeight)
-        })
+        }
         .onChange(of: text) { newValue in
             if newValue.isEmpty {
                 hidePlaceholder = false
@@ -93,6 +99,8 @@ struct ChatTextEditorView: View {
             }
         }
     }
+    
+    // MARK: - Initialization Methods
     
     init(
         _ l: IOLocalizationType,

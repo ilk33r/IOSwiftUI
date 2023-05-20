@@ -15,7 +15,7 @@ struct ChatSendCellView: View {
     
     // MARK: - Privates
     
-    private var uiModel: ChatItemUIModel
+    private let uiModel: ChatItemUIModel
     
     @State private var imagePublicID: String?
     
@@ -70,14 +70,7 @@ struct ChatSendCellView_Previews: PreviewProvider {
         
         var body: some View {
             ChatSendCellView(
-                uiModel: ChatItemUIModel(
-                    id: 0,
-                    imagePublicID: "pwProfilePicture",
-                    chatMessage: "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
-                    isLastMessage: false,
-                    isSend: true,
-                    messageTime: "16 min ago"
-                )
+                uiModel: ChatPreviewData.previewDataSendCell
             )
         }
     }

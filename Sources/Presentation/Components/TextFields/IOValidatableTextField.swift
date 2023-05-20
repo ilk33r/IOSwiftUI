@@ -94,7 +94,7 @@ struct IOValidatableTextField_Previews: PreviewProvider {
         @State var emailAddress: String = ""
         
         var body: some View {
-            IOValidatableTextField(.init(rawValue: "Email address"), text: $emailAddress)
+            IOValidatableTextField("Email address", text: $emailAddress)
                 .padding(20)
         }
     }

@@ -15,7 +15,7 @@ struct ChatReceivedCellView: View {
     
     // MARK: - Privates
     
-    private var uiModel: ChatItemUIModel
+    private let uiModel: ChatItemUIModel
     
     @State private var imagePublicID: String?
     
@@ -70,14 +70,7 @@ struct ChatReceivedCellView_Previews: PreviewProvider {
         
         var body: some View {
             ChatReceivedCellView(
-                uiModel: ChatItemUIModel(
-                    id: 0,
-                    imagePublicID: "pwProfilePicture",
-                    chatMessage: "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
-                    isLastMessage: false,
-                    isSend: false,
-                    messageTime: "16 min ago"
-                )
+                uiModel: ChatPreviewData.previewDataReceivedCell
             )
         }
     }
