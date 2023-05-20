@@ -27,9 +27,9 @@ public struct PhotoGalleryView: IOController {
     @State private var selectedPage = 0
     @State private var currentPage = 0
     
+    // MARK: - Body
+    
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOPageView(
@@ -51,9 +51,11 @@ public struct PhotoGalleryView: IOController {
                     }
                 }
                 .zIndex(20)
+                
                 Color.black
                     .ignoresSafeArea()
                     .zIndex(10)
+                
                 ZStack(alignment: .topTrailing) {
                     Button {
                         isPresented = false
@@ -75,25 +77,24 @@ public struct PhotoGalleryView: IOController {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 .zIndex(30)
             }
-            .frame(
-                width: proxy.size.width,
-                height: proxy.size.height,
-                alignment: .top
-            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                EmptyView()
+            }
         }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             PhotoGalleryNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
             if isPreviewMode {
+                presenter.prepare()
                 return
             }
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
-            presenter.getImages()
+            presenter.prepare()
         }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -107,34 +108,22 @@ public struct PhotoGalleryView: IOController {
 #if DEBUG
 struct PhotoGalleryView_Previews: PreviewProvider {
     
+    struct PhotoGalleryViewDemo: View {
+        
+        var body: some View {
+            PhotoGalleryView(
+                entity: PhotoGalleryEntity(
+                    imagePublicIds: PhotoGalleryPreviewData.previewData,
+                    isPresented: Binding.constant(false),
+                    selectedIndex: 0
+                )
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return PhotoGalleryView(
-            entity: PhotoGalleryEntity(
-                imagePublicIds: [
-                    "pwGallery0",
-                    "pwGallery1",
-                    "pwGallery2",
-                    "pwGallery3",
-                    "pwGallery4",
-                    "pwGallery5",
-                    "pwGallery0",
-                    "pwGallery1",
-                    "pwGallery2",
-                    "pwGallery3",
-                    "pwGallery4",
-                    "pwGallery5",
-                    "pwGallery0",
-                    "pwGallery1",
-                    "pwGallery2",
-                    "pwGallery3",
-                    "pwGallery4",
-                    "pwGallery5"
-                ],
-                isPresented: Binding.constant(false),
-                selectedIndex: 0
-            )
-        )
+        return PhotoGalleryViewDemo()
     }
 }
 #endif

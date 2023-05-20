@@ -22,16 +22,17 @@ final public class PhotoGalleryPresenter: IOPresenterable {
     
     // MARK: - Bindings
     
-    @Published private(set) var imagesUIModel: [PhotoGalleryImageUIModel] = []
+    @Published private(set) var imagesUIModel: [PhotoGalleryImageUIModel]
     
     // MARK: - Initialization Methods
     
     public init() {
+        self.imagesUIModel = []
     }
     
     // MARK: - Presenter
     
-    func getImages() {
+    func prepare() {
         self.imagesUIModel = self.interactor.entity.imagePublicIds.map { PhotoGalleryImageUIModel(imagePublicId: $0) }
     }
 }

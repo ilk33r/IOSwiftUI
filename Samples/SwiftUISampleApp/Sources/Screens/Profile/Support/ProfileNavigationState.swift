@@ -28,4 +28,5 @@ final public class ProfileNavigationState: IONavigationState {
     var friendsEntity: FriendsEntity!
     var galleryEntity: PhotoGalleryEntity!
     var settingsEntity: SettingsEntity!
+    var galleryView: IORouterView?
 }

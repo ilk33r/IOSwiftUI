@@ -99,6 +99,7 @@ public struct ProfileView: IOController {
                 isPresented: $navigationState.navigateToGallery,
                 selectedIndex: newValue
             )
+            navigationState.galleryView = IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
             navigationState.navigateToGallery = true
         }
 //        .onChange(of: scrollOffset) { newValue in
@@ -111,9 +112,6 @@ public struct ProfileView: IOController {
         }
         .navigationBarTitle("", displayMode: .inline)
         /*
-         .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
-         IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
-         }
          .sheet(isPresented: $presentUserLocation) {
          IORouterUtilities.route(
          ProfileRouters.self,

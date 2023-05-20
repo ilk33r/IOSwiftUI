@@ -39,14 +39,14 @@ struct ProfileNavigationWireframe: IONavigationLinkView {
                 EmptyView()
             }
         }
+        .fullScreenCover(isPresented: $navigationState.navigateToGallery) {
+            if let view = navigationState.galleryView {
+                view
+            } else {
+                EmptyView()
+            }
+        }
         /*
-         .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
-             if let view = navigationState.editProfileView {
-                 view
-             } else {
-                 EmptyView()
-             }
-         }
          .sheet(isPresented: $navigationState.navigateToMap) {
              if let mapView = navigationState.mapView {
                  mapView
