@@ -21,7 +21,6 @@ struct UserLocationNavigationWireframe: IONavigationLinkView {
     
     var body: some View {
         EmptyView()
-        EmptyView()
         /*
         Group {
             NavigationLink(
