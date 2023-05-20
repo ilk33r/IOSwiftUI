@@ -27,3 +27,12 @@ final public class ___VARIABLE_productName___Presenter: IOPresenterable {
     
     // MARK: - Presenter
 }
+
+#if DEBUG
+extension ___VARIABLE_productName___Presenter {
+    
+    func prepareForPreview() {
+        
+    }
+}
+#endif

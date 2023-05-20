@@ -71,6 +71,7 @@ public struct ChatInboxView: IOController {
         }
         .onAppear {
             if isPreviewMode {
+                presenter.prepareForPreview()
                 return
             }
             

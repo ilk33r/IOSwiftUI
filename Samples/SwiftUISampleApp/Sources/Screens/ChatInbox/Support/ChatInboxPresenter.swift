@@ -101,3 +101,12 @@ final public class ChatInboxPresenter: IOPresenterable {
         }
     }
 }
+
+#if DEBUG
+extension ChatInboxPresenter {
+    
+    func prepareForPreview() {
+        self.inboxes = ChatInboxPreviewData.previewData
+    }
+}
+#endif

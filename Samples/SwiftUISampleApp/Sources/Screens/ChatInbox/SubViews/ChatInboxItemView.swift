@@ -23,40 +23,16 @@ struct ChatInboxItemView: View {
     private let clickHandler: ClickHandler?
     private let deleteHandler: ClickHandler?
     
-    @State private var deleteButtonIsHidden = true
-    @State private var offset: CGSize = .zero
     @State private var profilePicturePublicId: String?
     
     // MARK: - Body
     
     var body: some View {
         VStack {
-            ZStack(alignment: .top) {
-                HStack(alignment: .top) {
-                    Spacer()
-                    IOButton {
-                        ZStack {
-                            Color.colorChatLastMessage
-                                .cornerRadius(6)
-                            Text(type: .buttonDelete)
-                                .padding([.top, .bottom], 19)
-                                .padding([.leading, .trailing], 12)
-                                .font(type: .black(13))
-                                .foregroundColor(.white)
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .setClick {
-                        deleteHandler?(uiModel.index)
-                    }
-                    .frame(width: 72, height: 62)
-                }
-                .padding(.leading, 16)
-                .padding(.trailing, 16)
-                .padding(.top, 16)
-                .padding(.bottom, 8)
-                .zIndex(1)
-                .hidden(isHidden: $deleteButtonIsHidden)
+            IOSwipeActionView(
+                buttonAreaWidth: 88,
+                itemHeight: 88
+            ) {
                 HStack(alignment: .top) {
                     ProfilePictureImageView(
                         imagePublicID: $profilePicturePublicId
@@ -87,58 +63,32 @@ struct ChatInboxItemView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 8)
                 .background(Color.white)
-                .offset(x: offset.width, y: 0)
-                .gesture(
-                    DragGesture()
-                        .onChanged { gesture in
-                            if deleteButtonIsHidden {
-                                deleteButtonIsHidden = false
-                            }
-                            
-                            let newOffset = gesture.translation.width
-                            if newOffset <= 0 && newOffset >= -buttonDeleteWidth {
-                                offset.width = newOffset
-                            } else if newOffset <= 0 {
-                                withAnimation(
-                                    Animation
-                                        .interactiveSpring()
-                                ) {
-                                    offset.width = -buttonDeleteWidth
-                                }
-                            } else {
-                                withAnimation(
-                                    Animation
-                                        .interactiveSpring()
-                                ) {
-                                    offset = .zero
-                                    deleteButtonIsHidden = true
-                                }
-                            }
+            } _: {
+                HStack(alignment: .top) {
+                    Spacer()
+                    IOButton {
+                        ZStack {
+                            Color.colorChatLastMessage
+                                .cornerRadius(6)
+                            Text(type: .buttonDelete)
+                                .padding([.top, .bottom], 19)
+                                .padding([.leading, .trailing], 12)
+                                .font(type: .black(13))
+                                .foregroundColor(.white)
                         }
-                        .onEnded { _ in
-                            if offset.width <= -buttonDeleteWidth {
-                                offset.width = -buttonDeleteWidth
-                            } else if offset.width < (-buttonDeleteWidth) / 2 {
-                                withAnimation(
-                                    Animation
-                                        .interactiveSpring()
-                                ) {
-                                    offset.width = -buttonDeleteWidth
-                                }
-                            } else {
-                                withAnimation(
-                                    Animation
-                                        .interactiveSpring()
-                                ) {
-                                    offset = .zero
-                                    deleteButtonIsHidden = true
-                                }
-                            }
-                        }
-                )
-                .zIndex(2)
+                        .frame(maxWidth: .infinity)
+                    }
+                    .setClick {
+                        deleteHandler?(uiModel.index)
+                    }
+                    .frame(width: 72, height: 62)
+                }
+                .padding(.leading, 16)
+                .padding(.trailing, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 8)
             }
-            .frame(height: 88)
+
             Rectangle()
                 .fill(Color.colorPassthrought)
                 .frame(height: 1)
@@ -169,12 +119,7 @@ struct ChatInboxItemView_Previews: PreviewProvider {
         
         var body: some View {
             ChatInboxItemView(
-                uiModel: ChatInboxUIModel(
-                    index: 0,
-                    profilePicturePublicId: "pwProfilePicture",
-                    nameSurname: "İlker Özcan",
-                    lastMessage: "Wanted to ask if you’re available for a portrait shoot next week."
-                ),
+                uiModel: ChatInboxPreviewData.previewDataItem,
                 clickHandler: nil,
                 deleteHandler: nil
             )
