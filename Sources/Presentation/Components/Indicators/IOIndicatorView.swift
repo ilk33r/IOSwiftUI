@@ -9,12 +9,16 @@ import SwiftUI
 
 public struct IOIndicatorView: View {
     
-    private var backgroundColor: Color
-    private var circleColor: Color
+    // MARK: - Privates
+    
+    private let backgroundColor: Color
+    private let circleColor: Color
     
     @State private var isCircleRotating = true
     @State private var animateStart = false
     @State private var animateEnd = true
+    
+    // MARK: - Body
     
     public var body: some View {
         ZStack {
@@ -57,6 +61,8 @@ public struct IOIndicatorView: View {
         }
     }
     
+    // MARK: - Initialization Methods
+    
     public init() {
         self.init(
             backgroundColor: .gray,
@@ -71,6 +77,8 @@ public struct IOIndicatorView: View {
         self.backgroundColor = backgroundColor
         self.circleColor = circleColor
     }
+    
+    // MARK: - Modifiers
     
     public func backgroundColor(_ color: Color) -> IOIndicatorView {
         Self(
@@ -89,8 +97,17 @@ public struct IOIndicatorView: View {
 
 #if DEBUG
 struct IOIndicatorView_Previews: PreviewProvider {
+    
+    struct IOIndicatorViewDemo: View {
+        
+        var body: some View {
+            IOIndicatorView()
+        }
+    }
+    
     static var previews: some View {
-        IOIndicatorView()
+        prepare()
+        return IOIndicatorView()
     }
 }
 #endif

@@ -25,7 +25,7 @@ open class IOTabBarController: UITabBarController, UITabBarControllerDelegate {
     private var tabBarType: UITabBar.Type
     private var tabBarVisibilityCancellable: AnyCancellable?
     
-    // MARK: - View Lifecycle
+    // MARK: - Initialization Methods
     
     required public init(tabBarType: UITabBar.Type) {
         self.tabBarType = tabBarType

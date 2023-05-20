@@ -46,3 +46,33 @@ public struct IOPopoverView<Content: View, PopoverContent: View>: View {
         self.size = size
     }
 }
+
+#if DEBUG
+struct IOPopoverView_Previews: PreviewProvider {
+    
+    struct IOPopoverViewDemo: View {
+        
+        @State private var show = false
+        
+        var body: some View {
+            IOPopoverView(
+                show: $show,
+                size: .init(width: 220, height: 60)
+            ) {
+                ZStack {
+                    Button("Popover") {
+                        show = true
+                    }
+                }
+            } popoverContent: {
+                Text("Popover content!")
+            }
+        }
+    }
+    
+    static var previews: some View {
+        prepare()
+        return IOPopoverViewDemo()
+    }
+}
+#endif

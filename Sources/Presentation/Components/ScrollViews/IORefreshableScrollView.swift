@@ -11,11 +11,6 @@ import SwiftUI
 
 public struct IORefreshableScrollView<Content>: View where Content: View {
     
-    // MARK: - Defs
-    
-    public typealias RefreshComplete = () -> Void
-    public typealias OnRefresh = (_ handler: @escaping RefreshComplete) -> Void
-    
     // MARK: - Constants
     
     private let defaultRefreshThreshold: CGFloat = 32
@@ -27,18 +22,19 @@ public struct IORefreshableScrollView<Content>: View where Content: View {
     
     // MARK: - Privates
 
+    private let backgroundColor: Color
+    private let content: (_ proxy: ScrollViewProxy) -> Content
+    private let pullReleasedFeedbackGenerator: UIImpactFeedbackGenerator
+    
     @Binding private var contentSize: CGSize
     @Binding private var isRefreshing: Bool
     @Binding private var scrollOffset: CGFloat
+    
     @Namespace private var scrollSpace
+    
     @State private var animationStartInterval: Double = 0
     @State private var isAnimatingState = false
     @State private var offset: CGFloat = 0
-    
-    private var backgroundColor: Color
-    private var completeHandler: OnRefresh?
-    private var content: (_ proxy: ScrollViewProxy) -> Content
-    private var pullReleasedFeedbackGenerator: UIImpactFeedbackGenerator
     
     // MARK: - Properties
     
@@ -124,95 +120,6 @@ struct IORefreshableScrollView_Previews: PreviewProvider {
         @State private var isRefreshing = false
         @State private var scrollOffset: CGFloat = 0
         
-        struct Item: Identifiable {
-            
-            let id = UUID()
-            let value: String
-            
-            init(value: String) {
-                self.value = value
-            }
-        }
-        
-        let items = [
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5"),
-            Item(value: "pwGallery0"),
-            Item(value: "pwGallery1"),
-            Item(value: "pwGallery2"),
-            Item(value: "pwGallery3"),
-            Item(value: "pwGallery4"),
-            Item(value: "pwGallery5")
-        ]
-        
         var body: some View {
             IORefreshableScrollView(
                 backgroundColor: .white,
@@ -221,7 +128,7 @@ struct IORefreshableScrollView_Previews: PreviewProvider {
                 scrollOffset: $scrollOffset
             ) { _ in
                 VStack {
-                    ForEach(items) { it in
+                    ForEach(IORefreshableScrollViewPreviewData.previewData) { it in
                         Text(it.value)
                     }
                 }
@@ -230,7 +137,8 @@ struct IORefreshableScrollView_Previews: PreviewProvider {
     }
      
     static var previews: some View {
-        IORefreshableScrollViewDemo()
+        prepare()
+        return IORefreshableScrollViewDemo()
     }
 }
 #endif

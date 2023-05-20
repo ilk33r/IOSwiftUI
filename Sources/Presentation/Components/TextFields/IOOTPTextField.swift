@@ -11,13 +11,13 @@ public struct IOOTPTextField<TextFieldOverlay: View>: View {
     
     // MARK: - Privates
     
-    @Binding private var text: String
-    
     private let maxLength: Int
     private let overlayWidth: CGFloat
     private let textFieldOverlay: () -> TextFieldOverlay
     private let fontType: IOFontType
     private let textColor: Color
+    
+    @Binding private var text: String
     
     // MARK: - Body
     
@@ -45,36 +45,6 @@ public struct IOOTPTextField<TextFieldOverlay: View>: View {
                 text = newValue.substring(maxLenth: maxLength)
             }
         }
-    }
-    
-    private func overlayView(proxy: GeometryProxy) -> some View {
-        let maxLengthFloat = CGFloat(maxLength)
-        let overlayAllWidth = maxLengthFloat * overlayWidth
-        let overlaySpace = (proxy.size.width - overlayAllWidth) / (maxLengthFloat - 1)
-        
-        return HStack(spacing: overlaySpace) {
-            ForEach(0..<maxLength, id: \.self) { _ in
-                textFieldOverlay()
-            }
-        }
-        .frame(width: proxy.size.width)
-    }
-    
-    private func textsView(proxy: GeometryProxy) -> some View {
-        let maxLengthFloat = CGFloat(maxLength)
-        let overlayAllWidth = maxLengthFloat * overlayWidth
-        let overlaySpace = (proxy.size.width - overlayAllWidth) / (maxLengthFloat - 1)
-        
-        return HStack(spacing: overlaySpace) {
-            ForEach(0..<text.count, id: \.self) { index in
-                Text(text.substring(start: index, count: 1))
-                    .font(type: fontType)
-                    .foregroundColor(textColor)
-                    .multilineTextAlignment(.center)
-                    .frame(width: overlayWidth)
-            }
-        }
-        .frame(width: proxy.size.width, alignment: .leading)
     }
     
     // MARK: - Initialization Methods
@@ -109,9 +79,44 @@ public struct IOOTPTextField<TextFieldOverlay: View>: View {
         self.textColor = textColor
     }
     
+    // MARK: - Helper Methods
+    
+    private func overlayView(proxy: GeometryProxy) -> some View {
+        let maxLengthFloat = CGFloat(maxLength)
+        let overlayAllWidth = maxLengthFloat * overlayWidth
+        let overlaySpace = (proxy.size.width - overlayAllWidth) / (maxLengthFloat - 1)
+        
+        return HStack(spacing: overlaySpace) {
+            ForEach(0..<maxLength, id: \.self) { _ in
+                textFieldOverlay()
+            }
+        }
+        .frame(width: proxy.size.width)
+    }
+    
+    private func textsView(proxy: GeometryProxy) -> some View {
+        let maxLengthFloat = CGFloat(maxLength)
+        let overlayAllWidth = maxLengthFloat * overlayWidth
+        let overlaySpace = (proxy.size.width - overlayAllWidth) / (maxLengthFloat - 1)
+        
+        return HStack(spacing: overlaySpace) {
+            ForEach(0..<text.count, id: \.self) { index in
+                Text(text.substring(start: index, count: 1))
+                    .font(type: fontType)
+                    .foregroundColor(textColor)
+                    .multilineTextAlignment(.center)
+                    .frame(width: overlayWidth)
+            }
+        }
+        .frame(width: proxy.size.width, alignment: .leading)
+    }
+}
+
+public extension IOOTPTextField {
+    
     // MARK: - Modifiers
     
-    public func font(type: IOFontType) -> IOOTPTextField<TextFieldOverlay> {
+    func font(type: IOFontType) -> IOOTPTextField<TextFieldOverlay> {
         Self(
             text: $text,
             maxLength: maxLength,
@@ -122,7 +127,7 @@ public struct IOOTPTextField<TextFieldOverlay: View>: View {
         )
     }
     
-    public func textColor(_ color: Color) -> IOOTPTextField<TextFieldOverlay> {
+    func textColor(_ color: Color) -> IOOTPTextField<TextFieldOverlay> {
         Self(
             text: $text,
             maxLength: maxLength,
@@ -158,8 +163,8 @@ struct IOOTPTextField_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        IOOTPTextFieldDemo()
-            .previewLayout(.fixed(width: 320, height: 52))
+        prepare()
+        return IOOTPTextFieldDemo()
     }
 }
 #endif

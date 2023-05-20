@@ -13,7 +13,7 @@ struct IOSwiftUIPresentation_Previews: PreviewProvider {
     static var previews: some View {
         prepare()
         return Group {
-            IOButton(.init(rawValue: "Primary Button"))
+            Text("Primary Button")
         }
     }
 }

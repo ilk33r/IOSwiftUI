@@ -17,19 +17,22 @@ public struct IOTextField: View {
     
     // MARK: - Privates
     
-    private let localizationType: IOLocalizationType
-    
-    private var changeHandler: ChangeHandler?
-    private var keyboardType: UIKeyboardType
+    private let title: String
+    private let changeHandler: ChangeHandler?
+    private let keyboardType: UIKeyboardType
     
     @Binding var text: String
     
+    // MARK: - Body
+    
     public var body: some View {
-        TextField(localizationType.localized(alternateText: ""), text: $text) { isEditing in
+        TextField(title, text: $text) { isEditing in
             changeHandler?(isEditing)
         }
         .keyboardType(keyboardType)
     }
+    
+    // MARK: - Initialization Methods
     
     public init(
         _ l: IOLocalizationType,
@@ -37,14 +40,31 @@ public struct IOTextField: View {
         keyboardType: UIKeyboardType = .default,
         changeHandler: ChangeHandler? = nil
     ) {
+        self.init(
+            l.localized,
+            text: text,
+            keyboardType: keyboardType,
+            changeHandler: changeHandler
+        )
+    }
+    
+    public init(
+        _ title: String,
+        text: Binding<String>,
+        keyboardType: UIKeyboardType = .default,
+        changeHandler: ChangeHandler? = nil
+    ) {
         self.keyboardType = keyboardType
-        self.localizationType = l
+        self.title = title
+        self.changeHandler = changeHandler
         self._text = text
     }
     
+    // MARK: - Modifiers
+    
     public func keyboardType(_ type: UIKeyboardType) -> IOTextField {
         Self(
-            localizationType,
+            title,
             text: $text,
             keyboardType: type
         )
@@ -52,24 +72,21 @@ public struct IOTextField: View {
 }
 
 #if DEBUG
-struct IOTextFieldd_Previews: PreviewProvider {
+struct IOTextField_Previews: PreviewProvider {
     
-    struct TextFieldDemo: View {
+    struct IOTextFieldDemo: View {
     
         @State var emailAddress: String = ""
         
         var body: some View {
-            IOTextField(.init(rawValue: "Email address"), text: $emailAddress)
+            IOTextField("Email address", text: $emailAddress)
                 .padding(20)
         }
     }
     
     static var previews: some View {
         prepare()
-        return Group {
-            TextFieldDemo()
-        }
-        .previewLayout(.fixed(width: 320, height: 52))
+        return IOTextFieldDemo()
     }
 }
 #endif

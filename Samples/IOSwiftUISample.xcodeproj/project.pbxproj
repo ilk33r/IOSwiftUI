@@ -209,7 +209,6 @@
 			);
 			dependencies = (
 				F725EAF729F50FFC0062AEDD /* PBXTargetDependency */,
-				F7FEE5BF28B10000005D6633 /* PBXTargetDependency */,
 			);
 			name = IOSwiftUISample;
 			packageProductDependencies = (
@@ -227,7 +226,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					F725EAF029F50F9C0062AEDD = {
 						CreatedOnToolsVersion = 14.3;
@@ -359,10 +358,6 @@
 			isa = PBXTargetDependency;
 			target = F725EAF029F50F9C0062AEDD /* ExecuteSwiftLint */;
 			targetProxy = F725EAF629F50FFC0062AEDD /* PBXContainerItemProxy */;
-		};
-		F7FEE5BF28B10000005D6633 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = F7FEE5BE28B10000005D6633 /* SwiftUISampleApp */;
 		};
 /* End PBXTargetDependency section */
 
@@ -691,10 +686,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F7FEE5BE28B10000005D6633 /* SwiftUISampleApp */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SwiftUISampleApp;
-		};
 		F7FEE5C028B10015005D6633 /* SwiftUISampleApp */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftUISampleApp;

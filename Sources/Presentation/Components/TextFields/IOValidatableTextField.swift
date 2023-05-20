@@ -16,40 +16,64 @@ public struct IOValidatableTextField: View, IOValidatable {
     
     // MARK: - Identifiable
     
-    public var id = UUID().uuidString
+    public var id: String
     
     // MARK: - Privates
     
-    private let localizationType: IOLocalizationType
-    
-    private var changeHandler: IOTextField.ChangeHandler?
-    private var keyboardType: UIKeyboardType
+    private let title: String
+    private let changeHandler: IOTextField.ChangeHandler?
+    private let keyboardType: UIKeyboardType
     
     @Binding private var text: String
     @ObservedObject private var validationObservedObject = IOValidatorObservedObject()
     
+    // MARK: - Body
+    
     public var body: some View {
         VStack {
-            IOTextField(localizationType, text: $text)
+            IOTextField(title, text: $text)
             Text(validationObservedObject.errorMessage)
                 .hidden(isHidden: $validationObservedObject.isValidated)
         }
     }
     
+    // MARK: - Initialization Methods
+    
     public init(
         _ l: IOLocalizationType,
         text: Binding<String>,
         keyboardType: UIKeyboardType = .default,
+        validationId: String = "IOValidatableTextField",
+        changeHandler: IOTextField.ChangeHandler? = nil
+    ) {
+        self.init(
+            l.localized,
+            text: text,
+            keyboardType: keyboardType,
+            validationId: validationId,
+            changeHandler: changeHandler
+        )
+    }
+    
+    public init(
+        _ title: String,
+        text: Binding<String>,
+        keyboardType: UIKeyboardType = .default,
+        validationId: String = "IOValidatableTextField",
         changeHandler: IOTextField.ChangeHandler? = nil
     ) {
         self.keyboardType = keyboardType
-        self.localizationType = l
+        self.title = title
+        self.id = validationId
+        self.changeHandler = changeHandler
         self._text = text
     }
     
+    // MARK: - Modifiers
+    
     public func keyboardType(_ type: UIKeyboardType) -> IOTextField {
         IOTextField(
-            localizationType,
+            title,
             text: $text,
             keyboardType: type
         )
@@ -65,7 +89,7 @@ public struct IOValidatableTextField: View, IOValidatable {
 #if DEBUG
 struct IOValidatableTextField_Previews: PreviewProvider {
     
-    struct TextFieldDemo: View {
+    struct IOValidatableTextFieldDemo: View {
     
         @State var emailAddress: String = ""
         
@@ -77,10 +101,7 @@ struct IOValidatableTextField_Previews: PreviewProvider {
     
     static var previews: some View {
         prepare()
-        return Group {
-            TextFieldDemo()
-        }
-        .previewLayout(.fixed(width: 320, height: 70))
+        return IOValidatableTextFieldDemo()
     }
 }
 #endif

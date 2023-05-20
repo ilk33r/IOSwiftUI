@@ -11,13 +11,17 @@ import SwiftUI
 
 public struct IOButton<Content>: View, IOClickable where Content: View {
     
+    // MARK: - Privates
+    
     public var handler: IOClickableHandler?
-    private var localizationType: IOLocalizationType?
-    private var content: (() -> Content)?
+    private let content: (() -> Content)?
+    private let title: String?
+    
+    // MARK: - Body
     
     public var body: some View {
-        if let localizationType {
-            Button(localizationType.localized) {
+        if let title {
+            Button(title) {
                 handler?()
             }
         } else {
@@ -29,27 +33,32 @@ public struct IOButton<Content>: View, IOClickable where Content: View {
         }
     }
     
+    // MARK: - Initialization Methods
+    
     public init(
         @ViewBuilder content: @escaping () -> Content
     ) {
+        self.title = nil
         self.content = content
     }
     
     private init(
-        _ l: IOLocalizationType?,
+        _ title: String?,
         content: (() -> Content)?,
         handler: IOClickableHandler?
     ) {
-        self.localizationType = l
+        self.title = title
         self.content = content
         self.handler = handler
     }
+    
+    // MARK: - Modifiers
     
     public func setClick(
         _ handler: IOClickableHandler?
     ) -> IOButton {
         Self(
-            localizationType,
+            title,
             content: content,
             handler: handler
         )
@@ -61,18 +70,31 @@ public extension IOButton where Content == Never {
     init(
         _ l: IOLocalizationType
     ) {
-        self.localizationType = l
+        self.title = l.localized
+        self.content = nil
+    }
+    
+    init(
+        _ title: String
+    ) {
+        self.title = title
+        self.content = nil
     }
 }
 
 #if DEBUG
 struct IOButton_Previews: PreviewProvider {
     
+    struct IOButtonDemo: View {
+        
+        var body: some View {
+            IOButton("Button")
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return Group {
-            IOButton(.init(rawValue: "Button"))
-        }
+        return IOButtonDemo()
     }
 }
 #endif

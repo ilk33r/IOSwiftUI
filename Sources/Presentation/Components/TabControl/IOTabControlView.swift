@@ -38,13 +38,12 @@ public struct IOTabControlView<Content: View>: UIViewControllerRepresentable {
     private let font: UIFont
     private let lineColor: UIColor
     private let lineHeight: CGFloat
+    private let content: () -> Content
     
     @Binding private var page: Int
     @State private var currentPage = 0
-    
-    private var content: () -> Content
 
-    // MARK: - Controller Representable
+    // MARK: - Initialization Methods
     
     public init(
         page: Binding<Int>,
@@ -86,6 +85,8 @@ public struct IOTabControlView<Content: View>: UIViewControllerRepresentable {
         self.lineHeight = lineHeight
     }
 
+    // MARK: - Representable
+    
     public func makeUIViewController(context: Context) -> IOTabControlViewController {
         let vc = IOTabControlViewController(
             tabControlHeight: self.tabControlHeight,

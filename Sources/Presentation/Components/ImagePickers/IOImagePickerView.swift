@@ -48,6 +48,8 @@ public struct IOImagePickerView: UIViewControllerRepresentable {
     private let handler: PickHandler?
     private let sourceType: UIImagePickerController.SourceType
 
+    // MARK: - Initialization Methods
+    
     public init(
         sourceType: UIImagePickerController.SourceType,
         allowEditing: Bool = false,
@@ -60,6 +62,8 @@ public struct IOImagePickerView: UIViewControllerRepresentable {
         self.handler = handler
     }
 
+    // MARK: - Representable
+    
     public func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.sourceType = sourceType

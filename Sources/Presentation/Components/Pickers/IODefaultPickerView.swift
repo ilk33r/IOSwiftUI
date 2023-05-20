@@ -156,25 +156,13 @@ struct IODefaultPickerView_Previews: PreviewProvider {
     
     struct IODefaultPickerViewDemo: View {
         
-        @State var items = [
-            IOPickerUIModel(index: 0, displayName: "Item 0"),
-            IOPickerUIModel(index: 1, displayName: "Item 1"),
-            IOPickerUIModel(index: 2, displayName: "Item 2"),
-            IOPickerUIModel(index: 3, displayName: "Item 3"),
-            IOPickerUIModel(index: 4, displayName: "Item 4"),
-            IOPickerUIModel(index: 5, displayName: "Item 5"),
-            IOPickerUIModel(index: 6, displayName: "Item 6"),
-            IOPickerUIModel(index: 7, displayName: "Item 7"),
-            IOPickerUIModel(index: 8, displayName: "Item 8"),
-            IOPickerUIModel(index: 9, displayName: "Item 9")
-        ]
         @State var selectedItem: IOPickerUIModel?
 
         var body: some View {
             IODefaultPickerView(
                 data: IOPickerData(
                     doneButtonTitle: .commonDone,
-                    data: items,
+                    data: IODefaultPickerViewPreviewData.previewData,
                     selectedItem: $selectedItem
                 )
             )

@@ -17,13 +17,15 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
     
     // MARK: - Properties
     
+    private let content: () -> [IOIdentifiableView]
+    private let controllerType: Controller.Type
+    private let tabBarType: UITabBar.Type
+    
     @Binding private var selection: Int
     @Binding private var updateViews: Bool
-    
-    private var content: () -> [IOIdentifiableView]
-    private var controllerType: Controller.Type
-    private var tabBarType: UITabBar.Type
 
+    // MARK: - Initialization Methods
+    
     public init(
         controllerType: Controller.Type,
         tabBarType: UITabBar.Type,
@@ -50,6 +52,8 @@ public struct IOTabBarView<Controller: IOTabBarController>: UIViewControllerRepr
         self._updateViews = updateViews
     }
 
+    // MARK: - Representable
+    
     public func makeUIViewController(context: Context) -> Controller {
         let vc = controllerType.init(tabBarType: tabBarType)
         vc.setupViewControllers(identifiables: content())

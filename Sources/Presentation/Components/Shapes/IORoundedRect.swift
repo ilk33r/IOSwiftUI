@@ -124,3 +124,26 @@ public struct IORoundedRect: Shape {
         return path
     }
 }
+
+#if DEBUG
+struct IORoundedRect_Previews: PreviewProvider {
+    
+    struct IORoundedRectDemo: View {
+        
+        var body: some View {
+            Text("IORoundedRectDemo")
+                .padding(14)
+                .background(
+                    IORoundedRect(
+                        corners: [.topLeft(0), .topRight(6), .bottomLeft(6), .bottomRight(6)]
+                    ).fill(Color.gray)
+                )
+        }
+    }
+    
+    static var previews: some View {
+        prepare()
+        return IORoundedRectDemo()
+    }
+}
+#endif

@@ -118,7 +118,7 @@ struct IORoundedProgressView_Previews: PreviewProvider {
     
     struct IORoundedProgressViewDemo: View {
         
-        @State private var isActive = true
+        @State private var isActive = false
         
         var body: some View {
             IORoundedProgressView(
@@ -129,12 +129,15 @@ struct IORoundedProgressView_Previews: PreviewProvider {
                 }
             )
             .frame(width: 80, height: 80)
+            .onAppear {
+                isActive = true
+            }
         }
     }
     
     static var previews: some View {
-        IORoundedProgressViewDemo()
-            .previewLayout(.fixed(width: 80, height: 80))
+        prepare()
+        return IORoundedProgressViewDemo()
     }
 }
 #endif

@@ -32,3 +32,24 @@ public struct IOCheckMark: Shape {
         return path
     }
 }
+
+#if DEBUG
+struct IOCheckMark_Previews: PreviewProvider {
+    
+    struct IOCheckMarkDemo: View {
+        
+        var body: some View {
+            ZStack {
+                IOCheckMark()
+                    .stroke(Color.blue, lineWidth: 2)
+                    .frame(width: 90, height: 90)
+            }
+        }
+    }
+    
+    static var previews: some View {
+        prepare()
+        return IOCheckMarkDemo()
+    }
+}
+#endif
