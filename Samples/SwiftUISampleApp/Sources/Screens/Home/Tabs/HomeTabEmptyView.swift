@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HomeTabEmptyView: View {
     
+    // MARK: - Body
+    
     var body: some View {
         Spacer()
     }
@@ -16,8 +18,17 @@ struct HomeTabEmptyView: View {
 
 #if DEBUG
 struct HomeTabEmptyView_Previews: PreviewProvider {
+    
+    struct HomeTabEmptyViewDemo: View {
+        
+        var body: some View {
+            HomeTabEmptyView()
+        }
+    }
+    
     static var previews: some View {
-        HomeTabEmptyView()
+        prepare()
+        return HomeTabEmptyViewDemo()
     }
 }
 #endif

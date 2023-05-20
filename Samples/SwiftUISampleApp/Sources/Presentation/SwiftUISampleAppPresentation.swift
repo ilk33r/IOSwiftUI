@@ -12,11 +12,7 @@ import SwiftUI
 struct SwiftUISampleAppPresentation_Previews: PreviewProvider {
     
     static var previews: some View {
-        prepare()
-        return Group {
-            PrimaryButton(.init(rawValue: "Primary Button"))
-            SecondaryButton(.init(rawValue: "Primary Button"))
-        }
+        Text("SwiftUISampleAppPresentation_Previews")
     }
 }
 #endif

@@ -19,7 +19,7 @@ public struct SecondaryButton: View, IOClickable {
     
     // MARK: - Privates
     
-    private var localizationType: IOLocalizationType
+    private let title: String
     
     // MARK: - Body
     
@@ -33,7 +33,7 @@ public struct SecondaryButton: View, IOClickable {
                     )
                     .frame(height: 52)
                 
-                Text(type: localizationType)
+                Text(title)
                     .padding([.top, .bottom], 19)
                     .padding([.leading, .trailing], 12)
                     .font(type: .black(13))
@@ -48,18 +48,22 @@ public struct SecondaryButton: View, IOClickable {
     // MARK: - Initialization Methods
     
     public init(_ l: IOLocalizationType) {
-        self.localizationType = l
+        self.init(l.localized)
     }
     
-    private init(_ l: IOLocalizationType, handler: IOClickableHandler?) {
-        self.localizationType = l
+    public init(_ title: String) {
+        self.title = title
+    }
+    
+    private init(_ title: String, handler: IOClickableHandler?) {
+        self.title = title
         self.handler = handler
     }
     
     // MARK: - Clickable
     
     public func setClick(_ handler: IOClickableHandler?) -> SecondaryButton {
-        Self(localizationType, handler: handler)
+        Self(title, handler: handler)
     }
 }
 
@@ -69,7 +73,7 @@ struct SecondaryButton_Previews: PreviewProvider {
     struct SecondaryButtonDemo: View {
         
         var body: some View {
-            SecondaryButton(.init(rawValue: "Primary Button"))
+            SecondaryButton("Secondary Button")
         }
     }
     

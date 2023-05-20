@@ -10,6 +10,8 @@ import SwiftUI
 
 public struct IndicatorView: View {
     
+    // MARK: - Body
+    
     public var body: some View {
         ZStack {
             Color.colorPassthrought
@@ -30,6 +32,8 @@ public struct IndicatorView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
+    // MARK: - Initialization Methods
+    
     public init() {
         
     }
@@ -37,9 +41,17 @@ public struct IndicatorView: View {
 
 #if DEBUG
 struct IndicatorView_Previews: PreviewProvider {
+    
+    struct IndicatorViewDemo: View {
+        
+        var body: some View {
+            IndicatorView()
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return IndicatorView()
+        return IndicatorViewDemo()
     }
 }
 #endif

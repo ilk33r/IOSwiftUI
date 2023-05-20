@@ -133,7 +133,7 @@ final public class DiscoverPresenter: IOPresenterable {
 extension DiscoverPresenter {
     
     func prepareForPreview() {
-        self.images = DiscoverPreviewData.uiModels
+        self.images = DiscoverPreviewData.previewData
     }
 }
 #endif

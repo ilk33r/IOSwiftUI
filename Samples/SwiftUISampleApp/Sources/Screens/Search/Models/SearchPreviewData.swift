@@ -10,13 +10,19 @@ import Foundation
 #if DEBUG
 struct SearchPreviewData {
     
-    static let images = [
-        SearchUIModel(imagePublicId: "pwGallery0", userName: "User0", isDummy: true),
-        SearchUIModel(imagePublicId: "pwGallery1", userName: "User1", isDummy: true),
-        SearchUIModel(imagePublicId: "pwGallery2", userName: "User2", isDummy: true),
-        SearchUIModel(imagePublicId: "pwGallery3", userName: "User3", isDummy: true),
-        SearchUIModel(imagePublicId: "pwGallery4", userName: "User4", isDummy: true),
-        SearchUIModel(imagePublicId: "pwGallery5", userName: "User5", isDummy: true)
+    static let previewData = [
+        SearchUIModel(imagePublicId: "", userName: "User0", isDummy: true),
+        SearchUIModel(imagePublicId: "", userName: "User1", isDummy: true),
+        SearchUIModel(imagePublicId: "", userName: "User2", isDummy: true),
+        SearchUIModel(imagePublicId: "", userName: "User3", isDummy: true),
+        SearchUIModel(imagePublicId: "", userName: "User4", isDummy: true),
+        SearchUIModel(imagePublicId: "", userName: "User5", isDummy: true)
     ]
+    
+    static let previewDataCell = SearchUIModel(
+        imagePublicId: "",
+        userName: "ilker",
+        isDummy: false
+    )
 }
 #endif

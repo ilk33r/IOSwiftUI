@@ -174,7 +174,7 @@ final public class SearchPresenter: IOPresenterable {
 extension SearchPresenter {
     
     func preparePreviewData() {
-        self.images = SearchPreviewData.images
+        self.images = SearchPreviewData.previewData
     }
 }
 #endif

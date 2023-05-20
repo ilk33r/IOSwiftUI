@@ -71,10 +71,6 @@ public struct SplashView: IOController {
                     .padding(.trailing, 16)
                 }
                 .edgesIgnoringSafeArea([.top])
-                
-//                Color.white
-//                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
-//                    .ignoresSafeArea()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {

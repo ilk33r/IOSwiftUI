@@ -92,13 +92,7 @@ struct DiscoverCellView_Previews: PreviewProvider {
         
         var body: some View {
             DiscoverCellView(
-                uiModel: DiscoverUIModel(
-                    imagePublicId: "pwGallery3",
-                    userName: "@ridzjcob!",
-                    userNameAndSurname: "Ridhwan Nordin",
-                    userAvatarPublicId: "pwChatAvatar",
-                    messageTime: "16 min ago"
-                ),
+                uiModel: DiscoverPreviewData.previewDataCell,
                 width: 375
             ) { _ in
                 

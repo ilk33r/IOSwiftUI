@@ -10,35 +10,43 @@ import Foundation
 #if DEBUG
 struct DiscoverPreviewData {
     
-    static let uiModels = [
+    static let previewData = [
         DiscoverUIModel(
-            imagePublicId: "pwGallery0",
+            imagePublicId: "",
             userName: "ilker",
             userNameAndSurname: "İlker Özcan",
             userAvatarPublicId: "pwProfilePicture",
             messageTime: "1 Hour ago"
         ),
         DiscoverUIModel(
-            imagePublicId: "pwGallery1",
+            imagePublicId: "",
             userName: "ilker",
             userNameAndSurname: "İlker Özcan",
             userAvatarPublicId: "pwProfilePicture",
             messageTime: "1 Hour ago"
         ),
         DiscoverUIModel(
-            imagePublicId: "pwGallery2",
+            imagePublicId: "",
             userName: "ilker",
             userNameAndSurname: "İlker Özcan",
             userAvatarPublicId: "pwProfilePicture",
             messageTime: "1 Hour ago"
         ),
         DiscoverUIModel(
-            imagePublicId: "pwGallery3",
+            imagePublicId: "",
             userName: "ilker",
             userNameAndSurname: "İlker Özcan",
             userAvatarPublicId: "pwProfilePicture",
             messageTime: "1 Hour ago"
         )
     ]
+    
+    static let previewDataCell = DiscoverUIModel(
+        imagePublicId: "",
+        userName: "@ridzjcob!",
+        userNameAndSurname: "Ridhwan Nordin",
+        userAvatarPublicId: "pwChatAvatar",
+        messageTime: "16 min ago"
+    )
 }
 #endif

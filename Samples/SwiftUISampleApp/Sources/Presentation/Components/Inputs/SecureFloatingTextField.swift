@@ -19,7 +19,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
     
     // MARK: - Privates
     
-    private let localizationType: IOLocalizationType
+    private let title: String
     private let capitalization: UITextAutocapitalizationType
     private let disableAutocorrection: Bool
     private let keyboardType: UIKeyboardType
@@ -36,7 +36,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
     public var body: some View {
         VStack(alignment: .leading) {
             IOSecureFloatingTextField(
-                localizationType,
+                title,
                 text: $text,
                 keyboardType: keyboardType,
                 textFieldOverlay: {
@@ -70,8 +70,20 @@ public struct SecureFloatingTextField: View, IOValidatable {
         text: Binding<String>,
         validationId: String = "SecureFloatingTextField"
     ) {
+        self.init(
+            l.localized,
+            text: text,
+            validationId: validationId
+        )
+    }
+    
+    public init(
+        _ title: String,
+        text: Binding<String>,
+        validationId: String = "SecureFloatingTextField"
+    ) {
         self.keyboardType = .default
-        self.localizationType = l
+        self.title = title
         self._text = text
         self.id = validationId
         self._isEditingBinder = Binding.constant(false)
@@ -80,7 +92,7 @@ public struct SecureFloatingTextField: View, IOValidatable {
     }
     
     private init(
-        _ l: IOLocalizationType,
+        _ title: String,
         text: Binding<String>,
         validationId: String,
         keyboardType: UIKeyboardType,
@@ -89,62 +101,12 @@ public struct SecureFloatingTextField: View, IOValidatable {
         capitalization: UITextAutocapitalizationType
     ) {
         self.keyboardType = keyboardType
-        self.localizationType = l
+        self.title = title
         self._text = text
         self.id = validationId
         self._isEditingBinder = editingBinder
         self.disableAutocorrection = disableAutocorrection
         self.capitalization = capitalization
-    }
-    
-    // MARK: - Modifiers
-    
-    public func capitalization(_ type: UITextAutocapitalizationType) -> SecureFloatingTextField {
-        Self(
-            localizationType,
-            text: $text,
-            validationId: id,
-            keyboardType: keyboardType,
-            editingBinder: $isEditingBinder,
-            disableAutocorrection: disableAutocorrection,
-            capitalization: type
-        )
-    }
-    
-    public func disableCorrection(_ correction: Bool) -> SecureFloatingTextField {
-        Self(
-            localizationType,
-            text: $text,
-            validationId: id,
-            keyboardType: keyboardType,
-            editingBinder: $isEditingBinder,
-            disableAutocorrection: correction,
-            capitalization: capitalization
-        )
-    }
-    
-    public func keyboardType(_ type: UIKeyboardType) -> SecureFloatingTextField {
-        Self(
-            localizationType,
-            text: $text,
-            validationId: id,
-            keyboardType: type,
-            editingBinder: $isEditingBinder,
-            disableAutocorrection: disableAutocorrection,
-            capitalization: capitalization
-        )
-    }
-    
-    public func editingHandler(isEditing: Binding<Bool>) -> SecureFloatingTextField {
-        Self(
-            localizationType,
-            text: $text,
-            validationId: id,
-            keyboardType: keyboardType,
-            editingBinder: isEditing,
-            disableAutocorrection: disableAutocorrection,
-            capitalization: capitalization
-        )
     }
     
     // MARK: - Validation
@@ -154,16 +116,69 @@ public struct SecureFloatingTextField: View, IOValidatable {
     }
 }
 
+public extension SecureFloatingTextField {
+    
+    // MARK: - Modifiers
+    
+    func capitalization(_ type: UITextAutocapitalizationType) -> SecureFloatingTextField {
+        Self(
+            title,
+            text: $text,
+            validationId: id,
+            keyboardType: keyboardType,
+            editingBinder: $isEditingBinder,
+            disableAutocorrection: disableAutocorrection,
+            capitalization: type
+        )
+    }
+    
+    func disableCorrection(_ correction: Bool) -> SecureFloatingTextField {
+        Self(
+            title,
+            text: $text,
+            validationId: id,
+            keyboardType: keyboardType,
+            editingBinder: $isEditingBinder,
+            disableAutocorrection: correction,
+            capitalization: capitalization
+        )
+    }
+    
+    func keyboardType(_ type: UIKeyboardType) -> SecureFloatingTextField {
+        Self(
+            title,
+            text: $text,
+            validationId: id,
+            keyboardType: type,
+            editingBinder: $isEditingBinder,
+            disableAutocorrection: disableAutocorrection,
+            capitalization: capitalization
+        )
+    }
+    
+    func editingHandler(isEditing: Binding<Bool>) -> SecureFloatingTextField {
+        Self(
+            title,
+            text: $text,
+            validationId: id,
+            keyboardType: keyboardType,
+            editingBinder: isEditing,
+            disableAutocorrection: disableAutocorrection,
+            capitalization: capitalization
+        )
+    }
+}
+
 #if DEBUG
 struct SecureFloatingTextField_Previews: PreviewProvider {
     
-    struct FloatingTextFieldDemo: View {
+    struct SecureFloatingTextFieldDemo: View {
     
         @State var emailAddress: String = ""
         
         var body: some View {
-            FloatingTextField(
-                .init(rawValue: "Email address"),
+            SecureFloatingTextField(
+                "Email address",
                 text: $emailAddress
             )
             .padding(20)
@@ -172,7 +187,7 @@ struct SecureFloatingTextField_Previews: PreviewProvider {
     
     static var previews: some View {
         prepare()
-        return FloatingTextFieldDemo()
+        return SecureFloatingTextFieldDemo()
     }
 }
 #endif

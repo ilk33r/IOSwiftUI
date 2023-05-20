@@ -78,8 +78,8 @@ struct OTPTextField_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        OTPTextFieldDemo()
-            .previewLayout(.fixed(width: 320, height: 52))
+        prepare()
+        return OTPTextFieldDemo()
     }
 }
 #endif

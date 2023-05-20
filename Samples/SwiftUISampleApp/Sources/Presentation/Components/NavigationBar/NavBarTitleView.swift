@@ -10,11 +10,14 @@ import SwiftUI
 
 public struct NavBarTitleView: View {
     
+    // MARK: - Privates
+    
     private let width: CGFloat
     private let height: CGFloat
+    private let iconName: String
+    private let title: String
     
-    private var iconName: String
-    private var localizationType: IOLocalizationType
+    // MARK: - Body
     
     public var body: some View {
         HStack {
@@ -23,10 +26,12 @@ public struct NavBarTitleView: View {
                 .frame(width: width, height: height)
                 .padding(.trailing, 4)
                 .padding(.leading, -8)
-            Text(type: localizationType)
+            Text(title)
                 .font(type: .medium(17))
         }
     }
+    
+    // MARK: - Initialization Methods
     
     public init(
         _ l: IOLocalizationType,
@@ -34,7 +39,21 @@ public struct NavBarTitleView: View {
         width: CGFloat = 16,
         height: CGFloat = 16
     ) {
-        self.localizationType = l
+        self.init(
+            l.localized,
+            iconName: iconName,
+            width: width,
+            height: height
+        )
+    }
+    
+    public init(
+        _ title: String,
+        iconName: String,
+        width: CGFloat = 16,
+        height: CGFloat = 16
+    ) {
+        self.title = title
         self.iconName = iconName
         self.width = width
         self.height = height
@@ -44,10 +63,16 @@ public struct NavBarTitleView: View {
 #if DEBUG
 struct NavBarTitleView_Previews: PreviewProvider {
     
+    struct NavBarTitleViewDemo: View {
+        
+        var body: some View {
+            NavBarTitleView("Navigation Bar", iconName: "bolt.fill")
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return NavBarTitleView(.init(rawValue: "Navigation Bar"), iconName: "bolt.fill")
-            .previewLayout(.sizeThatFits)
+        return NavBarTitleViewDemo()
     }
 }
 #endif

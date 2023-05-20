@@ -50,7 +50,7 @@ struct RoundedProgressView_Previews: PreviewProvider {
 
     struct RoundedProgressViewDemo: View {
         
-        @State private var isActive = true
+        @State private var isActive = false
         
         var body: some View {
             RoundedProgressView(
@@ -61,12 +61,15 @@ struct RoundedProgressView_Previews: PreviewProvider {
                 }
             )
             .frame(width: 80, height: 80)
+            .onAppear {
+                isActive = true
+            }
         }
     }
     
     static var previews: some View {
-        RoundedProgressViewDemo()
-            .previewLayout(.fixed(width: 80, height: 80))
+        prepare()
+        return RoundedProgressViewDemo()
     }
 }
 #endif

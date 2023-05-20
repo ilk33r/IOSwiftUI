@@ -19,7 +19,7 @@ public struct PrimaryButton: View, IOClickable {
     
     // MARK: - Privates
     
-    private var localizationType: IOLocalizationType
+    private let title: String
     
     // MARK: - Body
     
@@ -29,7 +29,7 @@ public struct PrimaryButton: View, IOClickable {
                 Color.black
                     .cornerRadius(6)
                 
-                Text(type: localizationType)
+                Text(title)
                     .padding([.top, .bottom], 19)
                     .padding([.leading, .trailing], 12)
                     .font(type: .black(13))
@@ -44,18 +44,22 @@ public struct PrimaryButton: View, IOClickable {
     // MARK: - Initialization Methods
     
     public init(_ l: IOLocalizationType) {
-        self.localizationType = l
+        self.init(l.localized)
     }
     
-    private init(_ l: IOLocalizationType, handler: IOClickableHandler?) {
-        self.localizationType = l
+    public init(_ title: String) {
+        self.title = title
+    }
+    
+    private init(_ title: String, handler: IOClickableHandler?) {
+        self.title = title
         self.handler = handler
     }
     
     // MARK: - Clickable
     
     public func setClick(_ handler: IOClickableHandler?) -> PrimaryButton {
-        Self(localizationType, handler: handler)
+        Self(title, handler: handler)
     }
 }
 
@@ -65,7 +69,7 @@ struct PrimaryButton_Previews: PreviewProvider {
     struct PrimaryButtonDemo: View {
         
         var body: some View {
-            PrimaryButton(.init(rawValue: "Primary Button"))
+            PrimaryButton("Primary Button")
         }
     }
     

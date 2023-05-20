@@ -123,27 +123,6 @@ struct GalleryView_Previews: PreviewProvider {
         @State var tapIndex: Int = 0
         @State var viewSize: CGSize = .zero
         
-        let galleryImages = [
-            "pwGallery0",
-            "pwGallery1",
-            "pwGallery2",
-            "pwGallery3",
-            "pwGallery4",
-            "pwGallery5",
-            "pwGallery0",
-            "pwGallery1",
-            "pwGallery2",
-            "pwGallery3",
-            "pwGallery4",
-            "pwGallery5",
-            "pwGallery0",
-            "pwGallery1",
-            "pwGallery2",
-            "pwGallery3",
-            "pwGallery4",
-            "pwGallery5"
-        ]
-        
         var body: some View {
             GalleryView(
                 insetTop: $insetTop,
@@ -151,7 +130,7 @@ struct GalleryView_Previews: PreviewProvider {
                 scrollOffset: $scrollOffset,
                 tapIndex: $tapIndex,
                 viewSize: $viewSize,
-                galleryImages: galleryImages
+                galleryImages: GalleryViewPreviewData.previewData
             )
         }
     }

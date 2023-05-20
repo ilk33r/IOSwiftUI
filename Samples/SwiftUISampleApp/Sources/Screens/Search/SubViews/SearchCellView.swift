@@ -56,19 +56,22 @@ struct SearchCellView: View {
 #if DEBUG
 struct SearchCellView_Previews: PreviewProvider {
     
+    struct SearchCellViewDemo: View {
+        
+        var body: some View {
+            SearchCellView(
+                imageWidth: 180,
+                uiModel: SearchPreviewData.previewDataCell,
+                handler: { _ in
+                    
+                }
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return SearchCellView(
-            imageWidth: 180,
-            uiModel: SearchUIModel(
-                imagePublicId: "pwGallery4",
-                userName: "ilker",
-                isDummy: false
-            ),
-            handler: { _ in
-                
-            }
-        )
+        return SearchCellViewDemo()
     }
 }
 #endif

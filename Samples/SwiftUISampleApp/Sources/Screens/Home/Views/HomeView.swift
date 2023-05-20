@@ -31,6 +31,8 @@ public struct HomeView: IOController {
     @State private var selectedIndex = 0
     @State private var updateViews = false
     
+    // MARK: - Body
+    
     public var body: some View {
         IOTabBarView(
             controllerType: TabBarController.self,

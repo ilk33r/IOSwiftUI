@@ -19,7 +19,7 @@ public struct FloatingTextField: View, IOValidatable {
     
     // MARK: - Privates
     
-    private let localizationType: IOLocalizationType
+    private let title: String
     private let capitalization: UITextAutocapitalizationType
     private let disableAutocorrection: Bool
     private let keyboardType: UIKeyboardType
@@ -36,7 +36,7 @@ public struct FloatingTextField: View, IOValidatable {
     public var body: some View {
         VStack(alignment: .leading) {
             IOFloatingTextField(
-                localizationType,
+                title,
                 text: $text,
                 keyboardType: keyboardType,
                 textFieldOverlay: {
@@ -70,8 +70,20 @@ public struct FloatingTextField: View, IOValidatable {
         text: Binding<String>,
         validationId: String = "FloatingTextField"
     ) {
+        self.init(
+            l.localized,
+            text: text,
+            validationId: validationId
+        )
+    }
+    
+    public init(
+        _ title: String,
+        text: Binding<String>,
+        validationId: String = "FloatingTextField"
+    ) {
         self.keyboardType = .default
-        self.localizationType = l
+        self.title = title
         self._text = text
         self.id = validationId
         self._isEditingBinder = Binding.constant(false)
@@ -80,7 +92,7 @@ public struct FloatingTextField: View, IOValidatable {
     }
     
     private init(
-        _ l: IOLocalizationType,
+        _ title: String,
         text: Binding<String>,
         validationId: String,
         keyboardType: UIKeyboardType,
@@ -89,7 +101,7 @@ public struct FloatingTextField: View, IOValidatable {
         capitalization: UITextAutocapitalizationType
     ) {
         self.keyboardType = keyboardType
-        self.localizationType = l
+        self.title = title
         self._text = text
         self.id = validationId
         self._isEditingBinder = editingBinder
@@ -97,11 +109,20 @@ public struct FloatingTextField: View, IOValidatable {
         self.capitalization = capitalization
     }
     
+    // MARK: - Validation
+    
+    public func observedObject() -> IOValidatorObservedObject {
+        validationObservedObject
+    }
+}
+
+public extension FloatingTextField {
+    
     // MARK: - Modifiers
     
-    public func capitalization(_ type: UITextAutocapitalizationType) -> FloatingTextField {
+    func capitalization(_ type: UITextAutocapitalizationType) -> FloatingTextField {
         Self(
-            localizationType,
+            title,
             text: $text,
             validationId: id,
             keyboardType: keyboardType,
@@ -111,9 +132,9 @@ public struct FloatingTextField: View, IOValidatable {
         )
     }
     
-    public func disableCorrection(_ correction: Bool) -> FloatingTextField {
+    func disableCorrection(_ correction: Bool) -> FloatingTextField {
         Self(
-            localizationType,
+            title,
             text: $text,
             validationId: id,
             keyboardType: keyboardType,
@@ -123,9 +144,9 @@ public struct FloatingTextField: View, IOValidatable {
         )
     }
     
-    public func keyboardType(_ type: UIKeyboardType) -> FloatingTextField {
+    func keyboardType(_ type: UIKeyboardType) -> FloatingTextField {
         Self(
-            localizationType,
+            title,
             text: $text,
             validationId: id,
             keyboardType: type,
@@ -135,9 +156,9 @@ public struct FloatingTextField: View, IOValidatable {
         )
     }
     
-    public func editingHandler(isEditing: Binding<Bool>) -> FloatingTextField {
+    func editingHandler(isEditing: Binding<Bool>) -> FloatingTextField {
         Self(
-            localizationType,
+            title,
             text: $text,
             validationId: id,
             keyboardType: keyboardType,
@@ -145,12 +166,6 @@ public struct FloatingTextField: View, IOValidatable {
             disableAutocorrection: disableAutocorrection,
             capitalization: capitalization
         )
-    }
-    
-    // MARK: - Validation
-    
-    public func observedObject() -> IOValidatorObservedObject {
-        validationObservedObject
     }
 }
 
@@ -163,7 +178,7 @@ struct FloatingTextField_Previews: PreviewProvider {
         
         var body: some View {
             FloatingTextField(
-                .init(rawValue: "Email address"),
+                "Email address",
                 text: $emailAddress
             )
             .padding(20)

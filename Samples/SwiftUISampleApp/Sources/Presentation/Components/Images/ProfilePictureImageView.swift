@@ -42,11 +42,18 @@ public struct ProfilePictureImageView: View {
 #if DEBUG
 struct ProvilePictureImageView_Previews: PreviewProvider {
     
+    struct ProvilePictureImageViewDemo: View {
+        
+        var body: some View {
+            ProfilePictureImageView(
+                imagePublicID: Binding.constant("")
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return ProfilePictureImageView(
-            imagePublicID: Binding.constant("pwChatAvatar")
-        )
+        return ProvilePictureImageViewDemo()
     }
 }
 #endif
