@@ -10,6 +10,6 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
-    static let chatInboxButtonDelete = IOLocalizationType(rawValue: "chat.inbox.button.delete")
-    static let chatInboxTitle = IOLocalizationType(rawValue: "chat.inbox.title")
+    static let buttonDelete = IOLocalizationType(rawValue: "chat.inbox.button.delete")
+    static let title = IOLocalizationType(rawValue: "chat.inbox.title")
 }

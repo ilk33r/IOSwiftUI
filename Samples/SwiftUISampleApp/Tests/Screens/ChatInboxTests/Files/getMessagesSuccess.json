@@ -1,0 +1,23 @@
+{
+  "pagination" : {
+    "start" : 0,
+    "count" : 1,
+    "total" : 1
+  },
+  "status" : {
+    "code" : 200,
+    "message" : "OK",
+    "success" : true,
+    "detailedMessage" : ""
+  },
+  "messages" : [
+    {
+      "isSent" : true,
+      "inboxID" : 6,
+      "message" : "l3xzR8JQMSyOKfVbNxjSIA==",
+      "messageDate" : "2022-12-03T09:35:20+00:00",
+      "userAvatarPublicID" : "phG0vgZ1Jh1mWTqW0ViIjLqYvy7Kv0WR\/SnTW3bBWV2vtY3Bb34T0T3ZXO6\/rBv3CL78n+XqeYtSdWX9xH7WY4cQGLLpIeyAYQXjJXtQJiMx0GtPWtJeKf0ut9uMvmD6IiAK1ipc8pZewRbj3c1J3yrwIDOM6mGYcjUm6pGJDtk=",
+      "messageID" : 141
+    }
+  ]
+}

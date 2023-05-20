@@ -38,43 +38,66 @@ final public class ChatInboxPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
-    func deleteInbox(index: Int) {
-        guard let inbox = self.inboxListModel?[index] else { return }
-        self.interactor.deleteInbox(inboxID: inbox.inboxID ?? 0)
+    func prepare() async {
+        showIndicator()
+        await getInboxes()
     }
     
-    func getMessages(index: Int) {
+    @MainActor
+    func deleteInbox(index: Int) async {
         guard let inbox = self.inboxListModel?[index] else { return }
-        self.interactor.getMessages(inbox: inbox)
-    }
-    
-    func navigate(toMemberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
-        guard let inbox else { return }
         
-        self.navigationState.wrappedValue.chatEntity = ChatEntity(toMemberId: toMemberId, inbox: inbox, messages: messages, pagination: pagination)
-        self.navigationState.wrappedValue.navigateToChat = true
+        do {
+            try await self.interactor.deleteInbox(inboxID: inbox.inboxID ?? 0)
+            await self.getInboxes()
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
-    func set(inboxListModel: [InboxModel]?) {
-        self.inboxListModel = inboxListModel
+    @MainActor
+    func getInboxes() async {
+        do {
+            self.inboxListModel = try await self.interactor.getInboxes()
+            self.hideIndicator()
+            
+            self.inboxes = self.inboxListModel?.enumerated().map { [weak self] it in
+                let lastMessage: String
+                
+                if let encryptedMessage = it.element.lastMessage?.message {
+                    lastMessage = self?.interactor.decryptMessage(encryptedMessage) ?? ""
+                } else {
+                    lastMessage = ""
+                }
+                
+                return ChatInboxUIModel(
+                    index: it.offset,
+                    profilePicturePublicId: it.element.profilePicturePublicID ?? "",
+                    nameSurname: it.element.nameSurname ?? "",
+                    lastMessage: lastMessage
+                )
+            } ?? []
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
-    func update(inboxes: [InboxModel]) {
-        self.inboxes = inboxes.enumerated().map({ [weak self] it in
-            let lastMessage: String
-            
-            if let encryptedMessage = it.element.lastMessage?.message {
-                lastMessage = self?.interactor.decryptMessage(encryptedMessage) ?? ""
-            } else {
-                lastMessage = ""
-            }
-            
-            return ChatInboxUIModel(
-                index: it.offset,
-                profilePicturePublicId: it.element.profilePicturePublicID ?? "",
-                nameSurname: it.element.nameSurname ?? "",
-                lastMessage: lastMessage
+    @MainActor
+    func getMessages(index: Int) async {
+        guard let inbox = self.inboxListModel?[index] else { return }
+        let pagination = PaginationModel(start: 0, count: ChatConstants.messageCountPerPage, total: nil)
+        
+        do {
+            let messages = try await self.interactor.getMessages(inboxID: inbox.inboxID ?? 0, pagination: pagination)
+            self.navigationState.wrappedValue.chatEntity = ChatEntity(
+                toMemberId: inbox.toMemberID,
+                inbox: inbox,
+                messages: messages,
+                pagination: pagination
             )
-        })
+            self.navigationState.wrappedValue.navigateToChat = true
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
 }

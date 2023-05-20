@@ -243,5 +243,13 @@ let package = Package(
             path: "Tests/Screens/RegisterTests",
             resources: [.process("Files")]
         ),
+        .testTarget(
+            name: "ChatInboxTests",
+            dependencies: [
+                "SwiftUISampleAppCommonTests"
+            ],
+            path: "Tests/Screens/ChatInboxTests",
+            resources: [.process("Files")]
+        ),
     ]
 )

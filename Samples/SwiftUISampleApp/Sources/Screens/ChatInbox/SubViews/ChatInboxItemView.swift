@@ -38,7 +38,7 @@ struct ChatInboxItemView: View {
                         ZStack {
                             Color.colorChatLastMessage
                                 .cornerRadius(6)
-                            Text(type: .chatInboxButtonDelete)
+                            Text(type: .buttonDelete)
                                 .padding([.top, .bottom], 19)
                                 .padding([.leading, .trailing], 12)
                                 .font(type: .black(13))

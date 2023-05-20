@@ -42,65 +42,54 @@ public struct ChatInboxInteractor: IOInteractor {
         return String(data: decryptedMessage, encoding: .utf8) ?? ""
     }
     
-    func deleteInbox(inboxID: Int) {
+    @MainActor
+    func deleteInbox(inboxID: Int) async throws {
         showIndicator()
         
         let request = DeleteInboxRequestModel(inboxID: inboxID)
-        service.request(.deleteInbox(request: request), responseType: GenericResponseModel.self) { result in
-            hideIndicator()
-            
-            switch result {
-            case .success(_):
-                getInboxes(showIndicator: true)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
-        }
-    }
-    
-    func getInboxes(showIndicator: Bool) {
-        if showIndicator {
-            self.showIndicator()
-        }
+        let result = await service.async(.deleteInbox(request: request), responseType: GenericResponseModel.self)
         
-        service.request(.getInboxes, responseType: InboxResponseModel.self) { result in
-            if showIndicator {
-                hideIndicator()
-            }
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(response: let response):
-                presenter?.set(inboxListModel: response.inboxes)
-                presenter?.update(inboxes: response.inboxes ?? [])
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            hideIndicator()
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     
-    func getMessages(inbox: InboxModel) {
+    @MainActor
+    func getInboxes() async throws -> [InboxModel] {
+        let result = await service.async(.getInboxes, responseType: InboxResponseModel.self)
+        
+        switch result {
+        case .success(let response):
+            return response.inboxes ?? []
+            
+        case .error(let message, let type, let response):
+            hideIndicator()
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
+        }
+    }
+    
+    @MainActor
+    func getMessages(inboxID: Int, pagination: PaginationModel) async throws -> [MessageModel] {
         showIndicator()
         
-        let pagination = PaginationModel(start: 0, count: ChatConstants.messageCountPerPage, total: nil)
-        let request = GetMessagesRequestModel(pagination: pagination, inboxID: inbox.inboxID ?? 0)
-        chatMessageService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
-            hideIndicator()
+        let request = GetMessagesRequestModel(pagination: pagination, inboxID: inboxID)
+        let result = await chatMessageService.async(.getMessages(request: request), responseType: GetMessagesResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success(let response):
+            return response.messages ?? []
             
-            switch result {
-            case .success(response: let response):
-                presenter?.navigate(
-                    toMemberId: inbox.toMemberID,
-                    inbox: inbox,
-                    messages: response.messages ?? [],
-                    pagination: pagination
-                )
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-                
-            }
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
 }

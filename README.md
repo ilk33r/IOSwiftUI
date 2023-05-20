@@ -13,6 +13,9 @@ IO Swift UI viper architecture, sample application and SwiftUI framework.
 -   .fullScreenCover(isPresented:
 -   .sheet(isPresented:
 - Deprecated remove.
+- Double service check.
+-   : IOServiceType
+- Presenter access.
 - static var previews: some View {
 - navigationState.wrappedValue | navigationState.
 - Tests.

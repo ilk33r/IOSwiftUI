@@ -1,0 +1,44 @@
+{
+  "inboxes" : [
+    {
+      "toMemberID" : 1,
+      "userName" : "ilker0",
+      "nameSurname" : "ilker özcan",
+      "inboxID" : 6,
+      "profilePicturePublicID" : "phG0vgZ1Jh1mWTqW0ViIjLqYvy7Kv0WR\/SnTW3bBWV2vtY3Bb34T0T3ZXO6\/rBv3CL78n+XqeYtSdWX9xH7WY6Guwnrilfrh47ErftvwfoW+od9Up3vg1eLC8eMslahzCO71wdUJQhAv0AK9BKHk1qApZJj5PyteDiYdmYQEHjU=",
+      "updateDate" : "2022-12-03T09:35:20+00:00",
+      "lastMessage" : {
+        "isSent" : null,
+        "inboxID" : null,
+        "message" : "QRULVaTz5idj\/8GixLtLFg==",
+        "messageDate" : "2022-12-03T09:35:20+00:00",
+        "userAvatarPublicID" : null,
+        "messageID" : 141
+      },
+      "unreadMessageCount" : 0
+    },
+    {
+      "toMemberID" : 3,
+      "userName" : "ilker2",
+      "nameSurname" : "ilker özcan",
+      "inboxID" : 8,
+      "profilePicturePublicID" : null,
+      "updateDate" : "2022-12-04T13:07:50+00:00",
+      "lastMessage" : {
+        "isSent" : null,
+        "inboxID" : null,
+        "message" : "QRULVaTz5idj\/8GixLtLFg==",
+        "messageDate" : "2022-12-04T13:07:50+00:00",
+        "userAvatarPublicID" : null,
+        "messageID" : 145
+      },
+      "unreadMessageCount" : 0
+    }
+  ],
+  "status" : {
+    "code" : 200,
+    "message" : "OK",
+    "success" : true,
+    "detailedMessage" : ""
+  }
+}

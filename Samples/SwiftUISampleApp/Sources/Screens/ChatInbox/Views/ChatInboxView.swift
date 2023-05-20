@@ -29,48 +29,45 @@ public struct ChatInboxView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
-            IORefreshableScrollView(
-                backgroundColor: .white,
-                contentSize: $contentSize,
-                isRefreshing: $isRefreshing,
-                scrollOffset: $scrollOffset
-            ) { _ in
-                LazyVStack {
-                    ForEach(presenter.inboxes) { inbox in
-                        ChatInboxItemView(
-                            uiModel: inbox,
-                            clickHandler: { index in
-                                presenter.getMessages(index: index)
-                            },
-                            deleteHandler: { index in
-                                presenter.deleteInbox(index: index)
-                            }
-                        )
+            ZStack(alignment: .top) {
+                
+                IORefreshableScrollView(
+                    backgroundColor: .white,
+                    contentSize: $contentSize,
+                    isRefreshing: $isRefreshing,
+                    scrollOffset: $scrollOffset
+                ) { _ in
+                    LazyVStack {
+                        ForEach(presenter.inboxes) { inbox in
+                            ChatInboxItemView(
+                                uiModel: inbox,
+                                clickHandler: { index in
+                                    Task {
+                                        await presenter.getMessages(index: index)
+                                    }
+                                },
+                                deleteHandler: { index in
+                                    Task {
+                                        await presenter.deleteInbox(index: index)
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
+                
+                Color.white
+                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                    .ignoresSafeArea()
             }
-            .navigationBar(navigationBar: {
-                NavBarTitleView(.chatInboxTitle, iconName: "message")
-            })
-            Color.white
-                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
-                .ignoresSafeArea()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .navigationBar {
+                NavBarTitleView(.title, iconName: "message")
+            }
         }
-        .navigationWireframe {
+        .navigationWireframe(hasNavigationView: true) {
             ChatInboxNavigationWireframe(navigationState: navigationState)
-        }
-        .onReceive(presenter.$inboxes) { _ in
-            if isRefreshing {
-                isRefreshing = false
-            }
-        }
-        .onChange(of: isRefreshing) { _ in
-            if isRefreshing {
-                presenter.interactor.getInboxes(showIndicator: false)
-            }
         }
         .onAppear {
             if isPreviewMode {
@@ -79,9 +76,23 @@ public struct ChatInboxView: IOController {
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
-            presenter.interactor.getInboxes(showIndicator: true)
+            
+            Task {
+                await presenter.prepare()
+            }
         }
-        */
+        .onReceive(presenter.$inboxes) { _ in
+            if isRefreshing {
+                isRefreshing = false
+            }
+        }
+        .onChange(of: isRefreshing) { _ in
+            if isRefreshing {
+                Task {
+                    await presenter.getInboxes()
+                }
+            }
+        }
     }
     
     // MARK: - Initialization Methods
@@ -93,8 +104,19 @@ public struct ChatInboxView: IOController {
 
 #if DEBUG
 struct ChatInboxView_Previews: PreviewProvider {
+    
+    struct ChatInboxViewDemo: View {
+        
+        var body: some View {
+            ChatInboxView(
+                entity: ChatInboxEntity()
+            )
+        }
+    }
+    
     static var previews: some View {
-        ChatInboxView(entity: ChatInboxEntity())
+        prepare()
+        return ChatInboxViewDemo()
     }
 }
 #endif
