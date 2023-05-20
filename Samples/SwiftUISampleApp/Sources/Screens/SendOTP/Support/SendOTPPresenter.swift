@@ -62,7 +62,7 @@ final public class SendOTPPresenter: IOPresenterable {
         await self.showAlertAsync {
             IOAlertData(
                 title: nil,
-                message: .sendOTPErrorTimeoutMessage,
+                message: .errorTimeoutMessage,
                 buttons: [.commonOk]
             )
         }

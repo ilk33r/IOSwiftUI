@@ -41,7 +41,7 @@ public struct SendOTPView: IOController {
                     IOFormGroup(.commonDone, handler: {
                     }, content: {
                         VStack(alignment: .leading) {
-                            Text(type: .sendOTPHeaderDescription.format(presenter.uiModel?.phoneNumber ?? ""))
+                            Text(type: .headerDescription.format(presenter.uiModel?.phoneNumber ?? ""))
                                 .font(type: .regular(16))
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 16)
@@ -92,7 +92,7 @@ public struct SendOTPView: IOController {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
                 HStack {
-                    Text(type: .sendOTPTitle)
+                    Text(type: .title)
                         .font(type: .medium(17))
                 }
             }
