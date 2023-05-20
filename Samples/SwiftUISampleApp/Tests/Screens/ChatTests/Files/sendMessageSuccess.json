@@ -1,0 +1,19 @@
+{
+  "pagination" : null,
+  "status" : {
+    "code" : 200,
+    "message" : "OK",
+    "success" : true,
+    "detailedMessage" : ""
+  },
+  "messages" : [
+    {
+      "isSent" : true,
+      "inboxID" : 2,
+      "message" : "PVqEgr64PB3qJw4v+DFEvw==",
+      "messageDate" : "2023-05-20T18:15:02.704317+00:00",
+      "userAvatarPublicID" : "phG0vgZ1Jh1mWTqW0ViIjLqYvy7Kv0WR\/SnTW3bBWV2vtY3Bb34T0T3ZXO6\/rBv3CL78n+XqeYtSdWX9xH7WY6Guwnrilfrh47ErftvwfoW+od9Up3vg1eLC8eMslahzCO71wdUJQhAv0AK9BKHk1qApZJj5PyteDiYdmYQEHjU=",
+      "messageID" : 147
+    }
+  ]
+}
