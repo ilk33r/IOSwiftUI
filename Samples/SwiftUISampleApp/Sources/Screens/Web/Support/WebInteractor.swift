@@ -16,7 +16,7 @@ public struct WebInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: WebEntity!
-    public weak var presenter: WebPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

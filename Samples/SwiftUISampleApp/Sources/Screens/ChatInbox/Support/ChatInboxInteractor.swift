@@ -17,7 +17,7 @@ public struct ChatInboxInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: ChatInboxEntity!
-    public weak var presenter: ChatInboxPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

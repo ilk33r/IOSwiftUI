@@ -19,7 +19,7 @@ public struct SettingsInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: SettingsEntity!
-    public weak var presenter: SettingsPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

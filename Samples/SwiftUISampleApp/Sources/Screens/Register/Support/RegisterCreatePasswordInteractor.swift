@@ -22,7 +22,7 @@ public struct RegisterCreatePasswordInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: RegisterCreatePasswordEntity!
-    public weak var presenter: RegisterCreatePasswordPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

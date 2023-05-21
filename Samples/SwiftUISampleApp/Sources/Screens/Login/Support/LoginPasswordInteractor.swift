@@ -17,7 +17,7 @@ public struct LoginPasswordInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: LoginPasswordEntity!
-    public weak var presenter: LoginPasswordPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - DI
     

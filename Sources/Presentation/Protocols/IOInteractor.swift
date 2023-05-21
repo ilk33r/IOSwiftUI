@@ -13,10 +13,9 @@ public protocol IOInteractor {
     // MARK: - Interactorable
     
     associatedtype Entity: IOEntity
-    associatedtype Presenter: IOPresenterable
     
     var entity: Entity! { get set }
-    var presenter: Presenter? { get set }
+    var presenter: (any IOPresenterable)? { get set }
     
     // MARK: - DI
     
@@ -47,7 +46,7 @@ public extension IOInteractor {
     init(entityInstance: Any!, presenterInstance: AnyObject!) {
         self.init()
         self.entity = entityInstance as? Entity
-        self.presenter = presenterInstance as? Presenter
+        self.presenter = presenterInstance as? (any IOPresenterable)
     }
     
     // MARK: - Alert

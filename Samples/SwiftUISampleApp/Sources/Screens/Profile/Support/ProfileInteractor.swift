@@ -18,7 +18,7 @@ public struct ProfileInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: ProfileEntity!
-    public weak var presenter: ProfilePresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

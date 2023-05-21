@@ -17,7 +17,7 @@ public struct SearchInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: SearchEntity!
-    public weak var presenter: SearchPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

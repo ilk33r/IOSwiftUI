@@ -17,7 +17,7 @@ public struct SplashInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: SplashEntity!
-    public weak var presenter: SplashPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Constants
     

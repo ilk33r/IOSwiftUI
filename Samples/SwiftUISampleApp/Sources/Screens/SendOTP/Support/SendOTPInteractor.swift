@@ -17,7 +17,7 @@ public struct SendOTPInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: SendOTPEntity!
-    public weak var presenter: SendOTPPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

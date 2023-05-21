@@ -17,7 +17,7 @@ public struct DiscoverInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: DiscoverEntity!
-    public weak var presenter: DiscoverPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

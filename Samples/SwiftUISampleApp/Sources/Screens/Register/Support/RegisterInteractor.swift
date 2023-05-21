@@ -17,7 +17,7 @@ public struct RegisterInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: RegisterEntity!
-    public weak var presenter: RegisterPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

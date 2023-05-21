@@ -26,7 +26,7 @@ public struct UserLocationInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: UserLocationEntity!
-    public weak var presenter: UserLocationPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

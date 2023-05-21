@@ -17,7 +17,7 @@ public struct FriendsInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: FriendsEntity!
-    public weak var presenter: FriendsPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

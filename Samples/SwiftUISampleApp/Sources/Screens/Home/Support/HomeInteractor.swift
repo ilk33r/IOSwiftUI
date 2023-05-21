@@ -18,7 +18,7 @@ public struct HomeInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: HomeEntity!
-    public weak var presenter: HomePresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Privates
     

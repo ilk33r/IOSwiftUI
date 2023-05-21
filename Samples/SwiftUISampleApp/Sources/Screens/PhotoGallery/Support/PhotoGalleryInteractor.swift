@@ -16,7 +16,7 @@ public struct PhotoGalleryInteractor: IOInteractor {
     // MARK: - Interactorable
     
     public var entity: PhotoGalleryEntity!
-    public weak var presenter: PhotoGalleryPresenter?
+    public weak var presenter: (any IOPresenterable)?
     
     // MARK: - Initialization Methods
     
