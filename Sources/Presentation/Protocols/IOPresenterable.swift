@@ -44,20 +44,6 @@ public extension IOPresenterable {
         self.environment.wrappedValue.pickerData = nil
     }
     
-    @available(*, deprecated, message: "use show alert async")
-    func showAlert(handler: () -> IOAlertData) {
-        let alertData = handler()
-        self.environment.wrappedValue.alertData = IOAlertData(
-            title: alertData.title,
-            message: alertData.message,
-            buttons: alertData.buttons,
-            handler: { [weak self] index in
-                self?.environment.wrappedValue.alertData = nil
-                alertData.handler?(index)
-            }
-        )
-    }
-    
     @discardableResult
     @MainActor
     func showAlertAsync(handler: () -> IOAlertData) async -> Int {

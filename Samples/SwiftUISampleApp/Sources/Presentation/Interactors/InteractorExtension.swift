@@ -23,21 +23,6 @@ public extension IOInteractor {
         presenter?.hideIndicator()
     }
     
-    // MARK: - Service
-    
-    @available(*, deprecated, message: "Use handleServiceErrorAsync")
-    func handleServiceError(
-        _ message: String?,
-        type: IOHTTPError.ErrorType,
-        response: BaseResponseModel?,
-        handler: IOAlertResultHandler?
-    ) {
-        let message = message ?? IOLocalizationType.networkCommonError.localized
-//        showAlert {
-//            IOAlertData(title: nil, message: message, buttons: [.commonOk], handler: handler)
-//        }
-    }
-    
     // MARK: - HTTP
     
     @discardableResult

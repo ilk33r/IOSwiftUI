@@ -47,7 +47,7 @@ public struct SendOTPView: IOController {
                                 .padding(.horizontal, 16)
                                 .padding(.top, 16)
                                 .padding(.bottom, 24)
-                                .frame(width: proxy.size.width - 32, alignment: .center)
+                                .frame(width: max(0, proxy.size.width - 32), alignment: .center)
                             
                             OTPTextField(text: $formOTPText)
                                 .registerValidator(

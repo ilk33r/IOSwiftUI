@@ -170,22 +170,24 @@ public struct SettingsInteractor: IOInteractor {
             biometricPairDevice()
         } catch let error {
             guard let biometryError = error as? IOBiometricAuthenticatorError else { return }
-            presenter?.update(biometryError: biometryError)
+//            presenter?.update(biometryError: biometryError)
         }
     }
     
+    /*
     func unlockBiometricAuthentication() {
         biometricAuthenticator.unlockBiometricAuthentication(
             reason: .errorBiometricLockedOut
         ) { _, error in
             if let error {
-                presenter?.update(biometryError: error)
+//                presenter?.update(biometryError: error)
                 return
             }
             
             prepareBiometricAuthentication()
         }
     }
+    */
     
     // MARK: - Helper Methods
     
@@ -204,6 +206,7 @@ public struct SettingsInteractor: IOInteractor {
             
             showIndicator()
             let request = MemberPairFaceIDRequestModel(authenticationKey: encryptedAuthenticationData.base64EncodedString())
+            /*
             service.request(.pairFaceID(request: request), responseType: GenericResponseModel.self) { result in
                 hideIndicator()
                 
@@ -215,10 +218,10 @@ public struct SettingsInteractor: IOInteractor {
                     handleServiceError(message, type: type, response: response, handler: nil)
                 }
             }
-            
+            */
         } catch let error {
             guard let biometryError = error as? IOBiometricAuthenticatorError else { return }
-            presenter?.update(biometryError: biometryError)
+//            presenter?.update(biometryError: biometryError)
         }
     }
     

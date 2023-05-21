@@ -109,6 +109,7 @@ final public class SettingsPresenter: IOPresenterable {
         }
     }
     
+    /*
     func updateBiometricPaired() {
         showAlert {
             IOAlertData(
@@ -156,6 +157,7 @@ final public class SettingsPresenter: IOPresenterable {
             self.interactor.unlockBiometricAuthentication()
         }
     }
+    */
     
     // MARK: - Helper Methods
     
