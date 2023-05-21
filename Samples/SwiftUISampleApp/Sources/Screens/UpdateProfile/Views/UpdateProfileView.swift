@@ -31,31 +31,30 @@ public struct UpdateProfileView: IOController {
     @ObservedObject public var presenter: UpdateProfilePresenter
     @StateObject public var navigationState = UpdateProfileNavigationState()
     
+    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    
     @State private var isOTPValidated = false
-    @State private var showSendOTP = false
-    @State private var showLocationSelection = false
     
     @State private var formUserNameText = ""
     @State private var formEmailText = ""
     @State private var formNameText = ""
     @State private var formSurnameText = ""
-    @State private var formBirthDate: Date?
+    @State private var formBirthDateString = ""
     @State private var formPhoneText = ""
     @State private var formLocationName = ""
     @State private var formLocationLatitude: Double?
     @State private var formLocationLongitude: Double?
     
-    @Environment(\.presentationMode) private var presentationMode
+    @State private var formBirthDateSelectedDate: Date?
     
-    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    @Environment(\.presentationMode) private var presentationMode
     
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
-            ZStack {
+            ZStack(alignment: .top) {
+                
                 IOUIView { lifecycle in
                     if lifecycle == .willAppear {
                         presenter.hideTabBar()
@@ -67,30 +66,101 @@ public struct UpdateProfileView: IOController {
                         IOFormGroup(.commonDone, handler: {
                         }, content: {
                             VStack(alignment: .leading) {
-                                FloatingTextField(.updateProfileFormUserName, text: $formUserNameText)
-                                    .disabled(true)
-                                FloatingTextField(.updateProfileFormEmail, text: $formEmailText)
-                                    .disabled(true)
-                                FloatingTextField(.updateProfileFormName, text: $formNameText)
-                                    .registerValidator(to: validator, rule: IOValidationRequiredRule(errorMessage: .validationRequiredMessage))
-                                FloatingTextField(.updateProfileFormSurname, text: $formSurnameText)
-                                    .registerValidator(to: validator, rule: IOValidationRequiredRule(errorMessage: .validationRequiredMessage))
-                                FloatingDatePicker(.updateProfileFormBirthdate, date: $formBirthDate)
-                                    .registerValidator(to: validator, rule: IOValidationRequiredRule(errorMessage: .validationRequiredMessage))
-                                FloatingTextField(.updateProfileFormPhone, text: $formPhoneText)
-                                    .keyboardType(.numberPad)
-                                    .registerValidator(to: validator, rule: IOValidationMinLengthRule(errorMessage: .validationRequiredMessage, length: 19))
-                                FloatingTextField(.updateProfileFormLocation, text: $formLocationName)
-                                    .disabled(true)
-                                    .setClick {
-                                        showLocationSelection = true
+                                FloatingTextField(
+                                    .formUserName,
+                                    text: $formUserNameText
+                                )
+                                .disabled(true)
+                                
+                                FloatingTextField(
+                                    .formEmail,
+                                    text: $formEmailText
+                                )
+                                .disabled(true)
+                                
+                                FloatingTextField(
+                                    .formName,
+                                    text: $formNameText
+                                )
+                                .registerValidator(
+                                    to: validator,
+                                    rule: IOValidationRequiredRule(
+                                        errorMessage: .validationRequiredMessage
+                                    )
+                                )
+                                
+                                FloatingTextField(
+                                    .formSurname,
+                                    text: $formSurnameText
+                                )
+                                .registerValidator(
+                                    to: validator,
+                                    rule: IOValidationRequiredRule(
+                                        errorMessage: .validationRequiredMessage
+                                    )
+                                )
+                                
+                                FloatingTextField(
+                                    .formBirthdate,
+                                    text: $formBirthDateString,
+                                    validationId: "formBirthDate"
+                                )
+                                .registerValidator(
+                                    to: validator,
+                                    rule: IOValidationRequiredRule(
+                                        errorMessage: .validationRequiredMessage
+                                    )
+                                )
+                                .disabled(true)
+                                .setClick {
+                                    presenter.showDatePicker {
+                                        IODatePickerData(
+                                            doneButtonTitle: .commonDone,
+                                            dateFormat: CommonConstants.pickerDateFormat,
+                                            selectedItem: $formBirthDateSelectedDate,
+                                            selectedItemString: $formBirthDateString
+                                        )
                                     }
+                                }
+                                
+                                FloatingTextField(
+                                    .formPhone,
+                                    text: $formPhoneText
+                                )
+                                .keyboardType(.numberPad)
+                                .registerValidator(
+                                    to: validator,
+                                    rule: IOValidationMinLengthRule(
+                                        errorMessage: .validationRequiredMessage,
+                                        length: 19
+                                    )
+                                )
+                                
+                                FloatingTextField(
+                                    .formLocation,
+                                    text: $formLocationName
+                                )
+                                .disabled(true)
+                                .setClick {
+                                    navigationState.showLocationSelection(
+                                        isPresented: $navigationState.showLocationSelection,
+                                        locationName: $formLocationName,
+                                        locationLatitude: $formLocationLatitude,
+                                        locationLongitude: $formLocationLongitude
+                                    )
+                                }
+                                
                                 PrimaryButton(.commonNextUppercased)
-                                    .setClick({
+                                    .setClick {
                                         if validator.validate().isEmpty {
-                                            showSendOTP = true
+                                            presenter.dismissPicker()
+                                            navigationState.createSendOTPView(
+                                                showSendOTP: $navigationState.showSendOTP,
+                                                isOTPValidated: $isOTPValidated,
+                                                phoneNumber: formPhoneText.trimLetters()
+                                            )
                                         }
-                                    })
+                                    }
                                     .padding(.top, 16)
                             }
                             .padding(.horizontal, 16.0)
@@ -98,57 +168,34 @@ public struct UpdateProfileView: IOController {
                         })
                     }
                 }
+                
+                Color.white
+                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                    .ignoresSafeArea()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
                 NavBarTitleView(
-                    .updateProfileTitle,
+                    .title,
                     iconName: "person.fill"
                 )
             }
-            Color.white
-                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
-                .ignoresSafeArea()
         }
-         */
-        /*
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             UpdateProfileNavigationWireframe(navigationState: navigationState)
         }
-        .sheet(isPresented: $showLocationSelection) {
-            IORouterUtilities.route(
-                ProfileRouters.self,
-                .userLocation(
-                    entity: UserLocationEntity(
-                        isEditable: true,
-                        isPresented: $showLocationSelection,
-                        locationName: $formLocationName,
-                        locationLatitude: $formLocationLatitude,
-                        locationLongitude: $formLocationLongitude
-                    )
-                )
-            )
-        }
-        .sheet(
-            isPresented: $showSendOTP,
-            onDismiss: {
-                navigationState.sendOTPDismissed()
-            }, content: {
-                navigationState.createSendOTPView(
-                    showSendOTP: $showSendOTP,
-                    isOTPValidated: $isOTPValidated,
-                    phoneNumber: formPhoneText.trimLetters()
-                )
-            }
-        )
         .onAppear {
             if isPreviewMode {
+                presenter.prepare()
                 return
             }
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
-            presenter.load()
+            presenter.prepare()
+        }
+        .onDisappear {
+            presenter.dismissPicker()
         }
         .onReceive(presenter.$uiModel) { output in
             guard let output else { return }
@@ -157,11 +204,13 @@ public struct UpdateProfileView: IOController {
             formEmailText = output.email
             formNameText = output.name
             formSurnameText = output.surname
-            formBirthDate = output.birthDate
+            formBirthDateString = output.birthDate?.string(format: IOModelDateTimeTransformer.iso8601DateFormat) ?? ""
             formPhoneText = output.phone.applyPattern(pattern: phoneNumberPattern)
             formLocationName = output.locationName
             formLocationLatitude = output.locationLatitude
             formLocationLongitude = output.locationLongitude
+            
+            formBirthDateSelectedDate = output.birthDate
         }
         .onReceive(presenter.$navigateToBack) { output in
             if output ?? false {
@@ -174,20 +223,21 @@ public struct UpdateProfileView: IOController {
         }
         .onChange(of: isOTPValidated) { newValue in
             if newValue {
-                presenter.interactor.updateMember(
-                    userName: formUserNameText,
-                    birthDate: formBirthDate,
-                    email: formEmailText,
-                    name: formNameText,
-                    surname: formSurnameText,
-                    locationName: formLocationName,
-                    locationLatitude: formLocationLatitude,
-                    locationLongitude: formLocationLongitude,
-                    phoneNumber: formPhoneText.trimLetters()
-                )
+                Task {
+                    await presenter.updateMember(
+                        userName: formUserNameText,
+                        birthDate: formBirthDateSelectedDate,
+                        email: formEmailText,
+                        name: formNameText,
+                        surname: formSurnameText,
+                        locationName: formLocationName,
+                        locationLatitude: formLocationLatitude,
+                        locationLongitude: formLocationLongitude,
+                        phoneNumber: formPhoneText.trimLetters()
+                    )
+                }
             }
         }
-         */
     }
     
     // MARK: - Initialization Methods
@@ -199,12 +249,19 @@ public struct UpdateProfileView: IOController {
 
 #if DEBUG
 struct UpdateProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        UpdateProfileView(
-            entity: UpdateProfileEntity(
-                member: MemberModel()
+    
+    struct UpdateProfileViewDemo: View {
+        
+        var body: some View {
+            UpdateProfileView(
+                entity: UpdateProfilePreviewData.previewData()
             )
-        )
+        }
+    }
+    
+    static var previews: some View {
+        prepare()
+        return UpdateProfileViewDemo()
     }
 }
 #endif

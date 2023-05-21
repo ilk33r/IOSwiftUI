@@ -10,6 +10,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct UpdateProfileNavigationWireframe: IONavigationLinkView {
     
@@ -20,26 +21,37 @@ struct UpdateProfileNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        EmptyView()
-        /*
         Group {
             NavigationLink(
-                destination: route(IORouter.self, .sample(entity: navigationState.sampleEntity)),
-                isActive: $navigationState.navigateToPage
+                destination: route(ProfileRouters.self, .updateProfile(entity: nil)),
+                isActive: $navigationState.navigateToUpdateProfile
             ) {
                 EmptyView()
             }
         }
-        .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
-            if let view = navigationState.editProfileView {
-                view
+        .sheet(isPresented: $navigationState.showLocationSelection) {
+            if let locationView = navigationState.locationView {
+                locationView
             } else {
                 EmptyView()
             }
         }
-        .sheet(isPresented: $navigationState.navigateToMap) {
-            if let mapView = navigationState.mapView {
-                mapView
+        .sheet(
+            isPresented: $navigationState.showSendOTP,
+            onDismiss: {
+                navigationState.sendOTPDismissed()
+            }, content: {
+                if let sendOTPView = navigationState.sendOTPView {
+                    sendOTPView
+                } else {
+                    EmptyView()
+                }
+            }
+        )
+        /*
+        .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
+            if let view = navigationState.editProfileView {
+                view
             } else {
                 EmptyView()
             }

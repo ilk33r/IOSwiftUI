@@ -31,6 +31,7 @@ public struct UpdateProfileInteractor: IOInteractor {
     
     // MARK: - Interactor
     
+    @MainActor
     func updateMember(
         userName: String?,
         birthDate: Date?,
@@ -41,7 +42,7 @@ public struct UpdateProfileInteractor: IOInteractor {
         locationLatitude: Double?,
         locationLongitude: Double?,
         phoneNumber: String?
-    ) {
+    ) async throws {
         showIndicator()
         
         let request = RegisterMemberRequestModel(
@@ -61,16 +62,16 @@ public struct UpdateProfileInteractor: IOInteractor {
             mrzFullString: ""
         )
         
-        service.request(.updateMember(request: request), responseType: GenericResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.updateMember(request: request), responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(_):
-                presenter?.updateSuccess()
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
 }
