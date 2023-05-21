@@ -68,19 +68,20 @@ public struct ProfileInteractor: IOInteractor {
         }
     }
     
-    func getFriends() {
+    @MainActor
+    func getFriends() async throws -> MemberFriendsResponseModel {
         showIndicator()
         
-        service.request(.getFriends, responseType: MemberFriendsResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.getFriends, responseType: MemberFriendsResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success(let response):
+            return response
             
-            switch result {
-            case .success(response: let response):
-                presenter?.navigate(toFriends: response)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     

@@ -10,7 +10,7 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
-    static let friendsTabFollowers = IOLocalizationType(rawValue: "friends.tab.followers")
-    static let friendsTabFollowing = IOLocalizationType(rawValue: "friends.tab.following")
-    static let friendsTitle = IOLocalizationType(rawValue: "friends.title")
+    static let tabFollowers = IOLocalizationType(rawValue: "friends.tab.followers")
+    static let tabFollowing = IOLocalizationType(rawValue: "friends.tab.following")
+    static let title = IOLocalizationType(rawValue: "friends.title")
 }

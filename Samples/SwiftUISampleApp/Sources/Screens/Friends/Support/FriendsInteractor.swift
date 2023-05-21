@@ -29,8 +29,4 @@ public struct FriendsInteractor: IOInteractor {
     }
     
     // MARK: - Interactor
-    
-    func getFriends() {
-        presenter?.update(friendsResponse: entity.friends)
-    }
 }

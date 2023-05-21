@@ -17,9 +17,7 @@ IO Swift UI viper architecture, sample application and SwiftUI framework.
 -   : IOServiceType
 - Presenter access.
 - static var previews: some View {
-- "pw remove
 - navigationState.wrappedValue | navigationState.
-- Tests.
 - FaceID Login
 - Friends page map view.
 - Stories.

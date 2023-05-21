@@ -31,17 +31,20 @@ public struct FriendsView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
+                
                 IOTabControlView(
                     page: $tabControlPage,
                     tabControlHeight: 52,
                     tabTitles: [
-                        .friendsTabFollowers.format(presenter.followersCount),
-                        .friendsTabFollowing.format(presenter.followingsCount)
-                    ]
+                        .tabFollowers.format(presenter.followersCount),
+                        .tabFollowing.format(presenter.followingsCount)
+                    ],
+                    textColor: .black,
+                    font: .systemFont(ofSize: 16, weight: .medium),
+                    lineColor: .black,
+                    lineHeight: 2
                 ) {
                     HStack {
                         ScrollView {
@@ -107,7 +110,7 @@ public struct FriendsView: IOController {
                             .frame(width: 20, height: 14)
                             .padding(.trailing, 4)
                             .padding(.leading, -8)
-                        Text(type: .friendsTitle)
+                        Text(type: .title)
                             .font(type: .medium(17))
                             .multilineTextAlignment(.center)
                     }
@@ -124,19 +127,19 @@ public struct FriendsView: IOController {
                 }
             }
         }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             FriendsNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
             if isPreviewMode {
+                presenter.prepare()
                 return
             }
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
-            presenter.interactor.getFriends()
+            presenter.prepare()
         }
-        */
     }
     
     // MARK: - Initialization Methods
@@ -148,39 +151,21 @@ public struct FriendsView: IOController {
 
 #if DEBUG
 struct FriendsView_Previews: PreviewProvider {
+    
+    struct FriendsViewDemo: View {
+        
+        var body: some View {
+            FriendsView(
+                entity: FriendsEntity(
+                    friends: FriendsPreviewData.previewDataView()
+                )
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        let friend0 = MemberFriendModel()
-        friend0.id = 0
-        friend0.userName = "ilker0"
-        friend0.userNameAndSurname = "İlker Özcan"
-        friend0.locationName = "Avcılar İstanbul"
-        
-        let friends = MemberFriendsResponseModel()
-        friends.followers = [
-            friend0,
-            friend0,
-            friend0,
-            friend0,
-            friend0,
-            friend0,
-            friend0
-        ]
-        friends.followings = [
-            friend0,
-            friend0,
-            friend0,
-            friend0,
-            friend0,
-            friend0,
-            friend0
-        ]
-        
-        return FriendsView(
-            entity: FriendsEntity(
-                friends: friends
-            )
-        )
+        return FriendsViewDemo()
     }
 }
 #endif

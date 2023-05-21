@@ -106,9 +106,15 @@ final public class ProfilePresenter: IOPresenterable {
         self.chatEntity = ChatEntity(toMemberId: memberId, inbox: inbox, messages: messages, pagination: pagination)
     }
     
-    func navigate(toFriends friends: MemberFriendsResponseModel) {
-        self.navigationState.wrappedValue.friendsEntity = FriendsEntity(friends: friends)
-        self.navigationState.wrappedValue.navigateToFriends = true
+    @MainActor
+    func navigateToFriends() async {
+        do {
+            let friends = try await self.interactor.getFriends()
+            self.navigationState.wrappedValue.friendsEntity = FriendsEntity(friends: friends)
+            self.navigationState.wrappedValue.navigateToFriends = true
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
     func navigateToLocation(isPresented: Binding<Bool>) {

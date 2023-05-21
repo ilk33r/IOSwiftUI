@@ -77,14 +77,7 @@ struct FriendCellView_Previews: PreviewProvider {
         
         var body: some View {
             FriendCellView(
-                uiModel: FriendUIModel(
-                    userName: "ilker0",
-                    userNameAndSurname: "İlker ÖZCAN",
-                    locationName: "Avcılar, İstanbul",
-                    locationLatitude: 0,
-                    locationLongitude: 0,
-                    profilePicturePublicId: "pwChatAvatar"
-                ),
+                uiModel: FriendsPreviewData.previewDataItem,
                 clickHandler: { _ in
                 }
             )

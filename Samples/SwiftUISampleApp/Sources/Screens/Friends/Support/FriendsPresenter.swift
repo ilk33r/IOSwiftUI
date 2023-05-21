@@ -46,6 +46,10 @@ final public class FriendsPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
+    func prepare() {
+        self.update(friendsResponse: self.interactor.entity.friends)
+    }
+    
     func update(friendsResponse: MemberFriendsResponseModel) {
         self.friendsResponse = friendsResponse
         
