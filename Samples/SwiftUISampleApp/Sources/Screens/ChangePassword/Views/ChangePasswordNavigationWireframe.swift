@@ -10,6 +10,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 struct ChangePasswordNavigationWireframe: IONavigationLinkView {
     
@@ -20,13 +21,33 @@ struct ChangePasswordNavigationWireframe: IONavigationLinkView {
     // MARK: - Properties
     
     var body: some View {
-        EmptyView()
+        Group {
+            NavigationLink(
+                destination: route(ProfileRouters.self, .changePassword(entity: nil)),
+                isActive: $navigationState.navigateToChangePassword
+            ) {
+                EmptyView()
+            }
+        }
+        .sheet(
+            isPresented: $navigationState.showSendOTP,
+            onDismiss: {
+                navigationState.sendOTPDismissed()
+            }, content: {
+                if let sendOTPView = navigationState.sendOTPView {
+                    sendOTPView
+                } else {
+                    EmptyView()
+                }
+            }
+        )
         /*
-        NavigationLink(
-            destination: route(IORouter.sef, .sample(entity: navigationState.sampleEntity)),
-            isActive: $navigationState.navigateToPage
-        ) {
-            EmptyView()
+        .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
+            if let view = navigationState.editProfileView {
+                view
+            } else {
+                EmptyView()
+            }
         }
         */
     }

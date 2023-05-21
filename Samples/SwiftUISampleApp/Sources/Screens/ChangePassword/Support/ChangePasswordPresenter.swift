@@ -36,20 +36,24 @@ final public class ChangePasswordPresenter: IOPresenterable {
     // MARK: - Presenter
     
     func hideTabBar() {
-//        self.interactor.appState.set(bool: true, forType: .tabBarIsHidden)
-//        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+        self.interactor.eventProcess.set(bool: false, forType: .tabBarVisibility)
     }
     
     func showTabBar() {
-//        self.interactor.appState.set(bool: false, forType: .tabBarIsHidden)
-//        NotificationCenter.default.post(name: .tabBarVisibilityChangeNotification, object: nil)
+        self.interactor.eventProcess.set(bool: true, forType: .tabBarVisibility)
     }
     
-    func updateSuccess() {
-        self.showAlert { [weak self] in
-            IOAlertData(title: nil, message: .changePasswordSuccessMessage, buttons: [.commonOk]) { [weak self] _ in
-                self?.navigateToBack = true
+    @MainActor
+    func changePassword(oldPassword: String, newPassword: String) async {
+        do {
+            try await self.interactor.changePassword(oldPassword: oldPassword, newPassword: newPassword)
+            await self.showAlertAsync {
+                IOAlertData(title: nil, message: .successMessage, buttons: [.commonOk])
             }
+            
+            self.navigateToBack = true
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
         }
     }
 }

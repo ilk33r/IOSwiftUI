@@ -40,10 +40,8 @@ public struct ChangePasswordView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
-            ZStack {
+            ZStack(alignment: .top) {
                 IOUIView { lifecycle in
                     if lifecycle == .willAppear {
                         presenter.hideTabBar()
@@ -55,28 +53,32 @@ public struct ChangePasswordView: IOController {
                         IOFormGroup(.commonDone) {
                         } content: {
                             VStack(alignment: .leading) {
-                                SecureFloatingTextField(.changePasswordFormCurrentPassword, text: $formCurrentPassword)
+                                SecureFloatingTextField(.formCurrentPassword, text: $formCurrentPassword)
                                     .registerValidator(to: validator, rule: IOValidationMinLengthRule(errorMessage: .validationRequiredMessage, length: 4))
-                                SecureFloatingTextField(.changePasswordFormNewPassword, text: $formNewPassword)
+                                SecureFloatingTextField(.formNewPassword, text: $formNewPassword)
                                     .registerValidator(
                                         to: validator,
                                         rules: [
                                             IOValidationMinLengthRule(errorMessage: .validationRequiredMessage, length: 4),
-                                            IOValidationExactRule(errorMessage: .changePasswordValidationPasswordDoNotMatch, compare: $formConfirmPassword)
+                                            IOValidationExactRule(errorMessage: .validationPasswordDoNotMatch, compare: $formConfirmPassword)
                                         ]
                                     )
-                                SecureFloatingTextField(.changePasswordFormConfirmPassword, text: $formConfirmPassword)
+                                SecureFloatingTextField(.formConfirmPassword, text: $formConfirmPassword)
                                     .registerValidator(
                                         to: validator,
                                         rules: [
                                             IOValidationMinLengthRule(errorMessage: .validationRequiredMessage, length: 4),
-                                            IOValidationExactRule(errorMessage: .changePasswordValidationPasswordDoNotMatch, compare: $formNewPassword)
+                                            IOValidationExactRule(errorMessage: .validationPasswordDoNotMatch, compare: $formNewPassword)
                                         ]
                                     )
                                 PrimaryButton(.commonNextUppercased)
                                     .setClick({
                                         if validator.validate().isEmpty {
-                                            showSendOTP = true
+                                            navigationState.createSendOTPView(
+                                                showSendOTP: $showSendOTP,
+                                                isOTPValidated: $isOTPValidated,
+                                                phoneNumber: presenter.interactor.entity.phoneNumber
+                                            )
                                         }
                                     })
                                     .padding(.top, 16)
@@ -86,37 +88,22 @@ public struct ChangePasswordView: IOController {
                         }
                     }
                 }
+                Color.white
+                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                    .ignoresSafeArea()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
                 NavBarTitleView(
-                    .changePasswordTitle,
+                    .title,
                     iconName: "lock.fill",
                     width: 12
                 )
             }
-            Color.white
-                .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
-                .ignoresSafeArea()
         }
-        //            .navigationWireframe {
-        //                ChangePasswordNavigationWireframe(navigationState: navigationState)
-        //            }
-//        .controllerWireframe {
-//            ChangePasswordNavigationWireframe(navigationState: navigationState)
-//        }
-        .sheet(
-            isPresented: $showSendOTP,
-            onDismiss: {
-                navigationState.sendOTPDismissed()
-            }, content: {
-                navigationState.createSendOTPView(
-                    showSendOTP: $showSendOTP,
-                    isOTPValidated: $isOTPValidated,
-                    phoneNumber: presenter.interactor.entity.phoneNumber
-                )
-            }
-        )
+        .navigationWireframe(hasNavigationView: false) {
+            ChangePasswordNavigationWireframe(navigationState: navigationState)
+        }
         .onAppear {
             if isPreviewMode {
                 return
@@ -132,13 +119,14 @@ public struct ChangePasswordView: IOController {
         }
         .onChange(of: isOTPValidated) { newValue in
             if newValue {
-                presenter.interactor.changePassword(
-                    oldPassword: formCurrentPassword,
-                    newPassword: formNewPassword
-                )
+                Task {
+                    await presenter.changePassword(
+                        oldPassword: formCurrentPassword,
+                        newPassword: formNewPassword
+                    )
+                }
             }
         }
-         */
     }
     
     // MARK: - Initialization Methods
@@ -151,13 +139,18 @@ public struct ChangePasswordView: IOController {
 #if DEBUG
 struct ChangePasswordView_Previews: PreviewProvider {
     
+    struct ChangePasswordViewDemo: View {
+        
+        var body: some View {
+            ChangePasswordView(
+                entity: ChangePasswordPreviewData.previewData
+            )
+        }
+    }
+    
     static var previews: some View {
         prepare()
-        return ChangePasswordView(
-            entity: ChangePasswordEntity(
-                phoneNumber: "905335433836"
-            )
-        )
+        return ChangePasswordViewDemo()
     }
 }
 #endif

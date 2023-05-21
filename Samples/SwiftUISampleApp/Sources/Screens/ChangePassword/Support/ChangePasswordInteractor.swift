@@ -30,12 +30,13 @@ public struct ChangePasswordInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func changePassword(oldPassword: String, newPassword: String) {
-        guard let aesIV = appState.object(forType: .aesIV) as? Data else { return }
-        guard let aesKey = appState.object(forType: .aesKey) as? Data else { return }
+    @MainActor
+    func changePassword(oldPassword: String, newPassword: String) async throws {
+        guard let aesIV = appState.object(forType: .aesIV) as? Data else { throw IOInteractorError.service }
+        guard let aesKey = appState.object(forType: .aesKey) as? Data else { throw IOInteractorError.service }
         
-        guard let encryptedOldPassword = IOAESUtilities.encrypt(string: oldPassword, keyData: aesKey, ivData: aesIV) else { return }
-        guard let encryptedNewPassword = IOAESUtilities.encrypt(string: newPassword, keyData: aesKey, ivData: aesIV) else { return }
+        guard let encryptedOldPassword = IOAESUtilities.encrypt(string: oldPassword, keyData: aesKey, ivData: aesIV) else { throw IOInteractorError.service }
+        guard let encryptedNewPassword = IOAESUtilities.encrypt(string: newPassword, keyData: aesKey, ivData: aesIV) else { throw IOInteractorError.service }
         
         showIndicator()
         
@@ -44,16 +45,16 @@ public struct ChangePasswordInteractor: IOInteractor {
             newPassword: encryptedNewPassword.base64EncodedString()
         )
         
-        service.request(.changePassword(request: request), responseType: GenericResponseModel.self) { result in
-            hideIndicator()
+        let result = await service.async(.changePassword(request: request), responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            break
             
-            switch result {
-            case .success(_):
-                presenter?.updateSuccess()
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
 }

@@ -17,17 +17,18 @@ final public class ChangePasswordNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-//    @Published public var navigateToPage = false
+    @Published var navigateToChangePassword = false
+    @Published var showSendOTP = false
     
     // MARK: - Privates
     
-    private var sendOTPView: IORouterView?
+    private(set) var sendOTPView: IORouterView?
     
     // MARK: - Helper Methods
     
-    func createSendOTPView(showSendOTP: Binding<Bool>, isOTPValidated: Binding<Bool>, phoneNumber: String) -> IORouterView {
-        if let sendOTPView = self.sendOTPView {
-            return sendOTPView
+    func createSendOTPView(showSendOTP: Binding<Bool>, isOTPValidated: Binding<Bool>, phoneNumber: String) {
+        if self.sendOTPView != nil {
+            self.showSendOTP = true
         }
         
         self.sendOTPView = IORouterUtilities.route(
@@ -41,7 +42,7 @@ final public class ChangePasswordNavigationState: IONavigationState {
             )
         )
         
-        return self.sendOTPView!
+        self.showSendOTP = true
     }
     
     func sendOTPDismissed() {
