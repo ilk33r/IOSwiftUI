@@ -46,15 +46,13 @@ struct ProfileNavigationWireframe: IONavigationLinkView {
                 EmptyView()
             }
         }
-        /*
-         .sheet(isPresented: $navigationState.navigateToMap) {
-             if let mapView = navigationState.mapView {
-                 mapView
-             } else {
-                 EmptyView()
-             }
-         }
-         */
+        .sheet(isPresented: $navigationState.navigateToMap) {
+            if let mapView = navigationState.mapView {
+                mapView
+            } else {
+                EmptyView()
+            }
+        }
     }
     
     // MARK: - Initialization Methods

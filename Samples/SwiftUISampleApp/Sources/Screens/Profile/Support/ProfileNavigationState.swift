@@ -23,10 +23,12 @@ final public class ProfileNavigationState: IONavigationState {
     @Published var navigateToGallery = false
     @Published var navigateToMessage = false
     @Published var navigateToSettings = false
+    @Published var navigateToMap = false
     
     var chatEntity: ChatEntity!
     var friendsEntity: FriendsEntity!
     var galleryEntity: PhotoGalleryEntity!
     var settingsEntity: SettingsEntity!
     var galleryView: IORouterView?
+    var mapView: IORouterView?
 }

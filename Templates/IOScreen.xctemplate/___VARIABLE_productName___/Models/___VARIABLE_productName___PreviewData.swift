@@ -7,6 +7,6 @@ struct ___VARIABLE_productName___PreviewData {
     
     // MARK: - Data
     
-    static var previewData = []
+    static var previewData = ""
 }
 #endif

@@ -23,6 +23,10 @@ final public class ProfilePresenter: IOPresenterable {
     public var interactor: ProfileInteractor!
     public var navigationState: StateObject<ProfileNavigationState>!
     
+    // MARK: - DI
+    
+    @IOInject private var thread: IOThread
+    
     // MARK: - Constants
     
     private let numberOfImagesPerPage = 10
@@ -39,7 +43,6 @@ final public class ProfilePresenter: IOPresenterable {
     @Published private(set) var chatEntity: ChatEntity?
     @Published private(set) var images: [String]!
     @Published private(set) var navigationBarHidden: Bool
-    @Published private(set) var userLocationEntity: UserLocationEntity?
     
     // MARK: - Privates
     
@@ -86,7 +89,8 @@ final public class ProfilePresenter: IOPresenterable {
         }
     }
     
-    func loadImages() {
+    @MainActor
+    func loadImages() async {
         if self.isImagesLoading {
             return
         }
@@ -94,10 +98,23 @@ final public class ProfilePresenter: IOPresenterable {
         if let totalImageCount = self.totalImageCount, self.images.count < totalImageCount {
             self.imagesStart += self.numberOfImagesPerPage
             self.isImagesLoading = true
-            self.interactor.getImages(start: self.imagesStart, count: self.numberOfImagesPerPage)
         } else if totalImageCount == nil {
             self.isImagesLoading = true
-            self.interactor.getImages(start: self.imagesStart, count: self.numberOfImagesPerPage)
+        } else {
+            return
+        }
+        
+        do {
+            let imagesResponse = try await self.interactor.getImages(start: self.imagesStart, count: self.numberOfImagesPerPage)
+            self.totalImageCount = imagesResponse.pagination?.total ?? 0
+            let mappedImages = imagesResponse.images?.map({ $0.publicId ?? "" })
+            
+            self.images.append(contentsOf: mappedImages ?? [])
+            self.thread.runOnMainThread(afterMilliSecond: 250) { [weak self] in
+                self?.isImagesLoading = false
+            }
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
         }
     }
     
@@ -122,13 +139,16 @@ final public class ProfilePresenter: IOPresenterable {
         guard let locationLatitude = self.member?.locationLatitude else { return }
         guard let locationLongitude = self.member?.locationLongitude else { return }
         
-        self.userLocationEntity = UserLocationEntity(
+        let userLocationEntity = UserLocationEntity(
             isEditable: false,
             isPresented: isPresented,
             locationName: Binding.constant(locationName),
             locationLatitude: Binding.constant(locationLatitude),
             locationLongitude: Binding.constant(locationLongitude)
         )
+        
+        self.navigationState.wrappedValue.mapView = IORouterUtilities.route(ProfileRouters.self, .userLocation(entity: userLocationEntity))
+        self.navigationState.wrappedValue.navigateToMap = true
     }
     
     func navigateToSettings() {
@@ -148,14 +168,6 @@ final public class ProfilePresenter: IOPresenterable {
         }
     }
     
-    func update(imagesResponse: MemberImagesResponseModel?) {
-        self.totalImageCount = imagesResponse?.pagination?.total ?? 0
-        
-        let mappedImages = imagesResponse?.images?.map({ $0.publicId ?? "" })
-        self.images.append(contentsOf: mappedImages ?? [])
-        self.isImagesLoading = false
-    }
-    
     // MARK: - Helper Methods
     
     private func updateMember(member: MemberModel?) {
@@ -170,3 +182,32 @@ final public class ProfilePresenter: IOPresenterable {
         )
     }
 }
+
+#if DEBUG
+extension ProfilePresenter {
+    
+    func prepareForPreview() {
+        let member = MemberModel()
+        member.id = 1
+        member.userName = "ilker0"
+        member.birthDate = Date()
+        member.email = "ilker0@ilker.com"
+        member.name = "İlker"
+        member.surname = "ÖZCAN"
+        member.locationName = "Beşiktaş"
+        member.isFollowing = true
+
+        self.member = member
+        self.profileUIModel = ProfileUIModel(
+            name: (member.name ?? "").uppercased(),
+            nameSurname: String(format: "%@ %@", member.name ?? "", member.surname ?? ""),
+            locationName: member.locationName ?? "",
+            isOwnProfile: self.interactor.entity.userName == nil ? true : false,
+            isFollowing: member.isFollowing ?? false,
+            profilePicturePublicId: member.profilePicturePublicId
+        )
+        
+        self.images = ProfilePreviewData.previewImages
+    }
+}
+#endif

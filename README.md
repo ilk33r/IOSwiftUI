@@ -7,11 +7,6 @@ IO Swift UI viper architecture, sample application and SwiftUI framework.
 
 ### Evolution
 - ASYNC services.
-- ActionSheet usage.
--   .actionSheet(item:
-- fullscreencover and sheet usage.
--   .fullScreenCover(isPresented:
--   .sheet(isPresented:
 - Deprecated remove.
 - Double service check.
 -   : IOServiceType

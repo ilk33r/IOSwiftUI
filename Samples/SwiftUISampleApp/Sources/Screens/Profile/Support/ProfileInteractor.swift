@@ -103,18 +103,20 @@ public struct ProfileInteractor: IOInteractor {
         }
     }
     
-    func getImages(start: Int, count: Int) {
+    @MainActor
+    func getImages(start: Int, count: Int) async throws -> MemberImagesResponseModel {
         let pagination = PaginationModel(start: start, count: count, total: nil)
         let request = MemberImagesRequestModel(userName: entity.userName, pagination: pagination)
         
-        service.request(.memberGetImages(request: request), responseType: MemberImagesResponseModel.self) { result in
-            switch result {
-            case .success(response: let response):
-                presenter?.update(imagesResponse: response)
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        let result = await service.async(.memberGetImages(request: request), responseType: MemberImagesResponseModel.self)
+        
+        switch result {
+        case .success(let response):
+            return response
+            
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     

@@ -27,12 +27,12 @@ public struct ProfileView: IOController {
     
     @State private var headerSize: CGSize = .zero
     @State private var navigationBarHidden = false
-    @State private var presentUserLocation = false
     @State private var scrollContentSize: CGSize = .zero
     @State private var scrollOffset: CGFloat = 0
     @State private var tapIndex: Int = -1
     @State private var viewSize: CGSize = .zero
     @State private var galleryView: GalleryView?
+    @State private var screenHeight: CGFloat = 0
     
     // MARK: - Body
     
@@ -67,7 +67,7 @@ public struct ProfileView: IOController {
                             presenter.createInbox()
                             
                         case .location:
-                            presenter.navigateToLocation(isPresented: $presentUserLocation)
+                            presenter.navigateToLocation(isPresented: $navigationState.navigateToMap)
                         }
                     }
                     .padding(.top, 24)
@@ -94,6 +94,11 @@ public struct ProfileView: IOController {
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                 .ignoresSafeArea()
+                .onAppear {
+                    let safeareaTop = proxy.safeAreaInsets.top
+                    let safeareaBottom = proxy.safeAreaInsets.bottom
+                    screenHeight = proxy.size.height + safeareaTop + safeareaBottom
+                }
         }
         .onChange(of: tapIndex) { newValue in
             navigationState.galleryEntity = PhotoGalleryEntity(
@@ -104,27 +109,24 @@ public struct ProfileView: IOController {
             navigationState.galleryView = IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
             navigationState.navigateToGallery = true
         }
-//        .onChange(of: scrollOffset) { newValue in
-//            if scrollContentSize.height - viewSize.height <= newValue {
-//                presenter.loadImages()
-//            }
-//        }
+        .onChange(of: scrollOffset) { newValue in
+            if isPreviewMode {
+                return
+            }
+            
+            if newValue + screenHeight >= scrollContentSize.height - headerSize.height {
+                Task {
+                    await presenter.loadImages()
+                }
+            }
+        }
         .navigationWireframe(hasNavigationView: true, isHidden: navigationBarHidden) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
         .navigationBarTitle("", displayMode: .inline)
-        /*
-         .sheet(isPresented: $presentUserLocation) {
-         IORouterUtilities.route(
-         ProfileRouters.self,
-         .userLocation(
-         entity: presenter.userLocationEntity
-         )
-         )
-         }
-         */
         .onAppear {
             if isPreviewMode {
+                presenter.prepareForPreview()
                 return
             }
             
@@ -135,7 +137,9 @@ public struct ProfileView: IOController {
                 await presenter.prepare()
             }
             
-            presenter.loadImages()
+            Task {
+                await presenter.loadImages()
+            }
         }
         .onReceive(presenter.$chatEntity) { chatEntity in
             if chatEntity == nil {
@@ -147,11 +151,6 @@ public struct ProfileView: IOController {
         }
         .onReceive(presenter.$navigationBarHidden) { output in
             navigationBarHidden = output
-        }
-        .onReceive(presenter.$userLocationEntity) { userLocationEntity in
-            if userLocationEntity != nil {
-                presentUserLocation = true
-            }
         }
         .onReceive(presenter.profilePictureUpdatedPublisher) { output in
             if output ?? false {
@@ -186,10 +185,7 @@ struct ProfileView_Previews: PreviewProvider {
         
         var body: some View {
             ProfileView(
-                entity: ProfileEntity(
-                    navigationBarHidden: true,
-                    userName: nil
-                )
+                entity: ProfilePreviewData.previewData
             )
         }
     }
