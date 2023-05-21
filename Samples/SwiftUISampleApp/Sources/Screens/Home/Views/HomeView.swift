@@ -110,7 +110,7 @@ public struct HomeView: IOController {
                     HomeRouters.self,
                     .profile(
                         entity: ProfileEntity(
-                            navigationBarHidden: true,
+                            navigationBarHidden: false,
                             userName: nil
                         )
                     )

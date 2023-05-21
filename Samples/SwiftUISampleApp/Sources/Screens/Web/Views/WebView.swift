@@ -29,13 +29,12 @@ public struct WebView: IOController {
     // MARK: - Body
     
     public var body: some View {
-        EmptyView()
-        /*
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOWebView { webView in
                     presenter.loadPage(webView: webView)
                 }
+                
                 Color.white
                     .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
                     .ignoresSafeArea()
@@ -49,7 +48,7 @@ public struct WebView: IOController {
                 )
             }
         }
-        .controllerWireframe {
+        .navigationWireframe(hasNavigationView: false) {
             WebNavigationWireframe(navigationState: navigationState)
         }
         .onAppear {
@@ -60,7 +59,6 @@ public struct WebView: IOController {
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
         }
-         */
     }
     
     // MARK: - Initialization Methods
@@ -72,14 +70,19 @@ public struct WebView: IOController {
 
 #if DEBUG
 struct WebView_Previews: PreviewProvider {
-    static var previews: some View {
-        WebView(
-            entity: WebEntity(
-                pageName: "PrivacyPolicy",
-                pageTitle: .init(rawValue: "Privacy Policy"),
-                titleIcon: "doc.text"
+    
+    struct WebViewDemo: View {
+        
+        var body: some View {
+            WebView(
+                entity: WebPreviewData.previewData
             )
-        )
+        }
+    }
+    
+    static var previews: some View {
+        prepare()
+        return WebViewDemo()
     }
 }
 #endif
