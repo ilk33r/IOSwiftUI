@@ -17,7 +17,12 @@ public struct ChatEntity: IOEntity {
     public let messages: [MessageModel]
     public let pagination: PaginationModel
     
-    public init(toMemberId: Int?, inbox: InboxModel!, messages: [MessageModel], pagination: PaginationModel) {
+    public init(
+        toMemberId: Int?,
+        inbox: InboxModel!,
+        messages: [MessageModel],
+        pagination: PaginationModel
+    ) {
         self.toMemberId = toMemberId
         self.inbox = inbox
         self.messages = messages

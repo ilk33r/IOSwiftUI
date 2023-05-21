@@ -33,20 +33,21 @@ public struct ProfileInteractor: IOInteractor {
     
     // MARK: - Interactor
     
-    func createInbox(memberID: Int) {
+    @MainActor
+    func createInbox(memberID: Int) async throws -> InboxModel? {
         showIndicator()
         
         let request = CreateInboxRequestModel(toMemberID: memberID)
-        service.request(.createInbox(request: request), responseType: CreateInboxResponseModel.self) { result in
+        let result = await service.async(.createInbox(request: request), responseType: CreateInboxResponseModel.self)
+        
+        switch result {
+        case .success(let response):
+            return response.inbox
             
-            switch result {
-            case .success(response: let response):
-                getMessages(toMemberId: memberID, inbox: response.inbox)
-                
-            case .error(message: let message, type: let type, response: let response):
-                hideIndicator()
-                handleServiceError(message, type: type, response: response, handler: nil)
-            }
+        case .error(let message, let type, let response):
+            hideIndicator()
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     
@@ -104,6 +105,24 @@ public struct ProfileInteractor: IOInteractor {
     }
     
     @MainActor
+    func getMessages(memberID: Int?, inboxID: Int) async throws -> GetMessagesResponseModel {
+        let pagination = PaginationModel(start: 0, count: ChatConstants.messageCountPerPage, total: nil)
+        let request = GetMessagesRequestModel(pagination: pagination, inboxID: inboxID)
+        
+        let result = await chatMessageService.async(.getMessages(request: request), responseType: GetMessagesResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success(let response):
+            return response
+            
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
+        }
+    }
+    
+    @MainActor
     func getImages(start: Int, count: Int) async throws -> MemberImagesResponseModel {
         let pagination = PaginationModel(start: start, count: count, total: nil)
         let request = MemberImagesRequestModel(userName: entity.userName, pagination: pagination)
@@ -135,30 +154,6 @@ public struct ProfileInteractor: IOInteractor {
         case .error(message: let message, type: let type, response: let response):
             await handleServiceErrorAsync(message, type: type, response: response)
             throw IOInteractorError.service
-        }
-    }
-    
-    // MARK: - Helper Methods
-    
-    private func getMessages(toMemberId: Int?, inbox: InboxModel?) {
-        let pagination = PaginationModel(start: 0, count: ChatConstants.messageCountPerPage, total: nil)
-        let request = GetMessagesRequestModel(pagination: pagination, inboxID: inbox?.inboxID ?? 0)
-        chatMessageService.request(.getMessages(request: request), responseType: GetMessagesResponseModel.self) { result in
-            hideIndicator()
-            
-            switch result {
-            case .success(response: let response):
-                presenter?.navigate(
-                    toMemberId: toMemberId,
-                    inbox: inbox,
-                    messages: response.messages ?? [],
-                    pagination: pagination
-                )
-                
-            case .error(message: let message, type: let type, response: let response):
-                handleServiceError(message, type: type, response: response, handler: nil)
-                
-            }
         }
     }
 }

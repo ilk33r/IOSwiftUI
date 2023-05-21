@@ -64,7 +64,9 @@ public struct ProfileView: IOController {
                             }
                             
                         case .message:
-                            presenter.createInbox()
+                            Task {
+                                await presenter.createInbox()
+                            }
                             
                         case .location:
                             presenter.navigateToLocation(isPresented: $navigationState.navigateToMap)
@@ -120,7 +122,9 @@ public struct ProfileView: IOController {
                 }
             }
         }
-        .navigationWireframe(hasNavigationView: true, isHidden: navigationBarHidden) {
+        .navigationWireframe(
+            hasNavigationView: !presenter.interactor.entity.navigationBarHidden
+        ) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
         .navigationBarTitle("", displayMode: .inline)
@@ -148,9 +152,6 @@ public struct ProfileView: IOController {
             navigationBarHidden = true
             navigationState.chatEntity = chatEntity
             navigationState.navigateToChat = true
-        }
-        .onReceive(presenter.$navigationBarHidden) { output in
-            navigationBarHidden = output
         }
         .onReceive(presenter.profilePictureUpdatedPublisher) { output in
             if output ?? false {

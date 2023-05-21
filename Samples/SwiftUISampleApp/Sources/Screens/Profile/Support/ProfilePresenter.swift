@@ -42,7 +42,6 @@ final public class ProfilePresenter: IOPresenterable {
     @Published var profileUIModel: ProfileUIModel?
     @Published private(set) var chatEntity: ChatEntity?
     @Published private(set) var images: [String]!
-    @Published private(set) var navigationBarHidden: Bool
     
     // MARK: - Privates
     
@@ -57,15 +56,12 @@ final public class ProfilePresenter: IOPresenterable {
         self.imagesStart = 0
         self.isImagesLoading = false
         self.images = []
-        self.navigationBarHidden = false
     }
     
     // MARK: - Presenter
     
     @MainActor
     func prepare() async {
-        self.navigationBarHidden = self.interactor.entity.navigationBarHidden
-        
         do {
             let member = try await self.interactor.getMember()
             self.updateMember(member: member)
@@ -75,8 +71,22 @@ final public class ProfilePresenter: IOPresenterable {
         }
     }
     
-    func createInbox() {
-        self.interactor.createInbox(memberID: self.member?.id ?? 0)
+    @MainActor
+    func createInbox() async {
+        do {
+            let inbox = try await self.interactor.createInbox(memberID: self.member?.id ?? 0)
+            guard let inbox else { return }
+            
+            let messagesResponse = try await self.interactor.getMessages(memberID: self.member?.id ?? 0, inboxID: inbox.inboxID ?? 0)
+            self.chatEntity = ChatEntity(
+                toMemberId: self.member?.id ?? 0,
+                inbox: inbox,
+                messages: messagesResponse.messages ?? [],
+                pagination: messagesResponse.pagination ?? PaginationModel()
+            )
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
+        }
     }
     
     @MainActor
@@ -116,11 +126,6 @@ final public class ProfilePresenter: IOPresenterable {
         } catch let err {
             IOLogger.error(err.localizedDescription)
         }
-    }
-    
-    func navigate(toMemberId memberId: Int?, inbox: InboxModel?, messages: [MessageModel], pagination: PaginationModel) {
-        guard let inbox else { return }
-        self.chatEntity = ChatEntity(toMemberId: memberId, inbox: inbox, messages: messages, pagination: pagination)
     }
     
     @MainActor
