@@ -19,5 +19,12 @@ final public class RegisterUserNameNavigationState: IONavigationState {
     
     @Published var navigateToCreatePassword = false
     
-    var createPasswordEntity: RegisterCreatePasswordEntity?
+    private(set) var createPasswordEntity: RegisterCreatePasswordEntity?
+    
+    // MARK: - Helper Methods
+    
+    func navigateToCreatePassword(createPasswordEntity: RegisterCreatePasswordEntity?) {
+        self.createPasswordEntity = createPasswordEntity
+        self.navigateToCreatePassword = true
+    }
 }

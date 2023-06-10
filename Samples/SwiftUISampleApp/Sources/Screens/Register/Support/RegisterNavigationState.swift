@@ -19,5 +19,12 @@ final public class RegisterNavigationState: IONavigationState {
     
     @Published var navigateToUserName = false
     
-    var userNameEntity: RegisterUserNameEntity?
+    private(set) var userNameEntity: RegisterUserNameEntity?
+    
+    // MARK: - Helper Methods
+    
+    func navigateToUserName(userNameEntity: RegisterUserNameEntity?) {
+        self.userNameEntity = userNameEntity
+        self.navigateToUserName = true
+    }
 }

@@ -61,7 +61,7 @@ public struct SearchView: IOController {
                                 imageWidth: itemSize,
                                 uiModel: item
                             ) { userName in
-                                navigationState.userName = userName
+                                navigationState.navigateToProfile(userName: userName)
                                 
                                 if isKeyboardVisible {
                                     UIResponder.hideKeyboard()
@@ -114,7 +114,6 @@ public struct SearchView: IOController {
                 await presenter.prepare()
             }
             
-            navigationState.userName = nil
             navigationState.navigateToProfile = false
         }
         .onChange(of: isRefreshing) { _ in
@@ -150,7 +149,7 @@ public struct SearchView: IOController {
         .onReceive(presenter.keyboardPublisher) { output in
             isKeyboardVisible = output
             
-            if !output && navigationState.userName != nil {
+            if !output && navigationState.profileEntity != nil {
                 navigationState.navigateToProfile = true
             }
         }

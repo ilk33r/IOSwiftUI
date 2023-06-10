@@ -25,11 +25,13 @@ final public class SettingsNavigationState: IONavigationState {
     @Published var navigateToWeb = false
     @Published var selectedImage: UIImage?
     
-    var cameraView: IOImagePickerView?
-    var photoLibraryView: IOImagePickerView?
-    var changePasswordEntity: ChangePasswordEntity!
-    var updateProfileEntity: UpdateProfileEntity!
-    var webEntity: WebEntity!
+    private(set) var cameraView: IOImagePickerView?
+    private(set) var photoLibraryView: IOImagePickerView?
+    private(set) var changePasswordEntity: ChangePasswordEntity?
+    private(set) var updateProfileEntity: UpdateProfileEntity?
+    private(set) var webEntity: WebEntity?
+    
+    // MARK: - Helper Methods
     
     func navigateToCameraPage() {
         self.cameraView = IOImagePickerView(
@@ -51,5 +53,20 @@ final public class SettingsNavigationState: IONavigationState {
         }
         
         self.navigateToPhotoLibrary = true
+    }
+    
+    func navigateToChangePassword(changePasswordEntity: ChangePasswordEntity?) {
+        self.changePasswordEntity = changePasswordEntity
+        self.navigateToChangePassword = true
+    }
+    
+    func navigateToUpdateProfile(updateProfileEntity: UpdateProfileEntity?) {
+        self.updateProfileEntity = updateProfileEntity
+        self.navigateToUpdateProfile = true
+    }
+    
+    func navigateToWeb(webEntity: WebEntity?) {
+        self.webEntity = webEntity
+        self.navigateToWeb = true
     }
 }

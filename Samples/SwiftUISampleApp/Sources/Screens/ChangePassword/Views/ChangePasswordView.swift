@@ -74,7 +74,7 @@ public struct ChangePasswordView: IOController {
                                 PrimaryButton(.commonNextUppercased)
                                     .setClick({
                                         if validator.validate().isEmpty {
-                                            navigationState.createSendOTPView(
+                                            navigationState.navigateToSendOTPView(
                                                 showSendOTP: $showSendOTP,
                                                 isOTPValidated: $isOTPValidated,
                                                 phoneNumber: presenter.interactor.entity.phoneNumber

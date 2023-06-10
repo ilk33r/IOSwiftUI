@@ -132,8 +132,9 @@ final public class ProfilePresenter: IOPresenterable {
     func navigateToFriends() async {
         do {
             let friends = try await self.interactor.getFriends()
-            self.navigationState.wrappedValue.friendsEntity = FriendsEntity(friends: friends)
-            self.navigationState.wrappedValue.navigateToFriends = true
+            self.navigationState.wrappedValue.navigateToFriends(
+                friendsEntity: FriendsEntity(friends: friends)
+            )
         } catch let err {
             IOLogger.error(err.localizedDescription)
         }
@@ -152,15 +153,17 @@ final public class ProfilePresenter: IOPresenterable {
             locationLongitude: Binding.constant(locationLongitude)
         )
         
-        self.navigationState.wrappedValue.mapView = IORouterUtilities.route(ProfileRouters.self, .userLocation(entity: userLocationEntity))
-        self.navigationState.wrappedValue.navigateToMap = true
+        self.navigationState.wrappedValue.navigateToMap(
+            userLocationEntity: userLocationEntity
+        )
     }
     
     func navigateToSettings() {
         guard let member = self.member else { return }
         
-        self.navigationState.wrappedValue.settingsEntity = SettingsEntity(member: member)
-        self.navigationState.wrappedValue.navigateToSettings = true
+        self.navigationState.wrappedValue.navigateToSettings(
+            settingsEntity: SettingsEntity(member: member)
+        )
     }
     
     @MainActor

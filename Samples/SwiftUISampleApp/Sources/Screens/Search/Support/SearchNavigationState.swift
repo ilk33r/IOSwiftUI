@@ -11,6 +11,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 final public class SearchNavigationState: IONavigationState {
     
@@ -18,5 +19,15 @@ final public class SearchNavigationState: IONavigationState {
     
     @Published var navigateToProfile = false
     
-    var userName: String?
+    private(set) var profileEntity: ProfileEntity?
+    
+    // MARK: - Helper Methods
+    
+    func navigateToProfile(userName: String) {
+        self.profileEntity = ProfileEntity(
+            navigationBarHidden: true,
+            userName: userName
+        )
+        self.navigateToProfile = true
+    }
 }

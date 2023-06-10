@@ -38,9 +38,10 @@ final public class ChatInboxPresenter: IOPresenterable {
     
     // MARK: - Presenter
     
+    @MainActor
     func prepare() async {
-        showIndicator()
-        await getInboxes()
+        self.showIndicator()
+        await self.getInboxes()
     }
     
     @MainActor
@@ -89,13 +90,14 @@ final public class ChatInboxPresenter: IOPresenterable {
         
         do {
             let messages = try await self.interactor.getMessages(inboxID: inbox.inboxID ?? 0, pagination: pagination)
-            self.navigationState.wrappedValue.chatEntity = ChatEntity(
-                toMemberId: inbox.toMemberID,
-                inbox: inbox,
-                messages: messages,
-                pagination: pagination
+            self.navigationState.wrappedValue.navigateToChat(
+                chatEntity: ChatEntity(
+                    toMemberId: inbox.toMemberID,
+                    inbox: inbox,
+                    messages: messages,
+                    pagination: pagination
+                )
             )
-            self.navigationState.wrappedValue.navigateToChat = true
         } catch let err {
             IOLogger.error(err.localizedDescription)
         }

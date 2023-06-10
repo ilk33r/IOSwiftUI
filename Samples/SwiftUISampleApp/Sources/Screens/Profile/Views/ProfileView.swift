@@ -103,13 +103,13 @@ public struct ProfileView: IOController {
                 }
         }
         .onChange(of: tapIndex) { newValue in
-            navigationState.galleryEntity = PhotoGalleryEntity(
-                imagePublicIds: presenter.images,
-                isPresented: $navigationState.navigateToGallery,
-                selectedIndex: newValue
+            navigationState.navigateToGallery(
+                galleryEntity: PhotoGalleryEntity(
+                    imagePublicIds: presenter.images,
+                    isPresented: $navigationState.navigateToGallery,
+                    selectedIndex: newValue
+                )
             )
-            navigationState.galleryView = IORouterUtilities.route(GalleryRouters.self, .gallery(entity: navigationState.galleryEntity))
-            navigationState.navigateToGallery = true
         }
         .onChange(of: scrollOffset) { newValue in
             if isPreviewMode {
@@ -150,8 +150,7 @@ public struct ProfileView: IOController {
                 return
             }
             navigationBarHidden = true
-            navigationState.chatEntity = chatEntity
-            navigationState.navigateToChat = true
+            navigationState.navigateToChat(chatEntity: chatEntity)
         }
         .onReceive(presenter.profilePictureUpdatedPublisher) { output in
             if output ?? false {

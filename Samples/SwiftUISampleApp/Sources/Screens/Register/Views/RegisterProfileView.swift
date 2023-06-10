@@ -151,7 +151,7 @@ public struct RegisterProfileView: IOController {
                             )
                             .disabled(true)
                             .setClick {
-                                navigationState.showLocationSelection(
+                                navigationState.navigateToLocationSelection(
                                     isPresented: $navigationState.showLocationSelection,
                                     locationName: $formLocationName,
                                     locationLatitude: $formLocationLatitude,
@@ -163,7 +163,7 @@ public struct RegisterProfileView: IOController {
                                 .setClick {
                                     if validator.validate().isEmpty {
                                         presenter.dismissPicker()
-                                        navigationState.createSendOTPView(
+                                        navigationState.navigateToSendOTPView(
                                             showSendOTP: $navigationState.showSendOTP,
                                             isOTPValidated: $isOTPValidated,
                                             phoneNumber: formPhoneText.trimLetters()

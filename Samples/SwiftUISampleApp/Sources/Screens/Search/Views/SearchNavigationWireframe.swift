@@ -23,15 +23,7 @@ struct SearchNavigationWireframe: IONavigationLinkView {
     var body: some View {
         Group {
             NavigationLink(
-                destination: route(
-                    HomeRouters.self,
-                    .profile(
-                        entity: ProfileEntity(
-                            navigationBarHidden: true,
-                            userName: navigationState.userName
-                        )
-                    )
-                ),
+                destination: route(HomeRouters.self, .profile(entity: navigationState.profileEntity)),
                 isActive: $navigationState.navigateToProfile
             ) {
                 EmptyView()

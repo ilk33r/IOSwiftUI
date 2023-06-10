@@ -19,5 +19,12 @@ final public class FriendsNavigationState: IONavigationState {
     
     @Published var navigateToProfile = false
     
-    var profileEntity: ProfileEntity!
+    private(set) var profileEntity: ProfileEntity?
+    
+    // MARK: - Helper Methods
+    
+    func navigateToProfile(profileEntity: ProfileEntity) {
+        self.profileEntity = profileEntity
+        self.navigateToProfile = true
+    }
 }

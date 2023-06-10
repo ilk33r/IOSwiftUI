@@ -36,14 +36,14 @@ final public class RegisterCreatePasswordPresenter: IOPresenterable {
     
     func validatePassword(password: String) {
         if !self.interactor.entity.validate {
-            self.navigationState.wrappedValue.createPasswordEntity = RegisterCreatePasswordEntity(
-                email: self.interactor.entity.email,
-                password: password,
-                userName: self.interactor.entity.userName,
-                validate: true
+            self.navigationState.wrappedValue.navigateToCreatePassword(
+                createPasswordEntity: RegisterCreatePasswordEntity(
+                    email: self.interactor.entity.email,
+                    password: password,
+                    userName: self.interactor.entity.userName,
+                    validate: true
+                )
             )
-            
-            self.navigationState.wrappedValue.navigateToCreatePassword = true
             return
         }
         
@@ -63,12 +63,13 @@ final public class RegisterCreatePasswordPresenter: IOPresenterable {
         
         do {
             let hashedPassword = try self.interactor.hashPassword(password: password)
-            self.navigationState.wrappedValue.profileEntity = RegisterProfileEntity(
-                email: self.interactor.entity.email,
-                password: hashedPassword,
-                userName: self.interactor.entity.userName
+            self.navigationState.wrappedValue.navigateToProfile(
+                profileEntity: RegisterProfileEntity(
+                    email: self.interactor.entity.email,
+                    password: hashedPassword,
+                    userName: self.interactor.entity.userName
+                )
             )
-            self.navigationState.wrappedValue.navigateToProfile = true
         } catch let err {
             IOLogger.error(err.localizedDescription)
         }

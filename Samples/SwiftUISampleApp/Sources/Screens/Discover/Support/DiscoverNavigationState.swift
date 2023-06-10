@@ -11,6 +11,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppScreensShared
 
 final public class DiscoverNavigationState: IONavigationState {
     
@@ -18,5 +19,12 @@ final public class DiscoverNavigationState: IONavigationState {
     
     @Published var navigateToProfile = false
     
-    var userName: String?
+    private(set) var profileEntity: ProfileEntity?
+    
+    // MARK: - Helper Methods
+    
+    func navigateToProfile(profileEntity: ProfileEntity) {
+        self.profileEntity = profileEntity
+        self.navigateToProfile = true
+    }
 }

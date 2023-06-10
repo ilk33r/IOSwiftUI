@@ -16,13 +16,15 @@ final public class HomeNavigationState: IONavigationState {
     
     // MARK: - Properties
     
-    @Published public var navigateToCamera = false
-    @Published public var navigateToPhotoLibrary = false
-    @Published public var navigateToProfile = false
+    @Published var navigateToCamera = false
+    @Published var navigateToPhotoLibrary = false
+    @Published var navigateToProfile = false
     @Published var selectedImage: UIImage?
     
-    var cameraView: IOImagePickerView?
-    var photoLibraryView: IOImagePickerView?
+    private(set) var cameraView: IOImagePickerView?
+    private(set) var photoLibraryView: IOImagePickerView?
+    
+    // MARK: - Helper Methods
     
     func navigateToCameraPage() {
         self.cameraView = IOImagePickerView(

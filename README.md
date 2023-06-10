@@ -6,7 +6,7 @@ IO Swift UI viper architecture, sample application and SwiftUI framework.
 * Each screen has a unit test.
 
 ### Evolution
-- navigationState.wrappedValue | navigationState.
 - FaceID Login
 - Friends page map view.
 - Stories.
+- Template installer.

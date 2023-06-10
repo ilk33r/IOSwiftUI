@@ -31,7 +31,7 @@ final public class RegisterProfileNavigationState: IONavigationState {
     
     // MARK: - Helper Methods
     
-    func showLocationSelection(
+    func navigateToLocationSelection(
         isPresented: Binding<Bool>,
         locationName: Binding<String>,
         locationLatitude: Binding<Double?>,
@@ -53,7 +53,7 @@ final public class RegisterProfileNavigationState: IONavigationState {
         self.showLocationSelection = true
     }
     
-    func createSendOTPView(
+    func navigateToSendOTPView(
         showSendOTP: Binding<Bool>,
         isOTPValidated: Binding<Bool>,
         phoneNumber: String

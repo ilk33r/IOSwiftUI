@@ -68,10 +68,11 @@ final public class SettingsPresenter: IOPresenterable {
     func navigate(menu: SettingsMenuItemUIModel) async {
         switch menu.type {
         case .updateProfile:
-            self.navigationState.wrappedValue.updateProfileEntity = UpdateProfileEntity(
-                member: self.interactor.entity.member
+            self.navigationState.wrappedValue.navigateToUpdateProfile(
+                updateProfileEntity: UpdateProfileEntity(
+                    member: self.interactor.entity.member
+                )
             )
-            self.navigationState.wrappedValue.navigateToUpdateProfile = true
             
         case .updateProfilePicture:
             self.createUpdateProfilePictureSheet()
@@ -80,29 +81,32 @@ final public class SettingsPresenter: IOPresenterable {
             await self.removeProfilePicture()
             
         case .changePassword:
-            self.navigationState.wrappedValue.changePasswordEntity = ChangePasswordEntity(
-                phoneNumber: self.interactor.entity.member.phoneNumber ?? ""
+            self.navigationState.wrappedValue.navigateToChangePassword(
+                changePasswordEntity: ChangePasswordEntity(
+                    phoneNumber: self.interactor.entity.member.phoneNumber ?? ""
+                )
             )
-            self.navigationState.wrappedValue.navigateToChangePassword = true
             
         case .biometricAuth:
             self.interactor.prepareBiometricAuthentication()
             
         case .privacyPolicy:
-            self.navigationState.wrappedValue.webEntity = WebEntity(
-                pageName: "PrivacyPolicy",
-                pageTitle: menu.localizableKey,
-                titleIcon: menu.iconName
+            self.navigationState.wrappedValue.navigateToWeb(
+                webEntity: WebEntity(
+                    pageName: "PrivacyPolicy",
+                    pageTitle: menu.localizableKey,
+                    titleIcon: menu.iconName
+                )
             )
-            self.navigationState.wrappedValue.navigateToWeb = true
             
         case .termsAndConditions:
-            self.navigationState.wrappedValue.webEntity = WebEntity(
-                pageName: "TermsAndConditions",
-                pageTitle: menu.localizableKey,
-                titleIcon: menu.iconName
+            self.navigationState.wrappedValue.navigateToWeb(
+                webEntity: WebEntity(
+                    pageName: "TermsAndConditions",
+                    pageTitle: menu.localizableKey,
+                    titleIcon: menu.iconName
+                )
             )
-            self.navigationState.wrappedValue.navigateToWeb = true
             
         case .logout:
             await self.logout()

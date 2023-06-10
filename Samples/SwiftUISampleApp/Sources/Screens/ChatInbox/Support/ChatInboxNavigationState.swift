@@ -19,5 +19,12 @@ final public class ChatInboxNavigationState: IONavigationState {
     
     @Published var navigateToChat = false
     
-    var chatEntity: ChatEntity!
+    private(set) var chatEntity: ChatEntity!
+    
+    // MARK: - Helper Methods
+    
+    func navigateToChat(chatEntity: ChatEntity) {
+        self.chatEntity = chatEntity
+        self.navigateToChat = true
+    }
 }

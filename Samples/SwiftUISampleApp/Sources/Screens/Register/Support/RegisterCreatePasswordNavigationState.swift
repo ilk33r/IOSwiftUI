@@ -20,6 +20,18 @@ final public class RegisterCreatePasswordNavigationState: IONavigationState {
     @Published var navigateToCreatePassword = false
     @Published var navigateToProfile = false
     
-    var createPasswordEntity: RegisterCreatePasswordEntity?
-    var profileEntity: RegisterProfileEntity?
+    private(set) var createPasswordEntity: RegisterCreatePasswordEntity?
+    private(set) var profileEntity: RegisterProfileEntity?
+    
+    // MARK: - Helper Methods
+    
+    func navigateToCreatePassword(createPasswordEntity: RegisterCreatePasswordEntity?) {
+        self.createPasswordEntity = createPasswordEntity
+        self.navigateToCreatePassword = true
+    }
+    
+    func navigateToProfile(profileEntity: RegisterProfileEntity?) {
+        self.profileEntity = profileEntity
+        self.navigateToProfile = true
+    }
 }

@@ -43,8 +43,12 @@ public struct DiscoverView: IOController {
                             uiModel: item,
                             width: proxy.size.width
                         ) { userName in
-                            navigationState.userName = userName
-                            navigationState.navigateToProfile = true
+                            navigationState.navigateToProfile(
+                                profileEntity: ProfileEntity(
+                                    navigationBarHidden: true,
+                                    userName: userName
+                                )
+                            )
                         }
                     }
                 }
@@ -65,7 +69,6 @@ public struct DiscoverView: IOController {
         }
         .onAppear {
             if isPreviewMode {
-                navigationState.userName = nil
                 navigationState.navigateToProfile = false
                 presenter.prepareForPreview()
                 return
@@ -78,7 +81,6 @@ public struct DiscoverView: IOController {
                 await presenter.prepare()
             }
             
-            navigationState.userName = nil
             navigationState.navigateToProfile = false
         }
         .onChange(of: isRefreshing) { _ in
