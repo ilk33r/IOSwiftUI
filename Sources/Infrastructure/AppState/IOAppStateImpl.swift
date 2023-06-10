@@ -45,11 +45,13 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     }
     
     private let stateObject: StateObject
+    private let queue: DispatchQueue
 
     // MARK: - Initialization Methods
     
     public init() {
         self.stateObject = StateObject()
+        self.queue = DispatchQueue(label: "com.ioswiftui.infrastructure.appState")
     }
 
     // MARK: - Getters
@@ -77,37 +79,54 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     // MARK: - Setters
     
     public func set(bool value: Bool, forType type: IOStorageType) {
-        stateObject.values[type] = value
+        queue.sync {
+            stateObject.values[type] = value
+        }
     }
     
     public func set(double value: Double, forType type: IOStorageType) {
-        stateObject.values[type] = value
+        queue.sync {
+            stateObject.values[type] = value
+        }
     }
     
     public func set(int value: Int, forType type: IOStorageType) {
-        stateObject.values[type] = value
+        queue.sync {
+            stateObject.values[type] = value
+        }
     }
     
     public func set(string value: String, forType type: IOStorageType) {
-        stateObject.values[type] = value
+        queue.sync {
+            stateObject.values[type] = value
+        }
     }
     
     public func set(object value: Any?, forType type: IOStorageType) {
         if let val = value {
-            stateObject.values[type] = val
+            queue.sync {
+                stateObject.values[type] = val
+            }
+            
             return
         }
         
-        stateObject.values.removeValue(forKey: type)
+        queue.sync {
+            _ = stateObject.values.removeValue(forKey: type)
+        }
     }
     
     // MARK: - Removers
     
     public func remove(type: IOStorageType) {
-        stateObject.values.removeValue(forKey: type)
+        queue.sync {
+            _ = stateObject.values.removeValue(forKey: type)
+        }
     }
     
     public func removeAllObjects() {
-        stateObject.values.removeAll()
+        queue.sync {
+            stateObject.values.removeAll()
+        }
     }
 }
