@@ -49,7 +49,7 @@ final public class UpdateProfileNavigationState: IONavigationState {
     }
     
     func createSendOTPView(showSendOTP: Binding<Bool>, isOTPValidated: Binding<Bool>, phoneNumber: String) {
-        if let sendOTPView = self.sendOTPView {
+        if self.sendOTPView != nil {
             self.showSendOTP = true
             return
         }
