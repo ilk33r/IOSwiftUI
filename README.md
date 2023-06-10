@@ -9,4 +9,3 @@ IO Swift UI viper architecture, sample application and SwiftUI framework.
 - FaceID Login
 - Friends page map view.
 - Stories.
-- Template installer.
