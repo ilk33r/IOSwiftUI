@@ -12,9 +12,9 @@ public struct IORoundedRect: Shape {
     
     // MARK: - Defs
     
-    public struct Corner: RawRepresentable {
+    public struct Corner: RawRepresentable, Sendable {
         
-        public enum CornerType {
+        public enum CornerType: Sendable {
             case topLeft
             case topRight
             case bottomLeft

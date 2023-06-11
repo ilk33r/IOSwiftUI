@@ -1,4 +1,4 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -35,35 +35,48 @@ let package = Package(
         ),
         
         // This target auto generate IOBuildConfig.swift file from using Configuration.json
-        .target(name: "SwiftUISampleAppConfigurations",
-                dependencies: [],
-                path: "Sources/Configuration",
-                plugins: [ .plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI") ]),
-        
-            .target(
-                name: "SwiftUISampleAppResources",
-                path: "Sources/Resources",
-                resources: [.process("Files")]
-            ),
-        .target(name: "SwiftUISampleAppCommon",
-                dependencies: [.product(name: "IOSwiftUI", package: "IOSwiftUI")],
-                path: "Sources/Common",
-                swiftSettings: [.define("ENV_DEV", .when(configuration: .debug)),
-                                .define("ENV_PROD", .when(configuration: .release))
-                ]),
+        .target(
+            name: "SwiftUISampleAppConfigurations",
+            dependencies: [],
+            path: "Sources/Configuration",
+            plugins: [
+                .plugin(name: "IOBuildConfigGeneratorPlugin", package: "IOSwiftUI")
+            ]
+        ),
+        .target(
+            name: "SwiftUISampleAppResources",
+            path: "Sources/Resources",
+            resources: [.process("Files")]
+        ),
+        .target(
+            name: "SwiftUISampleAppCommon",
+            dependencies: [
+                .product(name: "IOSwiftUI", package: "IOSwiftUI")
+            ],
+            path: "Sources/Common",
+            swiftSettings: [.define("ENV_DEV", .when(configuration: .debug)),
+                            .define("ENV_PROD", .when(configuration: .release))
+            ]
+        ),
         .target(name: "SwiftUISampleAppInfrastructure",
-                dependencies: ["SwiftUISampleAppCommon"],
+                dependencies: [
+                    "SwiftUISampleAppCommon"
+                ],
                 path: "Sources/Infrastructure"),
         .target(name: "SwiftUISampleAppPresentation",
-                dependencies: [.product(name: "IOSwiftUI", package: "IOSwiftUI"),
-                               "SwiftUISampleAppResources",
-                               "SwiftUISampleAppCommon",
-                               "SwiftUISampleAppInfrastructure"],
+                dependencies: [
+                    .product(name: "IOSwiftUI", package: "IOSwiftUI"),
+                    "SwiftUISampleAppResources",
+                    "SwiftUISampleAppCommon",
+                    "SwiftUISampleAppInfrastructure"
+                ],
                 path: "Sources/Presentation"),
         .target(name: "SwiftUISampleAppScreensShared",
-                dependencies: ["SwiftUISampleAppResources",
-                               "SwiftUISampleAppCommon",
-                               "SwiftUISampleAppPresentation"],
+                dependencies: [
+                    "SwiftUISampleAppResources",
+                    "SwiftUISampleAppCommon",
+                    "SwiftUISampleAppPresentation"
+                ],
                 path: "Sources/Screens/Shared"),
         
         // MARK: - Screens
@@ -190,7 +203,7 @@ let package = Package(
             .target(
                 name: "SwiftUISampleAppCommonTests",
                 dependencies: [
-                    .productItem(name: "IOSwiftUITestInfrastructure", package: "IOSwiftUI"),
+                    .product(name: "IOSwiftUITestInfrastructure", package: "IOSwiftUI"),
                     "SwiftUISampleApp"
                 ],
                 path: "Tests/CommonTests"
