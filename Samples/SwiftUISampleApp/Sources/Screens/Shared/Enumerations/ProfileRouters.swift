@@ -12,6 +12,7 @@ import IOSwiftUIScreensShared
 public enum ProfileRouters: IORouterDefinition {
     
     case changePassword(entity: ChangePasswordEntity?)
+    case friendMap(entity: FriendsMapEntity?)
     case friends(entity: FriendsEntity?)
     case settings(entity: SettingsEntity?)
     case updateProfile(entity: UpdateProfileEntity?)
@@ -21,6 +22,9 @@ public enum ProfileRouters: IORouterDefinition {
     public var entity: IOEntity? {
         switch self {
         case .changePassword(entity: let entity):
+            return entity
+        
+        case .friendMap(entity: let entity):
             return entity
             
         case .friends(entity: let entity):
@@ -44,6 +48,9 @@ public enum ProfileRouters: IORouterDefinition {
         switch self {
         case .changePassword:
             return "ChangePasswordView"
+        
+        case .friendMap:
+            return "FriendsMapView"
             
         case .friends:
             return "FriendsView"

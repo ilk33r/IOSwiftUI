@@ -1,8 +1,8 @@
 // 
-//  FriendsNavigationWireframe.swift
+//  FriendsMapNavigationWireframe.swift
 //  
 //
-//  Created by Adnan ilker Ozcan on 13.11.2022.
+//  Created by Adnan ilker Ozcan on 10.06.2023.
 //
 
 import Foundation
@@ -10,32 +10,26 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
-import SwiftUISampleAppScreensShared
 
-struct FriendsNavigationWireframe: IONavigationLinkView {
+struct FriendsMapNavigationWireframe: IONavigationLinkView {
     
     // MARK: - States
     
-    @ObservedObject var navigationState: FriendsNavigationState
+    @ObservedObject var navigationState: FriendsMapNavigationState
     
     // MARK: - Properties
     
     var body: some View {
+        EmptyView()
+        /*
         Group {
             NavigationLink(
-                destination: route(HomeRouters.self, .profile(entity: navigationState.profileEntity)),
-                isActive: $navigationState.navigateToProfile
-            ) {
-                EmptyView()
-            }
-            NavigationLink(
-                destination: route(ProfileRouters.self, .friendMap(entity: navigationState.mapEntity)),
-                isActive: $navigationState.navigateToMap
+                destination: route(IORouter.self, .sample(entity: navigationState.sampleEntity)),
+                isActive: $navigationState.navigateToPage
             ) {
                 EmptyView()
             }
         }
-        /*
         .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
             if let view = navigationState.editProfileView {
                 view
@@ -55,7 +49,7 @@ struct FriendsNavigationWireframe: IONavigationLinkView {
     
     // MARK: - Initialization Methods
     
-    init(navigationState: FriendsNavigationState) {
+    init(navigationState: FriendsMapNavigationState) {
         self.navigationState = navigationState
     }
 }

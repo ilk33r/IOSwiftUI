@@ -70,6 +70,8 @@ struct FriendsPreviewData {
         friend.userName = "ilker\(index)"
         friend.userNameAndSurname = "\(index) İlker Özcan"
         friend.locationName = "\(index) İstanbul"
+        friend.locationLatitude = 41.066110 + Double(index * 4)
+        friend.locationLongitude = 28.716310 - Double(index * 4)
         return friend
     }
 }

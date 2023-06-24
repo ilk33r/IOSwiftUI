@@ -17,8 +17,10 @@ final public class FriendsNavigationState: IONavigationState {
     
     // MARK: - Properties
     
+    @Published var navigateToMap = false
     @Published var navigateToProfile = false
     
+    private(set) var mapEntity: FriendsMapEntity?
     private(set) var profileEntity: ProfileEntity?
     
     // MARK: - Helper Methods
@@ -26,5 +28,10 @@ final public class FriendsNavigationState: IONavigationState {
     func navigateToProfile(profileEntity: ProfileEntity) {
         self.profileEntity = profileEntity
         self.navigateToProfile = true
+    }
+    
+    func navigateToMap(mapEntity: FriendsMapEntity?) {
+        self.mapEntity = mapEntity
+        self.navigateToMap = true
     }
 }

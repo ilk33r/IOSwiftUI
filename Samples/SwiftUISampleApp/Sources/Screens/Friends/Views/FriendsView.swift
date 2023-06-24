@@ -118,7 +118,7 @@ public struct FriendsView: IOController {
                     .padding(.trailing, 32)
                     .frame(width: proxy.size.width - 108)
                     Button {
-                        
+                        presenter.navigateToMap()
                     } label: {
                         Image(systemName: "map")
                     }
