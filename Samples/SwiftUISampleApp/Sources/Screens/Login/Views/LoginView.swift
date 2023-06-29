@@ -29,7 +29,7 @@ public struct LoginView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    @State private var emailText: String = ""
+    @State private var emailText = ""
     
     // MARK: - Body
     
@@ -60,6 +60,7 @@ public struct LoginView: IOController {
                             )
                         )
                         .padding(.top, 32)
+                        
                         PrimaryButton(.commonNextUppercased)
                             .setClick({
                                 if validator.validate().isEmpty {
@@ -69,6 +70,39 @@ public struct LoginView: IOController {
                                 }
                             })
                             .padding(.top, 16)
+                        
+                        if presenter.hasBiometricKey {
+                            IOButton {
+                                ZStack {
+                                    Color.black
+                                        .cornerRadius(6)
+                                    
+                                    HStack {
+                                        Image(systemName: "faceid")
+                                            .renderingMode(.template)
+                                            .resizable()
+                                            .foregroundColor(.white)
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 18, height: 18)
+                                        
+                                        Text(type: .biometricLogin)
+                                            .padding([.top, .bottom], 19)
+                                            .padding([.leading, .trailing], 12)
+                                            .font(type: .black(13))
+                                            .foregroundColor(.white)
+                                    }
+                                }
+                                .frame(maxWidth: .infinity)
+                            }
+                            .setClick {
+                                Task {
+                                    await presenter.biometricLogin()
+                                }
+                            }
+                            .frame(height: 52)
+                            .padding(.top, 16)
+                        }
+                        
                         Spacer()
                     }
                     .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 16))
@@ -95,6 +129,7 @@ public struct LoginView: IOController {
             presenter.navigationState = _navigationState
             
             emailText = appleSettings.string(for: .debugDefaultUserName) ?? ""
+            presenter.prepare()
         }
     }
     

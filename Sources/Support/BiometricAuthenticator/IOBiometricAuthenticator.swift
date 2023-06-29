@@ -11,10 +11,6 @@ import LocalAuthentication
 
 public struct IOBiometricAuthenticator {
     
-    // MARK: - Defs
-    
-    public typealias OnCompleteHandler = (_ data: Data?, _ error: IOBiometricAuthenticatorError?) -> Void
-    
     // MARK: - Privates
     
     private let authenticationContext: LAContext

@@ -85,7 +85,10 @@ let package = Package(
                     dependencies: ["SwiftUISampleAppScreensShared"],
                     path: "Sources/Screens/Splash"),
         .target(name: "SwiftUISampleAppScreensLogin",
-                dependencies: ["SwiftUISampleAppScreensShared"],
+                dependencies: [
+                    .product(name: "IOSwiftUISupportBiometricAuthenticator", package: "IOSwiftUI"),
+                    "SwiftUISampleAppScreensShared"
+                ],
                 path: "Sources/Screens/Login"),
         .target(name: "SwiftUISampleAppScreensHome",
                 dependencies: ["SwiftUISampleAppScreensShared"],

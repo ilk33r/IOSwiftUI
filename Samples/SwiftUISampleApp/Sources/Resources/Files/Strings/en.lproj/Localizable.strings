@@ -37,6 +37,7 @@
 "splash.button.register.uppercased" = "REGISTER";
 
 // MARK: -  Register & Login
+"login.biometric.login" = "Biometric Login";
 "login.error.userNotFound" = "User not found.";
 "login.input.emailAddress" = "Email address";
 "login.input.error.email" = "Invalid email address.";

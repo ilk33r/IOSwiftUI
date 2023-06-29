@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 extension IOLocalizationType {
     
+    static let biometricLogin = IOLocalizationType(rawValue: "login.biometric.login")
     static let errorUserNotFound = IOLocalizationType(rawValue: "login.error.userNotFound")
     static let inputEmailAddress = IOLocalizationType(rawValue: "login.input.emailAddress")
     static let inputErrorEmail = IOLocalizationType(rawValue: "login.input.error.email")

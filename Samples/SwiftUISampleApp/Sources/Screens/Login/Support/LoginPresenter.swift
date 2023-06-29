@@ -24,14 +24,25 @@ final public class LoginPresenter: IOPresenterable {
     
     // MARK: - Publishers
     
+    @Published private(set) var hasBiometricKey: Bool
+    
     // MARK: - Privates
     
     // MARK: - Initialization Methods
     
     public init() {
+        self.hasBiometricKey = false
     }
     
     // MARK: - Presenter
+    
+    func prepare() {
+        if
+            let userName = self.interactor.localStorage.string(forType: .biometricUserName),
+            !userName.isEmpty {
+            self.hasBiometricKey = true
+        }
+    }
     
     @MainActor
     func checkMember(email: String) async {
@@ -50,6 +61,15 @@ final public class LoginPresenter: IOPresenterable {
                     ]
                 )
             }
+        }
+    }
+    
+    @MainActor
+    func biometricLogin() async {
+        do {
+            try await self.interactor.biometricLogin()
+        } catch let err {
+            IOLogger.error(err.localizedDescription)
         }
     }
 }
