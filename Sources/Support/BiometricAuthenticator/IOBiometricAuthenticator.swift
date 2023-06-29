@@ -96,27 +96,27 @@ public struct IOBiometricAuthenticator {
         try IOBiometricAuthenticatorKeyUtilities.create(forTag: user, context: authenticationContext)
     }
     
-    public func unlockBiometricAuthentication(
-        reason: IOLocalizationType,
-        handler: @escaping OnCompleteHandler
-    ) {
-        authenticationContext.evaluatePolicy(
-            .deviceOwnerAuthentication,
-            localizedReason: reason.localized
-        ) { success, error in
-            // Check error exist
-            if let error {
-                IOLogger.error("Biometry unlock error.\n\(error.localizedDescription)")
-                handler(nil, IOBiometricAuthenticatorError.unlockError(message: error.localizedDescription))
-                return
-            }
-            
-            // Check status
-            if success {
-                handler(nil, nil)
-            } else {
-                IOLogger.error("Biometric authentication failed.")
-                handler(nil, IOBiometricAuthenticatorError.authFailed)
+    @MainActor
+    public func unlockBiometricAuthentication(reason: IOLocalizationType) async throws -> Bool {
+        try await withUnsafeThrowingContinuation { contination in
+            authenticationContext.evaluatePolicy(
+                .deviceOwnerAuthentication,
+                localizedReason: reason.localized
+            ) { success, error in
+                // Check error exist
+                if let error {
+                    IOLogger.error("Biometry unlock error.\n\(error.localizedDescription)")
+                    contination.resume(throwing: IOBiometricAuthenticatorError.unlockError(message: error.localizedDescription))
+                    return
+                }
+                
+                // Check status
+                if success {
+                    contination.resume(returning: true)
+                } else {
+                    IOLogger.error("Biometric authentication failed.")
+                    contination.resume(throwing: IOBiometricAuthenticatorError.authFailed)
+                }
             }
         }
     }

@@ -16,6 +16,14 @@ import SwiftUISampleAppScreensShared
 
 final public class SettingsPresenter: IOPresenterable {
     
+    // MARK: - Defs
+    
+    private enum BiometricAuthenticatorType {
+        case prepare
+        case forcePair
+        case unlock
+    }
+    
     // MARK: - Presentable
     
     public var environment: EnvironmentObject<SampleAppEnvironment>!
@@ -88,7 +96,7 @@ final public class SettingsPresenter: IOPresenterable {
             )
             
         case .biometricAuth:
-            self.interactor.prepareBiometricAuthentication()
+            await self.prepareBiometricAuthentication()
             
         case .privacyPolicy:
             self.navigationState.wrappedValue.navigateToWeb(
@@ -112,56 +120,6 @@ final public class SettingsPresenter: IOPresenterable {
             await self.logout()
         }
     }
-    
-    /*
-    func updateBiometricPaired() {
-        showAlert {
-            IOAlertData(
-                title: nil,
-                message: .successBiometricPaired,
-                buttons: [.commonOk],
-                handler: nil
-            )
-        }
-    }
-    
-    func update(biometryError: IOBiometricAuthenticatorError) {
-        switch biometryError {
-        case .doesNotSupport(message: let message), .unlockError(message: let message):
-            showAlert {
-                IOAlertData(
-                    title: nil,
-                    message: message,
-                    buttons: [.commonOk],
-                    handler: nil
-                )
-            }
-            
-        case .canNotEvaluate:
-            showAlert {
-                IOAlertData(
-                    title: nil,
-                    message: .errorBiometricCanNotEvaluate,
-                    buttons: [.commonOk],
-                    handler: nil
-                )
-            }
-            
-        case .dataSign, .keyCreation, .keyNotFound, .userCancelled, .authFailed:
-            showAlert {
-                IOAlertData(
-                    title: nil,
-                    message: .networkCommonError,
-                    buttons: [.commonOk],
-                    handler: nil
-                )
-            }
-            
-        case .locked:
-            self.interactor.unlockBiometricAuthentication()
-        }
-    }
-    */
     
     // MARK: - Helper Methods
     
@@ -229,6 +187,79 @@ final public class SettingsPresenter: IOPresenterable {
                 self.navigateToBack = true
             } catch let err {
                 IOLogger.error(err.localizedDescription)
+            }
+        }
+    }
+    
+    @MainActor
+    private func prepareBiometricAuthentication() async {
+        await self.prepareBiometricAuthentication(.prepare)
+    }
+    
+    @MainActor
+    private func prepareBiometricAuthentication(_ type: BiometricAuthenticatorType) async {
+        do {
+            if type == .forcePair {
+                try await self.interactor.biometricPairDevice()
+            } else if type == .unlock {
+                try await self.interactor.unlockBiometricAuthentication()
+            } else {
+                try await self.interactor.prepareBiometricAuthentication()
+            }
+            
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .successBiometricPaired,
+                    buttons: [.commonOk]
+                )
+            }
+            
+        } catch IOBiometricAuthenticatorError.doesNotSupport(message: let message) {
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: message,
+                    buttons: [.commonOk]
+                )
+            }
+        } catch IOBiometricAuthenticatorError.unlockError(message: let message) {
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: message,
+                    buttons: [.commonOk]
+                )
+            }
+        } catch IOBiometricAuthenticatorError.canNotEvaluate {
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .errorBiometricCanNotEvaluate,
+                    buttons: [.commonOk]
+                )
+            }
+        } catch IOBiometricAuthenticatorError.locked {
+            await self.prepareBiometricAuthentication(.unlock)
+        } catch IOInteractorError.service {
+            let index = await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .errorBiometricActivated,
+                    buttons: [.commonCancel, .buttonReactivate]
+                )
+            }
+            
+            if index == 1 {
+                await self.prepareBiometricAuthentication(.forcePair)
+            }
+        } catch {
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .networkCommonError,
+                    buttons: [.commonOk]
+                )
             }
         }
     }

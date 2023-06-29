@@ -146,84 +146,59 @@ public struct SettingsInteractor: IOInteractor {
         }
     }
     
-    func prepareBiometricAuthentication() {
-        do {
-            try biometricAuthenticator.checkBiometricStatus()
+    @MainActor
+    func prepareBiometricAuthentication() async throws {
+        try biometricAuthenticator.checkBiometricStatus()
+        let isPaired = try biometricAuthenticator.isPaired(forUser: entity.member.userName ?? "")
+        
+        if isPaired {
+            throw IOInteractorError.service
+        }
+        
+        try await self.biometricPairDevice()
+    }
+    
+    @MainActor
+    func biometricPairDevice() async throws {
+        showIndicator()
+        
+        let authenticationData = try biometricAuthenticator.pairDevice(forUser: entity.member.userName ?? "")
+        
+        guard let aesIV = appState.object(forType: .aesIV) as? Data else { return }
+        guard let aesKey = appState.object(forType: .aesKey) as? Data else { return }
+        
+        guard let encryptedAuthenticationData = IOAESUtilities.encrypt(
+            string: authenticationData.toHexString(),
+            keyData: aesKey,
+            ivData: aesIV
+        ) else { return }
+        
+        let request = MemberPairFaceIDRequestModel(authenticationKey: encryptedAuthenticationData.base64EncodedString())
+        let result = await service.async(.pairFaceID(request: request), responseType: GenericResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success:
+            localStorage.set(string: entity.member.userName ?? "", forType: .biometricUserName)
             
-            let isPaired = try biometricAuthenticator.isPaired(forUser: entity.member.userName ?? "")
-            if isPaired {
-//                showAlert {
-//                    IOAlertData(
-//                        title: nil,
-//                        message: .settingsErrorBiometricActivated,
-//                        buttons: [.commonCancel, .settingsButtonReactivate]
-//                    ) { index in
-//                        if index == 1 {
-//                            biometricPairDevice()
-//                        }
-//                    }
-//                }
-                
-                return
-            }
-            
-            biometricPairDevice()
-        } catch let error {
-            guard let biometryError = error as? IOBiometricAuthenticatorError else { return }
-//            presenter?.update(biometryError: biometryError)
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
         }
     }
     
-    /*
-    func unlockBiometricAuthentication() {
-        biometricAuthenticator.unlockBiometricAuthentication(
+    @MainActor
+    func unlockBiometricAuthentication() async throws {
+        let status = try await biometricAuthenticator.unlockBiometricAuthentication(
             reason: .errorBiometricLockedOut
-        ) { _, error in
-            if let error {
-//                presenter?.update(biometryError: error)
-                return
-            }
-            
-            prepareBiometricAuthentication()
+        )
+        
+        if status {
+            try await prepareBiometricAuthentication()
         }
     }
-    */
     
     // MARK: - Helper Methods
-    
-    private func biometricPairDevice() {
-        do {
-            let authenticationData = try biometricAuthenticator.pairDevice(forUser: entity.member.userName ?? "")
-            
-            guard let aesIV = appState.object(forType: .aesIV) as? Data else { return }
-            guard let aesKey = appState.object(forType: .aesKey) as? Data else { return }
-            
-            guard let encryptedAuthenticationData = IOAESUtilities.encrypt(
-                string: authenticationData.toHexString(),
-                keyData: aesKey,
-                ivData: aesIV
-            ) else { return }
-            
-            showIndicator()
-            let request = MemberPairFaceIDRequestModel(authenticationKey: encryptedAuthenticationData.base64EncodedString())
-            /*
-            service.request(.pairFaceID(request: request), responseType: GenericResponseModel.self) { result in
-                hideIndicator()
-                
-                switch result {
-                case .success(_):
-                    presenter?.updateBiometricPaired()
-                    
-                case .error(message: let message, type: let type, response: let response):
-                    handleServiceError(message, type: type, response: response, handler: nil)
-                }
-            }
-            */
-        } catch let error {
-            guard let biometryError = error as? IOBiometricAuthenticatorError else { return }
-//            presenter?.update(biometryError: biometryError)
-        }
-    }
     
     @MainActor
     private func uploadProfilePicture(image: UIImage) async throws {
