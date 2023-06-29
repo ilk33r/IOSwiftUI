@@ -51,7 +51,9 @@ public struct FriendsMapView: IOController {
                     userTrackingMode: $tracking,
                     annotationItems: annotations
                 ) { place in
-                    MapPin(coordinate: place.coordinate)
+                    MapAnnotation(coordinate: place.coordinate) {
+                        FriendMapAnnotationView(uiModel: place)
+                    }
                 }
                 
                 Color.white

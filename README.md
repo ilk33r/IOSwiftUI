@@ -7,5 +7,4 @@ IO Swift UI viper architecture, sample application and SwiftUI framework.
 
 ### Evolution
 - FaceID Login
-- Friends page map view.
 - Stories.

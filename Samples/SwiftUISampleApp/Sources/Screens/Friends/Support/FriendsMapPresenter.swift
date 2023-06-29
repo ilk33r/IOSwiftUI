@@ -47,7 +47,9 @@ final public class FriendsMapPresenter: IOPresenterable {
                     coordinate: CLLocationCoordinate2D(
                         latitude: CLLocationDegrees($0.locationLatitude!),
                         longitude: CLLocationDegrees($0.locationLongitude!)
-                    )
+                    ),
+                    nameSurname: $0.userNameAndSurname ?? "",
+                    profilePicturePublicId: $0.profilePicturePublicId
                 )
             } ?? []
     }

@@ -13,4 +13,6 @@ struct FriendMapPinUIModel: Identifiable {
     var id = UUID()
     
     let coordinate: CLLocationCoordinate2D
+    let nameSurname: String
+    let profilePicturePublicId: String?
 }
