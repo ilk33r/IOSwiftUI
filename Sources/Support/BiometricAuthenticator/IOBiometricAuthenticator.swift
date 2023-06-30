@@ -116,4 +116,13 @@ public struct IOBiometricAuthenticator {
             }
         }
     }
+    
+    @MainActor
+    public func signBiometricToken(forUser user: String, token: String) throws -> Data {
+        if let data = token.data(using: .utf8) {
+            return try IOBiometricAuthenticatorKeyUtilities.sign(data, forTag: user)
+        }
+        
+        throw IOBiometricAuthenticatorError.dataSign
+    }
 }

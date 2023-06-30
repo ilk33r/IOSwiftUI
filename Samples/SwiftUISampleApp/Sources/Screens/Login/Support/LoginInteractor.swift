@@ -20,6 +20,10 @@ public struct LoginInteractor: IOInteractor {
     public var entity: LoginEntity!
     public weak var presenter: (any IOPresenterable)?
     
+    // MARK: - DI
+    
+    @IOInject private var httpClient: IOHTTPClient
+    
     // MARK: - Privates
     
     private var biometricAuthenticator = IOBiometricAuthenticator()
@@ -66,11 +70,45 @@ public struct LoginInteractor: IOInteractor {
         
         switch result {
         case .success(let response):
-            IOLogger.debug("response \(response)")
+            try await signBiometricToken(token: response.biometricToken ?? "", userName: userName)
             
         case .error(let message, let type, let response):
             await handleServiceErrorAsync(message, type: type, response: response)
             throw IOInteractorError.service
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    @MainActor
+    private func signBiometricToken(token: String, userName: String) async throws {
+        showIndicator()
+        
+        let signedData = try biometricAuthenticator.signBiometricToken(forUser: userName, token: token)
+        let request = AuthenticateWithBiometricRequestModel(userName: userName, biometricPassword: signedData.base64EncodedString())
+        let result = await service.async(.authenticateWithBiometric(request: request), responseType: AuthenticateResponseModel.self)
+        hideIndicator()
+        
+        switch result {
+        case .success(let response):
+            completeLogin(response: response)
+            
+        case .error(let message, let type, let response):
+            await handleServiceErrorAsync(message, type: type, response: response)
+            throw IOInteractorError.service
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func completeLogin(response: AuthenticateResponseModel?) {
+        guard let response else { return }
+        
+        localStorage.set(string: response.token ?? "", forType: .userToken)
+        
+        if var defaultHTTPHeaders = httpClient.defaultHTTPHeaders {
+            defaultHTTPHeaders["X-IO-AUTHORIZATION-TOKEN"] = response.token ?? ""
+            httpClient.setDefaultHTTPHeaders(headers: defaultHTTPHeaders)
         }
     }
 }

@@ -9,6 +9,7 @@ import Foundation
 import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
+import IOSwiftUISupportBiometricAuthenticator
 import SwiftUI
 import SwiftUISampleAppPresentation
 
@@ -68,6 +69,25 @@ final public class LoginPresenter: IOPresenterable {
     func biometricLogin() async {
         do {
             try await self.interactor.biometricLogin()
+            self.environment.wrappedValue.appScreen = .loggedIn
+        } catch IOBiometricAuthenticatorError.userCancelled {
+            IOLogger.error("User cancelled biometric authentication.")
+        } catch IOBiometricAuthenticatorError.keyNotFound {
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .errorBiometricActivated,
+                    buttons: [.commonOk]
+                )
+            }
+        } catch IOBiometricAuthenticatorError.dataSign {
+            await self.showAlertAsync {
+                IOAlertData(
+                    title: nil,
+                    message: .networkCommonError,
+                    buttons: [.commonOk]
+                )
+            }
         } catch let err {
             IOLogger.error(err.localizedDescription)
         }

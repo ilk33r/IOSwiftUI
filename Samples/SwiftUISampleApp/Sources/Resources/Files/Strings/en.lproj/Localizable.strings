@@ -38,6 +38,7 @@
 
 // MARK: -  Register & Login
 "login.biometric.login" = "Biometric Login";
+"login.error.biometric.activated" = "Your biometric login is not activated. Please login with email and activate tour biometric login.";
 "login.error.userNotFound" = "User not found.";
 "login.input.emailAddress" = "Email address";
 "login.input.error.email" = "Invalid email address.";

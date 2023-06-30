@@ -14,6 +14,7 @@ import SwiftUISampleAppInfrastructure
 enum LoginService {
     
     case biometricToken(request: BiometricAuthenticateRequestModel)
+    case authenticateWithBiometric(request: AuthenticateWithBiometricRequestModel)
 }
 
 extension LoginService: IOServiceType {
@@ -21,6 +22,9 @@ extension LoginService: IOServiceType {
     var methodType: IOHTTPRequestType {
         switch self {
         case .biometricToken:
+            return .post
+            
+        case .authenticateWithBiometric:
             return .post
         }
     }
@@ -36,6 +40,9 @@ extension LoginService: IOServiceType {
         switch self {
         case .biometricToken:
             return "MemberLogin/BiometricToken"
+            
+        case .authenticateWithBiometric:
+            return "MemberLogin/AuthenticateWithBiometric"
         }
     }
     
@@ -56,6 +63,9 @@ extension LoginService: IOServiceType {
     var body: Data? {
         switch self {
         case .biometricToken(request: let request):
+            return handleRequest(request)
+            
+        case .authenticateWithBiometric(request: let request):
             return handleRequest(request)
         }
     }

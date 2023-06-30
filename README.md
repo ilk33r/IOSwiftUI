@@ -6,5 +6,4 @@ IO Swift UI viper architecture, sample application and SwiftUI framework.
 * Each screen has a unit test.
 
 ### Evolution
-- FaceID Login
 - Stories.
