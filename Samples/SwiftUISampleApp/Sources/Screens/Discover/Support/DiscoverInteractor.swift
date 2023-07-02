@@ -22,6 +22,7 @@ public struct DiscoverInteractor: IOInteractor {
     // MARK: - Privates
     
     private var service = IOServiceProviderImpl<DiscoverService>()
+    private var storyService = IOServiceProviderImpl<StoryService>()
     
     // MARK: - Initialization Methods
     
@@ -43,6 +44,19 @@ public struct DiscoverInteractor: IOInteractor {
         case .error(message: let message, type: let type, response: let response):
             await handleServiceErrorAsync(message, type: type, response: response)
             throw IOInteractorError.service
+        }
+    }
+    
+    @MainActor
+    func stories() async -> DiscoverStoriesResponseModel? {
+        let result = await storyService.async(.discoverStories, responseType: DiscoverStoriesResponseModel.self)
+        
+        switch result {
+        case .success(let response):
+            return response
+            
+        case .error:
+            return nil
         }
     }
 }

@@ -7,3 +7,6 @@ IO Swift UI viper architecture, sample application and SwiftUI framework.
 
 ### Evolution
 - Stories.
+- Wallet (Cards and Load Money)
+- Apple Pay integration
+- Image Purchase

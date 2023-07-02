@@ -180,6 +180,7 @@ let package = Package(
                     "SwiftUISampleAppCommon",
                     "SwiftUISampleAppInfrastructure",
                     "SwiftUISampleAppPresentation",
+                    "SwiftUISampleAppScreensShared",
                     "SwiftUISampleAppScreensSplash",
                     "SwiftUISampleAppScreensLogin",
                     "SwiftUISampleAppScreensHome",

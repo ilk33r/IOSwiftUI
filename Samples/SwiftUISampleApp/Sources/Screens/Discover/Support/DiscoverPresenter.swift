@@ -12,6 +12,7 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 final public class DiscoverPresenter: IOPresenterable {
     
@@ -31,11 +32,13 @@ final public class DiscoverPresenter: IOPresenterable {
     
     // MARK: - Publisher
     
+    @Published var stories: [StoryItemUIModel]?
     @Published private(set) var images: [DiscoverUIModel]!
     @Published private(set) var isRefreshing: Bool!
     
     // MARK: - Privates
     
+    private var allStories: DiscoverStoriesResponseModel?
     private var imagesStart: Int!
     private var isImagesLoading: Bool!
     private var totalImageCount: Int?
@@ -53,13 +56,26 @@ final public class DiscoverPresenter: IOPresenterable {
     
     @MainActor
     func prepare() async {
-        await self.loadImages(showIndicator: true)
+        async let imageStatus = self.loadImages(showIndicator: true)
+        async let stories = self.interactor.stories()
+        
+        let allData = await (imageStatus, stories)
+        self.allStories = allData.1
+        self.stories = self.allStories?
+            .stories?
+            .map {
+                StoryItemUIModel(
+                    userProfilePicturePublicId: $0.images?.first?.userProfilePicturePublicId,
+                    userName: $0.images?.first?.userName
+                )
+            }
     }
     
     @MainActor
-    func loadImages(showIndicator: Bool) async {
+    @discardableResult
+    func loadImages(showIndicator: Bool) async -> Bool {
         if self.isImagesLoading {
-            return
+            return false
         }
         
         if let totalImageCount = self.totalImageCount, self.images.count < totalImageCount {
@@ -72,7 +88,7 @@ final public class DiscoverPresenter: IOPresenterable {
             
             self.isImagesLoading = true
         } else {
-            return
+            return false
         }
         
         do {
@@ -84,6 +100,8 @@ final public class DiscoverPresenter: IOPresenterable {
         } catch let err {
             IOLogger.error(err.localizedDescription)
         }
+        
+        return true
     }
     
     func resetPaging() {

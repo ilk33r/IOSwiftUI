@@ -38,6 +38,15 @@ public struct DiscoverView: IOController {
                 scrollOffset: $scrollOffset
             ) { _ in
                 LazyVStack {
+                    
+                    if presenter.stories == nil || !(presenter.stories?.isEmpty ?? true) {
+                        StoryListView(
+                            uiModels: $presenter.stories
+                        )
+                        .padding([.leading, .trailing], 16)
+                        .padding(.bottom, 8)
+                    }
+                    
                     ForEach(presenter.images) { item in
                         DiscoverCellView(
                             uiModel: item,
