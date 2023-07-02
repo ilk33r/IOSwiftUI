@@ -41,6 +41,16 @@ public struct SearchView: IOController {
                     contentSize: $contentSize,
                     scrollOffset: $scrollOffset
                 ) { _ in
+                    
+                    if presenter.stories == nil || !(presenter.stories?.isEmpty ?? true) {
+                        StoryListView(
+                            uiModels: $presenter.stories
+                        )
+                        .padding([.leading, .trailing], 16)
+                        .padding(.bottom, 8)
+                        .padding(.top, 32)
+                    }
+                    
                     Text(type: .resultTypeAll)
                         .font(type: .black(13))
                         .foregroundColor(.black)

@@ -13,6 +13,7 @@ import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppScreensShared
 
 final public class SearchPresenter: IOPresenterable {
     
@@ -30,6 +31,7 @@ final public class SearchPresenter: IOPresenterable {
     
     // MARK: - Publishers
     
+    @Published var stories: [StoryItemUIModel]?
     @Published private(set) var images: [SearchUIModel]!
     @Published private(set) var isRefreshing: Bool!
     @Published private(set) var keyboardPublisher: AnyPublisher<Bool, Never>
@@ -38,6 +40,7 @@ final public class SearchPresenter: IOPresenterable {
     
     private let numberOfImagesPerPage = 30
     
+    private var allStories: DiscoverStoriesResponseModel?
     private var isImagesLoading: Bool!
     private var isSearchMode: Bool!
     private var imagesStart: Int
@@ -70,17 +73,30 @@ final public class SearchPresenter: IOPresenterable {
     
     @MainActor
     func prepare() async {
-        await loadImages()
+        async let imageStatus = await loadImages()
+        async let stories = self.interactor.stories()
+        
+        let allData = await (imageStatus, stories)
+        self.allStories = allData.1
+        self.stories = self.allStories?
+            .stories?
+            .map {
+                StoryItemUIModel(
+                    userProfilePicturePublicId: $0.images?.first?.userProfilePicturePublicId,
+                    userName: $0.images?.first?.userName
+                )
+            }
     }
     
     @MainActor
-    func loadImages() async {
+    @discardableResult
+    func loadImages() async -> Bool {
         if self.isSearchMode {
-            return
+            return false
         }
         
         if self.isImagesLoading {
-            return
+            return false
         }
         
         if let totalImageCount = self.totalImageCount, self.images.count < totalImageCount {
@@ -90,7 +106,7 @@ final public class SearchPresenter: IOPresenterable {
             self.images.append(contentsOf: self.generateDummyData())
             self.isImagesLoading = true
         } else {
-            return
+            return false
         }
         
         do {
@@ -99,6 +115,8 @@ final public class SearchPresenter: IOPresenterable {
         } catch let err {
             IOLogger.error(err.localizedDescription)
         }
+        
+        return true
     }
     
     func resetPaging() {
