@@ -28,14 +28,14 @@ struct DiscoverNavigationWireframe: IONavigationLinkView {
             }
             .navigationBarTitle("", displayMode: .inline)
         }
+        .fullScreenCover(isPresented: $navigationState.navigateToStories) {
+            if let view = navigationState.storiesView {
+                view
+            } else {
+                EmptyView()
+            }
+        }
         /*
-         .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
-             if let view = navigationState.editProfileView {
-                 view
-             } else {
-                 EmptyView()
-             }
-         }
          .sheet(isPresented: $navigationState.navigateToMap) {
              if let mapView = navigationState.mapView {
                  mapView
