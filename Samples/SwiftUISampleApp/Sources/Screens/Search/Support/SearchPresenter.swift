@@ -150,6 +150,14 @@ final public class SearchPresenter: IOPresenterable {
         }
     }
     
+    func navigateToStories(isPresented: Binding<Bool>) {
+        let storiesEntity = StoriesEntity(
+            allStories: self.allStories?.stories ?? [],
+            isPresented: isPresented
+        )
+        self.navigationState.wrappedValue.navigateToStories(storiesEntity: storiesEntity)
+    }
+    
     // MARK: - Helper Methods
     
     private func generateDummyData() -> [SearchUIModel] {

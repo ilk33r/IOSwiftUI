@@ -30,14 +30,14 @@ struct SearchNavigationWireframe: IONavigationLinkView {
             }
             .navigationBarTitle("", displayMode: .inline)
         }
-        /*
-        .fullScreenCover(isPresented: $navigationState.navigateToEditProfile) {
-            if let view = navigationState.editProfileView {
+        .fullScreenCover(isPresented: $navigationState.navigateToStories) {
+            if let view = navigationState.storiesView {
                 view
             } else {
                 EmptyView()
             }
         }
+        /*
         .sheet(isPresented: $navigationState.navigateToMap) {
             if let mapView = navigationState.mapView {
                 mapView

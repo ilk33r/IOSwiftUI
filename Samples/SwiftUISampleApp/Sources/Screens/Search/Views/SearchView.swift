@@ -49,6 +49,11 @@ public struct SearchView: IOController {
                         .padding([.leading, .trailing], 16)
                         .padding(.bottom, 8)
                         .padding(.top, 32)
+                        .setClick {
+                            presenter.navigateToStories(
+                                isPresented: $navigationState.navigateToStories
+                            )
+                        }
                     }
                     
                     Text(type: .resultTypeAll)

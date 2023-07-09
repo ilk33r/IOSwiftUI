@@ -14,24 +14,6 @@ import SwiftUISampleAppScreensShared
 
 public struct StoriesView: IOController {
     
-    struct StoryItem: Identifiable {
-        
-        let name: String
-        let back: Color
-        
-        var id = UUID()
-    }
-    
-    var previewItems = [
-        StoryItem(name: "Lorem", back: .gray),
-        StoryItem(name: "Ipsum", back: .red),
-        StoryItem(name: "Dolor", back: .green),
-        StoryItem(name: "Sit", back: .blue),
-        StoryItem(name: "Amet", back: .gray),
-        StoryItem(name: "consectetur", back: .red),
-        StoryItem(name: "adipiscing", back: .yellow)
-    ]
-    
     // MARK: - Generics
     
     public typealias Presenter = StoriesPresenter
@@ -48,18 +30,18 @@ public struct StoriesView: IOController {
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                
-                IOStoryScrollView(items: previewItems) { item in
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 30)
-                            .fill(item.back)
-                        Text(item.name)
-                    }
-                }
-                
-                Color.white
-                    .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
+                Color.black
                     .ignoresSafeArea()
+                    .zIndex(10)
+                
+                IOStoryScrollView(items: presenter.stories) { item in
+                    StoryItemView(
+                        images: item.images,
+                        isPresented: presenter.interactor.entity.isPresented
+                    )
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                }
+                .zIndex(20)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
@@ -71,11 +53,13 @@ public struct StoriesView: IOController {
         }
         .onAppear {
             if isPreviewMode {
+                presenter.prepare()
                 return
             }
             
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
+            presenter.prepare()
         }
     }
     
@@ -93,7 +77,10 @@ struct StoriesView_Previews: PreviewProvider {
         
         var body: some View {
             StoriesView(
-                entity: StoriesEntity()
+                entity: StoriesEntity(
+                    allStories: StoriesPreviewData.previewData,
+                    isPresented: Binding.constant(true)
+                )
             )
         }
     }

@@ -46,7 +46,9 @@ public struct DiscoverView: IOController {
                         .padding([.leading, .trailing], 16)
                         .padding(.bottom, 8)
                         .setClick {
-                            navigationState.navigateToStories(storiesEntity: nil)
+                            presenter.navigateToStories(
+                                isPresented: $navigationState.navigateToStories
+                            )
                         }
                     }
                     

@@ -18,8 +18,10 @@ final public class SearchNavigationState: IONavigationState {
     // MARK: - Properties
     
     @Published var navigateToProfile = false
+    @Published var navigateToStories = false
     
     private(set) var profileEntity: ProfileEntity?
+    private(set) var storiesView: IORouterView?
     
     // MARK: - Helper Methods
     
@@ -29,5 +31,10 @@ final public class SearchNavigationState: IONavigationState {
             userName: userName
         )
         self.navigateToProfile = true
+    }
+    
+    func navigateToStories(storiesEntity: StoriesEntity?) {
+        self.storiesView = IORouterUtilities.route(HomeRouters.self, .stories(entity: storiesEntity))
+        self.navigateToStories = true
     }
 }

@@ -7,9 +7,19 @@
 
 import Foundation
 import IOSwiftUIPresentation
+import SwiftUI
+import SwiftUISampleAppCommon
 
 public struct StoriesEntity: IOEntity {
     
-    public init() {
+    public let allStories: [DiscoverStoryModel]?
+    public var isPresented: Binding<Bool>
+    
+    public init(
+        allStories: [DiscoverStoryModel]?,
+        isPresented: Binding<Bool>
+    ) {
+        self.allStories = allStories
+        self.isPresented = isPresented
     }
 }
