@@ -13,11 +13,13 @@ struct StoryItemView: View {
     // MARK: - Privates
     
     private var images: [StoryItemUIModel]
-    
-    @Binding private var isPresented: Bool
+    private var isPresented: Binding<Bool>
     
     @State private var currentImageIndex = 0
     @State private var currentImagePublicId: String?
+    @State private var relativeDate = ""
+    @State private var userNameAndSurname = ""
+    @State private var userProfilePicturePublicId: String?
     
     // MARK: - Body
     
@@ -28,25 +30,17 @@ struct StoryItemView: View {
                     .from(publicId: $currentImagePublicId)
                     .frame(width: proxy.size.width, height: proxy.size.height)
                     .clipped()
+                    .allowsHitTesting(false)
                     .zIndex(20)
                 
                 ZStack(alignment: .topTrailing) {
-                    Button {
-                        isPresented = false
-                    } label: {
-                        Image(systemName: "xmark")
-                            .renderingMode(.template)
-                            .resizable()
-                            .foregroundColor(.white)
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 18, height: 18)
-                    }
-                    .frame(
-                        width: 40,
-                        height: 40,
-                        alignment: .topTrailing
+                    StoryHeaderView(
+                        relativeDate: relativeDate,
+                        userNameAndSurname: userNameAndSurname,
+                        userProfilePicturePublicId: userProfilePicturePublicId,
+                        currentItem: $currentImageIndex,
+                        isPresented: isPresented
                     )
-                    .padding([.top, .trailing], 24)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 .zIndex(30)
@@ -55,6 +49,16 @@ struct StoryItemView: View {
         .onAppear {
             let currentItem = images[currentImageIndex]
             currentImagePublicId = currentItem.publicId
+            relativeDate = currentItem.relativeDate
+            userNameAndSurname = currentItem.userNameAndSurname
+            userProfilePicturePublicId = currentItem.userProfilePicturePublicId
+        }
+        .onChange(of: currentImageIndex) { newValue in
+            let currentItem = images[newValue]
+            currentImagePublicId = currentItem.publicId
+            relativeDate = currentItem.relativeDate
+            userNameAndSurname = currentItem.userNameAndSurname
+            userProfilePicturePublicId = currentItem.userProfilePicturePublicId
         }
     }
     
@@ -65,7 +69,7 @@ struct StoryItemView: View {
         isPresented: Binding<Bool>
     ) {
         self.images = images
-        self._isPresented = isPresented
+        self.isPresented = isPresented
     }
 }
 

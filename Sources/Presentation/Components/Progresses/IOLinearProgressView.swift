@@ -27,7 +27,6 @@ public struct IOLinearProgressView: View {
     private let backgroundColor: Color
     private let activeColor: Color
     private let changeSeconds: Int
-    private let onNext: Handler?
     private let onFinish: Handler?
     
     @State private var timerCancellable: IOCancellable?
@@ -93,7 +92,6 @@ public struct IOLinearProgressView: View {
         activeColor: Color,
         changeSeconds: Int,
         currentItem: Binding<Int>,
-        onNext: Handler? = nil,
         onFinish: Handler? = nil
     ) {
         self.progressCount = progressCount
@@ -101,7 +99,6 @@ public struct IOLinearProgressView: View {
         self.backgroundColor = backgroundColor
         self.activeColor = activeColor
         self.changeSeconds = changeSeconds
-        self.onNext = onNext
         self.onFinish = onFinish
         
         self._currentItem = currentItem
@@ -120,7 +117,6 @@ public struct IOLinearProgressView: View {
             
             if currentItem < progressCount - 1 {
                 currentItem += 1
-                onNext?()
                 
                 thread.runOnMainThread(afterMilliSecond: 1000) {
                     updateTimer()
