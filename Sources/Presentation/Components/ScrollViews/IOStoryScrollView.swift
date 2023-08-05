@@ -25,7 +25,8 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
         GeometryReader { geometry in
             IOSnapScrollView(
                 itemWidth: Binding.constant(geometry.size.width),
-                rootViewWidth: Binding.constant(geometry.size.width * CGFloat(items.count))
+                rootViewWidth: Binding.constant(geometry.size.width * CGFloat(items.count)),
+                configuration: .init(clipsToBounds: false)
             ) {
                 HStack(spacing: 0) {
                     ForEach(items) { item in
@@ -74,12 +75,13 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
         let maxRotation = itemWidth / 2
         
         if frame.origin.x <= 0 {
-            let rorationDegree = frame.origin.x * 45 / maxRotation
+            let rorationDegree = frame.origin.x * 50 / maxRotation
             return rorationDegree
         } else {
             let startDegree = frame.origin.x - itemWidth
-            let rorationDegree = startDegree * 45 / maxRotation
-            return rorationDegree + 45
+            let rorationDegree = startDegree * 50 / maxRotation
+            // IOLogger.debug("frame: \(frame) rorationDegree: \(rorationDegree + 50)")
+            return rorationDegree + 50
         }
     }
     

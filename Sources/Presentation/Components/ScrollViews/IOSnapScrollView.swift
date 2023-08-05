@@ -12,6 +12,15 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
     
     // MARK: - Defs
     
+    public struct Configuration {
+        
+        public let clipsToBounds: Bool
+        
+        public static var `default`: Self {
+            Self(clipsToBounds: true)
+        }
+    }
+    
     final public class Coordinator: NSObject {
         
         weak var viewController: IOSnapScrollViewController<Content>?
@@ -32,6 +41,7 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
     @Binding private var itemWidth: CGFloat
     @Binding private var rootViewWidth: CGFloat
     
+    private var configuration: Configuration
     private var content: () -> Content
 
     // MARK: - Controller Representable
@@ -39,15 +49,20 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
     public init(
         itemWidth: Binding<CGFloat>,
         rootViewWidth: Binding<CGFloat>,
+        configuration: Configuration = .default,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._itemWidth = itemWidth
         self._rootViewWidth = rootViewWidth
+        self.configuration = configuration
         self.content = content
     }
 
     public func makeUIViewController(context: Context) -> IOSnapScrollViewController<Content> {
-        let vc = IOSnapScrollViewController<Content>(itemWidth: itemWidth)
+        let vc = IOSnapScrollViewController<Content>(
+            itemWidth: itemWidth,
+            clipsToBounds: configuration.clipsToBounds
+        )
         vc.setupHostingController(hostingController: IOSwiftUIViewController<Content>(rootView: self.content()))
         context.coordinator.viewController = vc
         

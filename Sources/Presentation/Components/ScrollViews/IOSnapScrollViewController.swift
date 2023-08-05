@@ -19,6 +19,7 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
     // MARK: - Privates
     
     private var itemWidth: CGFloat
+    private var clipsToBounds: Bool
     private var startingScrollingOffset: CGPoint!
     
     private weak var scrollView: UIScrollView?
@@ -27,14 +28,17 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
     // MARK: - View Lifecycle
     
     public init(
-        itemWidth: CGFloat
+        itemWidth: CGFloat,
+        clipsToBounds: Bool
     ) {
         self.itemWidth = itemWidth
+        self.clipsToBounds = clipsToBounds
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         self.itemWidth = 0
+        self.clipsToBounds = true
         super.init(coder: coder)
     }
     
@@ -51,6 +55,7 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
         )
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.clipsToBounds = self.clipsToBounds
         
         self.hostingController.add(
             parent: self,
