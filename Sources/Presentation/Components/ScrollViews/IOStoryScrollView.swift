@@ -33,11 +33,15 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
                         GeometryReader { itemGeometry in
                             let itemWidth = geometry.size.width
                             let frame = itemGeometry.frame(in: .global)
+                            
                             let degrees = calculateDegress(
                                 frame: frame,
                                 itemWidth: itemWidth
                             )
-                            
+                            let translation = calculateTranslation(
+                                frame: frame,
+                                itemWidth: itemWidth
+                            )
                             content(item)
                                 .rotation3DEffect(
                                     Angle(
@@ -47,6 +51,16 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
                                     anchor: anchor(frame: frame, itemWidth: itemWidth),
                                     anchorZ: 0.0,
                                     perspective: 1.0
+                                )
+                                .transformEffect(
+                                    .init(
+                                        translationX: translation,
+                                        y: 0
+                                    )
+                                )
+                                .frame(
+                                    width: geometry.size.width,
+                                    height: geometry.size.height
                                 )
                         }
                         .frame(
@@ -72,17 +86,29 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
     // MARK: - Helper Methods
     
     private func calculateDegress(frame: CGRect, itemWidth: CGFloat) -> CGFloat {
-        let maxRotation = itemWidth / 2
+        let xPos = abs(frame.origin.x)
+        let pct = xPos / itemWidth
         
         if frame.origin.x <= 0 {
-            let rorationDegree = frame.origin.x * 50 / maxRotation
+            let rorationDegree = -1 * pct * 90
             return rorationDegree
         } else {
-            let startDegree = frame.origin.x - itemWidth
-            let rorationDegree = startDegree * 50 / maxRotation
-            // IOLogger.debug("frame: \(frame) rorationDegree: \(rorationDegree + 50)")
-            return rorationDegree + 50
+            let rorationDegree = pct * 90
+            return rorationDegree
         }
+    }
+    
+    private func calculateTranslation(frame: CGRect, itemWidth: CGFloat) -> CGFloat {
+        if frame.origin.x > itemWidth {
+            return itemWidth
+        }
+        
+        let xPos = abs(frame.origin.x)
+        if xPos > itemWidth {
+            return -itemWidth
+        }
+        
+        return 0
     }
     
     private func anchor(frame: CGRect, itemWidth: CGFloat) -> UnitPoint {

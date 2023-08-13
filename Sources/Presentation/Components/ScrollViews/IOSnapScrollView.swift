@@ -19,6 +19,10 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
         public static var `default`: Self {
             Self(clipsToBounds: true)
         }
+        
+        public init(clipsToBounds: Bool) {
+            self.clipsToBounds = clipsToBounds
+        }
     }
     
     final public class Coordinator: NSObject {
