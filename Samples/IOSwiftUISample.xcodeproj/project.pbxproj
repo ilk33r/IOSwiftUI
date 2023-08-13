@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		F72356C22A88C4D000CC9238 /* IOSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = F72356C12A88C4D000CC9238 /* IOSwiftUI */; };
 		F73A7BD7291D5F8500D1D832 /* IOSwiftUISampleAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73A7BD6291D5F8500D1D832 /* IOSwiftUISampleAppDelegate.swift */; };
 		F78D1A7E291A47FE00E6C38B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F78D1A7D291A47FE00E6C38B /* Settings.bundle */; };
 		F7AD7DEC28DCE92100CDB8B8 /* IOBuildConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */; };
@@ -87,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F72356C22A88C4D000CC9238 /* IOSwiftUI in Frameworks */,
 				F7FEE5C128B10015005D6633 /* SwiftUISampleApp in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,6 +213,7 @@
 			name = IOSwiftUISample;
 			packageProductDependencies = (
 				F7FEE5C028B10015005D6633 /* SwiftUISampleApp */,
+				F72356C12A88C4D000CC9238 /* IOSwiftUI */,
 			);
 			productName = IOSwiftUISample;
 			productReference = F7FEE58828B0F1C9005D6633 /* IOSwiftUISample.app */;
@@ -684,6 +687,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F72356C12A88C4D000CC9238 /* IOSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IOSwiftUI;
+		};
 		F7FEE5C028B10015005D6633 /* SwiftUISampleApp */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftUISampleApp;

@@ -52,7 +52,7 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
         self.session = URLSession(configuration: sessionConfiguration, delegate: nil, delegateQueue: nil)
         
         // Log call
-        IOLogger.info("Http Client 2 configured. Base Url: \(self.baseURL.absoluteString)")
+        IOLogger.info("Http Client configured. Base Url: \(self.baseURL.absoluteString)")
     }
     
     // MARK: - Http Client Methods
