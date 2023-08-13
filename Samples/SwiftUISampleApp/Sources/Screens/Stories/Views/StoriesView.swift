@@ -25,6 +25,8 @@ public struct StoriesView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
+    @State private var currentPage = 0
+    
     // MARK: - Body
     
     public var body: some View {
@@ -34,7 +36,10 @@ public struct StoriesView: IOController {
                     .ignoresSafeArea()
                     .zIndex(10)
                 
-                IOStoryScrollView(items: presenter.stories) { item in
+                IOStoryScrollView(
+                    items: presenter.stories,
+                    currentPage: $currentPage
+                ) { item in
                     StoryItemView(
                         images: item.images,
                         isPresented: presenter.interactor.entity.isPresented
@@ -61,6 +66,9 @@ public struct StoriesView: IOController {
             presenter.navigationState = _navigationState
             presenter.prepare()
         }
+        .onChange(of: currentPage, perform: { value in
+            IOLogger.debug("Page changed \(value)")
+        })
     }
     
     // MARK: - Initialization Methods

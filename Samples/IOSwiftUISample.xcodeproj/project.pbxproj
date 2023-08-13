@@ -26,7 +26,6 @@
 		F78D1A7E291A47FE00E6C38B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F78D1A7D291A47FE00E6C38B /* Settings.bundle */; };
 		F7AD7DEC28DCE92100CDB8B8 /* IOBuildConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */; };
 		F7AD7DF028DCE96C00CDB8B8 /* IOBuildConfigGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AD7DEF28DCE96C00CDB8B8 /* IOBuildConfigGenerator.m */; };
-		F7C509152A8923FE002A6E72 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C509142A8923FE002A6E72 /* Preview.swift */; };
 		F7FEE58C28B0F1C9005D6633 /* IOSwiftUISampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FEE58B28B0F1C9005D6633 /* IOSwiftUISampleApp.swift */; };
 		F7FEE59028B0F1C9005D6633 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7FEE58F28B0F1C9005D6633 /* Assets.xcassets */; };
 		F7FEE59328B0F1C9005D6633 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7FEE59228B0F1C9005D6633 /* Preview Assets.xcassets */; };
@@ -65,7 +64,6 @@
 		F7AD7DE428DCE8FA00CDB8B8 /* IOBuildConfigGenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = IOBuildConfigGenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7AD7DEB28DCE92100CDB8B8 /* IOBuildConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IOBuildConfig.m; path = ../Plugins/IOBuildConfigGenerator/IOBuildConfig.m; sourceTree = "<group>"; };
 		F7AD7DEF28DCE96C00CDB8B8 /* IOBuildConfigGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IOBuildConfigGenerator.m; path = ../Plugins/IOBuildConfigGenerator/IOBuildConfigGenerator.m; sourceTree = "<group>"; };
-		F7C509142A8923FE002A6E72 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		F7FEE58828B0F1C9005D6633 /* IOSwiftUISample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSwiftUISample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7FEE58B28B0F1C9005D6633 /* IOSwiftUISampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSwiftUISampleApp.swift; sourceTree = "<group>"; };
 		F7FEE58F28B0F1C9005D6633 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 				F758756F29192D2200C665D1 /* Location.gpx */,
 				F7FEE59128B0F1C9005D6633 /* Preview Content */,
 				F7FEE59928B0F21E005D6633 /* Resources */,
-				F7C509142A8923FE002A6E72 /* Preview.swift */,
 			);
 			path = IOSwiftUISample;
 			sourceTree = "<group>";
@@ -348,7 +345,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7FEE58C28B0F1C9005D6633 /* IOSwiftUISampleApp.swift in Sources */,
-				F7C509152A8923FE002A6E72 /* Preview.swift in Sources */,
 				F73A7BD7291D5F8500D1D832 /* IOSwiftUISampleAppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

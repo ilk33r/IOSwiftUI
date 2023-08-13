@@ -42,6 +42,7 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
 
     // MARK: - Privates
     
+    @Binding private var currentPage: Int
     @Binding private var itemWidth: CGFloat
     @Binding private var rootViewWidth: CGFloat
     
@@ -53,11 +54,13 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
     public init(
         itemWidth: Binding<CGFloat>,
         rootViewWidth: Binding<CGFloat>,
+        currentPage: Binding<Int> = Binding.constant(0),
         configuration: Configuration = .default,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._itemWidth = itemWidth
         self._rootViewWidth = rootViewWidth
+        self._currentPage = currentPage
         self.configuration = configuration
         self.content = content
     }
@@ -69,6 +72,10 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
         )
         vc.setupHostingController(hostingController: IOSwiftUIViewController<Content>(rootView: self.content()))
         context.coordinator.viewController = vc
+        
+        vc.setPageChangeHandler { page in
+            currentPage = page
+        }
         
         return vc
     }

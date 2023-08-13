@@ -12,6 +12,10 @@ import UIKit
 
 final public class IOSnapScrollViewController<Content: View>: UIViewController, UIScrollViewDelegate {
     
+    // MARK: - Defs
+    
+    public typealias PageChangeHandler = (_ page: Int) -> Void
+    
     // MARK: - Properties
     
     private(set) public var hostingController: IOSwiftUIViewController<Content>!
@@ -21,6 +25,7 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
     private var itemWidth: CGFloat
     private var clipsToBounds: Bool
     private var startingScrollingOffset: CGPoint!
+    private var pageChangeHandler: PageChangeHandler?
     
     private weak var scrollView: UIScrollView?
     private weak var widthConstraint: NSLayoutConstraint?
@@ -83,6 +88,10 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
         }
     }
     
+    public func setPageChangeHandler(_ handler: PageChangeHandler?) {
+        self.pageChangeHandler = handler
+    }
+    
     // MARK: - ScrollView Delegate
     
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -106,5 +115,22 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
             x: self.itemWidth * page,
             y: targetContentOffset.pointee.y
         )
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let currentPage = currentPage(offset: scrollView.contentOffset.x)
+        self.pageChangeHandler?(currentPage)
+    }
+    
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        let currentPage = currentPage(offset: scrollView.contentOffset.x)
+        self.pageChangeHandler?(currentPage)
+    }
+    
+    // MARK: - Private Helpers
+    
+    private func currentPage(offset: CGFloat) -> Int {
+        let page = abs(offset) / itemWidth
+        return Int(page)
     }
 }

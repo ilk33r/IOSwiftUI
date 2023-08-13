@@ -14,6 +14,7 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
     // MARK: - Privates
     
     private let content: (_ item: Item) -> Content
+    private let currentPage: Binding<Int>
     private let items: [Item]
     
     @State private var itemWidth: CGFloat = 0
@@ -26,6 +27,7 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
             IOSnapScrollView(
                 itemWidth: Binding.constant(geometry.size.width),
                 rootViewWidth: Binding.constant(geometry.size.width * CGFloat(items.count)),
+                currentPage: currentPage,
                 configuration: .init(clipsToBounds: false)
             ) {
                 HStack(spacing: 0) {
@@ -77,10 +79,12 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
     
     public init(
         items: [Item],
+        currentPage: Binding<Int>,
         @ViewBuilder content: @escaping (_ item: Item) -> Content
     ) {
         self.items = items
         self.content = content
+        self.currentPage = currentPage
     }
     
     // MARK: - Helper Methods
@@ -133,6 +137,8 @@ struct IOStoryScrollView_Previews: PreviewProvider {
     
     struct IOStoryScrollViewDemo: View {
         
+        @State private var currentPage = 0
+        
         var previewItems = [
             StoryItem(name: "Lorem", back: .gray),
             StoryItem(name: "Ipsum", back: .red),
@@ -144,7 +150,10 @@ struct IOStoryScrollView_Previews: PreviewProvider {
         ]
         
         var body: some View {
-            IOStoryScrollView(items: previewItems) { item in
+            IOStoryScrollView(
+                items: previewItems,
+                currentPage: $currentPage
+            ) { item in
                 ZStack {
                     RoundedRectangle(cornerRadius: 30)
                         .fill(item.back)
