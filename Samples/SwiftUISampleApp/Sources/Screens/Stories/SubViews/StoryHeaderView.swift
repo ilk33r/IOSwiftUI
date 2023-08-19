@@ -14,6 +14,7 @@ struct StoryHeaderView: View {
     
     // MARK: - Privates
     
+    private let pageCount: Int
     private let relativeDate: String
     private let userNameAndSurname: String
     private let userProfilePicturePublicId: String?
@@ -29,7 +30,7 @@ struct StoryHeaderView: View {
     var body: some View {
         VStack(alignment: .leading) {
             IOLinearProgressView(
-                progressCount: 6,
+                progressCount: pageCount,
                 itemSpace: 8,
                 backgroundColor: .colorImage.opacity(0.6),
                 activeColor: .colorImage,
@@ -88,6 +89,7 @@ struct StoryHeaderView: View {
     // MARK: - Initialization Methods
     
     init(
+        pageCount: Int,
         relativeDate: String,
         userNameAndSurname: String,
         userProfilePicturePublicId: String?,
@@ -96,6 +98,7 @@ struct StoryHeaderView: View {
         isPresented: Binding<Bool>,
         onFinish: IOLinearProgressView.Handler? = nil
     ) {
+        self.pageCount = pageCount
         self.relativeDate = relativeDate
         self.userNameAndSurname = userNameAndSurname
         self.userProfilePicturePublicId = userProfilePicturePublicId
@@ -115,6 +118,7 @@ struct StoryHeaderView_Previews: PreviewProvider {
         
         var body: some View {
             StoryHeaderView(
+                pageCount: 1,
                 relativeDate: "1 Hour Ago",
                 userNameAndSurname: "Lorem",
                 userProfilePicturePublicId: nil,

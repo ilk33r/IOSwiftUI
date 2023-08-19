@@ -73,13 +73,16 @@ struct StoryItemView: View {
                 
                 ZStack(alignment: .topTrailing) {
                     StoryHeaderView(
+                        pageCount: images.count,
                         relativeDate: relativeDate,
                         userNameAndSurname: userNameAndSurname,
                         userProfilePicturePublicId: userProfilePicturePublicId,
                         currentItem: $currentImageIndex, 
                         isVisible: $isVisible,
                         isPresented: isPresented
-                    )
+                    ) {
+                        nextPage()
+                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 .zIndex(40)

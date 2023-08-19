@@ -78,7 +78,9 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
         context.coordinator.viewController = vc
         
         vc.setPageChangeHandler { page in
-            currentPage = page
+            if currentPage != page {
+                currentPage = page
+            }
         }
         
         return vc
