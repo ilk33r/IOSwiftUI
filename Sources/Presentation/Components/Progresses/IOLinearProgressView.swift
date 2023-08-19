@@ -58,12 +58,6 @@ public struct IOLinearProgressView: View {
                                     .stroke(lineWidth: proxy.size.height)
                                     .foregroundColor(activeColor)
                                     .frame(width: isAnimating ? itemProxy.size.width : 0)
-                                    .animation(
-                                        .linear(
-                                            duration: TimeInterval(changeSeconds)
-                                        ),
-                                        value: isAnimating
-                                    )
                             }
                         }
                         .frame(height: proxy.size.height)
@@ -85,12 +79,22 @@ public struct IOLinearProgressView: View {
                 timerCancellable?.cancel()
             }
         }
+        .onChange(of: currentItem) { _ in
+            isAnimating = false
+            
+            thread.runOnMainThread(afterMilliSecond: 250) {
+                updateTimer()
+            }
+        }
         .onAppear {
+            isAnimating = false
+            
             if isActive {
                 updateTimer()
             }
         }
         .onDisappear {
+            isAnimating = false
             timerCancellable?.cancel()
             timerCancellable = nil
         }
@@ -123,17 +127,18 @@ public struct IOLinearProgressView: View {
     
     private func updateTimer() {
         timerCancellable?.cancel()
-        isAnimating = true
+        
+        withAnimation(
+            .linear(
+                duration: TimeInterval(changeSeconds)
+            )
+        ) {
+            isAnimating = true
+        }
         
         timerCancellable = thread.runOnMainThread(afterMilliSecond: changeSeconds * 1000) {
-            isAnimating = false
-            
             if currentItem < progressCount - 1 {
                 currentItem += 1
-                
-                thread.runOnMainThread(afterMilliSecond: 1000) {
-                    updateTimer()
-                }
             } else {
                 onFinish?()
             }
