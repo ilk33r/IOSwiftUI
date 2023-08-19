@@ -43,6 +43,7 @@ public struct StoriesView: IOController {
                     StoryItemView(
                         images: item.images,
                         pageNumber: page,
+                        totalPage: presenter.stories.count,
                         currentPage: $currentPage,
                         isPresented: presenter.interactor.entity.isPresented
                     )
@@ -68,9 +69,9 @@ public struct StoriesView: IOController {
             presenter.navigationState = _navigationState
             presenter.prepare()
         }
-        .onChange(of: currentPage, perform: { value in
+        .onChange(of: currentPage) { value in
             IOLogger.debug("Page changed \(value)")
-        })
+        }
     }
     
     // MARK: - Initialization Methods

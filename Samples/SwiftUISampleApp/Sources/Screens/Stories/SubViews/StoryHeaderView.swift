@@ -18,6 +18,7 @@ struct StoryHeaderView: View {
     private let userNameAndSurname: String
     private let userProfilePicturePublicId: String?
     private let currentItem: Binding<Int>
+    private let onFinish: IOLinearProgressView.Handler?
     
     @Binding private var isPresented: Bool
     
@@ -33,8 +34,9 @@ struct StoryHeaderView: View {
                 backgroundColor: .colorImage.opacity(0.6),
                 activeColor: .colorImage,
                 changeSeconds: 8,
-                currentItem: currentItem, 
-                isActive: isVisible
+                currentItem: currentItem,
+                isActive: isVisible,
+                onFinish: onFinish
             )
             .frame(height: 2)
             .padding(.top, 8)
@@ -91,12 +93,14 @@ struct StoryHeaderView: View {
         userProfilePicturePublicId: String?,
         currentItem: Binding<Int>,
         isVisible: Binding<Bool>,
-        isPresented: Binding<Bool>
+        isPresented: Binding<Bool>,
+        onFinish: IOLinearProgressView.Handler? = nil
     ) {
         self.relativeDate = relativeDate
         self.userNameAndSurname = userNameAndSurname
         self.userProfilePicturePublicId = userProfilePicturePublicId
         self.currentItem = currentItem
+        self.onFinish = onFinish
         self.isVisible = isVisible
         self._isPresented = isPresented
     }

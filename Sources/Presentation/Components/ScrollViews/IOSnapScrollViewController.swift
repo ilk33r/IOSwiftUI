@@ -80,6 +80,15 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
         self.hostingController = hostingController
     }
     
+    public func setPage(_ page: Int) {
+        let itemWidth = self.scrollView?.bounds.size.width ?? 0
+        let newX = itemWidth * CGFloat(page)
+        
+        if newX >= 0 {
+            self.scrollView?.setContentOffset(CGPoint(x: newX, y: 0), animated: true)
+        }
+    }
+    
     public func updateWidth(_ width: CGFloat) {
         if self.widthConstraint == nil {
             self.widthConstraint = self.hostingController.view.addWidth(width)

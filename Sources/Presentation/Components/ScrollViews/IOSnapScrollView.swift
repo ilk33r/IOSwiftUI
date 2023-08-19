@@ -27,12 +27,16 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
     
     final public class Coordinator: NSObject {
         
-        weak var viewController: IOSnapScrollViewController<Content>?
+        weak var viewController: IOSnapScrollViewController<AnyView>?
 
         override init() {
             super.init()
         }
 
+        func setPage(_ page: Int) {
+            viewController?.setPage(page)
+        }
+        
         func updateWidth(_ width: CGFloat) {
             if width > 0 {
                 viewController?.updateWidth(width)
@@ -65,12 +69,12 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
         self.content = content
     }
 
-    public func makeUIViewController(context: Context) -> IOSnapScrollViewController<Content> {
-        let vc = IOSnapScrollViewController<Content>(
+    public func makeUIViewController(context: Context) -> IOSnapScrollViewController<AnyView> {
+        let vc = IOSnapScrollViewController<AnyView>(
             itemWidth: itemWidth,
             clipsToBounds: configuration.clipsToBounds
         )
-        vc.setupHostingController(hostingController: IOSwiftUIViewController<Content>(rootView: self.content()))
+        vc.setupHostingController(hostingController: IOSwiftUIViewController<AnyView>(rootView: viewForContent()))
         context.coordinator.viewController = vc
         
         vc.setPageChangeHandler { page in
@@ -80,13 +84,25 @@ public struct IOSnapScrollView<Content: View>: UIViewControllerRepresentable {
         return vc
     }
 
-    public func updateUIViewController(_ viewController: IOSnapScrollViewController<Content>, context: Context) {
-        viewController.hostingController.rootView = self.content()
+    public func updateUIViewController(_ viewController: IOSnapScrollViewController<AnyView>, context: Context) {
+        context.coordinator.setPage(currentPage)
+        viewController.hostingController.rootView = viewForContent()
         
         context.coordinator.updateWidth(rootViewWidth)
     }
     
     public func makeCoordinator() -> Coordinator {
         Coordinator()
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func viewForContent() -> AnyView {
+        let view = content()
+            .onChange(of: currentPage) { newValue in
+                currentPage = newValue
+            }
+        
+        return AnyView(view)
     }
 }

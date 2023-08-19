@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IOSwiftUIInfrastructure
 import SwiftUI
 
 struct StoryItemView: View {
@@ -14,6 +15,7 @@ struct StoryItemView: View {
     
     private var images: [StoryItemUIModel]
     private var pageNumber: Int
+    private var totalPage: Int
     private var isPresented: Binding<Bool>
     
     @Binding private var currentPage: Int
@@ -37,6 +39,38 @@ struct StoryItemView: View {
                     .allowsHitTesting(false)
                     .zIndex(20)
                 
+                ZStack(alignment: .topLeading) {
+                    HStack {
+                        Rectangle()
+                            .fill(Color.clear)
+                            .setClick {
+                                let newImageIndex = currentImageIndex - 1
+                                if newImageIndex >= 0 {
+                                    currentImageIndex = newImageIndex
+                                } else {
+                                    previousPage()
+                                }
+                            }
+                            .frame(width: 100)
+                        
+                        Spacer()
+                        
+                        Rectangle()
+                            .fill(Color.clear)
+                            .setClick {
+                                let newImageIndex = currentImageIndex + 1
+                                if newImageIndex < images.count {
+                                    currentImageIndex = newImageIndex
+                                } else {
+                                    nextPage()
+                                }
+                            }
+                            .frame(width: 100)
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .zIndex(30)
+                
                 ZStack(alignment: .topTrailing) {
                     StoryHeaderView(
                         relativeDate: relativeDate,
@@ -48,7 +82,7 @@ struct StoryItemView: View {
                     )
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                .zIndex(30)
+                .zIndex(40)
             }
         }
         .onAppear {
@@ -60,6 +94,16 @@ struct StoryItemView: View {
             isVisible = currentPage == pageNumber
         }
         .onChange(of: currentImageIndex) { newValue in
+            if newValue < 0 {
+                previousPage()
+                return
+            }
+            
+            if newValue >= images.count {
+                nextPage()
+                return
+            }
+            
             let currentItem = images[newValue]
             currentImagePublicId = currentItem.publicId
             relativeDate = currentItem.relativeDate
@@ -76,15 +120,33 @@ struct StoryItemView: View {
     init(
         images: [StoryItemUIModel],
         pageNumber: Int,
+        totalPage: Int,
         currentPage: Binding<Int>,
         isPresented: Binding<Bool>
     ) {
         self.images = images
         self.pageNumber = pageNumber
+        self.totalPage = totalPage
         self.isPresented = isPresented
         self._currentPage = currentPage
         
         self._isVisible = State(initialValue: pageNumber == currentPage.wrappedValue)
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func nextPage() {
+        let newPage = currentPage + 1
+        if newPage < totalPage {
+            currentPage = newPage
+        }
+    }
+    
+    private func previousPage() {
+        let newPage = currentPage - 1
+        if newPage >= 0 {
+            currentPage = newPage
+        }
     }
 }
 
@@ -96,7 +158,8 @@ struct StoryItemView_Previews: PreviewProvider {
         var body: some View {
             StoryItemView(
                 images: StoriesPreviewData.itemPreviewData,
-                pageNumber: 0,
+                pageNumber: 0, 
+                totalPage: 1,
                 currentPage: Binding.constant(0),
                 isPresented: Binding.constant(true)
             )
