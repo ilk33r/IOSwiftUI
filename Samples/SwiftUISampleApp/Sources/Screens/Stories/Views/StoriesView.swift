@@ -14,6 +14,10 @@ import SwiftUISampleAppScreensShared
 
 public struct StoriesView: IOController {
     
+    // MARK: - Constants
+    
+    private let distanceForDismiss: CGFloat = 220
+    
     // MARK: - Generics
     
     public typealias Presenter = StoriesPresenter
@@ -26,6 +30,7 @@ public struct StoriesView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     @State private var currentPage = 0
+    @State private var offsetY: CGFloat = 0
     
     // MARK: - Body
     
@@ -50,6 +55,31 @@ public struct StoriesView: IOController {
                     .frame(width: proxy.size.width, height: proxy.size.height)
                 }
                 .zIndex(20)
+                .offset(y: offsetY)
+                .gesture(
+                    DragGesture()
+                        .onChanged { gesture in
+                            let newOffset = gesture.translation.height
+                            if newOffset < 0 {
+                                return
+                            }
+                            
+                            offsetY = newOffset
+                        }
+                        .onEnded { gesture in
+                            let locationDiff = gesture.location.y - gesture.startLocation.y
+                            if locationDiff > distanceForDismiss {
+                                presenter.interactor.entity.isPresented.wrappedValue = false
+                            } else {
+                                withAnimation(
+                                    Animation
+                                        .easeOut(duration: 0.15)
+                                ) {
+                                    offsetY = 0
+                                }
+                            }
+                        }
+                )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
@@ -68,9 +98,6 @@ public struct StoriesView: IOController {
             presenter.environment = _appEnvironment
             presenter.navigationState = _navigationState
             presenter.prepare()
-        }
-        .onChange(of: currentPage) { value in
-            IOLogger.debug("Page changed \(value)")
         }
     }
     

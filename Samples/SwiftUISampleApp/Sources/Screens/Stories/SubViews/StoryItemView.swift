@@ -16,8 +16,8 @@ struct StoryItemView: View {
     private var images: [StoryItemUIModel]
     private var pageNumber: Int
     private var totalPage: Int
-    private var isPresented: Binding<Bool>
     
+    @Binding private var isPresented: Bool
     @Binding private var currentPage: Int
     
     @State private var currentImageIndex = 0
@@ -79,7 +79,7 @@ struct StoryItemView: View {
                         userProfilePicturePublicId: userProfilePicturePublicId,
                         currentItem: $currentImageIndex, 
                         isVisible: $isVisible,
-                        isPresented: isPresented
+                        isPresented: _isPresented
                     ) {
                         nextPage()
                     }
@@ -130,7 +130,7 @@ struct StoryItemView: View {
         self.images = images
         self.pageNumber = pageNumber
         self.totalPage = totalPage
-        self.isPresented = isPresented
+        self._isPresented = isPresented
         self._currentPage = currentPage
         
         self._isVisible = State(initialValue: pageNumber == currentPage.wrappedValue)
@@ -142,6 +142,8 @@ struct StoryItemView: View {
         let newPage = currentPage + 1
         if newPage < totalPage {
             currentPage = newPage
+        } else {
+            isPresented = false
         }
     }
     
