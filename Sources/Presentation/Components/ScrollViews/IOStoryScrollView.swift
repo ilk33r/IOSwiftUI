@@ -13,7 +13,7 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
     
     // MARK: - Privates
     
-    private let content: (_ item: Item) -> Content
+    private let content: (_ page: Int, _ item: Item) -> Content
     private let currentPage: Binding<Int>
     private let items: [Item]
     
@@ -31,7 +31,7 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
                 configuration: .init(clipsToBounds: false)
             ) {
                 HStack(spacing: 0) {
-                    ForEach(items) { item in
+                    ForEach(Array(items.enumerated()), id: \.offset) { it in
                         GeometryReader { itemGeometry in
                             let itemWidth = geometry.size.width
                             let frame = itemGeometry.frame(in: .global)
@@ -44,7 +44,7 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
                                 frame: frame,
                                 itemWidth: itemWidth
                             )
-                            content(item)
+                            content(it.offset, it.element)
                                 .rotation3DEffect(
                                     Angle(
                                         degrees: Double(degrees)
@@ -80,7 +80,7 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
     public init(
         items: [Item],
         currentPage: Binding<Int>,
-        @ViewBuilder content: @escaping (_ item: Item) -> Content
+        @ViewBuilder content: @escaping (_ page: Int, _ item: Item) -> Content
     ) {
         self.items = items
         self.content = content
@@ -153,7 +153,7 @@ struct IOStoryScrollView_Previews: PreviewProvider {
             IOStoryScrollView(
                 items: previewItems,
                 currentPage: $currentPage
-            ) { item in
+            ) { _, item in
                 ZStack {
                     RoundedRectangle(cornerRadius: 30)
                         .fill(item.back)

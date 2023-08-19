@@ -21,6 +21,8 @@ struct StoryHeaderView: View {
     
     @Binding private var isPresented: Bool
     
+    private var isVisible: Binding<Bool>
+    
     // MARK: - Body
     
     var body: some View {
@@ -31,7 +33,8 @@ struct StoryHeaderView: View {
                 backgroundColor: .colorImage.opacity(0.6),
                 activeColor: .colorImage,
                 changeSeconds: 8,
-                currentItem: currentItem
+                currentItem: currentItem, 
+                isActive: isVisible
             )
             .frame(height: 2)
             .padding(.top, 8)
@@ -87,12 +90,14 @@ struct StoryHeaderView: View {
         userNameAndSurname: String,
         userProfilePicturePublicId: String?,
         currentItem: Binding<Int>,
+        isVisible: Binding<Bool>,
         isPresented: Binding<Bool>
     ) {
         self.relativeDate = relativeDate
         self.userNameAndSurname = userNameAndSurname
         self.userProfilePicturePublicId = userProfilePicturePublicId
         self.currentItem = currentItem
+        self.isVisible = isVisible
         self._isPresented = isPresented
     }
 }
@@ -109,7 +114,8 @@ struct StoryHeaderView_Previews: PreviewProvider {
                 relativeDate: "1 Hour Ago",
                 userNameAndSurname: "Lorem",
                 userProfilePicturePublicId: nil,
-                currentItem: $currentItem,
+                currentItem: $currentItem, 
+                isVisible: Binding.constant(true),
                 isPresented: Binding.constant(true)
             )
             .background(Color.black)

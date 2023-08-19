@@ -39,9 +39,11 @@ public struct StoriesView: IOController {
                 IOStoryScrollView(
                     items: presenter.stories,
                     currentPage: $currentPage
-                ) { item in
+                ) { page, item in
                     StoryItemView(
                         images: item.images,
+                        pageNumber: page,
+                        currentPage: $currentPage,
                         isPresented: presenter.interactor.entity.isPresented
                     )
                     .frame(width: proxy.size.width, height: proxy.size.height)

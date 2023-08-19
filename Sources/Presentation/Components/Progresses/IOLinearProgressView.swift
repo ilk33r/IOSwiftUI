@@ -32,7 +32,8 @@ public struct IOLinearProgressView: View {
     @State private var timerCancellable: IOCancellable?
     @State private var isAnimating = false
     
-    @Binding var currentItem: Int
+    @Binding private var isActive: Bool
+    @Binding private var currentItem: Int
     
     // MARK: - Body
     
@@ -75,11 +76,23 @@ public struct IOLinearProgressView: View {
             }
             .frame(width: proxy.size.width, height: proxy.size.height)
         }
+        .onChange(of: isActive) { value in
+            isAnimating = false
+            
+            if value {
+                updateTimer()
+            } else {
+                timerCancellable?.cancel()
+            }
+        }
         .onAppear {
-            updateTimer()
+            if isActive {
+                updateTimer()
+            }
         }
         .onDisappear {
             timerCancellable?.cancel()
+            timerCancellable = nil
         }
     }
     
@@ -92,6 +105,7 @@ public struct IOLinearProgressView: View {
         activeColor: Color,
         changeSeconds: Int,
         currentItem: Binding<Int>,
+        isActive: Binding<Bool>,
         onFinish: Handler? = nil
     ) {
         self.progressCount = progressCount
@@ -101,17 +115,16 @@ public struct IOLinearProgressView: View {
         self.changeSeconds = changeSeconds
         self.onFinish = onFinish
         
+        self._isActive = isActive
         self._currentItem = currentItem
     }
     
     // MARK: - Helper Methods
     
     private func updateTimer() {
-        if timerCancellable != nil {
-            timerCancellable?.cancel()
-        }
-        
+        timerCancellable?.cancel()
         isAnimating = true
+        
         timerCancellable = thread.runOnMainThread(afterMilliSecond: changeSeconds * 1000) {
             isAnimating = false
             
@@ -143,7 +156,8 @@ struct IOLinearProgressView_Previews: PreviewProvider {
                     backgroundColor: .white.opacity(0.6),
                     activeColor: .white,
                     changeSeconds: 8,
-                    currentItem: $currentItem
+                    currentItem: $currentItem, 
+                    isActive: Binding.constant(true)
                 )
                 .frame(height: 2)
             }
