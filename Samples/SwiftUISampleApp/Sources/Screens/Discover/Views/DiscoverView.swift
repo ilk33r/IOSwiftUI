@@ -41,15 +41,16 @@ public struct DiscoverView: IOController {
                     
                     if presenter.stories == nil || !(presenter.stories?.isEmpty ?? true) {
                         StoryListView(
-                            uiModels: $presenter.stories
+                            uiModels: $presenter.stories,
+                            handler: { id in
+                                presenter.navigateToStories(
+                                    pageId: id,
+                                    isPresented: $navigationState.navigateToStories
+                                )
+                            }
                         )
                         .padding([.leading, .trailing], 16)
                         .padding(.bottom, 8)
-                        .setClick {
-                            presenter.navigateToStories(
-                                isPresented: $navigationState.navigateToStories
-                            )
-                        }
                     }
                     
                     ForEach(presenter.images) { item in

@@ -15,6 +15,7 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
     
     private let content: (_ page: Int, _ item: Item) -> Content
     private let currentPage: Binding<Int>
+    private let initialPage: Int
     private let items: [Item]
     
     @State private var itemWidth: CGFloat = 0
@@ -26,6 +27,7 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
         GeometryReader { geometry in
             IOSnapScrollView(
                 itemWidth: Binding.constant(geometry.size.width),
+                initialPage: initialPage,
                 rootViewWidth: Binding.constant(geometry.size.width * CGFloat(items.count)),
                 currentPage: currentPage,
                 configuration: .init(clipsToBounds: false)
@@ -79,10 +81,12 @@ public struct IOStoryScrollView<Content, Item>: View where Content: View, Item: 
     
     public init(
         items: [Item],
+        initialPage: Int,
         currentPage: Binding<Int>,
         @ViewBuilder content: @escaping (_ page: Int, _ item: Item) -> Content
     ) {
         self.items = items
+        self.initialPage = initialPage
         self.content = content
         self.currentPage = currentPage
     }
@@ -152,6 +156,7 @@ struct IOStoryScrollView_Previews: PreviewProvider {
         var body: some View {
             IOStoryScrollView(
                 items: previewItems,
+                initialPage: 0,
                 currentPage: $currentPage
             ) { _, item in
                 ZStack {

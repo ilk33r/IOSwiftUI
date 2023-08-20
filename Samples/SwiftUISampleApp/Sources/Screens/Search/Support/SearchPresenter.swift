@@ -150,9 +150,15 @@ final public class SearchPresenter: IOPresenterable {
         }
     }
     
-    func navigateToStories(isPresented: Binding<Bool>) {
+    func navigateToStories(
+        pageId: UUID,
+        isPresented: Binding<Bool>
+    ) {
+        guard let startPage = self.stories?.firstIndex(where: { $0.id == pageId }) else { return }
+        
         let storiesEntity = StoriesEntity(
             allStories: self.allStories?.stories ?? [],
+            startPage: startPage,
             isPresented: isPresented
         )
         self.navigationState.wrappedValue.navigateToStories(storiesEntity: storiesEntity)

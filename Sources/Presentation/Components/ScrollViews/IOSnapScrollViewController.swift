@@ -22,8 +22,11 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
     
     // MARK: - Privates
     
-    private var itemWidth: CGFloat
-    private var clipsToBounds: Bool
+    private let itemWidth: CGFloat
+    private let initialPage: Int
+    private let clipsToBounds: Bool
+    
+    private var isInitialPageUpdated: Bool
     private var startingScrollingOffset: CGPoint!
     private var pageChangeHandler: PageChangeHandler?
     
@@ -34,16 +37,21 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
     
     public init(
         itemWidth: CGFloat,
+        initialPage: Int,
         clipsToBounds: Bool
     ) {
+        self.initialPage = initialPage
         self.itemWidth = itemWidth
         self.clipsToBounds = clipsToBounds
+        self.isInitialPageUpdated = false
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
+        self.initialPage = 0
         self.itemWidth = 0
         self.clipsToBounds = true
+        self.isInitialPageUpdated = false
         super.init(coder: coder)
     }
     
@@ -74,18 +82,29 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
         self.scrollView?.delegate = self
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.isInitialPageUpdated = true
+        self.setPage(self.initialPage, animated: false)
+    }
+    
     // MARK: - Helper Methods
     
     public func setupHostingController(hostingController: IOSwiftUIViewController<Content>) {
         self.hostingController = hostingController
     }
     
-    public func setPage(_ page: Int) {
+    public func setPage(_ page: Int, animated: Bool = true) {
+        if !self.isInitialPageUpdated {
+            return
+        }
+        
         let itemWidth = self.scrollView?.bounds.size.width ?? 0
         let newX = itemWidth * CGFloat(page)
         
         if newX >= 0 {
-            self.scrollView?.setContentOffset(CGPoint(x: newX, y: 0), animated: true)
+            self.scrollView?.setContentOffset(CGPoint(x: newX, y: 0), animated: animated)
         }
     }
     

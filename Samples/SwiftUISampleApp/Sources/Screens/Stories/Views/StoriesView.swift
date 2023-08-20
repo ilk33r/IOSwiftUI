@@ -29,7 +29,7 @@ public struct StoriesView: IOController {
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
-    @State private var currentPage = 0
+    @State private var currentPage: Int
     @State private var offsetY: CGFloat = 0
     
     // MARK: - Body
@@ -43,6 +43,7 @@ public struct StoriesView: IOController {
                 
                 IOStoryScrollView(
                     items: presenter.stories,
+                    initialPage: currentPage,
                     currentPage: $currentPage
                 ) { page, item in
                     StoryItemView(
@@ -105,6 +106,7 @@ public struct StoriesView: IOController {
     
     public init(presenter: Presenter) {
         self.presenter = presenter
+        self._currentPage = State(initialValue: presenter.interactor.entity.startPage)
     }
 }
 
@@ -117,6 +119,7 @@ struct StoriesView_Previews: PreviewProvider {
             StoriesView(
                 entity: StoriesEntity(
                     allStories: StoriesPreviewData.previewData,
+                    startPage: 0,
                     isPresented: Binding.constant(true)
                 )
             )

@@ -10,7 +10,13 @@ import SwiftUI
 
 public struct StoryListView: View {
     
+    // MARK: - Defs
+    
+    public typealias ClickHandler = (_ id: UUID) -> Void
+    
     // MARK: - Privates
+    
+    private var clickHandler: ClickHandler?
     
     @Binding private var uiModels: [StoryItemUIModel]?
     
@@ -30,13 +36,16 @@ public struct StoryListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 if let uiModels {
-                    ForEach(uiModels) { datum in
-                        StoryItemView(uiModel: datum)
+                    ForEach(uiModels) { it in
+                        StoryItemView(uiModel: it)
                             .frame(width: 64, height: 88)
+                            .setClick {
+                                clickHandler?(it.id)
+                            }
                     }
                 } else {
-                    ForEach(emptyData) { datum in
-                        StoryItemView(uiModel: datum)
+                    ForEach(emptyData) { it in
+                        StoryItemView(uiModel: it)
                             .frame(width: 64, height: 88)
                     }
                 }
@@ -48,7 +57,11 @@ public struct StoryListView: View {
     
     // MARK: - Initialization Methods
     
-    public init(uiModels: Binding<[StoryItemUIModel]?>) {
+    public init(
+        uiModels: Binding<[StoryItemUIModel]?>,
+        handler: ClickHandler?
+    ) {
+        self.clickHandler = handler
         self._uiModels = uiModels
     }
 }
@@ -60,7 +73,8 @@ struct StoryListView_Previews: PreviewProvider {
         
         var body: some View {
             StoryListView(
-                uiModels: Binding.constant(StoryPreviewData.previewData)
+                uiModels: Binding.constant(StoryPreviewData.previewData), 
+                handler: nil
             )
         }
     }
