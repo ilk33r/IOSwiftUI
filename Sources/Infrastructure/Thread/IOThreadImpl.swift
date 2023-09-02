@@ -13,11 +13,15 @@ public struct IOThreadImpl: IOThread {
     // MARK: - Privates
     
     private let queue: DispatchQueue
+    private let operationQueue: OperationQueue
     
     // MARK: - Initialization Methods
     
     public init() {
         self.queue = DispatchQueue(label: "com.ioswiftui.infrastructure." + UUID().uuidString)
+        self.operationQueue = OperationQueue()
+        self.operationQueue.maxConcurrentOperationCount = 1
+        self.operationQueue.underlyingQueue = self.queue
     }
     
     // MARK: - Thread
@@ -64,5 +68,14 @@ public struct IOThreadImpl: IOThread {
         let cancellable = IOThreadCancel(workItem: workItem)
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(afterMilliSecond), execute: workItem)
         return cancellable
+    }
+    
+    @discardableResult
+    public func runOperation(_ handler: @escaping Block) -> IOCancellable {
+        operationQueue.addOperation {
+            handler()
+        }
+        
+        return IOOperationCancel(operationQueue: operationQueue)
     }
 }

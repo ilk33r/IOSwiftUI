@@ -79,7 +79,9 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
         )
         
         // Create a background task
-        beginBackgroundTask(identifier: task.taskIdentifier)
+        thread.runOperation {
+            beginBackgroundTask(identifier: task.taskIdentifier)
+        }
         
         // Log call
         httpLogger.requestDidStart(task: task)
@@ -157,7 +159,9 @@ public struct IOHTTPClientImpl: IOHTTPClient, IOSingleton {
             let taskIdentifier = task?.taskIdentifier ?? 0
             
             // End background task
-            endBackgroundTask(identifier: taskIdentifier)
+            thread.runOperation {
+                endBackgroundTask(identifier: taskIdentifier)
+            }
             
             // Log call
             httpLogger.requestDidFinish(task: task, responseObject: data, error: error as NSError?)

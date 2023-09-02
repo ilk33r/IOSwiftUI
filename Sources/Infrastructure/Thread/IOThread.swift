@@ -27,4 +27,7 @@ public protocol IOThread {
     
     @discardableResult
     func runOnMainThread(afterMilliSecond: Int, _ handler: @escaping Block) -> IOCancellable
+    
+    @discardableResult
+    func runOperation(_ handler: @escaping Block) -> IOCancellable
 }

@@ -57,7 +57,9 @@ final public class IOHTTPLoggerImpl: IOHTTPLogger, IOSingleton {
             body = ""
         }
         
-        self.requestBodies[task.taskIdentifier] = body
+        self.thread.runOperation { [weak self] in
+            self?.requestBodies[task.taskIdentifier] = body
+        }
     }
     
     public func requestDidFinish(task: URLSessionTask?, responseObject: Any?, error: NSError?) {
@@ -65,95 +67,98 @@ final public class IOHTTPLoggerImpl: IOHTTPLogger, IOSingleton {
             return
         }
         
-        guard let sessionTask = task else { return }
-        guard let urlRequest = sessionTask.originalRequest else { return }
-        guard let urlResponse = sessionTask.response as? HTTPURLResponse else { return }
-        
-        let requestHeaders = self.jsonStringFromObject(object: urlRequest.allHTTPHeaderFields ?? [String: String]())
-        let requestBody = self.getFormattedJson(object: self.requestBodies[sessionTask.taskIdentifier])
-        let requestLog = String(
-            format: "%@[REQUEST]-[%@]->\n'%@':\n%@\n%@",
-            self.separatorString(),
-            urlRequest.httpMethod ?? "",
-            urlRequest.url?.absoluteString ?? "",
-            requestHeaders,
-            requestBody
-        )
-        
-        if let requestError = error {
-            let responseHeaders = self.jsonStringFromObject(object: urlResponse.allHeaderFields)
-            let responseBody = self.jsonStringFromObject(object: requestError)
-            let responseLog = String(
-                format: "[RESPONSE]-%@-[%@]->'%@' [Status:%ld]:\n%@%@",
-                self.failureIcon,
+        self.thread.runOperation { [weak self] in
+            guard let self else { return }
+            guard let sessionTask = task else { return }
+            guard let urlRequest = sessionTask.originalRequest else { return }
+            guard let urlResponse = sessionTask.response as? HTTPURLResponse else { return }
+            
+            let requestHeaders = self.jsonStringFromObject(object: urlRequest.allHTTPHeaderFields ?? [String: String]())
+            let requestBody = self.getFormattedJson(object: self.requestBodies[sessionTask.taskIdentifier])
+            let requestLog = String(
+                format: "%@[REQUEST]-[%@]->\n'%@':\n%@\n%@",
+                self.separatorString(),
                 urlRequest.httpMethod ?? "",
-                urlResponse.url?.absoluteString ?? "",
-                urlResponse.statusCode,
-                responseBody,
-                self.separatorString()
+                urlRequest.url?.absoluteString ?? "",
+                requestHeaders,
+                requestBody
             )
             
-            // Log call
-            self.thread.runOnBackgroundThread {
-                IOLogger.error(requestLog + "\n" + responseLog)
-            }
-            
-            let networkHistoryItem = IOHTTPNetworkHistory(
-                icon: self.failureIcon,
-                methodType: urlRequest.httpMethod ?? "",
-                path: urlResponse.url?.absoluteString ?? "",
-                requestHeaders: requestHeaders,
-                requestBody: requestBody,
-                responseHeaders: responseHeaders,
-                responseBody: responseBody,
-                responseStatusCode: urlResponse.statusCode
-            )
-            self.networkHistory.append(networkHistoryItem)
-        } else {
-            var responseBody: String
-            if let responseData = responseObject as? Data {
-                let responseJSON = try? JSONSerialization.jsonObject(with: responseData, options: .init(rawValue: 0))
+            if let requestError = error {
+                let responseHeaders = self.jsonStringFromObject(object: urlResponse.allHeaderFields)
+                let responseBody = self.jsonStringFromObject(object: requestError)
+                let responseLog = String(
+                    format: "[RESPONSE]-%@-[%@]->'%@' [Status:%ld]:\n%@%@",
+                    self.failureIcon,
+                    urlRequest.httpMethod ?? "",
+                    urlResponse.url?.absoluteString ?? "",
+                    urlResponse.statusCode,
+                    responseBody,
+                    self.separatorString()
+                )
                 
-                if let responseObject = responseJSON {
-                    responseBody = self.jsonStringFromObject(object: responseObject)
+                // Log call
+                self.thread.runOnBackgroundThread {
+                    IOLogger.error(requestLog + "\n" + responseLog)
+                }
+                
+                let networkHistoryItem = IOHTTPNetworkHistory(
+                    icon: self.failureIcon,
+                    methodType: urlRequest.httpMethod ?? "",
+                    path: urlResponse.url?.absoluteString ?? "",
+                    requestHeaders: requestHeaders,
+                    requestBody: requestBody,
+                    responseHeaders: responseHeaders,
+                    responseBody: responseBody,
+                    responseStatusCode: urlResponse.statusCode
+                )
+                self.networkHistory.append(networkHistoryItem)
+            } else {
+                var responseBody: String
+                if let responseData = responseObject as? Data {
+                    let responseJSON = try? JSONSerialization.jsonObject(with: responseData, options: .init(rawValue: 0))
+                    
+                    if let responseObject = responseJSON {
+                        responseBody = self.jsonStringFromObject(object: responseObject)
+                    } else {
+                        responseBody = self.jsonStringFromObject(object: responseObject ?? [String: Any]())
+                    }
                 } else {
                     responseBody = self.jsonStringFromObject(object: responseObject ?? [String: Any]())
                 }
-            } else {
-                responseBody = self.jsonStringFromObject(object: responseObject ?? [String: Any]())
+                
+                let responseHeaders = self.jsonStringFromObject(object: urlResponse.allHeaderFields)
+                let responseLog = String(
+                    format: "[RESPONSE]-> %@ [Status:%ld]\n'%@': \n%@\n%@%@\n",
+                    self.successIcon,
+                    urlResponse.statusCode,
+                    urlResponse.url?.absoluteString ?? "",
+                    responseHeaders,
+                    responseBody,
+                    self.separatorString()
+                )
+                
+                // Log call
+                self.thread.runOnBackgroundThread {
+                    IOLogger.debug(requestLog + "\n" + responseLog)
+                }
+                
+                let networkHistoryItem = IOHTTPNetworkHistory(
+                    icon: self.successIcon,
+                    methodType: urlRequest.httpMethod ?? "",
+                    path: urlResponse.url?.absoluteString ?? "",
+                    requestHeaders: requestHeaders,
+                    requestBody: requestBody,
+                    responseHeaders: responseHeaders,
+                    responseBody: responseBody,
+                    responseStatusCode: urlResponse.statusCode
+                )
+                self.networkHistory.append(networkHistoryItem)
             }
             
-            let responseHeaders = self.jsonStringFromObject(object: urlResponse.allHeaderFields)
-            let responseLog = String(
-                format: "[RESPONSE]-> %@ [Status:%ld]\n'%@': \n%@\n%@%@\n",
-                self.successIcon,
-                urlResponse.statusCode,
-                urlResponse.url?.absoluteString ?? "",
-                responseHeaders,
-                responseBody,
-                self.separatorString()
-            )
-            
-            // Log call
-            self.thread.runOnBackgroundThread {
-                IOLogger.debug(requestLog + "\n" + responseLog)
-            }
-            
-            let networkHistoryItem = IOHTTPNetworkHistory(
-                icon: self.successIcon,
-                methodType: urlRequest.httpMethod ?? "",
-                path: urlResponse.url?.absoluteString ?? "",
-                requestHeaders: requestHeaders,
-                requestBody: requestBody,
-                responseHeaders: responseHeaders,
-                responseBody: responseBody,
-                responseStatusCode: urlResponse.statusCode
-            )
-            self.networkHistory.append(networkHistoryItem)
+            // Remove request from dictionary
+            self.requestBodies.removeValue(forKey: sessionTask.taskIdentifier)
         }
-        
-        // Remove request from dictionary
-        self.requestBodies.removeValue(forKey: sessionTask.taskIdentifier)
     }
     
     // MARK: - Helper Methods
