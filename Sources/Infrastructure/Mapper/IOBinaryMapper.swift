@@ -9,6 +9,7 @@ import Foundation
 
 public struct IOBinaryMapper {
     
+    // BitwiseCopyable
     public static func toBinary<THeader>(header: THeader, content: Data) -> Data {
         var mutableHeader = header
         let serializedHeader = Data(bytes: &mutableHeader, count: MemoryLayout<THeader>.size)

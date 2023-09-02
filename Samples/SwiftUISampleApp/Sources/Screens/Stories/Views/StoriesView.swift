@@ -56,31 +56,6 @@ public struct StoriesView: IOController {
                     .frame(width: proxy.size.width, height: proxy.size.height)
                 }
                 .zIndex(20)
-                .offset(y: offsetY)
-                .gesture(
-                    DragGesture()
-                        .onChanged { gesture in
-                            let newOffset = gesture.translation.height
-                            if newOffset < 0 {
-                                return
-                            }
-                            
-                            offsetY = newOffset
-                        }
-                        .onEnded { gesture in
-                            let locationDiff = gesture.location.y - gesture.startLocation.y
-                            if locationDiff > distanceForDismiss {
-                                presenter.interactor.entity.isPresented.wrappedValue = false
-                            } else {
-                                withAnimation(
-                                    Animation
-                                        .easeOut(duration: 0.15)
-                                ) {
-                                    offsetY = 0
-                                }
-                            }
-                        }
-                )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
@@ -90,6 +65,31 @@ public struct StoriesView: IOController {
         .navigationWireframe(hasNavigationView: false) {
             StoriesNavigationWireframe(navigationState: navigationState)
         }
+        .offset(y: offsetY)
+        .gesture(
+            DragGesture()
+                .onChanged { gesture in
+                    let newOffset = gesture.translation.height
+                    if newOffset < 0 {
+                        return
+                    }
+                    
+                    offsetY = newOffset
+                }
+                .onEnded { gesture in
+                    let locationDiff = gesture.location.y - gesture.startLocation.y
+                    if locationDiff > distanceForDismiss {
+                        presenter.interactor.entity.isPresented.wrappedValue = false
+                    } else {
+                        withAnimation(
+                            Animation
+                                .easeOut(duration: 0.15)
+                        ) {
+                            offsetY = 0
+                        }
+                    }
+                }
+        )
         .onAppear {
             if isPreviewMode {
                 presenter.prepare()
