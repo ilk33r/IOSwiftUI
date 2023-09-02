@@ -29,6 +29,7 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
     private var isInitialPageUpdated: Bool
     private var startingScrollingOffset: CGPoint!
     private var pageChangeHandler: PageChangeHandler?
+    private var scrollViewSizeObservation: NSKeyValueObservation?
     
     private weak var scrollView: UIScrollView?
     private weak var widthConstraint: NSLayoutConstraint?
@@ -82,11 +83,29 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
         self.scrollView?.delegate = self
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    public override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
         
-        self.isInitialPageUpdated = true
-        self.setPage(self.initialPage, animated: false)
+        self.scrollViewSizeObservation = self.scrollView!.observe(\.bounds, changeHandler: { [weak self] scrollView, _ in
+            guard let self else { return }
+            
+            let scrollViewWidth = scrollView.bounds.size.width
+            if !self.isInitialPageUpdated && scrollViewWidth > 0 {
+                let newX = scrollViewWidth * CGFloat(self.initialPage)
+                
+                if newX >= 0 {
+                    self.scrollView?.setContentOffset(CGPoint(x: newX, y: 0), animated: false)
+                }
+                
+                self.isInitialPageUpdated = true
+            }
+        })
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.scrollViewSizeObservation?.invalidate()
     }
     
     // MARK: - Helper Methods
@@ -95,7 +114,7 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
         self.hostingController = hostingController
     }
     
-    public func setPage(_ page: Int, animated: Bool = true) {
+    public func setPage(_ page: Int) {
         if !self.isInitialPageUpdated {
             return
         }
@@ -104,7 +123,7 @@ final public class IOSnapScrollViewController<Content: View>: UIViewController, 
         let newX = itemWidth * CGFloat(page)
         
         if newX >= 0 {
-            self.scrollView?.setContentOffset(CGPoint(x: newX, y: 0), animated: animated)
+            self.scrollView?.setContentOffset(CGPoint(x: newX, y: 0), animated: true)
         }
     }
     
