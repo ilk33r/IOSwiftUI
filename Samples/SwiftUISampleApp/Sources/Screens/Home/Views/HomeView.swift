@@ -26,7 +26,7 @@ public struct HomeView: IOController {
     @ObservedObject public var presenter: HomePresenter
     @StateObject public var navigationState = HomeNavigationState()
     
-    @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    @EnvironmentObject public var appEnvironment: SampleAppEnvironment
     
     @State private var selectedIndex = 0
     @State private var updateViews = false
@@ -111,7 +111,9 @@ public struct HomeView: IOController {
                     .profile(
                         entity: ProfileEntity(
                             navigationBarHidden: false,
-                            userName: nil
+                            userName: nil,
+                            fromDeepLink: false,
+                            member: nil
                         )
                     )
                 )

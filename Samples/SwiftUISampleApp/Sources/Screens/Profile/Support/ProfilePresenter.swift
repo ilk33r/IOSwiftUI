@@ -58,10 +58,36 @@ final public class ProfilePresenter: IOPresenterable {
         self.images = []
     }
     
+    // MARK: - Prefetch
+    
+    public func prefetch(deepLinkUrl: URLComponents) async throws -> IOEntity? {
+        guard let userNameItem = deepLinkUrl.queryItems?.first(where: { $0.name == "userName" }) else {
+            throw IOPresenterError.prefetch(
+                title: nil,
+                message: IOLocalizationType.networkCommonError.localized,
+                buttonTitle: IOLocalizationType.commonOk.localized
+            )
+        }
+        
+        let member = try await self.interactor.prefetchMember(userName: userNameItem.value)
+        return ProfileEntity(
+            navigationBarHidden: false,
+            userName: userNameItem.value,
+            fromDeepLink: true,
+            member: member
+        )
+    }
+    
     // MARK: - Presenter
     
     @MainActor
     func prepare() async {
+        if let member = self.interactor.entity.member {
+            self.updateMember(member: member)
+            self.interactor.eventProcess.set(bool: false, forType: .profilePictureUpdated)
+            return
+        }
+        
         do {
             let member = try await self.interactor.getMember()
             self.updateMember(member: member)

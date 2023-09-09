@@ -84,7 +84,9 @@ final public class FriendsPresenter: IOPresenterable {
         self.navigationState.wrappedValue.navigateToProfile(
             profileEntity: ProfileEntity(
                 navigationBarHidden: true,
-                userName: userName
+                userName: userName,
+                fromDeepLink: false,
+                member: nil
             )
         )
     }

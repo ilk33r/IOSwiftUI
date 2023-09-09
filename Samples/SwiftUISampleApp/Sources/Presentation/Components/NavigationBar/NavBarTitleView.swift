@@ -5,6 +5,7 @@
 //  Created by Adnan ilker Ozcan on 29.08.2022.
 //
 
+import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import SwiftUI
 
@@ -16,19 +17,46 @@ public struct NavBarTitleView: View {
     private let height: CGFloat
     private let iconName: String
     private let title: String
+    private let closeButtonAction: IOClickableHandler?
     
     // MARK: - Body
     
     public var body: some View {
-        HStack {
-            Image(systemName: iconName)
-                .resizable()
-                .frame(width: width, height: height)
-                .padding(.trailing, 4)
-                .padding(.leading, -8)
-            Text(title)
-                .font(type: .medium(17))
+        ZStack {
+            HStack {
+                if !iconName.isEmpty {
+                    Image(systemName: iconName)
+                        .resizable()
+                        .frame(width: width, height: height)
+                        .padding(.trailing, 4)
+                        .padding(.leading, -8)
+                }
+                Text(title)
+                    .font(type: .medium(17))
+            }
+            
+            if closeButtonAction != nil {
+                ZStack {
+                    Button {
+                        closeButtonAction?()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .renderingMode(.template)
+                            .resizable()
+                            .foregroundColor(.black)
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 18, height: 18)
+                    }
+                    .frame(
+                        width: 40,
+                        height: 40
+                    )
+                    .padding(.trailing, 8)
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            }
         }
+        .frame(maxWidth: .infinity)
     }
     
     // MARK: - Initialization Methods
@@ -37,13 +65,15 @@ public struct NavBarTitleView: View {
         _ l: IOLocalizationType,
         iconName: String,
         width: CGFloat = 16,
-        height: CGFloat = 16
+        height: CGFloat = 16,
+        closeButtonAction: IOClickableHandler? = nil
     ) {
         self.init(
             l.localized,
             iconName: iconName,
             width: width,
-            height: height
+            height: height,
+            closeButtonAction: closeButtonAction
         )
     }
     
@@ -51,12 +81,14 @@ public struct NavBarTitleView: View {
         _ title: String,
         iconName: String,
         width: CGFloat = 16,
-        height: CGFloat = 16
+        height: CGFloat = 16,
+        closeButtonAction: IOClickableHandler? = nil
     ) {
         self.title = title
         self.iconName = iconName
         self.width = width
         self.height = height
+        self.closeButtonAction = closeButtonAction
     }
 }
 
@@ -66,7 +98,12 @@ struct NavBarTitleView_Previews: PreviewProvider {
     struct NavBarTitleViewDemo: View {
         
         var body: some View {
-            NavBarTitleView("Navigation Bar", iconName: "bolt.fill")
+            NavBarTitleView(
+                "Navigation Bar",
+                iconName: "bolt.fill"
+            ) {
+                
+            }
         }
     }
     

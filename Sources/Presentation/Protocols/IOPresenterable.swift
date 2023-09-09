@@ -12,9 +12,10 @@ import SwiftUI
 public protocol IOPresenterableInitializer {
     
     func _initializaPresenterable(entity: IOEntity?)
+    func _prefetchAndInitializaPresenterable(deepLinkUrl: URLComponents) async throws
 }
 
-public protocol IOPresenterable: ObservableObject {
+public protocol IOPresenterable: ObservableObject, IOPresenterableInitializer {
     
     // MARK: - Generics
     
@@ -29,12 +30,33 @@ public protocol IOPresenterable: ObservableObject {
     // MARK: - Initialization Methods
     
     init()
+    
+    // MARK: - Prefetch
+    
+    func prefetch(deepLinkUrl: URLComponents) async throws -> IOEntity?
 }
 
 public extension IOPresenterable {
     
+    // MARK: - Initialization Methods
+    
     func _initializaPresenterable(entity: IOEntity?) {
         self.interactor = Interactor(entityInstance: entity, presenterInstance: self)
+    }
+    
+    func _prefetchAndInitializaPresenterable(deepLinkUrl: URLComponents) async throws {
+        do {
+            self.interactor = Interactor(entityInstance: nil, presenterInstance: self)
+            
+            let entity = try await prefetch(deepLinkUrl: deepLinkUrl)
+            self.interactor = Interactor(entityInstance: entity, presenterInstance: self)
+        }
+    }
+    
+    // MARK: - Prefetch
+    
+    func prefetch(deepLinkUrl: URLComponents) async throws -> IOEntity? {
+        nil
     }
     
     // MARK: - Alert

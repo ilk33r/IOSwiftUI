@@ -15,7 +15,9 @@ struct ProfilePreviewData {
     
     static var previewData = ProfileEntity(
         navigationBarHidden: true,
-        userName: "ilker0"
+        userName: "ilker0",
+        fromDeepLink: false,
+        member: nil
     )
     
     static var previewImages = [

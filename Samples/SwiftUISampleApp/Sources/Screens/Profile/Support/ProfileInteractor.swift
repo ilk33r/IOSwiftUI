@@ -156,4 +156,18 @@ public struct ProfileInteractor: IOInteractor {
             throw IOInteractorError.service
         }
     }
+    
+    @MainActor
+    func prefetchMember(userName: String?) async throws -> MemberModel? {
+        let request = MemberGetRequestModel(userName: userName)
+        let result = await service.async(.memberGet(request: request), responseType: MemberGetResponseModel.self)
+        
+        switch result {
+        case .success(let response):
+            return response.member
+            
+        case .error(let message, _, _):
+            throw IOPresenterError.prefetch(title: nil, message: message ?? "", buttonTitle: IOLocalizationType.commonOk.localized)
+        }
+    }
 }

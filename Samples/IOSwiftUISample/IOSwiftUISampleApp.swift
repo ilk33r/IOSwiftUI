@@ -11,24 +11,30 @@ import SwiftUISampleAppScreensSplash
 import SwiftUI
 import SwiftUISampleAppCommon
 import SwiftUISampleAppPresentation
+import SwiftUISampleAppRouter
 import SwiftUISampleAppScreensShared
-import IOSwiftUIRouter
 
 @main
 struct IOSwiftUISampleApp: App {
     
-    // MARK: - Privates
+    // MARK: - DI
     
     @IOInject private var alertPresenter: IOAlertPresenter
+    @IOInject private var eventProcess: IOEventProcess
     @IOInject private var indicatorPresenter: IOIndicatorPresenter
     @IOInject private var pickerPresenter: IOPickerPresenter
     @IOInject private var toastPresenter: IOToastPresenter
     
-    @UIApplicationDelegateAdaptor private var appDelegate: IOSwiftUISampleAppDelegate
-    @ObservedObject private var appEnvironment = SampleAppEnvironment()
+    // MARK: - Privates
     
     private let splashView = IORouterUtilities.route(PreLoginRouters.self, .splash(entity: nil))
     private let homeView = IORouterUtilities.route(HomeRouters.self, .home(entity: nil))
+    
+    @UIApplicationDelegateAdaptor private var appDelegate: IOSwiftUISampleAppDelegate
+    @ObservedObject private var appEnvironment = SampleAppEnvironment()
+    
+    @State private var deepLinkPresented = false
+    @State private var deepLinkView: IORouterView?
     
     // MARK: - Body
     
@@ -43,6 +49,33 @@ struct IOSwiftUISampleApp: App {
                     splashView
                         .setEnvironment(appEnvironment)
                         .transition(.opacity)
+                }
+            }
+            .onOpenURL { deepLinkUrl in
+                guard let components = URLComponents(string: deepLinkUrl.absoluteString) else { return }
+                guard let deepLink = DeepLinks.from(components: components) else { return }
+                
+                appEnvironment.showLoading = true
+                Task {
+                    do {
+                        deepLinkView = try await deepLink.route(deepLinkUrlComponents: components)
+                        appEnvironment.showLoading = false
+                        deepLinkPresented = true
+                    } catch let IOPresenterError.prefetch(title, message, buttonTitle) {
+                        appEnvironment.showLoading = false
+                        appEnvironment.alertData = IOAlertData(title: title, message: message, buttons: [buttonTitle])
+                    } catch let err {
+                        appEnvironment.showLoading = false
+                        IOLogger.error(err.localizedDescription)
+                    }
+                }
+            }
+            .fullScreenCover(isPresented: $deepLinkPresented) {
+                if let view = deepLinkView {
+                    view
+                        .setEnvironment(appEnvironment)
+                } else {
+                    EmptyView()
                 }
             }
         }

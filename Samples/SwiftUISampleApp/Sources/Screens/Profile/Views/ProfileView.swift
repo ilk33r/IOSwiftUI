@@ -24,6 +24,7 @@ public struct ProfileView: IOController {
     @StateObject public var navigationState = ProfileNavigationState()
     
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
+    @Environment(\.presentationMode) private var presentationMode
     
     @State private var headerSize: CGSize = .zero
     @State private var navigationBarHidden = false
@@ -92,6 +93,21 @@ public struct ProfileView: IOController {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .navigationBar {
+                if presenter.interactor.entity.fromDeepLink {
+                    NavBarTitleView(
+                        "",
+                        iconName: ""
+                    ) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                } else {
+                    NavBarTitleView(
+                        "",
+                        iconName: ""
+                    )
+                }
+            }
             
             Color.white
                 .frame(width: proxy.size.width, height: proxy.safeAreaInsets.top)
@@ -127,7 +143,6 @@ public struct ProfileView: IOController {
         ) {
             ProfileNavigationWireframe(navigationState: navigationState)
         }
-        .navigationBarTitle("", displayMode: .inline)
         .onAppear {
             if isPreviewMode {
                 presenter.prepareForPreview()

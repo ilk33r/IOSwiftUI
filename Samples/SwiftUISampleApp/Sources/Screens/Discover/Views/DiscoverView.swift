@@ -61,7 +61,9 @@ public struct DiscoverView: IOController {
                             navigationState.navigateToProfile(
                                 profileEntity: ProfileEntity(
                                     navigationBarHidden: true,
-                                    userName: userName
+                                    userName: userName,
+                                    fromDeepLink: false,
+                                    member: nil
                                 )
                             )
                         }

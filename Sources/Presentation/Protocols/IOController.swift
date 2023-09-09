@@ -25,13 +25,21 @@ public protocol IOController: View {
     
     init(presenter: Presenter)
     init(entity: IOEntity?)
+    
+    // MARK: - Prefetch
+    
+    static func prefetch(deepLinkUrl: URLComponents) async throws -> Self
 }
 
 public extension IOController {
     
+    // MARK: - Properties
+    
     var isPreviewMode: Bool {
         ProcessInfo.isPreviewMode
     }
+    
+    // MARK: - Initialization Methods
     
     init(presenter: Presenter) {
         self.init(presenter: presenter)
@@ -43,6 +51,17 @@ public extension IOController {
         presenter._initializaPresenterable(entity: entity)
         
         self.init(presenter: presenter)
+        // swiftlint:enable explicit_init
+    }
+    
+    // MARK: - Prefetch
+    
+    static func prefetch(deepLinkUrl: URLComponents) async throws -> Self {
+        // swiftlint:disable explicit_init
+        let presenter = Presenter.init()
+        try await presenter._prefetchAndInitializaPresenterable(deepLinkUrl: deepLinkUrl)
+        
+        return self.init(presenter: presenter)
         // swiftlint:enable explicit_init
     }
 }

@@ -28,7 +28,9 @@ final public class SearchNavigationState: IONavigationState {
     func navigateToProfile(userName: String) {
         self.profileEntity = ProfileEntity(
             navigationBarHidden: true,
-            userName: userName
+            userName: userName,
+            fromDeepLink: false,
+            member: nil
         )
         self.navigateToProfile = true
     }
