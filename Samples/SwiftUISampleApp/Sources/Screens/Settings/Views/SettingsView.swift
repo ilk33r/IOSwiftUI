@@ -50,7 +50,8 @@ public struct SettingsView: IOController {
             .navigationBar {
                 NavBarTitleView(
                     .title,
-                    iconName: "slider.horizontal.3"
+                    iconName: "slider.horizontal.3",
+                    hasBackButton: true
                 )
             }
             Color.white

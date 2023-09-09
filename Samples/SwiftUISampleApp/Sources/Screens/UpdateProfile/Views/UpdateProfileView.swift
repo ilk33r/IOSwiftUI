@@ -177,7 +177,8 @@ public struct UpdateProfileView: IOController {
             .navigationBar {
                 NavBarTitleView(
                     .title,
-                    iconName: "person.fill"
+                    iconName: "person.fill",
+                    hasBackButton: true
                 )
             }
         }

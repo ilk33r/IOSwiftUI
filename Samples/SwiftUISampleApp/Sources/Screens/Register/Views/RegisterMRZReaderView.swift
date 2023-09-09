@@ -78,6 +78,7 @@ public struct RegisterMRZReaderView: IOController {
                 NavBarTitleView(
                     .titleMRZ,
                     iconName: "lanyardcard",
+                    hasBackButton: true,
                     width: 22,
                     height: 30
                 )

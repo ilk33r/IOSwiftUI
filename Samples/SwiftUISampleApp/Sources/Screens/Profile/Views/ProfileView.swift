@@ -97,14 +97,16 @@ public struct ProfileView: IOController {
                 if presenter.interactor.entity.fromDeepLink {
                     NavBarTitleView(
                         "",
-                        iconName: ""
+                        iconName: "",
+                        hasBackButton: false
                     ) {
                         presentationMode.wrappedValue.dismiss()
                     }
                 } else {
                     NavBarTitleView(
                         "",
-                        iconName: ""
+                        iconName: "",
+                        hasBackButton: false
                     )
                 }
             }

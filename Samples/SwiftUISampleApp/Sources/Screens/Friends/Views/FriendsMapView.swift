@@ -62,7 +62,11 @@ public struct FriendsMapView: IOController {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
-                NavBarTitleView(.title, iconName: "person.3.fill")
+                NavBarTitleView(
+                    .title,
+                    iconName: "person.3.fill",
+                    hasBackButton: true
+                )
             }
         }
         .navigationWireframe(hasNavigationView: false) {

@@ -88,6 +88,7 @@ public struct ChatView: IOController {
                 NavBarTitleView(
                     presenter.userNameSurname,
                     iconName: "keyboard",
+                    hasBackButton: true,
                     height: 12
                 )
             }

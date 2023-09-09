@@ -15,6 +15,7 @@ public struct NavBarTitleView: View {
     
     private let width: CGFloat
     private let height: CGFloat
+    private let hasBackButton: Bool
     private let iconName: String
     private let title: String
     private let closeButtonAction: IOClickableHandler?
@@ -34,6 +35,7 @@ public struct NavBarTitleView: View {
                 Text(title)
                     .font(type: .medium(17))
             }
+            .padding(.trailing, hasBackButton ? 55 : 0)
             
             if closeButtonAction != nil {
                 ZStack {
@@ -64,6 +66,7 @@ public struct NavBarTitleView: View {
     public init(
         _ l: IOLocalizationType,
         iconName: String,
+        hasBackButton: Bool,
         width: CGFloat = 16,
         height: CGFloat = 16,
         closeButtonAction: IOClickableHandler? = nil
@@ -71,6 +74,7 @@ public struct NavBarTitleView: View {
         self.init(
             l.localized,
             iconName: iconName,
+            hasBackButton: hasBackButton,
             width: width,
             height: height,
             closeButtonAction: closeButtonAction
@@ -80,12 +84,14 @@ public struct NavBarTitleView: View {
     public init(
         _ title: String,
         iconName: String,
+        hasBackButton: Bool,
         width: CGFloat = 16,
         height: CGFloat = 16,
         closeButtonAction: IOClickableHandler? = nil
     ) {
         self.title = title
         self.iconName = iconName
+        self.hasBackButton = hasBackButton
         self.width = width
         self.height = height
         self.closeButtonAction = closeButtonAction
@@ -100,7 +106,8 @@ struct NavBarTitleView_Previews: PreviewProvider {
         var body: some View {
             NavBarTitleView(
                 "Navigation Bar",
-                iconName: "bolt.fill"
+                iconName: "bolt.fill",
+                hasBackButton: false
             ) {
                 
             }

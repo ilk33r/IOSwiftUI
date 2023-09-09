@@ -97,6 +97,7 @@ public struct ChangePasswordView: IOController {
                 NavBarTitleView(
                     .title,
                     iconName: "lock.fill",
+                    hasBackButton: true,
                     width: 12
                 )
             }

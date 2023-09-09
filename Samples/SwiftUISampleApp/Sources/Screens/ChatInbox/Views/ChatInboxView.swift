@@ -63,7 +63,11 @@ public struct ChatInboxView: IOController {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBar {
-                NavBarTitleView(.title, iconName: "message")
+                NavBarTitleView(
+                    .title,
+                    iconName: "message",
+                    hasBackButton: false
+                )
             }
         }
         .navigationWireframe(hasNavigationView: true) {

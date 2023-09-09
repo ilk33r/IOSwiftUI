@@ -44,6 +44,7 @@ public struct WebView: IOController {
                 NavBarTitleView(
                     presenter.interactor.entity.pageTitle,
                     iconName: presenter.interactor.entity.titleIcon,
+                    hasBackButton: true,
                     width: 12
                 )
             }
