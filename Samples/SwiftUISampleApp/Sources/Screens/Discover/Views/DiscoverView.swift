@@ -37,8 +37,7 @@ public struct DiscoverView: IOController {
                 isRefreshing: $isRefreshing,
                 scrollOffset: $scrollOffset
             ) { _ in
-                LazyVStack {
-                    
+                VStack {
                     if presenter.stories == nil || !(presenter.stories?.isEmpty ?? true) {
                         StoryListView(
                             uiModels: $presenter.stories,
@@ -53,19 +52,21 @@ public struct DiscoverView: IOController {
                         .padding(.bottom, 8)
                     }
                     
-                    ForEach(presenter.images) { item in
-                        DiscoverCellView(
-                            uiModel: item,
-                            width: proxy.size.width
-                        ) { userName in
-                            navigationState.navigateToProfile(
-                                profileEntity: ProfileEntity(
-                                    navigationBarHidden: true,
-                                    userName: userName,
-                                    fromDeepLink: false,
-                                    member: nil
+                    LazyVStack {
+                        ForEach(presenter.images) { item in
+                            DiscoverCellView(
+                                uiModel: item,
+                                width: proxy.size.width
+                            ) { userName in
+                                navigationState.navigateToProfile(
+                                    profileEntity: ProfileEntity(
+                                        navigationBarHidden: true,
+                                        userName: userName,
+                                        fromDeepLink: false,
+                                        member: nil
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                 }
