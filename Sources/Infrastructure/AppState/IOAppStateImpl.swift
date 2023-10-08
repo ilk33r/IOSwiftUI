@@ -57,23 +57,53 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     // MARK: - Getters
     
     public func bool(forType type: IOStorageType) -> Bool? {
-        stateObject.values[type] as? Bool
+        var value: Bool?
+        
+        queue.asyncAndWait {
+            value = stateObject.values[type] as? Bool
+        }
+
+        return value
     }
     
     public func double(forType type: IOStorageType) -> Double? {
-        stateObject.values[type] as? Double
+        var value: Double?
+        
+        queue.asyncAndWait {
+            value = stateObject.values[type] as? Double
+        }
+
+        return value
     }
     
     public func int(forType type: IOStorageType) -> Int? {
-        stateObject.values[type] as? Int
+        var value: Int?
+        
+        queue.asyncAndWait {
+            value = stateObject.values[type] as? Int
+        }
+        
+        return value
     }
     
     public func string(forType type: IOStorageType) -> String? {
-        stateObject.values[type] as? String
+        var value: String?
+        
+        queue.asyncAndWait {
+            value = stateObject.values[type] as? String
+        }
+        
+        return value
     }
     
     public func object(forType type: IOStorageType) -> Any? {
-        stateObject.values[type]
+        var value: Any?
+        
+        queue.asyncAndWait {
+            value = stateObject.values[type]
+        }
+        
+        return value
     }
     
     // MARK: - Setters
