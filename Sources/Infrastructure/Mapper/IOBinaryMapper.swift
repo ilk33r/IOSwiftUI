@@ -11,8 +11,10 @@ public struct IOBinaryMapper {
     
     // BitwiseCopyable
     public static func toBinary<THeader>(header: THeader, content: Data) -> Data {
-        var mutableHeader = header
-        let serializedHeader = Data(bytes: &mutableHeader, count: MemoryLayout<THeader>.size)
+        let mutableHeader = header
+        let serializedHeader = withUnsafePointer(to: mutableHeader) {
+            Data(bytes: $0, count: MemoryLayout<THeader>.size)
+        }
         return serializedHeader + content
     }
     
