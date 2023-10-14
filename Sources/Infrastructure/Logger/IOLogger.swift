@@ -23,13 +23,13 @@ public struct IOLogger: IOSingleton {
     
     // MARK: - Privates
     
-    private var logger: OSLog
+    private var logger: os.Logger!
     private var logLevel: IOLogLevels!
     
     // MARK: - Initialization Methods
     
     public init() {
-        self.logger = OSLog.default
+        self.logger = os.Logger(subsystem: "com.ioswiftui.infrastructure.logger", category: appState.targetName)
         self.logLevel = IOLogLevels(rawValue: self.configuration.configForType(type: .loggingLogLevel)) ?? .error
     }
     
@@ -39,13 +39,11 @@ public struct IOLogger: IOSingleton {
         guard logLevel == .verbose else {
             return
         }
-        let targetName = appState.targetName
-        os_log("%@: %{public}s", log: logger, type: .default, targetName, logMessage)
+        logger.trace("\(logMessage)")
     }
     
     private func logInfo(_ logMessage: String) {
-        let targetName = appState.targetName
-        os_log("%@: %{public}s", log: logger, type: .info, targetName, logMessage)
+        logger.info("\(logMessage)")
     }
     
     private func logDebug(_ logMessage: String) {
@@ -53,8 +51,7 @@ public struct IOLogger: IOSingleton {
             return
         }
         
-        let targetName = appState.targetName
-        os_log("%@: %{public}s", log: logger, type: .debug, targetName, logMessage)
+        logger.debug("\(logMessage)")
     }
     
     private func logWarning(_ logMessage: String) {
@@ -62,8 +59,7 @@ public struct IOLogger: IOSingleton {
             return
         }
         
-        let targetName = appState.targetName
-        os_log("%@ %{public}s", log: logger, type: .error, targetName, logMessage)
+        logger.warning("\(logMessage)")
     }
     
     private func logError(_ logMessage: String) {
@@ -71,8 +67,7 @@ public struct IOLogger: IOSingleton {
             return
         }
         
-        let targetName = appState.targetName
-        os_log("%@ %{public}s", log: logger, type: .fault, targetName, logMessage)
+        logger.error("\(logMessage)")
     }
     
     // MARK: - Helper Methods
