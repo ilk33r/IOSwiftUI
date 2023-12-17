@@ -33,7 +33,7 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
 
     // MARK: - Privates
     
-    @Binding private var initialPage: Int
+    private let initialPage: Int
     @Binding private var currentPageListener: Int
     @Binding private var rootViewWidth: CGFloat
     @State private var currentPage = 0
@@ -43,12 +43,12 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
     // MARK: - Controller Representable
     
     public init(
-        initialPage: Binding<Int>,
+        initialPage: Int,
         currentPage: Binding<Int>,
         rootViewWidth: Binding<CGFloat> = Binding.constant(0),
         @ViewBuilder content: @escaping () -> Content
     ) {
-        self._initialPage = initialPage
+        self.initialPage = initialPage
         self._currentPageListener = currentPage
         self._rootViewWidth = rootViewWidth
         self.content = content
@@ -56,7 +56,10 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
 
     public func makeUIViewController(context: Context) -> IOPageViewController {
         let hostingController = IOSwiftUIViewController<AnyView>(rootView: viewForContent())
-        let vc = IOPageViewController(hostingController: hostingController)
+        let vc = IOPageViewController(
+            initialPage: self.initialPage,
+            hostingController: hostingController
+        )
         context.coordinator.viewController = vc
         
         vc.setHandler { page in
@@ -67,7 +70,7 @@ public struct IOPageView<Content: View>: UIViewControllerRepresentable {
     }
 
     public func updateUIViewController(_ viewController: IOPageViewController, context: Context) {
-        context.coordinator.setPage(initialPage)
+        context.coordinator.setPage(currentPage)
         viewController.hostingController.rootView = viewForContent()
         
         context.coordinator.updateWidth(rootViewWidth)

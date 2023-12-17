@@ -22,7 +22,11 @@ final public class IOPageViewController: UIViewController {
     
     // MARK: - Privates
     
+    private let initialPage: Int
+    
+    private var isInitialPageUpdated: Bool
     private var pageChangeHandler: PageChangeHandler?
+    private var scrollViewSizeObservation: NSKeyValueObservation?
     
     private weak var scrollView: UIScrollView?
     private weak var widthConstraint: NSLayoutConstraint?
@@ -30,14 +34,19 @@ final public class IOPageViewController: UIViewController {
     // MARK: - View Lifecycle
     
     public init(
+        initialPage: Int,
         hostingController: IOSwiftUIViewController<AnyView>
     ) {
+        self.initialPage = initialPage
+        self.isInitialPageUpdated = false
         super.init(nibName: nil, bundle: nil)
         
         self.hostingController = hostingController
     }
     
     required init?(coder: NSCoder) {
+        self.initialPage = 0
+        self.isInitialPageUpdated = false
         super.init(coder: coder)
     }
     
@@ -60,6 +69,31 @@ final public class IOPageViewController: UIViewController {
         self.hostingController.view.addEqualHeight(scrollView.heightAnchor)
         self.scrollView = scrollView
         self.scrollView?.delegate = self
+    }
+    
+    public override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        
+        self.scrollViewSizeObservation = self.scrollView!.observe(\.bounds, changeHandler: { [weak self] scrollView, _ in
+            guard let self else { return }
+            
+            let scrollViewWidth = scrollView.bounds.size.width
+            if !self.isInitialPageUpdated && scrollViewWidth > 0 {
+                let newX = scrollViewWidth * CGFloat(self.initialPage)
+                
+                if newX >= 0 {
+                    self.scrollView?.setContentOffset(CGPoint(x: newX, y: 0), animated: false)
+                }
+                
+                self.isInitialPageUpdated = true
+            }
+        })
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.scrollViewSizeObservation?.invalidate()
     }
     
     // MARK: - Helper Methods

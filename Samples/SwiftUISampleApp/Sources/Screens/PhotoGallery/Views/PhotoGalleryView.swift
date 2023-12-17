@@ -24,8 +24,8 @@ public struct PhotoGalleryView: IOController {
     @EnvironmentObject private var appEnvironment: SampleAppEnvironment
     
     @Binding private var isPresented: Bool
-    @State private var selectedPage = 0
     @State private var currentPage = 0
+    @State private var contentSize = CGFloat.zero
     
     // MARK: - Body
     
@@ -33,8 +33,9 @@ public struct PhotoGalleryView: IOController {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
                 IOPageView(
-                    initialPage: $selectedPage,
-                    currentPage: $currentPage
+                    initialPage: presenter.interactor.entity.selectedIndex,
+                    currentPage: $currentPage,
+                    rootViewWidth: $contentSize
                 ) {
                     LazyHStack(spacing: 0) {
                         ForEach(presenter.imagesUIModel) { image in
@@ -51,6 +52,7 @@ public struct PhotoGalleryView: IOController {
                     }
                 }
                 .zIndex(20)
+                .sizePreference()
                 
                 Color.black
                     .ignoresSafeArea()
@@ -84,6 +86,9 @@ public struct PhotoGalleryView: IOController {
         }
         .navigationWireframe(hasNavigationView: false) {
             PhotoGalleryNavigationWireframe(navigationState: navigationState)
+        }
+        .onPreferenceChange(IOSizePreferenceKey.self) { value in
+            contentSize = value.width * CGFloat(presenter.interactor.entity.imagePublicIds.count)
         }
         .onAppear {
             if isPreviewMode {
