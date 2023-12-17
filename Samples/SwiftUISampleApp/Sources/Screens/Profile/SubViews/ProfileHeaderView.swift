@@ -27,10 +27,17 @@ struct ProfileHeaderView: View {
     
     // MARK: - Privates
     
+    private let headerPaddingTop: CGFloat = 24
     private let clickHandler: ClickHandler?
     
     @Binding private var uiModel: ProfileUIModel?
+    @Binding private var scrollOffset: CGFloat
+    @State private var headerHeight: CGFloat = 0
     @State private var profilePicturePublicId: String?
+    @State private var locationButtonYPosition: CGFloat = 0
+    @State private var primaryButtonYPosition: CGFloat = 0
+    @State private var secondaryButtonYPosition: CGFloat = 0
+    @Namespace private var headerSpace
     
     // MARK: - Body
     
@@ -51,51 +58,109 @@ struct ProfileHeaderView: View {
             }
             .font(type: .black(13))
             .foregroundColor(.black)
+            .allowsHitTesting(headerHeight - scrollOffset >= locationButtonYPosition)
             .padding(.top, 0)
             .padding(.bottom, 0)
             .frame(minHeight: 18)
+            .background(GeometryReader { geo in
+                Color.clear
+                    .onAppear {
+                        let frame = geo.frame(in: .named(headerSpace))
+                        self.locationButtonYPosition = frame.origin.y + frame.size.height
+                    }
+            })
+            
             if uiModel?.isOwnProfile ?? false {
                 PrimaryButton(.buttonFriends)
                     .setClick {
                         clickHandler?(.friends)
                     }
+                    .allowsHitTesting(headerHeight - scrollOffset >= primaryButtonYPosition)
                     .padding(.top, 16)
                     .padding(.leading, 16)
                     .padding(.trailing, 16)
+                    .background(GeometryReader { geo in
+                        Color.clear
+                            .onAppear {
+                                let frame = geo.frame(in: .named(headerSpace))
+                                self.primaryButtonYPosition = frame.origin.y + frame.size.height
+                            }
+                    })
+                
                 SecondaryButton(.buttonSettings)
                     .setClick {
                         clickHandler?(.settings)
                     }
+                    .allowsHitTesting(headerHeight - scrollOffset >= secondaryButtonYPosition)
                     .padding(.top, 16)
                     .padding(.leading, 16)
                     .padding(.trailing, 16)
+                    .background(GeometryReader { geo in
+                        Color.clear
+                            .onAppear {
+                                let frame = geo.frame(in: .named(headerSpace))
+                                self.secondaryButtonYPosition = frame.origin.y + frame.size.height
+                            }
+                    })
             } else {
                 if uiModel?.isFollowing ?? false {
                     PrimaryButton(.buttonUnfollow.format(uiModel?.name ?? ""))
                         .setClick {
                             clickHandler?(.unfollow)
                         }
+                        .allowsHitTesting(headerHeight - scrollOffset >= primaryButtonYPosition)
                         .padding(.top, 16)
                         .padding(.leading, 16)
                         .padding(.trailing, 16)
+                        .background(GeometryReader { geo in
+                            Color.clear
+                                .onAppear {
+                                    let frame = geo.frame(in: .named(headerSpace))
+                                    self.primaryButtonYPosition = frame.origin.y + frame.size.height
+                                }
+                        })
                 } else {
                     PrimaryButton(.buttonFollow.format(uiModel?.name ?? ""))
                         .setClick {
                             clickHandler?(.follow)
                         }
+                        .allowsHitTesting(headerHeight - scrollOffset >= primaryButtonYPosition)
                         .padding(.top, 16)
                         .padding(.leading, 16)
                         .padding(.trailing, 16)
+                        .background(GeometryReader { geo in
+                            Color.clear
+                                .onAppear {
+                                    let frame = geo.frame(in: .named(headerSpace))
+                                    self.primaryButtonYPosition = frame.origin.y + frame.size.height
+                                }
+                        })
                 }
                 SecondaryButton(.buttonMessage)
                     .setClick {
                         clickHandler?(.message)
                     }
+                    .allowsHitTesting(headerHeight - scrollOffset >= secondaryButtonYPosition)
                     .padding(.top, 16)
                     .padding(.leading, 16)
                     .padding(.trailing, 16)
+                    .background(GeometryReader { geo in
+                        Color.clear
+                            .onAppear {
+                                let frame = geo.frame(in: .named(headerSpace))
+                                self.secondaryButtonYPosition = frame.origin.y + frame.size.height
+                            }
+                    })
             }
         }
+        .background(GeometryReader { geo in
+            Color.clear
+                .onAppear {
+                    let size = geo.frame(in: .named(headerSpace)).size
+                    self.headerHeight = size.height + 34
+                }
+        })
+        .coordinateSpace(name: headerSpace)
         .onChange(of: uiModel) { newValue in
             profilePicturePublicId = newValue?.profilePicturePublicId
         }
@@ -105,9 +170,11 @@ struct ProfileHeaderView: View {
     
     init(
         uiModel: Binding<ProfileUIModel?>,
+        scrollOffset: Binding<CGFloat>,
         clickHandler: ClickHandler?
     ) {
         self._uiModel = uiModel
+        self._scrollOffset = scrollOffset
         self._profilePicturePublicId = State(initialValue: uiModel.wrappedValue?.profilePicturePublicId)
         self.clickHandler = clickHandler
     }
@@ -121,6 +188,7 @@ struct ProfileHeaderView_Previews: PreviewProvider {
         var body: some View {
             ProfileHeaderView(
                 uiModel: Binding.constant(nil),
+                scrollOffset: Binding.constant(0),
                 clickHandler: nil
             )
         }
