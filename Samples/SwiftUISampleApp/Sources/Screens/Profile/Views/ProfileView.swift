@@ -96,18 +96,29 @@ public struct ProfileView: IOController {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .navigationBar {
                 if presenter.interactor.entity.fromDeepLink {
-                    NavBarTitleView(
-                        "",
-                        iconName: "",
-                        hasBackButton: false
-                    ) {
-                        presentationMode.wrappedValue.dismiss()
-                    }
+                    ProfileNavigationBarTitleView(
+                        .profileTitle,
+                        hasBackButton: presenter.interactor.entity.navigationBarHidden,
+                        closeButtonAction: {
+                            presentationMode.wrappedValue.dismiss()
+                        },
+                        cartButtonAction: nil
+                    )
+                } else if presenter.profileUIModel?.isOwnProfile ?? false {
+                    ProfileNavigationBarTitleView(
+                        .profileTitle,
+                        hasBackButton: presenter.interactor.entity.navigationBarHidden,
+                        closeButtonAction: nil,
+                        cartButtonAction: {
+                            
+                        }
+                    )
                 } else {
-                    NavBarTitleView(
-                        "",
-                        iconName: "",
-                        hasBackButton: false
+                    ProfileNavigationBarTitleView(
+                        .profileTitle,
+                        hasBackButton: presenter.interactor.entity.navigationBarHidden,
+                        closeButtonAction: nil,
+                        cartButtonAction: nil
                     )
                 }
             }

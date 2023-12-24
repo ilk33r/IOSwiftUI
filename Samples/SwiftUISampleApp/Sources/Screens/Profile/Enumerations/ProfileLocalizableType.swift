@@ -15,4 +15,5 @@ extension IOLocalizationType {
     static let buttonMessage = IOLocalizationType(rawValue: "profile.button.message")
     static let buttonSettings = IOLocalizationType(rawValue: "profile.button.settings")
     static let buttonUnfollow = IOLocalizationType(rawValue: "profile.button.unfollow")
+    static let profileTitle = IOLocalizationType(rawValue: "profile.title")
 }

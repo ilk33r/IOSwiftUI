@@ -90,6 +90,7 @@
 "profile.button.message" = "MESSAGE";
 "profile.button.settings" = "SETTINGS";
 "profile.button.unfollow" = "UNFOLLOW %@";
+"profile.title" = "Profile";
 
 // MARK: -  Chat
 "chat.button.send" = "Send";
