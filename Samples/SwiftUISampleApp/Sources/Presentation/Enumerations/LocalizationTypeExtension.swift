@@ -10,6 +10,7 @@ import IOSwiftUIInfrastructure
 
 public extension IOLocalizationType {
     
+    static let commonAddToCart = IOLocalizationType(rawValue: "common.addToCart")
     static let commonAppName = IOLocalizationType(rawValue: "common.appName")
     static let commonCancel = IOLocalizationType(rawValue: "common.cancel")
     static let commonNextUppercased = IOLocalizationType(rawValue: "common.next.uppercased")
