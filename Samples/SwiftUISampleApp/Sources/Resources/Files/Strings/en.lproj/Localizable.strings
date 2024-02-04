@@ -161,3 +161,7 @@
 // MARK: - Search
 "search.input.placeholder" = "Search user...";
 "search.resultType.all" = "ALL RESULTS";
+
+// MARK: - Cart
+"cart.title" = "Cart %@";
+"cart.delete" = "Delete";
