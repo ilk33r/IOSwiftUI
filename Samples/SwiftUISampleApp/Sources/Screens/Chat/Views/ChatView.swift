@@ -42,13 +42,7 @@ public struct ChatView: IOController {
             ZStack(alignment: .top) {
                 
                 VStack {
-                    IOUIView { lifecycle in
-                        if lifecycle == .willAppear {
-                            presenter.hideTabBar()
-                        } else if lifecycle == .willDisappear {
-                            presenter.showTabBar()
-                        }
-                    } content: {
+                    IOUIView {
                         IOObservableScrollView(
                             contentSize: $scrollViewContentSize,
                             scrollOffset: $scrollViewOffset
@@ -68,6 +62,12 @@ public struct ChatView: IOController {
                             }
                         }
                         .hideKeyboardOnTap()
+                    } lifecycleHandler: { lifecycle in
+                        if lifecycle == .willAppear {
+                            presenter.hideTabBar()
+                        } else if lifecycle == .willDisappear {
+                            presenter.showTabBar()
+                        }
                     }
                     ChatTextEditorView(
                         .inputPlaceholder,

@@ -18,8 +18,8 @@ public struct IOUIView<Content: View>: UIViewControllerRepresentable {
     // MARK: - Controller Representable
     
     public init(
-        lifecycleHandler: @escaping IOUIViewController<Content>.LifecycleHandler,
-        @ViewBuilder content: @escaping () -> Content
+        @ViewBuilder content: @escaping () -> Content,
+        lifecycleHandler: @escaping IOUIViewController<Content>.LifecycleHandler
     ) {
         self.lifecycleHandler = lifecycleHandler
         self.content = content

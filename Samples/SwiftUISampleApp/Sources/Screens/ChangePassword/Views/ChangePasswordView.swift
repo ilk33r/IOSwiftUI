@@ -42,13 +42,7 @@ public struct ChangePasswordView: IOController {
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .top) {
-                IOUIView { lifecycle in
-                    if lifecycle == .willAppear {
-                        presenter.hideTabBar()
-                    } else if lifecycle == .willDisappear {
-                        presenter.showTabBar()
-                    }
-                } content: {
+                IOUIView {
                     ScrollView {
                         IOFormGroup(.commonDone) {
                         } content: {
@@ -86,6 +80,12 @@ public struct ChangePasswordView: IOController {
                             .padding(.horizontal, 16.0)
                             .padding(.vertical, 8.0)
                         }
+                    }
+                } lifecycleHandler: { lifecycle in
+                    if lifecycle == .willAppear {
+                        presenter.hideTabBar()
+                    } else if lifecycle == .willDisappear {
+                        presenter.showTabBar()
                     }
                 }
                 Color.white

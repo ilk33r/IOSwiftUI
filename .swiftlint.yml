@@ -537,3 +537,9 @@ custom_rules:
         regex: "((\\bdump)|(Swift\\.dump))\\s*\\("
         message: "Use IOLogger.verbose instead of dump"
         severity: error
+    # disable_closure:
+        # included: ".*\\.swift"
+        # name: "disable closure usage"
+        # regex: "(\\([a-zA-Z0-9_: ,]+\\)|\\(\\))[ ^]+->[ ^]+Void"
+        # message: "Use concurency instead of closure"
+        # severity: error
