@@ -11,6 +11,7 @@ import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
 import SwiftUISampleAppCommon
+import SwiftUISampleAppInfrastructure
 import SwiftUISampleAppPresentation
 import SwiftUISampleAppScreensShared
 
@@ -28,6 +29,7 @@ final public class DiscoverPresenter: IOPresenterable {
     
     // MARK: - DI
     
+    @IOInject private var cartManager: CartManager
     @IOInject private var thread: IOThread
     
     // MARK: - Publisher
@@ -123,6 +125,11 @@ final public class DiscoverPresenter: IOPresenterable {
             isPresented: isPresented
         )
         self.navigationState.wrappedValue.navigateToStories(storiesEntity: storiesEntity)
+    }
+    
+    func add(toCart imagePublicId: String) {
+        cartManager.add(toCart: imagePublicId)
+        environment.wrappedValue.toastData = .init(.success, title: nil, message: .commonAddToCartSuccess)
     }
     
     // MARK: - Helper Methods

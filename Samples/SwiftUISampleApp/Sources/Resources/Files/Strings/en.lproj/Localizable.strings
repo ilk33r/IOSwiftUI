@@ -8,6 +8,7 @@
 
 // MARK: - Common
 "common.addToCart" = "Add to Cart";
+"common.addToCartSuccess" = "The item has been successfully added to the cart.";
 "common.appName" = "IO Swift UI Sample";
 "common.cancel" = "Cancel";
 "common.done" = "Done";

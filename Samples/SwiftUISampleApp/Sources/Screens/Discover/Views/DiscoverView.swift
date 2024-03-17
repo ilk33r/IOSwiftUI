@@ -66,6 +66,8 @@ public struct DiscoverView: IOController {
                                         member: nil
                                     )
                                 )
+                            } cartHandler: { imagePublicId in
+                                presenter.add(toCart: imagePublicId)
                             }
                         }
                     }

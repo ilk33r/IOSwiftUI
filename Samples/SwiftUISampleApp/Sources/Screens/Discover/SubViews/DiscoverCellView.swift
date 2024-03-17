@@ -9,6 +9,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import SwiftUI
+import SwiftUISampleAppInfrastructure
 import SwiftUISampleAppPresentation
 
 struct DiscoverCellView: View {
@@ -19,6 +20,7 @@ struct DiscoverCellView: View {
     
     // MARK: - Privates
     
+    private var cartHandler: CartHandler?
     private var handler: ClickHandler?
     private var uiModel: DiscoverUIModel
     private var width: CGFloat
@@ -66,6 +68,17 @@ struct DiscoverCellView: View {
                     .foregroundColor(.colorPlaceholder)
             }
             .padding(.top, 16)
+            
+            ZStack {
+                CartButton()
+                    .setClick {
+                        cartHandler?(uiModel.imagePublicId)
+                    }
+            }
+            .padding(.top, 0)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            
+            Divider()
         }
         .padding([.trailing, .leading], 16)
         .padding(.bottom, 24)
@@ -76,8 +89,10 @@ struct DiscoverCellView: View {
     init(
         uiModel: DiscoverUIModel,
         width: CGFloat,
-        handler: ClickHandler?
+        handler: ClickHandler?,
+        cartHandler: CartHandler?
     ) {
+        self.cartHandler = cartHandler
         self.handler = handler
         self.uiModel = uiModel
         self.width = width
@@ -95,6 +110,8 @@ struct DiscoverCellView_Previews: PreviewProvider {
                 uiModel: DiscoverPreviewData.previewDataCell,
                 width: 375
             ) { _ in
+                
+            } cartHandler: { _ in
                 
             }
         }

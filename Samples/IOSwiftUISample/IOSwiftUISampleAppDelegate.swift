@@ -11,6 +11,7 @@ import IOSwiftUICommon
 import IOSwiftUIInfrastructure
 import IOSwiftUIPresentation
 import IOSwiftUIApplication
+import SwiftUISampleAppInfrastructure
 import SwiftUISampleAppPresentation
 
 final class IOSwiftUISampleAppDelegate: IOAppDelegate {
@@ -60,7 +61,7 @@ final class IOSwiftUISampleAppDelegate: IOAppDelegate {
                     errorBackgroundColor: .colorTabEnd,
                     warningBackgroundColor: .yellow,
                     infoBackgroundColor: .colorImage,
-                    successTextColor: .colorImage,
+                    successTextColor: .black,
                     errorTextColor: .colorImage,
                     warningTextColor: .colorImage,
                     infoTextColor: .black,
@@ -69,6 +70,8 @@ final class IOSwiftUISampleAppDelegate: IOAppDelegate {
                 )
             }
         }
+        
+        container.register(singleton: CartManager.self) { CartManagerImpl.self }
         
         IOFontType.registerFontsIfNecessary(Bundle.resources)
         AppTheme.applyTheme()

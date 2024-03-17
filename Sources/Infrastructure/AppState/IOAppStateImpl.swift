@@ -59,7 +59,7 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     public func bool(forType type: IOStorageType) -> Bool? {
         var value: Bool?
         
-        queue.asyncAndWait {
+        queue.sync {
             value = stateObject.values[type] as? Bool
         }
 
@@ -69,7 +69,7 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     public func double(forType type: IOStorageType) -> Double? {
         var value: Double?
         
-        queue.asyncAndWait {
+        queue.sync {
             value = stateObject.values[type] as? Double
         }
 
@@ -79,7 +79,7 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     public func int(forType type: IOStorageType) -> Int? {
         var value: Int?
         
-        queue.asyncAndWait {
+        queue.sync {
             value = stateObject.values[type] as? Int
         }
         
@@ -89,7 +89,7 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     public func string(forType type: IOStorageType) -> String? {
         var value: String?
         
-        queue.asyncAndWait {
+        queue.sync {
             value = stateObject.values[type] as? String
         }
         
@@ -99,7 +99,7 @@ public struct IOAppStateImpl: IOAppState, IOSingleton {
     public func object(forType type: IOStorageType) -> Any? {
         var value: Any?
         
-        queue.asyncAndWait {
+        queue.sync {
             value = stateObject.values[type]
         }
         

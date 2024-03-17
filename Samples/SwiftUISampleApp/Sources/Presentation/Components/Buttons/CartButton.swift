@@ -26,7 +26,7 @@ public struct CartButton: View, IOClickable {
                         .foregroundColor(.black)
                     Text(type: .commonAddToCart)
                         .padding([.top, .bottom], 8)
-                        .padding([.leading, .trailing], 4)
+                        .padding([.leading, .trailing], 2)
                         .font(type: .systemSemibold(16))
                         .foregroundColor(.black)
                 }
